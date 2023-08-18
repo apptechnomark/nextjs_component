@@ -164,7 +164,6 @@ export const ColorPicker: React.FC<ColorPickerProps> = (props: any) => {
     setRGBA({ ...rgba, ...getRGBAFromHex(newHex) });
     updateCursorPosition(newHex); 
   };
-
   
   const updateCursorPosition = (newHex: string) => {
     const color = getRGBAFromHex(newHex);
