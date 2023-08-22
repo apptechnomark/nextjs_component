@@ -311,8 +311,8 @@ const Select: React.FC<SelectProps> = ({
           >
             <li className="relative flex flex-col max-h-40 overflow-y-auto">
               <ul>
-                {filteredOptions.length > 0 &&
-                  filteredOptions.map((option, index) => (
+                {options.length > 0 &&
+                  options.map((option, index) => (
                     <li
                       key={index}
                       className={`p-[10px] group/item text-[14px] hover:bg-whiteSmoke font-normal cursor-pointer flex flex-row items-center ${
