@@ -1,7 +1,14 @@
-import React, { HTMLProps, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import ChevronDown from "./icons/ChevronDown";
 import ChevronRight from "./icons/ChevronRight";
 import SortIcon from "./icons/SortIcon";
+
+interface AComponentProps {
+  children: string;
+}
+interface BComponentProps {
+  children: string;
+}
 
 interface DataTableProps {
   columns: any[];
@@ -58,7 +65,25 @@ const DataTable = ({
       const aValue = a[sortConfig.key];
       const bValue = b[sortConfig.key];
 
-      if (typeof aValue === "string" && typeof bValue === "string") {
+      if (React.isValidElement(aValue) && React.isValidElement(bValue)) {
+        const aProps = aValue.props as AComponentProps;
+        const bProps = bValue.props as BComponentProps;
+        const aPropValue = aProps.children;
+        const bPropValue = bProps.children;
+
+        if (typeof aPropValue === "string" && typeof bPropValue === "string") {
+          return sortConfig.direction === "asc"
+            ? aPropValue.localeCompare(bPropValue)
+            : bPropValue.localeCompare(aPropValue);
+        } else if (
+          typeof aPropValue === "number" &&
+          typeof bPropValue === "number"
+        ) {
+          return sortConfig.direction === "asc"
+            ? aPropValue - bPropValue
+            : bPropValue - aPropValue;
+        }
+      } else if (typeof aValue === "string" && typeof bValue === "string") {
         return sortConfig.direction === "asc"
           ? aValue.localeCompare(bValue)
           : bValue.localeCompare(aValue);
