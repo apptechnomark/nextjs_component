@@ -75,6 +75,7 @@ const Select: React.FC<SelectProps> = ({
 }) => {
   const [inputValue, setInputValue] = useState("");
   const [inputLabel, setInputLabel] = useState("");
+  const [searchValue, setSearchValue] = useState("");
   const [error, setError] = useState(false);
   const [errMsg, setErrMsg] = useState("");
   const [open, setOpen] = useState(false);
@@ -90,6 +91,10 @@ const Select: React.FC<SelectProps> = ({
   const [textValue, setTextValue] = useState("");
   const [textNameError, setTextNameError] = useState(false);
   const [textNameHasError, setTextNameHasError] = useState(false);
+
+  const filteredOptions = options.filter((option) =>
+    option.label.toLowerCase().includes(inputValue.toLowerCase())
+  );
 
   useEffect(() => {
     if (validate) {
@@ -131,13 +136,15 @@ const Select: React.FC<SelectProps> = ({
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value.toLowerCase();
+    setSearchValue(inputValue); // Update search input value
+    setInputValue(inputValue); // Update display input value
+
     if (validate && inputValue === "") {
       setError(true);
       setErrMsg("Please select a valid option.");
     } else {
       setError(false);
       setErrMsg("");
-      setInputValue(inputValue);
     }
   };
 
@@ -249,7 +256,9 @@ const Select: React.FC<SelectProps> = ({
             disabled={disabled}
             placeholder={placeholder || "Please select"}
             value={
-              defaultValue !== null && defaultValue !== undefined
+              search && open
+                ? searchValue // If in search mode and input is open, use searchValue
+                : defaultValue !== null && defaultValue !== undefined
                 ? options.find((option) => option.value === defaultValue)
                     ?.label ?? placeholder
                 : selectedOption
@@ -269,13 +278,9 @@ const Select: React.FC<SelectProps> = ({
                 ? "text-primary"
                 : "text-darkCharcoal"
             } text-[14px] font-normal w-full
-             ${
-               disabled
-                 ? "cursor-default"
-                 : !open
-                 ? "cursor-pointer"
-                 : "cursor-default"
-             } ${
+     ${
+       disabled ? "cursor-default" : !open ? "cursor-pointer" : "cursor-default"
+     } ${
               !open
                 ? "placeholder-darkCharcoal"
                 : disabled
@@ -306,8 +311,8 @@ const Select: React.FC<SelectProps> = ({
           >
             <li className="relative flex flex-col max-h-40 overflow-y-auto">
               <ul>
-                {options.length > 0 &&
-                  options.map((option, index) => (
+                {filteredOptions.length > 0 &&
+                  filteredOptions.map((option, index) => (
                     <li
                       key={index}
                       className={`p-[10px] group/item text-[14px] hover:bg-whiteSmoke font-normal cursor-pointer flex flex-row items-center justify-between ${
@@ -324,50 +329,53 @@ const Select: React.FC<SelectProps> = ({
                         }
                       }}
                     >
-                      {avatar && (
-                        <div className="mr-2 flex-shrink-0 items-center text-[1.5rem] text-darkCharcoal">
-                          <Avatar
-                            variant="x-small"
-                            name={avatarName}
-                            imageUrl={avatarImgUrl}
-                          />
-                        </div>
-                      )}
-                      {option.label}
-
-                      {(addDynamicForm || addDynamicForm_Icons_Edit) && (
-                        <a className="group/edit invisible hover:bg-slate-100 group-hover/item:visible">
-                          <div className="flex flex-row right-0 mr-2 justify-end items-end">
-                            {addDynamicForm_Icons_Edit && (
-                              <div
-                                className="p-[2px]"
-                                onClick={(event) => {
-                                  event.stopPropagation();
-                                  setTextValue(option.value);
-                                  setInputLabel(option.label);
-                                  onChangeText(option.value, option.label);
-                                  setEditing(true);
-                                }}
-                              >
-                                <EditIconDropdown />
-                              </div>
-                            )}
-
-                            {addDynamicForm_Icons_Delete && (
-                              <div
-                                className="p-[2px]"
-                                onClick={(event) => {
-                                  event.stopPropagation();
-                                  onChangeText(option.value, option.label);
-                                  handleDeleteValue(option.value);
-                                }}
-                              >
-                                <DeleteIconDropdown />
-                              </div>
-                            )}
+                      <div className="flex items-center justify-center">
+                        {avatar && (
+                          <div className="mr-2 flex-shrink-0 items-center text-[1.5rem] text-darkCharcoal">
+                            <Avatar
+                              variant="x-small"
+                              name={avatarName}
+                              imageUrl={avatarImgUrl}
+                            />
                           </div>
-                        </a>
-                      )}
+                        )}
+                        <span>{option.label}</span>
+                      </div>
+                      <div>
+                        {(addDynamicForm || addDynamicForm_Icons_Edit) && (
+                          <a className="group/edit invisible hover:bg-slate-100 group-hover/item:visible">
+                            <div className="flex flex-row right-0 mr-2 justify-end items-end">
+                              {addDynamicForm_Icons_Edit && (
+                                <div
+                                  className="p-[2px]"
+                                  onClick={(event) => {
+                                    event.stopPropagation();
+                                    setTextValue(option.value);
+                                    setInputLabel(option.label);
+                                    onChangeText(option.value, option.label);
+                                    setEditing(true);
+                                  }}
+                                >
+                                  <EditIconDropdown />
+                                </div>
+                              )}
+
+                              {addDynamicForm_Icons_Delete && (
+                                <div
+                                  className="p-[2px]"
+                                  onClick={(event) => {
+                                    event.stopPropagation();
+                                    onChangeText(option.value, option.label);
+                                    handleDeleteValue(option.value);
+                                  }}
+                                >
+                                  <DeleteIconDropdown />
+                                </div>
+                              )}
+                            </div>
+                          </a>
+                        )}
+                      </div>
                     </li>
                   ))}
               </ul>
