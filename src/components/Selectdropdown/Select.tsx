@@ -93,7 +93,7 @@ const Select: React.FC<SelectProps> = ({
   const [textNameHasError, setTextNameHasError] = useState(false);
 
   const filteredOptions = options.filter((option) =>
-    option.label.toLowerCase().includes(inputValue.toLowerCase())
+    option.label.toLowerCase().includes(inputValue)
   );
 
   useEffect(() => {
@@ -315,7 +315,7 @@ const Select: React.FC<SelectProps> = ({
                   filteredOptions.map((option, index) => (
                     <li
                       key={index}
-                      className={`p-[10px] group/item text-[14px] hover:bg-whiteSmoke font-normal cursor-pointer flex flex-row items-center justify-between ${
+                      className={`p-[10px] group/item text-[14px] hover:bg-whiteSmoke font-normal cursor-pointer flex flex-row items-center ${
                         option.value === inputValue ? "bg-whiteSmoke" : ""
                       } ${
                         search &&
@@ -329,53 +329,50 @@ const Select: React.FC<SelectProps> = ({
                         }
                       }}
                     >
-                      <div className="flex items-center justify-center">
-                        {avatar && (
-                          <div className="mr-2 flex-shrink-0 items-center text-[1.5rem] text-darkCharcoal">
-                            <Avatar
-                              variant="x-small"
-                              name={avatarName}
-                              imageUrl={avatarImgUrl}
-                            />
-                          </div>
-                        )}
-                        <span>{option.label}</span>
-                      </div>
-                      <div>
-                        {(addDynamicForm || addDynamicForm_Icons_Edit) && (
-                          <a className="group/edit invisible hover:bg-slate-100 group-hover/item:visible">
-                            <div className="flex flex-row right-0 mr-2 justify-end items-end">
-                              {addDynamicForm_Icons_Edit && (
-                                <div
-                                  className="p-[2px]"
-                                  onClick={(event) => {
-                                    event.stopPropagation();
-                                    setTextValue(option.value);
-                                    setInputLabel(option.label);
-                                    onChangeText(option.value, option.label);
-                                    setEditing(true);
-                                  }}
-                                >
-                                  <EditIconDropdown />
-                                </div>
-                              )}
+                      {avatar && (
+                        <div className="mr-2 flex-shrink-0 items-center text-[1.5rem] text-darkCharcoal">
+                          <Avatar
+                            variant="x-small"
+                            name={avatarName}
+                            imageUrl={avatarImgUrl}
+                          />
+                        </div>
+                      )}
+                      {option.label}
 
-                              {addDynamicForm_Icons_Delete && (
-                                <div
-                                  className="p-[2px]"
-                                  onClick={(event) => {
-                                    event.stopPropagation();
-                                    onChangeText(option.value, option.label);
-                                    handleDeleteValue(option.value);
-                                  }}
-                                >
-                                  <DeleteIconDropdown />
-                                </div>
-                              )}
-                            </div>
-                          </a>
-                        )}
-                      </div>
+                      {(addDynamicForm || addDynamicForm_Icons_Edit) && (
+                        <a className="group/edit invisible hover:bg-slate-100 group-hover/item:visible">
+                          <div className="flex flex-row right-0 mr-2 justify-end items-end">
+                            {addDynamicForm_Icons_Edit && (
+                              <div
+                                className="p-[2px]"
+                                onClick={(event) => {
+                                  event.stopPropagation();
+                                  setTextValue(option.value);
+                                  setInputLabel(option.label);
+                                  onChangeText(option.value, option.label);
+                                  setEditing(true);
+                                }}
+                              >
+                                <EditIconDropdown />
+                              </div>
+                            )}
+
+                            {addDynamicForm_Icons_Delete && (
+                              <div
+                                className="p-[2px]"
+                                onClick={(event) => {
+                                  event.stopPropagation();
+                                  onChangeText(option.value, option.label);
+                                  handleDeleteValue(option.value);
+                                }}
+                              >
+                                <DeleteIconDropdown />
+                              </div>
+                            )}
+                          </div>
+                        </a>
+                      )}
                     </li>
                   ))}
               </ul>
