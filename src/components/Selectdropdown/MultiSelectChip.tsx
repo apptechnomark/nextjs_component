@@ -175,11 +175,7 @@ const MultiSelectChip: React.FC<MultiSelectChipProps> = ({
         )}
       </div>
     ) : (
-      <div
-        className={`text-darkCharcoal ${
-          open ? "text-primary" : ""
-        }`}
-      >
+      <div className={`text-darkCharcoal ${open ? "text-primary" : ""}`}>
         Please Select...
       </div>
     );
@@ -273,7 +269,7 @@ const MultiSelectChip: React.FC<MultiSelectChipProps> = ({
 
                 {type === "checkbox" && (
                   <CheckBox
-                    id={option.value}
+                    id={option.value + Math.random()}
                     label={option.label}
                     checked={selected.includes(option.value)}
                     onChange={(e: any) => {
