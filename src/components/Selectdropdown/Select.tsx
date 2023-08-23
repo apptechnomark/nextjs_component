@@ -93,7 +93,7 @@ const Select: React.FC<SelectProps> = ({
   const [textNameHasError, setTextNameHasError] = useState(false);
 
   const filteredOptions = options.filter((option) =>
-    option.label.toLowerCase().includes(inputValue)
+    option.label.toLowerCase().includes(searchValue)
   );
 
   useEffect(() => {
@@ -137,7 +137,7 @@ const Select: React.FC<SelectProps> = ({
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value.toLowerCase();
     setSearchValue(inputValue); // Update search input value
-    setInputValue(inputValue); // Update display input value
+    // setInputValue(inputValue); // Update display input value
 
     if (validate && inputValue === "") {
       setError(true);
@@ -149,11 +149,12 @@ const Select: React.FC<SelectProps> = ({
   };
 
   const handleSelect = (value: any) => {
-    setSelectedOption({ label, value });
-    setInputValue(label);
+    setSelectedOption(options.find((option) => option.value === value));
+    // setInputValue("");
+    setSearchValue("");
     setOpen(false);
 
-    if (label === "") {
+    if (!value) {
       setError(true);
       getError(false);
       setErrMsg("Please select a valid option.");
@@ -209,30 +210,28 @@ const Select: React.FC<SelectProps> = ({
   return (
     <>
       <div
-        className={`relative font-medium w-full flex-row border-b ${
-          disabled
-            ? "border-lightSilver"
-            : open
+        className={`relative font-medium w-full flex-row border-b ${disabled
+          ? "border-lightSilver"
+          : open
             ? "border-primary"
             : inputValue
-            ? "border-primary"
-            : error
-            ? "border-defaultRed"
-            : `border-lightSilver hover:border-primary transition-colors duration-300`
-        } ${className}`}
+              ? "border-primary"
+              : error
+                ? "border-defaultRed"
+                : `border-lightSilver hover:border-primary transition-colors duration-300`
+          } ${className}`}
         ref={selectRef}
       >
         {label && (
           <label
-            className={`text-[14px] font-normal w-full ${
-              open
-                ? "text-primary"
-                : inputValue
+            className={`text-[14px] font-normal w-full ${open
+              ? "text-primary"
+              : inputValue
                 ? "text-primary"
                 : error
-                ? "text-defaultRed"
-                : "text-slatyGrey"
-            }`}
+                  ? "text-defaultRed"
+                  : "text-slatyGrey"
+              }`}
             htmlFor={id}
           >
             {label}
@@ -259,72 +258,64 @@ const Select: React.FC<SelectProps> = ({
               search && open
                 ? searchValue // If in search mode and input is open, use searchValue
                 : defaultValue !== null && defaultValue !== undefined
-                ? options.find((option) => option.value === defaultValue)
+                  ? options.find((option) => option.value === defaultValue)
                     ?.label ?? placeholder
-                : selectedOption
-                ? selectedOption.label
-                : defaultValue
-                ? options.find((option) => option.value === defaultValue)
-                    ?.label ?? ""
-                : inputValue.length > 25
-                ? inputValue.substring(0, 20) + "..."
-                : inputValue
+                  : selectedOption
+                    ? selectedOption.label
+                    : defaultValue
+                      ? options.find((option) => option.value === defaultValue)
+                        ?.label ?? ""
+                      : inputValue.length > 25
+                        ? inputValue.substring(0, 20) + "..."
+                        : inputValue
             }
             autoComplete="off"
-            className={`flex-grow outline-none bg-white ${
-              disabled
-                ? "text-slatyGrey"
-                : open
+            className={`flex-grow outline-none bg-white ${disabled
+              ? "text-slatyGrey"
+              : open
                 ? "text-primary"
                 : "text-darkCharcoal"
-            } text-[14px] font-normal w-full
-     ${
-       disabled ? "cursor-default" : !open ? "cursor-pointer" : "cursor-default"
-     } ${
-              !open
+              } text-[14px] font-normal w-full
+     ${disabled ? "cursor-default" : !open ? "cursor-pointer" : "cursor-default"
+              } ${!open
                 ? "placeholder-darkCharcoal"
                 : disabled
-                ? "text-slatyGrey"
-                : "placeholder-primary"
-            }`}
+                  ? "text-slatyGrey"
+                  : "placeholder-primary"
+              }`}
           />
 
           <div
             onClick={handleToggleOpen}
-            className={`text-[1.5rem] ${
-              disabled
-                ? "text-slatyGrey cursor-default"
-                : "text-darkCharcoal cursor-pointer"
-            } ${open ? "rotate-180" : ""}`}
+            className={`text-[1.5rem] ${disabled
+              ? "text-slatyGrey cursor-default"
+              : "text-darkCharcoal cursor-pointer"
+              } ${open ? "rotate-180" : ""}`}
           >
             <ChevronDown />
           </div>
         </div>
         {open && (
           <ul
-            className={`absolute z-10 bg-pureWhite mt-[1px] shadow-md transition-transform w-full ${
-              open
-                ? "max-h-60 translate-y-0 transition-opacity opacity-100 duration-500"
-                : "max-h-0 translate-y-20 transition-opacity opacity-0 duration-500"
-            } ${open ? "ease-out" : ""}`}
+            className={`absolute z-10 bg-pureWhite mt-[1px] shadow-md transition-transform w-full ${open
+              ? "max-h-60 translate-y-0 transition-opacity opacity-100 duration-500"
+              : "max-h-0 translate-y-20 transition-opacity opacity-0 duration-500"
+              } ${open ? "ease-out" : ""}`}
             style={{ width: selectRef.current?.clientWidth }}
           >
             <li className="relative flex flex-col max-h-40 overflow-y-auto">
               <ul>
-                {options.length > 0 &&
-                  options.map((option, index) => (
+                {filteredOptions.length > 0 &&
+                  filteredOptions.map((option, index) => (
                     <li
                       key={index}
-                      className={`p-[10px] group/item text-[14px] hover:bg-whiteSmoke font-normal cursor-pointer flex flex-row items-center ${
-                        option.value === inputValue ? "bg-whiteSmoke" : ""
-                      } ${
-                        search &&
-                        !option.label.toLowerCase().startsWith(inputValue)
-                          ? "hidden"
-                          : ""
-                      }`}
+                      className={`p-[10px] group/item text-[14px] hover:bg-whiteSmoke font-normal cursor-pointer flex flex-row items-center ${option.value === selectedOption?.value
+                        ? "bg-whiteSmoke"
+                        : ""
+                        }`}
                       onClick={() => {
-                        if (option.label !== inputValue) {
+                        if (option.value !== selectedOption?.value) {
+                          // Use option.value for comparison
                           handleSelect(option.value);
                         }
                       }}
