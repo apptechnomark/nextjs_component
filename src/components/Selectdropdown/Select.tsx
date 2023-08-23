@@ -150,7 +150,7 @@ const Select: React.FC<SelectProps> = ({
 
   const handleSelect = (value: any) => {
     setSelectedOption(options.find((option) => option.value === value));
-    // setInputValue("");
+    setInputValue("");
     setSearchValue("");
     setOpen(false);
 
@@ -206,7 +206,7 @@ const Select: React.FC<SelectProps> = ({
   useEffect(() => {
     setOpen(editing);
   }, [editing]);
-
+  
   return (
     <>
       <div
@@ -314,8 +314,7 @@ const Select: React.FC<SelectProps> = ({
                         : ""
                         }`}
                       onClick={() => {
-                        if (option.value !== selectedOption?.value) {
-                          // Use option.value for comparison
+                        if (option.value !== inputValue) {
                           handleSelect(option.value);
                         }
                       }}
