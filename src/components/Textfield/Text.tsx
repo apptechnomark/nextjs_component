@@ -76,7 +76,7 @@ const Text: React.FC<InputProps> = ({
       setErr(true);
       getError(false);
       setErrMsg(`Numbers characters are not allowed.`);
-    } else if (noSpecialChar && /[^a-zA-Z0-9]\s/.test(inputValue)) {
+    } else if (noSpecialChar && /[^a-zA-Z0-9\s]/.test(inputValue)) {
       setErr(true);
       getError(false);
       setErrMsg(`Special characters are not allowed.`);
