@@ -309,7 +309,7 @@ const Select: React.FC<SelectProps> = ({
                   filteredOptions.map((option, index) => (
                     <li
                       key={index}
-                      className={`p-[10px] group/item text-[14px] hover:bg-whiteSmoke font-normal cursor-pointer flex flex-row items-center ${option.value === selectedOption?.value
+                      className={`p-[10px] group/item text-[14px] hover:bg-whiteSmoke font-normal cursor-pointer flex flex-row items-center ${addDynamicForm ? "justify-between" : ""} ${option.value === selectedOption?.value
                         ? "bg-whiteSmoke"
                         : ""
                         }`}
