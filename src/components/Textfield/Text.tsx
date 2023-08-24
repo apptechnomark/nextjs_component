@@ -20,6 +20,7 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   noNumeric?: boolean;
   noSpecialChar?: boolean;
   noText?: boolean;
+  noSpecialCharRegex?: any;
 }
 
 const Text: React.FC<InputProps> = ({
@@ -41,6 +42,7 @@ const Text: React.FC<InputProps> = ({
   noText,
   noNumeric,
   noSpecialChar,
+  noSpecialCharRegex,
   errorMessage = "This is a required field!",
   ...props
 }) => {
@@ -48,6 +50,7 @@ const Text: React.FC<InputProps> = ({
   const [err, setErr] = useState<boolean>(false);
   const [focus, setFocus] = useState<boolean>(false);
   const [errMsg, setErrMsg] = useState<string>(errorMessage);
+  console.log(noSpecialCharRegex);
 
   useEffect(() => {
     setFocus(hasError);
@@ -76,6 +79,10 @@ const Text: React.FC<InputProps> = ({
       setErr(true);
       getError(false);
       setErrMsg(`Numbers characters are not allowed.`);
+    } else if (noSpecialCharRegex && noSpecialCharRegex.test(inputValue)) {
+      setErr(true);
+      getError(false);
+      setErrMsg(`Special characters are not allowed.`);
     } else if (noSpecialChar && /[^a-zA-Z0-9\s]/.test(inputValue)) {
       setErr(true);
       getError(false);
