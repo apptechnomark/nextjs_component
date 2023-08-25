@@ -149,9 +149,8 @@ const MultiSelectChip: React.FC<MultiSelectChipProps> = ({
           return (
             <div
               key={selectedValue}
-              className={`flex items-center badge bg-[#E9ECEF] text-[#212529] border border-[#CED4DA] rounded-sm px-1 mr-[5px] mb-2 text-[14px] ${
-                selectedOption?.label.length > 8 ? "max-w-[100px]" : ""
-              }`}
+              className={`flex items-center badge bg-[#E9ECEF] text-[#212529] border border-[#CED4DA] rounded-sm px-1 mr-[5px] mb-2 text-[14px] ${selectedOption?.label.length > 8 ? "max-w-[100px]" : ""
+                }`}
             >
               <span title={selectedOption?.label}>
                 {selectedOption?.label.length > 8
@@ -186,15 +185,14 @@ const MultiSelectChip: React.FC<MultiSelectChipProps> = ({
         {label && (
           <label
             onClick={handleToggleOpen}
-            className={`text-[14px] font-normal ${
-              open
+            className={`text-[14px] font-normal ${open
                 ? "text-primary"
                 : selected.length > 0
-                ? "text-primary"
-                : error
-                ? "text-defaultRed"
-                : "text-slatyGrey"
-            }`}
+                  ? "text-primary"
+                  : error
+                    ? "text-defaultRed"
+                    : "text-slatyGrey"
+              }`}
           >
             {label}
             {validate && <span className="text-defaultRed">&nbsp;*</span>}
@@ -203,38 +201,36 @@ const MultiSelectChip: React.FC<MultiSelectChipProps> = ({
         <div
           onBlur={handleBlur}
           onClick={handleToggleOpen}
-          className={`flex justify-between bg-white border-b text-[14px] font-normal  ${
-            open
+          className={`flex justify-between bg-white border-b text-[14px] font-normal  ${open
               ? "text-primary cursor-default"
               : selected.length === 0
-              ? "text-darkCharcoal cursor-pointer"
-              : ""
-          } ${
-            selected.length > 0
+                ? "text-darkCharcoal cursor-pointer"
+                : ""
+            } ${selected.length > 0
               ? "border-primary"
               : error
-              ? "border-defaultRed"
-              : "border-lightSilver transition-colors duration-300 hover:border-primary"
-          } ${className}`}
+                ? "border-defaultRed"
+                : "border-lightSilver transition-colors duration-300 hover:border-primary"
+            } ${className}`}
         >
           {selectedDisplay}
 
           <div
             onClick={handleToggleOpen}
-            className={`text-[1.5rem] text-darkCharcoal cursor-pointer ${
-              open ? "rotate-180" : ""
-            }`}
+            className={`text-[1.5rem] text-darkCharcoal cursor-pointer ${open ? "rotate-180" : ""
+              }`}
           >
-            <ChevronDown />
+            <span onClick={handleToggleOpen}>
+              <ChevronDown />
+            </span>
           </div>
         </div>
 
         <ul
-          className={`absolute z-10 bg-pureWhite mt-[1px] overflow-y-auto shadow-md transition-transform ${
-            open
+          className={`absolute z-10 bg-pureWhite mt-[1px] overflow-y-auto shadow-md transition-transform ${open
               ? "max-h-60 translate-y-0 transition-opacity opacity-100 duration-500 ease-out"
               : "max-h-0 translate-y-20 transition-opacity opacity-0 duration-500 ease-out"
-          }`}
+            }`}
           // Setting the width inline style based on the client width of the parent div
           style={{ width: selectRef.current?.clientWidth }}
         >
@@ -248,9 +244,8 @@ const MultiSelectChip: React.FC<MultiSelectChipProps> = ({
             options.map((option, index) => (
               <li
                 key={index}
-                className={`p-3 text-[14px] hover:bg-whiteSmoke font-normal cursor-pointer flex ${
-                  selected.includes(option.value) ? "bg-whiteSmoke" : ""
-                }`}
+                className={`p-3 text-[14px] hover:bg-whiteSmoke font-normal cursor-pointer flex ${selected.includes(option.value) ? "bg-whiteSmoke" : ""
+                  }`}
                 onClick={
                   type !== "checkbox"
                     ? () => handleSelect(option.value)

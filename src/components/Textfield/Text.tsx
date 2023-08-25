@@ -77,7 +77,7 @@ const Text: React.FC<InputProps> = ({
     } else if (noNumeric && /\d/.test(inputValue)) {
       setErr(true);
       getError(false);
-      setErrMsg(`Numbers characters are not allowed.`);
+      setErrMsg(`Numeric characters are not allowed.`);
     } else if (noSpecialCharRegex && noSpecialCharRegex.test(inputValue)) {
       setErr(true);
       getError(false);
