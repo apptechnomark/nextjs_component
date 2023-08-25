@@ -1,37 +1,37 @@
-import { generateDate, months } from "./utils/calendarUtility";
+import { generateDate, months } from "./utils/datepickerUtility";
 import React, { useEffect, useState, useRef } from "react";
 import style from "./scss/datepicker.module.scss";
-
 import ChevronLeftIcon from "./icons/ChevronLeft.js";
 
-interface CalendarDate {
+interface DatepickerDate {
     date: Date;
     currentMonth: boolean;
     today: boolean;
     startYear: Number;
     endYear: Number;
+    value: string;
 }
 
-const Calendar = (props: any): JSX.Element => {
+const Datepicker = (props: any): JSX.Element => {
     const days: string[] = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
     const currentDate: Date = new Date();
-    const { startYear, endYear } = props;
+    const { value, startYear, endYear } = props;
     const inputRef = useRef(null);
 
-    const [today, setToday] = useState<Date>(currentDate);
+    const [today, setToday] = useState<Date>(value ? new Date(value) : currentDate);
     const [showMonthList, setShowMonthList] = useState<boolean>(false);
     const [showYearList, setShowYearList] = useState<boolean>(false);
-    const [selectedDate, setSelectedDate] = useState<Date>(currentDate);
-    const [fullDate, setFullDate] = useState<String>("");
+    const [selectedDate, setSelectedDate] = useState<Date>(value ? new Date(value) : currentDate);
+    const [fullDate, setFullDate] = useState<string>(value ? value : "");
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [toggleOpen, setToggleOpen] = useState<boolean>(false);
-    const [animate, setAnimate] = useState<String>("");
+    const [animate, setAnimate] = useState<string>("");
 
     const currentMonth = today.getMonth();
-    const [selectedMonth, setSelectedMonth] = useState<number>(currentMonth);
+    const [selectedMonth, setSelectedMonth] = useState<number>(value ? (value.split("/")[0] - 1) : currentMonth);
 
     const currentYear = today.getFullYear();
-    const [selectedYear, setSelectedYear] = useState<number>(currentYear);
+    const [selectedYear, setSelectedYear] = useState<number>(value ? parseInt(value.split("/")[2]) : currentYear);
 
     const yearsPerPage: number = 16;
     const totalPages: number = Math.ceil(
@@ -47,9 +47,11 @@ const Calendar = (props: any): JSX.Element => {
     ).filter((year) => year !== null);
 
     const toggleMonthList = () => {
+        setAnimate("");
         setShowMonthList(!showMonthList);
     };
     const selectMonth = (month: number) => {
+        setAnimate(style.slideRightAnimation)
         const newDate = new Date(today);
         newDate.setMonth(month);
         setToday(newDate);
@@ -60,12 +62,14 @@ const Calendar = (props: any): JSX.Element => {
 
     const toggleYearList = () => {
         setShowYearList(true);
+        setAnimate("");
         if (!showYearList && !showMonthList) {
             setCurrentPage(Math.ceil((selectedYear - startYear + 1) / yearsPerPage));
         } else {
             setShowMonthList(false);
         }
     };
+
     const selectYear = (year: number) => {
         const newDate = new Date(today);
         newDate.setFullYear(year);
@@ -73,8 +77,8 @@ const Calendar = (props: any): JSX.Element => {
         setShowYearList(false);
         setSelectedYear(year);
         setTimeout(() => {
-            setAnimate("");
             setShowMonthList(true);
+            setAnimate("");
         }, 0);
     };
 
@@ -84,9 +88,18 @@ const Calendar = (props: any): JSX.Element => {
         setSelectedDate(date);
         newDate.setDate(date.getDate() + 1);
         const formattedDate = newDate.toISOString().slice(0, 10).split("-");
-        const updatedDate = `${formattedDate[1]}/${formattedDate[2]}/${formattedDate[0]}`;
+        const updatedDate = `${formattedDate[0]}-${formattedDate[1]}-${formattedDate[2]}`;
         setFullDate(updatedDate);
         setToggleOpen(false);
+        if (date.getMonth() < selectedMonth) {
+            handleIconClick(false);
+        }
+        if (date.getMonth() > selectedMonth) {
+            handleIconClick(true);
+        }
+        setAnimate("");
+
+        inputRef.current.value = updatedDate;
     };
 
     const goToNextPage = () => {
@@ -98,7 +111,7 @@ const Calendar = (props: any): JSX.Element => {
     };
 
     const calendarShow = () => {
-        setToggleOpen(!toggleOpen);
+        setToggleOpen(true);
     };
 
     const handleIconClick = (isNextMonth: boolean) => {
@@ -115,7 +128,6 @@ const Calendar = (props: any): JSX.Element => {
         }
         setSelectedYear(year);
         setToday(newDate);
-
         setAnimate(
             isNextMonth ? style.slideRightAnimation : style.slideLeftAnimation
         );
@@ -124,7 +136,7 @@ const Calendar = (props: any): JSX.Element => {
         }, 100);
     };
     useEffect(() => {
-        props.onSelectedDate(fullDate);
+        props.getValue(fullDate);
     }, [fullDate]);
 
     useEffect(() => {
@@ -148,22 +160,35 @@ const Calendar = (props: any): JSX.Element => {
         };
     }, []);
 
+    const updateFromInput = (inputValue: string) => {
+        const inputDate = new Date(inputValue);
+        if (!isNaN(inputDate.getTime())) {
+            const formattedDate = inputDate.toISOString().slice(0, 10).split("-");
+            const updatedDate = `${formattedDate[0]}-${formattedDate[1]}-${formattedDate[2]}`;
+            setToggleOpen(true);
+            setToday(inputDate);
+            setSelectedDate(inputDate);
+            setSelectedMonth(parseInt(inputValue.split("-")[1]) - 1)
+            setSelectedYear(parseInt(inputValue.split("-")[0]));
+            setFullDate(updatedDate);
+        }
+    };
+
     return (
         <>
             <div className="relative flex" ref={inputRef}>
                 <input
-                    type={toggleOpen ? "date" : "text"}
-                    className="peer block min-h-[auto] pl-1 w-full rounded border-2 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 peer-focus:text-primary data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-500 dark:placeholder:text-neutral-500 dark:peer-focus:text-primary [&:not([data-te-input-placeholder-active])]:placeholder:opacity-1 text-black border-lightSilver"
-                    placeholder="mm/dd/yyyy"
+                    type="date"
+                    className={`peer block min-h-[auto] pl-1 w-full rounded border-2 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 peer-focus:text-primary data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-500 dark:placeholder:text-neutral-500 dark:peer-focus:text-primary [&:not([data-te-input-placeholder-active])]:placeholder:opacity-1 text-black border-lightSilver`}
                     onClick={calendarShow}
-                    defaultValue={fullDate.toString()}
+                    defaultValue={fullDate}
+                    onChange={(e: any) => updateFromInput(e.target.value)}
                 />
             </div>
             {toggleOpen && (
                 <div className="relative">
                     <div
-                        className={`bottomAnimation absolute z-20  bg-white ${toggleOpen ? style.bottomAnimation : ""
-                            }`}
+                        className={`bottomAnimation absolute z-20  bg-white ${toggleOpen ? style.bottomAnimation : ""}`}
                     >
                         <div className="flex mx-auto  items-center">
                             <div className="shadow-md overflow-hidden">
@@ -228,7 +253,6 @@ const Calendar = (props: any): JSX.Element => {
                                                                     return;
                                                                 }
                                                                 goToPreviousPage();
-                                                                handleIconClick(false);
                                                             }}
                                                         >
                                                             <ChevronLeftIcon />
@@ -243,7 +267,6 @@ const Calendar = (props: any): JSX.Element => {
                                                                     return;
                                                                 }
                                                                 goToNextPage();
-                                                                handleIconClick(true);
                                                             }}
                                                         >
                                                             <ChevronLeftIcon />
@@ -257,11 +280,11 @@ const Calendar = (props: any): JSX.Element => {
                                 {showMonthList === true ? (
                                     <div className="overflow-hidden">
                                         <div className={`${style.topAnimation}  w-full h-full`}>
-                                            <div className="grid grid-cols-4 place-content-center overflow-hidden proxima">
+                                            <div className="grid grid-cols-4 gap-1 place-content-center overflow-hidden proxima">
                                                 {months.map((month, index) => (
                                                     <div
                                                         key={index}
-                                                        className={`py-5 px-2 w-full h-full grid place-content-center text-sm text-textColor proxima relative cursor-pointer `}
+                                                        className={`py-5 px-[5.5px] w-full h-full grid place-content-center text-sm text-textColor proxima relative cursor-pointer `}
                                                         onClick={() => selectMonth(index)}
                                                     >
                                                         <div
@@ -285,7 +308,7 @@ const Calendar = (props: any): JSX.Element => {
                                                     {displayedYears.map((year) => (
                                                         <div
                                                             key={year}
-                                                            className={`py-2 px-2 w-full h-full grid place-content-center text-sm text-textColor proxima relative cursor-pointer`}
+                                                            className={`py-2 px-[3.9px] w-full h-full grid place-content-center text-sm text-textColor proxima relative cursor-pointer`}
                                                             onClick={() => selectYear(year)}
                                                         >
                                                             <div
@@ -317,11 +340,11 @@ const Calendar = (props: any): JSX.Element => {
                                             ))}
                                         </div>
                                         <div
-                                            className={` w-full h-full grid grid-cols-7 ${animate}`}
+                                            className={`w-full h-full grid grid-cols-7 ${animate}`}
                                         >
                                             {generateDate(today.getMonth(), today.getFullYear()).map(
                                                 (
-                                                    { date, currentMonth }: CalendarDate,
+                                                    { date, currentMonth }: DatepickerDate,
                                                     index: number
                                                 ) => {
                                                     const currentDate = new Date(date);
@@ -340,7 +363,7 @@ const Calendar = (props: any): JSX.Element => {
                                                             <h1
                                                                 className={`h-[40px] w-[40px] grid place-content-center rounded-full cursor-pointer z-10 ${currentMonth ? "" : "text-gray-400"
                                                                     } ${isSameDay
-                                                                        ? "bg-primary text-white"
+                                                                        ? " bg-primary text-white"
                                                                         : "hover:bg-whiteSmoke"
                                                                     }`}
                                                             >
@@ -350,7 +373,7 @@ const Calendar = (props: any): JSX.Element => {
                                                                 <>
                                                                     <span className="absolute flex inset-0 rounded-full overflow-visible">
                                                                         <span
-                                                                            className={`${style.rippleAnimation} absolute rounded-full  bg-primary opacity-50`}
+                                                                            className={`${style.rippleAnimation} absolute rounded-full bg-primary opacity-50`}
                                                                         ></span>
                                                                     </span>
                                                                 </>
@@ -370,4 +393,4 @@ const Calendar = (props: any): JSX.Element => {
         </>
     );
 };
-export { Calendar };
+export { Datepicker };

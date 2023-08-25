@@ -1,16 +1,16 @@
 "use client"
 
-import React, { useState } from 'react';
-import { Calendar,CalendarYear } from "calendar";
-import "calendar/dist/index.css";
+import React, { useState } from "react";
+import { Datepicker, DatepickerYear } from "datepicker";
+import "datepicker/dist/index.css";
 
 const page = () => {
-  const [selected, setSelected] = useState('');
+  const [selected, setSelected] = useState("");
 
   return (
     <>
-      <Calendar startYear={1990} endYear={2050} onSelectedDate={(value: string) => setSelected(value)} />
-      <CalendarYear startYear={1990} endYear={2050} onSelectedDate={(value: string) => setSelected(value)} />
+      <Datepicker startYear={1990} endYear={2050} value={selected} getValue={(value: string) => setSelected(value)} />
+      <DatepickerYear startYear={1990} endYear={2050} value={selected} getValue={(value: string) => setSelected(value)} />
     </>
   )
 }

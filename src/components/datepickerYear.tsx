@@ -1,37 +1,39 @@
-import { generateDate, months } from "./utils/calendarUtility";
+import { generateDate, months } from "./utils/datepickerUtility";
 import React, { useEffect, useState, useRef } from "react";
 import style from "./scss/datepicker.module.scss";
 
 import ChevronLeftIcon from "./icons/ChevronLeft.js";
 
-interface CalendarDate {
+interface DatepickerDate {
     date: Date;
     currentMonth: boolean;
     today: boolean;
     startYear: Number;
     endYear: Number;
+    value: string;
 }
 
-const CalendarYear = (props: any): JSX.Element => {
+const DatepickerYear = (props: any): JSX.Element => {
     const currentDate: Date = new Date();
-    const { startYear, endYear } = props;
+    const { value, startYear, endYear } = props;
     const inputRef = useRef(null);
 
-    const [today, setToday] = useState<Date>(currentDate);
+    const [today, setToday] = useState<Date>(value ? new Date(value) : currentDate);
     const [showMonthList, setShowMonthList] = useState<boolean>(false);
     const [showYearList, setShowYearList] = useState<boolean>(false);
-    const [fullDate, setFullDate] = useState<String>("");
+    const [fullDate, setFullDate] = useState<String>(value ? value : "");
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [toggleOpen, setToggleOpen] = useState<boolean>(false);
     const [animate, setAnimate] = useState<String>("");
 
     const currentMonth = today.getMonth();
-    const [selectedMonth, setSelectedMonth] = useState<number>(currentMonth);
+    const [selectedMonth, setSelectedMonth] = useState<number>(value ? (value.split("-")[1] - 1) : currentMonth);
 
     const currentYear = today.getFullYear();
-    const [selectedYear, setSelectedYear] = useState<number>(currentYear);
+    const [selectedYear, setSelectedYear] = useState<number>(value ? parseInt(value.split("-")[0]) : currentYear);
 
     const yearsPerPage: number = 16;
+
     const totalPages: number = Math.ceil(
         (endYear - startYear + 1) / yearsPerPage
     );
@@ -51,16 +53,16 @@ const CalendarYear = (props: any): JSX.Element => {
         setShowMonthList(false);
         setSelectedMonth(month);
         selectedMonth ? setAnimate(style.slideRightAnimation) : setAnimate("");
-
         const formattedMonth = month < 10 ? `0${month}` : `${month}`;
         const formattedYear = selectedYear.toString();
-        const updatedDate = `${formattedYear}/${formattedMonth}`;
+        const updatedDate = `${formattedYear}-${formattedMonth}`;
         setFullDate(updatedDate);
         setToggleOpen(false);
     };
 
     const toggleYearList = () => {
         setShowYearList(true);
+        setAnimate("");
         if (!showYearList && !showMonthList) {
             setCurrentPage(Math.ceil((selectedYear - startYear + 1) / yearsPerPage));
         } else {
@@ -88,35 +90,12 @@ const CalendarYear = (props: any): JSX.Element => {
     };
 
     const calendarShow = () => {
-        setToggleOpen(!toggleOpen);
-        setShowYearList(!showYearList);
-    };
-
-    const handleIconClick = (isNextMonth: boolean) => {
-        const newDate = new Date(today);
-        const year = newDate.getFullYear();
-        if (isNextMonth) {
-            const month = newDate.getMonth() + 1;
-            newDate.setMonth(newDate.getMonth() + 1);
-            setSelectedMonth(month);
-        } else {
-            const month = newDate.getMonth() - 1;
-            newDate.setMonth(newDate.getMonth() - 1);
-            setSelectedMonth(month);
-        }
-        setSelectedYear(year);
-        setToday(newDate);
-
-        setAnimate(
-            isNextMonth ? style.slideRightAnimation : style.slideLeftAnimation
-        );
-        setTimeout(() => {
-            setAnimate("");
-        }, 100);
+        setToggleOpen(true);
+        setShowYearList(true);
     };
 
     useEffect(() => {
-        props.onSelectedDate(fullDate);
+        props.getValue(fullDate);
     }, [fullDate]);
 
     useEffect(() => {
@@ -140,15 +119,31 @@ const CalendarYear = (props: any): JSX.Element => {
         };
     }, []);
 
+    const updateFromInput = (inputValue: string) => {
+        const inputDate = new Date(inputValue);
+        if (!isNaN(inputDate.getTime())) {
+            setToday(inputDate);
+            setToggleOpen(true);
+            setShowYearList(true);
+            setSelectedMonth(parseInt(inputValue.split("-")[1]) - 1)
+            setSelectedYear(parseInt(inputValue.split("-")[0]));
+        }
+    };
+
+    useEffect(() => {
+        const selectedYearPageIndex = Math.ceil((selectedYear - startYear + 1) / yearsPerPage);
+        setCurrentPage(selectedYearPageIndex);
+    }, []);
+
     return (
         <>
             <div className="relative flex" ref={inputRef}>
                 <input
-                    type={toggleOpen ? "month" : "text"}
-                    className="peer block min-h-[auto] pl-1 w-full rounded border-2 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 peer-focus:text-primary data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-500 dark:placeholder:text-neutral-500 dark:peer-focus:text-primary [&:not([data-te-input-placeholder-active])]:placeholder:opacity-1 text-black border-lightSilver"
-                    placeholder="yyyy/mm"
+                    type="month"
+                    className={`peer block min-h-[auto] pl-1 w-full rounded border-2 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 peer-focus:text-primary data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-500 dark:placeholder:text-neutral-500 dark:peer-focus:text-primary [&:not([data-te-input-placeholder-active])]:placeholder:opacity-1 text-black border-lightSilver`}
                     onClick={calendarShow}
                     defaultValue={fullDate.toString()}
+                    onChange={(e) => updateFromInput(e.target.value)}
                 />
             </div>
             {toggleOpen && (
@@ -187,7 +182,6 @@ const CalendarYear = (props: any): JSX.Element => {
                                                                 return;
                                                             }
                                                             goToPreviousPage();
-                                                            handleIconClick(false);
                                                         }}
                                                     >
                                                         <ChevronLeftIcon />
@@ -202,7 +196,6 @@ const CalendarYear = (props: any): JSX.Element => {
                                                                 return;
                                                             }
                                                             goToNextPage();
-                                                            handleIconClick(true);
                                                         }}
                                                     >
                                                         <ChevronLeftIcon />
@@ -215,11 +208,11 @@ const CalendarYear = (props: any): JSX.Element => {
                                 {showMonthList === true ? (
                                     <div className="overflow-hidden">
                                         <div className={`${style.topAnimation}  w-full h-full`}>
-                                            <div className="grid grid-cols-4 place-content-center overflow-hidden proxima">
+                                            <div className="grid grid-cols-4 gap-1 place-content-center overflow-hidden proxima">
                                                 {months.map((month, index) => (
                                                     <div
                                                         key={index}
-                                                        className={`py-5 px-2 w-full h-full grid place-content-center text-sm text-textColor proxima relative cursor-pointer `}
+                                                        className={`py-5 px-[5.4px] w-full h-full grid place-content-center text-sm text-textColor proxima relative cursor-pointer `}
                                                         onClick={() => selectMonth(index + 1)}
                                                     >
                                                         <div
@@ -235,7 +228,7 @@ const CalendarYear = (props: any): JSX.Element => {
                                             </div>
                                         </div>
                                     </div>
-                                ) : showYearList === true ? (
+                                ) : showYearList === true && (
                                     <div className="overflow-hidden">
                                         <div className={`${style.topAnimation}`}>
                                             <div className={`${animate}  w-full`}>
@@ -243,7 +236,7 @@ const CalendarYear = (props: any): JSX.Element => {
                                                     {displayedYears.map((year) => (
                                                         <div
                                                             key={year}
-                                                            className={`py-2 px-2 w-full h-full grid place-content-center text-sm text-textColor proxima relative cursor-pointer`}
+                                                            className={`py-2 px-[3.9px] w-full h-full grid place-content-center text-sm text-textColor proxima relative cursor-pointer`}
                                                             onClick={() => selectYear(year)}>
                                                             <div className={`py-4 px-3 w-full h-full hover:bg-lightGreen hover:text-primary transition-all duration-200 flex items-center justify-center rounded-md ${year === selectedYear
                                                                 ? "bg-lightGreen text-primary"
@@ -257,8 +250,6 @@ const CalendarYear = (props: any): JSX.Element => {
                                             </div>
                                         </div>
                                     </div>
-                                ) : (
-                                    <></>
                                 )}
                             </div>
                         </div>
@@ -268,4 +259,4 @@ const CalendarYear = (props: any): JSX.Element => {
         </>
     );
 };
-export { CalendarYear };
+export { DatepickerYear };

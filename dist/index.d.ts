@@ -1,4 +1,4 @@
-import { Calendar } from "./components/calendar";
-import { CalendarYear } from "./components/calendarYear";
+import { Datepicker } from "./components/datepicker";
+import { DatepickerYear } from "./components/datepickerYear";
 import "./styles.css";
-export { Calendar, CalendarYear };
+export { Datepicker, DatepickerYear };

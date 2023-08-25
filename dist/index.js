@@ -62,13 +62,14 @@ function ChevronLeft() {
   })));
 }
 
-var Calendar = function Calendar(props) {
+var Datepicker = function Datepicker(props) {
   var days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   var currentDate = new Date();
-  var startYear = props.startYear,
+  var value = props.value,
+    startYear = props.startYear,
     endYear = props.endYear;
   var inputRef = React.useRef(null);
-  var _a = React.useState(currentDate),
+  var _a = React.useState(value ? new Date(value) : currentDate),
     today = _a[0],
     setToday = _a[1];
   var _b = React.useState(false),
@@ -77,10 +78,10 @@ var Calendar = function Calendar(props) {
   var _c = React.useState(false),
     showYearList = _c[0],
     setShowYearList = _c[1];
-  var _d = React.useState(currentDate),
+  var _d = React.useState(value ? new Date(value) : currentDate),
     selectedDate = _d[0],
     setSelectedDate = _d[1];
-  var _e = React.useState(''),
+  var _e = React.useState(value ? value : ""),
     fullDate = _e[0],
     setFullDate = _e[1];
   var _f = React.useState(1),
@@ -89,15 +90,15 @@ var Calendar = function Calendar(props) {
   var _g = React.useState(false),
     toggleOpen = _g[0],
     setToggleOpen = _g[1];
-  var _h = React.useState(''),
+  var _h = React.useState(""),
     animate = _h[0],
     setAnimate = _h[1];
   var currentMonth = today.getMonth();
-  var _j = React.useState(currentMonth),
+  var _j = React.useState(value ? value.split("/")[0] - 1 : currentMonth),
     selectedMonth = _j[0],
     setSelectedMonth = _j[1];
   var currentYear = today.getFullYear();
-  var _k = React.useState(currentYear),
+  var _k = React.useState(value ? parseInt(value.split("/")[2]) : currentYear),
     selectedYear = _k[0],
     setSelectedYear = _k[1];
   var yearsPerPage = 16;
@@ -112,22 +113,25 @@ var Calendar = function Calendar(props) {
     return year !== null;
   });
   var toggleMonthList = function toggleMonthList() {
+    setAnimate("");
     setShowMonthList(!showMonthList);
   };
   var selectMonth = function selectMonth(month) {
+    setAnimate(style.slideRightAnimation);
     var newDate = new Date(today);
     newDate.setMonth(month);
     setToday(newDate);
     setShowMonthList(false);
     setSelectedMonth(month);
-    selectedMonth ? setAnimate(style.slideRightAnimation) : setAnimate('');
+    selectedMonth ? setAnimate(style.slideRightAnimation) : setAnimate("");
   };
   var toggleYearList = function toggleYearList() {
+    setShowYearList(true);
+    setAnimate("");
     if (!showYearList && !showMonthList) {
-      setShowYearList(true);
       setCurrentPage(Math.ceil((selectedYear - startYear + 1) / yearsPerPage));
     } else {
-      setShowYearList(false);
+      setShowMonthList(false);
     }
   };
   var selectYear = function selectYear(year) {
@@ -137,8 +141,8 @@ var Calendar = function Calendar(props) {
     setShowYearList(false);
     setSelectedYear(year);
     setTimeout(function () {
-      setAnimate('');
       setShowMonthList(true);
+      setAnimate("");
     }, 0);
   };
   var handleDateClick = function handleDateClick(date) {
@@ -146,9 +150,18 @@ var Calendar = function Calendar(props) {
     setToday(newDate);
     setSelectedDate(date);
     newDate.setDate(date.getDate() + 1);
-    var formattedDate = newDate.toISOString().slice(0, 10);
-    setFullDate(formattedDate);
+    var formattedDate = newDate.toISOString().slice(0, 10).split("-");
+    var updatedDate = "".concat(formattedDate[0], "-").concat(formattedDate[1], "-").concat(formattedDate[2]);
+    setFullDate(updatedDate);
     setToggleOpen(false);
+    if (date.getMonth() < selectedMonth) {
+      handleIconClick(false);
+    }
+    if (date.getMonth() > selectedMonth) {
+      handleIconClick(true);
+    }
+    setAnimate("");
+    inputRef.current.value = updatedDate;
   };
   var goToNextPage = function goToNextPage() {
     currentPage < totalPages ? setCurrentPage(currentPage + 1) : currentPage;
@@ -157,7 +170,7 @@ var Calendar = function Calendar(props) {
     currentPage > 1 ? setCurrentPage(currentPage - 1) : currentPage;
   };
   var calendarShow = function calendarShow() {
-    setToggleOpen(!toggleOpen);
+    setToggleOpen(true);
   };
   var handleIconClick = function handleIconClick(isNextMonth) {
     var newDate = new Date(today);
@@ -175,11 +188,11 @@ var Calendar = function Calendar(props) {
     setToday(newDate);
     setAnimate(isNextMonth ? style.slideRightAnimation : style.slideLeftAnimation);
     setTimeout(function () {
-      setAnimate('');
+      setAnimate("");
     }, 100);
   };
   React.useEffect(function () {
-    props.onSelectedDate(fullDate);
+    props.getValue(fullDate);
   }, [fullDate]);
   React.useEffect(function () {
     var handleOutsideClick = function handleOutsideClick(event) {
@@ -200,15 +213,30 @@ var Calendar = function Calendar(props) {
       document.removeEventListener("mousedown", handleMouseDown);
     };
   }, []);
+  var updateFromInput = function updateFromInput(inputValue) {
+    var inputDate = new Date(inputValue);
+    if (!isNaN(inputDate.getTime())) {
+      var formattedDate = inputDate.toISOString().slice(0, 10).split("-");
+      var updatedDate = "".concat(formattedDate[0], "-").concat(formattedDate[1], "-").concat(formattedDate[2]);
+      setToggleOpen(true);
+      setToday(inputDate);
+      setSelectedDate(inputDate);
+      setSelectedMonth(parseInt(inputValue.split("-")[1]) - 1);
+      setSelectedYear(parseInt(inputValue.split("-")[0]));
+      setFullDate(updatedDate);
+    }
+  };
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
     className: "relative flex",
     ref: inputRef
   }, /*#__PURE__*/React.createElement("input", {
-    type: toggleOpen ? "date" : "text",
+    type: "date",
     className: "peer block min-h-[auto] pl-1 w-full rounded border-2 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 peer-focus:text-primary data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-500 dark:placeholder:text-neutral-500 dark:peer-focus:text-primary [&:not([data-te-input-placeholder-active])]:placeholder:opacity-1 text-black border-lightSilver",
-    placeholder: "Select a date",
     onClick: calendarShow,
-    defaultValue: fullDate.toString()
+    defaultValue: fullDate,
+    onChange: function onChange(e) {
+      return updateFromInput(e.target.value);
+    }
   })), toggleOpen && /*#__PURE__*/React.createElement("div", {
     className: "relative"
   }, /*#__PURE__*/React.createElement("div", {
@@ -226,8 +254,8 @@ var Calendar = function Calendar(props) {
     onClick: toggleMonthList
   }, months[currentMonth]), showYearList === true && showMonthList === false ? /*#__PURE__*/React.createElement("h1", {
     className: "proxima text-[14px] font-semibold ml-1 text-slatyBlue"
-  }, startYear + ' - ' + endYear) : /*#__PURE__*/React.createElement("h1", {
-    className: "proxima text-[14px] font-semibold ml-1 cursor-pointer text-slatyBlue ".concat(showMonthList ? 'pointer-events-none' : ''),
+  }, displayedYears[0] + " - " + displayedYears[displayedYears.length - 1]) : /*#__PURE__*/React.createElement("h1", {
+    className: "proxima text-[14px] font-semibold ml-1 cursor-pointer text-slatyBlue",
     onClick: toggleYearList
   }, currentYear)), /*#__PURE__*/React.createElement("div", {
     className: "flex items-center gap-5"
@@ -248,7 +276,6 @@ var Calendar = function Calendar(props) {
         return;
       }
       goToPreviousPage();
-      handleIconClick(false);
     }
   }, /*#__PURE__*/React.createElement(ChevronLeft, null)), /*#__PURE__*/React.createElement("div", {
     className: "w-5 h-5 cursor-pointer hover:scale-105 transition-all text-darkGray ".concat(currentPage === totalPages ? "opacity-40 pointer-events-none" : "", " rotate-180 text-[20px]"),
@@ -257,23 +284,22 @@ var Calendar = function Calendar(props) {
         return;
       }
       goToNextPage();
-      handleIconClick(true);
     }
   }, /*#__PURE__*/React.createElement(ChevronLeft, null)))))), showMonthList === true ? /*#__PURE__*/React.createElement("div", {
     className: "overflow-hidden"
   }, /*#__PURE__*/React.createElement("div", {
     className: "".concat(style.topAnimation, "  w-full h-full")
   }, /*#__PURE__*/React.createElement("div", {
-    className: "grid grid-cols-4 place-content-center overflow-hidden proxima"
+    className: "grid grid-cols-4 gap-1 place-content-center overflow-hidden proxima"
   }, months.map(function (month, index) {
     return /*#__PURE__*/React.createElement("div", {
       key: index,
-      className: "py-5 px-2 w-full h-full grid place-content-center text-sm text-textColor proxima relative cursor-pointer ",
+      className: "py-5 px-[5.5px] w-full h-full grid place-content-center text-sm text-textColor proxima relative cursor-pointer ",
       onClick: function onClick() {
         return selectMonth(index);
       }
     }, /*#__PURE__*/React.createElement("div", {
-      className: "w-14 h-12 hover:bg-lightGreen hover:text-primary transition-all duration-200 flex items-center justify-center rounded-md ".concat(index === selectedMonth ? 'bg-lightGreen text-primary' : '')
+      className: "w-14 h-12 hover:bg-lightGreen hover:text-primary transition-all duration-200 flex items-center justify-center rounded-md ".concat(index === selectedMonth ? "bg-lightGreen text-primary" : "")
     }, month.length > 5 ? month.slice(0, 3) : month));
   })))) : showYearList === true ? /*#__PURE__*/React.createElement("div", {
     className: "overflow-hidden"
@@ -286,12 +312,12 @@ var Calendar = function Calendar(props) {
   }, displayedYears.map(function (year) {
     return /*#__PURE__*/React.createElement("div", {
       key: year,
-      className: "py-2 px-2 w-full h-full grid place-content-center text-sm text-textColor proxima relative cursor-pointer",
+      className: "py-2 px-[3.9px] w-full h-full grid place-content-center text-sm text-textColor proxima relative cursor-pointer",
       onClick: function onClick() {
         return selectYear(year);
       }
     }, /*#__PURE__*/React.createElement("div", {
-      className: "py-4 px-3 w-full h-full hover:bg-lightGreen hover:text-primary transition-all duration-200 flex items-center justify-center rounded-md ".concat(year === selectedYear ? 'bg-lightGreen text-primary' : '')
+      className: "py-4 px-3 w-full h-full hover:bg-lightGreen hover:text-primary transition-all duration-200 flex items-center justify-center rounded-md ".concat(year === selectedYear ? "bg-lightGreen text-primary" : "")
     }, year));
   }))))) : /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
     className: "w-full grid grid-cols-7 proxima  ".concat(animate)
@@ -301,7 +327,7 @@ var Calendar = function Calendar(props) {
       className: "h-14 grid place-content-center text-[12px]"
     }, day);
   })), /*#__PURE__*/React.createElement("div", {
-    className: " w-full h-full grid grid-cols-7 ".concat(animate)
+    className: "w-full h-full grid grid-cols-7 ".concat(animate)
   }, generateDate(today.getMonth(), today.getFullYear()).map(function (_a, index) {
     var date = _a.date,
       currentMonth = _a.currentMonth;
@@ -314,22 +340,22 @@ var Calendar = function Calendar(props) {
         return handleDateClick(currentDate);
       }
     }, /*#__PURE__*/React.createElement("h1", {
-      className: "h-[40px] w-[40px] grid place-content-center rounded-full cursor-pointer z-10 ".concat(currentMonth ? "" : "text-gray-400", " ").concat(isSameDay ? "bg-primary text-white" : "hover:bg-whiteSmoke")
+      className: "h-[40px] w-[40px] grid place-content-center rounded-full cursor-pointer z-10 ".concat(currentMonth ? "" : "text-gray-400", " ").concat(isSameDay ? " bg-primary text-white" : "hover:bg-whiteSmoke")
     }, currentDate.getDate()), isSameDay && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("span", {
       className: "absolute flex inset-0 rounded-full overflow-visible"
     }, /*#__PURE__*/React.createElement("span", {
-      className: "".concat(style.rippleAnimation, " absolute rounded-full  bg-primary opacity-50")
+      className: "".concat(style.rippleAnimation, " absolute rounded-full bg-primary opacity-50")
     }))));
   }))))))));
 };
 
-var CalendarYear = function CalendarYear(props) {
-  var days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+var DatepickerYear = function DatepickerYear(props) {
   var currentDate = new Date();
-  var startYear = props.startYear,
+  var value = props.value,
+    startYear = props.startYear,
     endYear = props.endYear;
   var inputRef = React.useRef(null);
-  var _a = React.useState(currentDate),
+  var _a = React.useState(value ? new Date(value) : currentDate),
     today = _a[0],
     setToday = _a[1];
   var _b = React.useState(false),
@@ -338,29 +364,26 @@ var CalendarYear = function CalendarYear(props) {
   var _c = React.useState(false),
     showYearList = _c[0],
     setShowYearList = _c[1];
-  var _d = React.useState(currentDate),
-    selectedDate = _d[0],
-    setSelectedDate = _d[1];
-  var _e = React.useState(''),
-    fullDate = _e[0],
-    setFullDate = _e[1];
-  var _f = React.useState(1),
-    currentPage = _f[0],
-    setCurrentPage = _f[1];
-  var _g = React.useState(false),
-    toggleOpen = _g[0],
-    setToggleOpen = _g[1];
-  var _h = React.useState(''),
-    animate = _h[0],
-    setAnimate = _h[1];
+  var _d = React.useState(value ? value : ""),
+    fullDate = _d[0],
+    setFullDate = _d[1];
+  var _e = React.useState(1),
+    currentPage = _e[0],
+    setCurrentPage = _e[1];
+  var _f = React.useState(false),
+    toggleOpen = _f[0],
+    setToggleOpen = _f[1];
+  var _g = React.useState(""),
+    animate = _g[0],
+    setAnimate = _g[1];
   var currentMonth = today.getMonth();
-  var _j = React.useState(currentMonth),
-    selectedMonth = _j[0],
-    setSelectedMonth = _j[1];
+  var _h = React.useState(value ? value.split("-")[1] - 1 : currentMonth),
+    selectedMonth = _h[0],
+    setSelectedMonth = _h[1];
   var currentYear = today.getFullYear();
-  var _k = React.useState(currentYear),
-    selectedYear = _k[0],
-    setSelectedYear = _k[1];
+  var _j = React.useState(value ? parseInt(value.split("-")[0]) : currentYear),
+    selectedYear = _j[0],
+    setSelectedYear = _j[1];
   var yearsPerPage = 16;
   var totalPages = Math.ceil((endYear - startYear + 1) / yearsPerPage);
   var startIndex = (currentPage - 1) * yearsPerPage;
@@ -372,23 +395,26 @@ var CalendarYear = function CalendarYear(props) {
   }).filter(function (year) {
     return year !== null;
   });
-  var toggleMonthList = function toggleMonthList() {
-    setShowMonthList(!showMonthList);
-  };
   var selectMonth = function selectMonth(month) {
     var newDate = new Date(today);
     newDate.setMonth(month);
     setToday(newDate);
     setShowMonthList(false);
     setSelectedMonth(month);
-    selectedMonth ? setAnimate(style.slideRightAnimation) : setAnimate('');
+    selectedMonth ? setAnimate(style.slideRightAnimation) : setAnimate("");
+    var formattedMonth = month < 10 ? "0".concat(month) : "".concat(month);
+    var formattedYear = selectedYear.toString();
+    var updatedDate = "".concat(formattedYear, "-").concat(formattedMonth);
+    setFullDate(updatedDate);
+    setToggleOpen(false);
   };
   var toggleYearList = function toggleYearList() {
+    setShowYearList(true);
+    setAnimate("");
     if (!showYearList && !showMonthList) {
-      setShowYearList(true);
       setCurrentPage(Math.ceil((selectedYear - startYear + 1) / yearsPerPage));
     } else {
-      setShowYearList(false);
+      setShowMonthList(false);
     }
   };
   var selectYear = function selectYear(year) {
@@ -398,18 +424,9 @@ var CalendarYear = function CalendarYear(props) {
     setShowYearList(false);
     setSelectedYear(year);
     setTimeout(function () {
-      setAnimate('');
+      setAnimate("");
       setShowMonthList(true);
     }, 0);
-  };
-  var handleDateClick = function handleDateClick(date) {
-    var newDate = new Date(date);
-    setToday(newDate);
-    setSelectedDate(date);
-    newDate.setDate(date.getDate() + 1);
-    var formattedDate = newDate.toISOString().slice(0, 7);
-    setFullDate(formattedDate);
-    setToggleOpen(false);
   };
   var goToNextPage = function goToNextPage() {
     currentPage < totalPages ? setCurrentPage(currentPage + 1) : currentPage;
@@ -418,29 +435,11 @@ var CalendarYear = function CalendarYear(props) {
     currentPage > 1 ? setCurrentPage(currentPage - 1) : currentPage;
   };
   var calendarShow = function calendarShow() {
-    setToggleOpen(!toggleOpen);
-  };
-  var handleIconClick = function handleIconClick(isNextMonth) {
-    var newDate = new Date(today);
-    var year = newDate.getFullYear();
-    if (isNextMonth) {
-      var month = newDate.getMonth() + 1;
-      newDate.setMonth(newDate.getMonth() + 1);
-      setSelectedMonth(month);
-    } else {
-      var month = newDate.getMonth() - 1;
-      newDate.setMonth(newDate.getMonth() - 1);
-      setSelectedMonth(month);
-    }
-    setSelectedYear(year);
-    setToday(newDate);
-    setAnimate(isNextMonth ? style.slideRightAnimation : style.slideLeftAnimation);
-    setTimeout(function () {
-      setAnimate('');
-    }, 100);
+    setToggleOpen(true);
+    setShowYearList(true);
   };
   React.useEffect(function () {
-    props.onSelectedDate(fullDate);
+    props.getValue(fullDate);
   }, [fullDate]);
   React.useEffect(function () {
     var handleOutsideClick = function handleOutsideClick(event) {
@@ -461,19 +460,35 @@ var CalendarYear = function CalendarYear(props) {
       document.removeEventListener("mousedown", handleMouseDown);
     };
   }, []);
+  var updateFromInput = function updateFromInput(inputValue) {
+    var inputDate = new Date(inputValue);
+    if (!isNaN(inputDate.getTime())) {
+      setToday(inputDate);
+      setToggleOpen(true);
+      setShowYearList(true);
+      setSelectedMonth(parseInt(inputValue.split("-")[1]) - 1);
+      setSelectedYear(parseInt(inputValue.split("-")[0]));
+    }
+  };
+  React.useEffect(function () {
+    var selectedYearPageIndex = Math.ceil((selectedYear - startYear + 1) / yearsPerPage);
+    setCurrentPage(selectedYearPageIndex);
+  }, []);
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
     className: "relative flex",
     ref: inputRef
   }, /*#__PURE__*/React.createElement("input", {
-    type: toggleOpen ? "month" : "text",
+    type: "month",
     className: "peer block min-h-[auto] pl-1 w-full rounded border-2 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 peer-focus:text-primary data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-500 dark:placeholder:text-neutral-500 dark:peer-focus:text-primary [&:not([data-te-input-placeholder-active])]:placeholder:opacity-1 text-black border-lightSilver",
-    placeholder: "Select a date",
     onClick: calendarShow,
-    defaultValue: fullDate.toString()
+    defaultValue: fullDate.toString(),
+    onChange: function onChange(e) {
+      return updateFromInput(e.target.value);
+    }
   })), toggleOpen && /*#__PURE__*/React.createElement("div", {
     className: "relative"
   }, /*#__PURE__*/React.createElement("div", {
-    className: "bottomAnimation absolute z-20  bg-white ".concat(toggleOpen ? style.bottomAnimation : "")
+    className: "bottomAnimation absolute z-20  bg-white ".concat(toggleOpen && style.bottomAnimation)
   }, /*#__PURE__*/React.createElement("div", {
     className: "flex mx-auto  items-center"
   }, /*#__PURE__*/React.createElement("div", {
@@ -481,35 +496,21 @@ var CalendarYear = function CalendarYear(props) {
   }, /*#__PURE__*/React.createElement("div", {
     className: "flex justify-between border-b-2 border-lightSilver py-[12px] px-[12px]"
   }, /*#__PURE__*/React.createElement("div", {
-    className: "flex flex-row  ".concat(showYearList ? "" : animate)
-  }, showMonthList === true ? "" : showYearList === true ? "" : /*#__PURE__*/React.createElement("h1", {
-    className: "proxima text-[14px] font-semibold cursor-pointer text-slatyBlue",
-    onClick: toggleMonthList
-  }, months[currentMonth]), showYearList === true && showMonthList === false ? /*#__PURE__*/React.createElement("h1", {
-    className: "proxima text-[14px] font-semibold ml-1 text-slatyBlue"
-  }, startYear + ' - ' + endYear) : /*#__PURE__*/React.createElement("h1", {
-    className: "proxima text-[14px] font-semibold ml-1 cursor-pointer text-slatyBlue ".concat(showMonthList ? 'pointer-events-none' : ''),
+    className: "flex flex-row  ".concat(!showYearList && animate)
+  }, showMonthList === true ? /*#__PURE__*/React.createElement("h1", {
+    className: "proxima text-[14px] font-semibold ml-1 cursor-pointer text-slatyBlue",
     onClick: toggleYearList
-  }, currentYear)), /*#__PURE__*/React.createElement("div", {
+  }, currentYear) : showYearList === true ? /*#__PURE__*/React.createElement("h1", {
+    className: "proxima text-[14px] font-semibold ml-1 text-slatyBlue"
+  }, displayedYears[0] + " - " + displayedYears[displayedYears.length - 1]) : ""), /*#__PURE__*/React.createElement("div", {
     className: "flex items-center gap-5"
-  }, showYearList === false ? /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
-    className: "w-5 h-5 cursor-pointer hover:scale-105 transition-all text-darkGray ".concat(showMonthList ? "hidden" : "", " text-[20px]"),
-    onClick: function onClick() {
-      return handleIconClick(false);
-    }
-  }, /*#__PURE__*/React.createElement(ChevronLeft, null)), /*#__PURE__*/React.createElement("div", {
-    className: "w-5 h-5 cursor-pointer hover:scale-105 transition-all text-darkGray ".concat(showMonthList ? "hidden" : "", " rotate-180 text-[20px]"),
-    onClick: function onClick() {
-      return handleIconClick(true);
-    }
-  }, /*#__PURE__*/React.createElement(ChevronLeft, null))) : /*#__PURE__*/React.createElement(React.Fragment, null, currentPage <= totalPages && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement(React.Fragment, null, showYearList === true && currentPage <= totalPages && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
     className: "w-5 h-5 cursor-pointer hover:scale-105 transition-all text-darkGray ".concat(currentPage === 1 ? "opacity-40 pointer-events-none" : "", " text-[20px]"),
     onClick: function onClick() {
       if (currentPage === 1) {
         return;
       }
       goToPreviousPage();
-      handleIconClick(false);
     }
   }, /*#__PURE__*/React.createElement(ChevronLeft, null)), /*#__PURE__*/React.createElement("div", {
     className: "w-5 h-5 cursor-pointer hover:scale-105 transition-all text-darkGray ".concat(currentPage === totalPages ? "opacity-40 pointer-events-none" : "", " rotate-180 text-[20px]"),
@@ -518,25 +519,24 @@ var CalendarYear = function CalendarYear(props) {
         return;
       }
       goToNextPage();
-      handleIconClick(true);
     }
   }, /*#__PURE__*/React.createElement(ChevronLeft, null)))))), showMonthList === true ? /*#__PURE__*/React.createElement("div", {
     className: "overflow-hidden"
   }, /*#__PURE__*/React.createElement("div", {
     className: "".concat(style.topAnimation, "  w-full h-full")
   }, /*#__PURE__*/React.createElement("div", {
-    className: "grid grid-cols-4 place-content-center overflow-hidden proxima"
+    className: "grid grid-cols-4 gap-1 place-content-center overflow-hidden proxima"
   }, months.map(function (month, index) {
     return /*#__PURE__*/React.createElement("div", {
       key: index,
-      className: "py-5 px-2 w-full h-full grid place-content-center text-sm text-textColor proxima relative cursor-pointer ",
+      className: "py-5 px-[5.4px] w-full h-full grid place-content-center text-sm text-textColor proxima relative cursor-pointer ",
       onClick: function onClick() {
-        return selectMonth(index);
+        return selectMonth(index + 1);
       }
     }, /*#__PURE__*/React.createElement("div", {
-      className: "w-14 h-12 hover:bg-lightGreen hover:text-primary transition-all duration-200 flex items-center justify-center rounded-md ".concat(index === selectedMonth ? 'bg-lightGreen text-primary' : '')
+      className: "w-14 h-12 hover:bg-lightGreen hover:text-primary transition-all duration-200 flex items-center justify-center rounded-md ".concat(index === selectedMonth ? "bg-lightGreen text-primary" : "")
     }, month.length > 5 ? month.slice(0, 3) : month));
-  })))) : showYearList === true ? /*#__PURE__*/React.createElement("div", {
+  })))) : showYearList === true && /*#__PURE__*/React.createElement("div", {
     className: "overflow-hidden"
   }, /*#__PURE__*/React.createElement("div", {
     className: "".concat(style.topAnimation)
@@ -547,42 +547,15 @@ var CalendarYear = function CalendarYear(props) {
   }, displayedYears.map(function (year) {
     return /*#__PURE__*/React.createElement("div", {
       key: year,
-      className: "py-2 px-2 w-full h-full grid place-content-center text-sm text-textColor proxima relative cursor-pointer",
+      className: "py-2 px-[3.9px] w-full h-full grid place-content-center text-sm text-textColor proxima relative cursor-pointer",
       onClick: function onClick() {
         return selectYear(year);
       }
     }, /*#__PURE__*/React.createElement("div", {
-      className: "py-4 px-3 w-full h-full hover:bg-lightGreen hover:text-primary transition-all duration-200 flex items-center justify-center rounded-md ".concat(year === selectedYear ? 'bg-lightGreen text-primary' : '')
+      className: "py-4 px-3 w-full h-full hover:bg-lightGreen hover:text-primary transition-all duration-200 flex items-center justify-center rounded-md ".concat(year === selectedYear ? "bg-lightGreen text-primary" : "")
     }, year));
-  }))))) : /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
-    className: "w-full grid grid-cols-7 proxima  ".concat(animate)
-  }, days.map(function (day, index) {
-    return /*#__PURE__*/React.createElement("h1", {
-      key: index,
-      className: "h-14 grid place-content-center text-[12px]"
-    }, day);
-  })), /*#__PURE__*/React.createElement("div", {
-    className: " w-full h-full grid grid-cols-7 ".concat(animate)
-  }, generateDate(today.getMonth(), today.getFullYear()).map(function (_a, index) {
-    var date = _a.date,
-      currentMonth = _a.currentMonth;
-    var currentDate = new Date(date);
-    var isSameDay = currentDate.getDate() === selectedDate.getDate() && currentDate.getMonth() === selectedDate.getMonth() && currentDate.getFullYear() === selectedDate.getFullYear();
-    return /*#__PURE__*/React.createElement("div", {
-      key: index,
-      className: "h-full w-full grid place-content-center text-sm text-textColor proxima relative ",
-      onClick: function onClick() {
-        return handleDateClick(currentDate);
-      }
-    }, /*#__PURE__*/React.createElement("h1", {
-      className: "h-[40px] w-[40px] grid place-content-center rounded-full cursor-pointer z-10 ".concat(currentMonth ? "" : "text-gray-400", " ").concat(isSameDay ? "bg-primary text-white" : "hover:bg-whiteSmoke")
-    }, currentDate.getDate()), isSameDay && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("span", {
-      className: "absolute flex inset-0 rounded-full overflow-visible"
-    }, /*#__PURE__*/React.createElement("span", {
-      className: "".concat(style.rippleAnimation, " absolute rounded-full  bg-primary opacity-50")
-    }))));
-  }))))))));
+  }))))))))));
 };
 
-exports.Calendar = Calendar;
-exports.CalendarYear = CalendarYear;
+exports.Datepicker = Datepicker;
+exports.DatepickerYear = DatepickerYear;
