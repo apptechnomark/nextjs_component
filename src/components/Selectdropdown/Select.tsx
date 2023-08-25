@@ -100,7 +100,6 @@ const Select: React.FC<SelectProps> = ({
     if (validate) {
       setErrMsg(errorMessage);
       setError(hasError);
-      hasError && getError(false);
       if (defaultValue !== "" && defaultValue !== null && defaultValue !== 0) {
         setInputValue(defaultValue);
       } else {
