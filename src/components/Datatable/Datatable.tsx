@@ -129,7 +129,7 @@ const DataTable = ({
             {expandable && <th className={`w-5 ${headerStyle}`}></th>}
             {columns?.map((column, colIndex) => (
               <th
-                className={`${headerStyle} h-12 text-sm font-bold p-2 ${
+                className={`${headerStyle} h-12 text-sm font-bold p-2 whitespace-nowrap ${
                   column.sortable ? "cursor-pointer" : "cursor-default"
                 }`}
                 key={colIndex}
