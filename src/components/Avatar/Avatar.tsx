@@ -176,6 +176,7 @@ const AvatarGroup: FC<AvatarGroupProps> = ({
   if (React.Children.count(children) > show) {
     const remainingCount = React.Children.count(children) - show;
     const visibleChildren = React.Children.toArray(children).slice(0, show);
+    const finalCount = remainingCount.toString().split("").toString().replace(/,/g," ")
 
     return (
       <div className={`${styles.avatarGroup} flex items-center justify-center`}>
@@ -191,7 +192,7 @@ const AvatarGroup: FC<AvatarGroupProps> = ({
         ))}
         <Avatar
           className={`!text-[#CA6510] !bg-[#FECBA1] ${className}`}
-          name={`+${remainingCount}`}
+          name={`+ ${finalCount}`}
           type={type}
           variant={variant}
         />
