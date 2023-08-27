@@ -3,16 +3,17 @@ import React, { useState, useEffect } from 'react';
 var style = {"scaleUpAnimation":"timepicker-module_scaleUpAnimation__tGxyr","textAnimation":"timepicker-module_textAnimation__5-lSz"};
 
 var Timepicker = function Timepicker(props) {
+  var value = props.value;
   var hourDigits = [12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
   var minuteDigits = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55];
   var inputHourDigits = [12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
-  var _a = useState(12),
+  var _a = useState(value ? Number(value.split(":")[0]) : 12),
     selectedHourDigit = _a[0],
     setSelectedHourDigit = _a[1];
-  var _b = useState(0),
+  var _b = useState(value ? Number(value.split(":")[1].split(" ")[0]) : 0),
     selectedMinuteDigit = _b[0],
     setSelectedMinuteDigit = _b[1];
-  var _c = useState(true),
+  var _c = useState(value ? value.split(":")[1].split(" ")[1] == "AM" ? true : false : true),
     isAM = _c[0],
     setIsAM = _c[1];
   var _d = useState(true),
@@ -33,15 +34,14 @@ var Timepicker = function Timepicker(props) {
     setTimeout(function () {
       setAnimateHour('');
     }, 300);
-    // const timer = setTimeout(() => {
-    //     setShowMinuteDigits(true);
-    //     setShowHourDigits(false);
-    // }, 100);
-    // return () => {
-    //     clearTimeout(timer);
-    // };
+    var timer = setTimeout(function () {
+      setShowMinuteDigits(true);
+      setShowHourDigits(false);
+    }, 100);
+    return function () {
+      clearTimeout(timer);
+    };
   };
-
   var handleMinuteSelectDigit = function handleMinuteSelectDigit(digit) {
     setSelectedMinuteDigit(digit);
     digit ? setAnimateMinute(style.textAnimation) : setAnimateMinute('');
@@ -109,7 +109,7 @@ var Timepicker = function Timepicker(props) {
   }).join('');
   useEffect(function () {
     var fullTime = selectedHourDigit + ':' + selectedMinuteDigit + ' ' + (isAM ? 'AM' : 'PM');
-    props.onChange(fullTime);
+    props.getValue(fullTime);
   }, [selectedHourDigit, selectedMinuteDigit, isAM]);
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
     className: 'flex flex-col items-center justify-center mt-3'
@@ -205,14 +205,15 @@ var Timepicker = function Timepicker(props) {
 };
 
 var Timepicker24Hr = function Timepicker24Hr(props) {
+  var value = props.value;
   var hourDigits12 = [12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
   var hourDigits24 = [24, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23];
   var minuteDigits = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55];
   var inputHourDigits12 = [12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24];
-  var _a = useState(12) || useState(24),
+  var _a = useState(value ? Number(value.split(":")[0]) : 12) || useState(value ? Number(value.split(":")[0]) : 24),
     selectedHourDigit = _a[0],
     setSelectedHourDigit = _a[1];
-  var _b = useState(0),
+  var _b = useState(value ? Number(value.split(":")[1].split(" ")[0]) : 0),
     selectedMinuteDigit = _b[0],
     setSelectedMinuteDigit = _b[1];
   var _c = useState(false),
@@ -224,10 +225,10 @@ var Timepicker24Hr = function Timepicker24Hr(props) {
   var _e = useState(false),
     showMinuteDigits = _e[0],
     setShowMinuteDigits = _e[1];
-  var _f = useState(true),
+  var _f = useState(hourDigits24.includes(Number(value.split(":")[0])) ? false : true ),
     isDigit12 = _f[0],
     setIsDigit12 = _f[1];
-  var _g = useState(false),
+  var _g = useState(hourDigits24.includes(Number(value.split(":")[0])) ? true : false),
     isDigit24 = _g[0],
     setIsDigit24 = _g[1];
   var _h = useState(''),
@@ -333,7 +334,7 @@ var Timepicker24Hr = function Timepicker24Hr(props) {
   }).join('');
   useEffect(function () {
     var fullTime = selectedHourDigit + ':' + selectedMinuteDigit;
-    props.onChange(fullTime);
+    props.getValue(fullTime);
   }, [selectedHourDigit, selectedMinuteDigit]);
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
     className: 'flex flex-col items-center justify-center mt-3'

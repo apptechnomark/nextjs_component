@@ -2,17 +2,16 @@
 
 import React, { useState } from 'react';
 
-import { Timepicker, Timepicker24 } from 'timepicker';
+import { Timepicker, Timepicker24Hr } from 'timepicker';
 import 'timepicker/dist/index.css';
 
 const page = () => {
-  const [selected, setSelected] = useState('');
-  console.log('🚀 ~ file: page.tsx:10 ~ page ~ selected:', selected)
+  const [selected, setSelected] = useState<string>('');
 
   return (
-    <div className='container mx-auto'>
-      <Timepicker onChange={(value: string) => setSelected(value)} />
-      <Timepicker24 onChange={(value: string) => setSelected(value)} />
+    <div className='container'>
+      <Timepicker value={selected} getValue={(value: string) => setSelected(value)} />
+      <Timepicker24Hr value={selected} getValue={(value: string) => setSelected(value)} />
     </div>
   )
 }

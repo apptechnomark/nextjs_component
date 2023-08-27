@@ -2,24 +2,26 @@ import React, { useEffect, useState } from 'react';
 import style from './scss/timepicker.module.scss';
 
 interface Timepicker24HrProps {
-    onChange: (value: string) => void;
+    getValue: (value: string) => void;
+    value:string;
 }
 
 const Timepicker24Hr: React.FC<Timepicker24HrProps> = (props: any) => {
+    const {value}=props;
     const hourDigits12: number[] = [12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
     const hourDigits24: number[] = [24, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23];
     const minuteDigits: number[] = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55];
 
     const inputHourDigits12: number[] = [12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24];
 
-    const [selectedHourDigit, setSelectedHourDigit] = useState<number>(12) || useState<number>(24);
-    const [selectedMinuteDigit, setSelectedMinuteDigit] = useState<number>(0);
+    const [selectedHourDigit, setSelectedHourDigit] = useState<number>(value?Number(value.split(":")[0]):12) || useState<number>(value?Number(value.split(":")[0]):24);
+    const [selectedMinuteDigit, setSelectedMinuteDigit] = useState<number>(value?Number(value.split(":")[1].split(" ")[0]):0);
     const [isAM, setIsAM] = useState<boolean>(false);
     const [showHourDigits, setShowHourDigits] = useState<boolean>(true);
     const [showMinuteDigits, setShowMinuteDigits] = useState<boolean>(false);
 
-    const [isDigit12, setIsDigit12] = useState<boolean>(true);
-    const [isDigit24, setIsDigit24] = useState<boolean>(false);
+    const [isDigit12, setIsDigit12] = useState<boolean>(hourDigits24.includes(Number(value.split(":")[0])) ? false : true||true);
+    const [isDigit24, setIsDigit24] = useState<boolean>(hourDigits24.includes(Number(value.split(":")[0])) ? true : false||false);
 
     const [animateHour, setAnimateHour] = useState<String>('');
     const [animateMinute, setAnimateMinute] = useState<String>('');
@@ -146,7 +148,7 @@ const Timepicker24Hr: React.FC<Timepicker24HrProps> = (props: any) => {
 
     useEffect(() => {
         let fullTime = selectedHourDigit + ':' + selectedMinuteDigit;
-        props.onChange(fullTime);
+        props.getValue(fullTime);
     }, [selectedHourDigit, selectedMinuteDigit]);
 
     return (

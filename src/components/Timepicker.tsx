@@ -2,18 +2,20 @@ import React, { useEffect, useState } from 'react';
 import style from './scss/timepicker.module.scss';
 
 interface TimepickerProps {
-    onChange: (value: string) => void;
+    getValue: (value: string) => void;
+    value:string;
 }
 
 const Timepicker: React.FC<TimepickerProps> = (props: any) => {
+    const {value}=props;
     const hourDigits: number[] = [12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
     const minuteDigits: number[] = [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55];
 
     const inputHourDigits: number[] = [12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
-    const [selectedHourDigit, setSelectedHourDigit] = useState<number>(12);
-    const [selectedMinuteDigit, setSelectedMinuteDigit] = useState<number>(0);
-    const [isAM, setIsAM] = useState<boolean>(true);
+    const [selectedHourDigit, setSelectedHourDigit] = useState<number>(value?Number(value.split(":")[0]):12);
+    const [selectedMinuteDigit, setSelectedMinuteDigit] = useState<number>(value?Number(value.split(":")[1].split(" ")[0]):0);
+    const [isAM, setIsAM] = useState<boolean>(value?value.split(":")[1].split(" ")[1]=="AM"?true:false:true);
     const [showHourDigits, setShowHourDigits] = useState<boolean>(true);
     const [showMinuteDigits, setShowMinuteDigits] = useState<boolean>(false);
     const [animateHour, setAnimateHour] = useState<String>('');
@@ -119,7 +121,7 @@ const Timepicker: React.FC<TimepickerProps> = (props: any) => {
 
     useEffect(() => {
         let fullTime = selectedHourDigit + ':' + selectedMinuteDigit + ' ' + (isAM ? 'AM' : 'PM');
-        props.onChange(fullTime);
+        props.getValue(fullTime);
     }, [selectedHourDigit, selectedMinuteDigit, isAM]);
 
     return (
