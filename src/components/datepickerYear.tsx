@@ -17,8 +17,9 @@ const DatepickerYear = (props: any): JSX.Element => {
     const currentDate: Date = new Date();
     const { value, startYear, endYear } = props;
     const inputRef = useRef(null);
+    const valueDate = new Date(value);
 
-    const [today, setToday] = useState<Date>(value ? new Date(value) : currentDate);
+    const [today, setToday] = useState<Date>(value ? valueDate : currentDate);
     const [showMonthList, setShowMonthList] = useState<boolean>(false);
     const [showYearList, setShowYearList] = useState<boolean>(false);
     const [fullDate, setFullDate] = useState<String>(value ? value : "");
@@ -27,10 +28,10 @@ const DatepickerYear = (props: any): JSX.Element => {
     const [animate, setAnimate] = useState<String>("");
 
     const currentMonth = today.getMonth();
-    const [selectedMonth, setSelectedMonth] = useState<number>(value ? (value.split("-")[1] - 1) : currentMonth);
+    const [selectedMonth, setSelectedMonth] = useState<number>(value ? valueDate.getMonth() : currentMonth);
 
     const currentYear = today.getFullYear();
-    const [selectedYear, setSelectedYear] = useState<number>(value ? parseInt(value.split("-")[0]) : currentYear);
+    const [selectedYear, setSelectedYear] = useState<number>(value ? valueDate.getFullYear() : currentYear);
 
     const yearsPerPage: number = 16;
 
@@ -121,19 +122,20 @@ const DatepickerYear = (props: any): JSX.Element => {
 
     const updateFromInput = (inputValue: string) => {
         const inputDate = new Date(inputValue);
-        if (!isNaN(inputDate.getTime())) {
+
+        if (!isNaN(inputDate.getTime()) && inputDate.getFullYear().toString().length == 4) {
             setToday(inputDate);
             setToggleOpen(true);
             setShowYearList(true);
-            setSelectedMonth(parseInt(inputValue.split("-")[1]) - 1)
-            setSelectedYear(parseInt(inputValue.split("-")[0]));
+            setSelectedMonth(inputDate.getMonth()); 
+            setSelectedYear(inputDate.getFullYear());
+            const selectedYearPageIndex = Math.ceil((inputDate.getFullYear() - startYear + 1) / yearsPerPage);
+            setCurrentPage(selectedYearPageIndex);
+        }else{
+            setToggleOpen(false);
         }
     };
 
-    useEffect(() => {
-        const selectedYearPageIndex = Math.ceil((selectedYear - startYear + 1) / yearsPerPage);
-        setCurrentPage(selectedYearPageIndex);
-    }, []);
 
     return (
         <>

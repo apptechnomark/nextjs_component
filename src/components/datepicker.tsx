@@ -17,21 +17,22 @@ const Datepicker = (props: any): JSX.Element => {
     const currentDate: Date = new Date();
     const { value, startYear, endYear } = props;
     const inputRef = useRef(null);
+    const valueDate = new Date(value);
 
-    const [today, setToday] = useState<Date>(value ? new Date(value) : currentDate);
+    const [today, setToday] = useState<Date>(value ? valueDate : currentDate);
     const [showMonthList, setShowMonthList] = useState<boolean>(false);
     const [showYearList, setShowYearList] = useState<boolean>(false);
-    const [selectedDate, setSelectedDate] = useState<Date>(value ? new Date(value) : currentDate);
+    const [selectedDate, setSelectedDate] = useState<Date>(value ? valueDate : currentDate);
     const [fullDate, setFullDate] = useState<string>(value ? value : "");
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [toggleOpen, setToggleOpen] = useState<boolean>(false);
     const [animate, setAnimate] = useState<string>("");
 
     const currentMonth = today.getMonth();
-    const [selectedMonth, setSelectedMonth] = useState<number>(value ? (value.split("/")[0] - 1) : currentMonth);
+    const [selectedMonth, setSelectedMonth] = useState<number>(value ? valueDate.getMonth() : currentMonth);
 
     const currentYear = today.getFullYear();
-    const [selectedYear, setSelectedYear] = useState<number>(value ? parseInt(value.split("/")[2]) : currentYear);
+    const [selectedYear, setSelectedYear] = useState<number>(value ? valueDate.getFullYear() : currentYear);
 
     const yearsPerPage: number = 16;
     const totalPages: number = Math.ceil(
@@ -69,7 +70,6 @@ const Datepicker = (props: any): JSX.Element => {
             setShowMonthList(false);
         }
     };
-
     const selectYear = (year: number) => {
         const newDate = new Date(today);
         newDate.setFullYear(year);
@@ -98,8 +98,6 @@ const Datepicker = (props: any): JSX.Element => {
             handleIconClick(true);
         }
         setAnimate("");
-
-        inputRef.current.value = updatedDate;
     };
 
     const goToNextPage = () => {
@@ -135,9 +133,6 @@ const Datepicker = (props: any): JSX.Element => {
             setAnimate("");
         }, 100);
     };
-    useEffect(() => {
-        props.getValue(fullDate);
-    }, [fullDate]);
 
     useEffect(() => {
         const handleOutsideClick = (event: any) => {
@@ -162,17 +157,23 @@ const Datepicker = (props: any): JSX.Element => {
 
     const updateFromInput = (inputValue: string) => {
         const inputDate = new Date(inputValue);
-        if (!isNaN(inputDate.getTime())) {
-            const formattedDate = inputDate.toISOString().slice(0, 10).split("-");
-            const updatedDate = `${formattedDate[0]}-${formattedDate[1]}-${formattedDate[2]}`;
+        if (!isNaN(inputDate.getTime()) && inputDate.getFullYear().toString().length == 4) {
+            const formattedDate = inputDate.toISOString().slice(0, 10);
             setToggleOpen(true);
             setToday(inputDate);
             setSelectedDate(inputDate);
-            setSelectedMonth(parseInt(inputValue.split("-")[1]) - 1)
-            setSelectedYear(parseInt(inputValue.split("-")[0]));
-            setFullDate(updatedDate);
+            setSelectedMonth(inputDate.getMonth());
+            setSelectedYear(inputDate.getFullYear());
+            setFullDate(formattedDate);
+        } else {
+            setToggleOpen(false);
         }
     };
+
+
+    useEffect(() => {
+        props.getValue(fullDate);
+    }, [fullDate]);
 
     return (
         <>
@@ -361,12 +362,12 @@ const Datepicker = (props: any): JSX.Element => {
                                                             onClick={() => handleDateClick(currentDate)}
                                                         >
                                                             <h1
-                                                                className={`h-[40px] w-[40px] grid place-content-center rounded-full cursor-pointer z-10 ${currentMonth ? "" : "text-gray-400"
+                                                                className={`h-[40px] w-[40px] grid place-content-center rounded-full cursor-pointer z-10 
+                                                                ${currentMonth ? "" : "text-gray-400"
                                                                     } ${isSameDay
                                                                         ? " bg-primary text-white"
                                                                         : "hover:bg-whiteSmoke"
-                                                                    }`}
-                                                            >
+                                                                    }`}>
                                                                 {currentDate.getDate()}
                                                             </h1>
                                                             {isSameDay && (

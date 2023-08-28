@@ -67,7 +67,8 @@ var Datepicker = function Datepicker(props) {
     startYear = props.startYear,
     endYear = props.endYear;
   var inputRef = useRef(null);
-  var _a = useState(value ? new Date(value) : currentDate),
+  var valueDate = new Date(value);
+  var _a = useState(value ? valueDate : currentDate),
     today = _a[0],
     setToday = _a[1];
   var _b = useState(false),
@@ -76,7 +77,7 @@ var Datepicker = function Datepicker(props) {
   var _c = useState(false),
     showYearList = _c[0],
     setShowYearList = _c[1];
-  var _d = useState(value ? new Date(value) : currentDate),
+  var _d = useState(value ? valueDate : currentDate),
     selectedDate = _d[0],
     setSelectedDate = _d[1];
   var _e = useState(value ? value : ""),
@@ -92,11 +93,11 @@ var Datepicker = function Datepicker(props) {
     animate = _h[0],
     setAnimate = _h[1];
   var currentMonth = today.getMonth();
-  var _j = useState(value ? value.split("/")[0] - 1 : currentMonth),
+  var _j = useState(value ? valueDate.getMonth() : currentMonth),
     selectedMonth = _j[0],
     setSelectedMonth = _j[1];
   var currentYear = today.getFullYear();
-  var _k = useState(value ? parseInt(value.split("/")[2]) : currentYear),
+  var _k = useState(value ? valueDate.getFullYear() : currentYear),
     selectedYear = _k[0],
     setSelectedYear = _k[1];
   var yearsPerPage = 16;
@@ -159,7 +160,6 @@ var Datepicker = function Datepicker(props) {
       handleIconClick(true);
     }
     setAnimate("");
-    inputRef.current.value = updatedDate;
   };
   var goToNextPage = function goToNextPage() {
     currentPage < totalPages ? setCurrentPage(currentPage + 1) : currentPage;
@@ -190,9 +190,6 @@ var Datepicker = function Datepicker(props) {
     }, 100);
   };
   useEffect(function () {
-    props.getValue(fullDate);
-  }, [fullDate]);
-  useEffect(function () {
     var handleOutsideClick = function handleOutsideClick(event) {
       var target = event.target;
       var isInputClick = inputRef.current && inputRef.current.contains(target);
@@ -213,17 +210,21 @@ var Datepicker = function Datepicker(props) {
   }, []);
   var updateFromInput = function updateFromInput(inputValue) {
     var inputDate = new Date(inputValue);
-    if (!isNaN(inputDate.getTime())) {
-      var formattedDate = inputDate.toISOString().slice(0, 10).split("-");
-      var updatedDate = "".concat(formattedDate[0], "-").concat(formattedDate[1], "-").concat(formattedDate[2]);
+    if (!isNaN(inputDate.getTime()) && inputDate.getFullYear().toString().length == 4) {
+      var formattedDate = inputDate.toISOString().slice(0, 10);
       setToggleOpen(true);
       setToday(inputDate);
       setSelectedDate(inputDate);
-      setSelectedMonth(parseInt(inputValue.split("-")[1]) - 1);
-      setSelectedYear(parseInt(inputValue.split("-")[0]));
-      setFullDate(updatedDate);
+      setSelectedMonth(inputDate.getMonth());
+      setSelectedYear(inputDate.getFullYear());
+      setFullDate(formattedDate);
+    } else {
+      setToggleOpen(false);
     }
   };
+  useEffect(function () {
+    props.getValue(fullDate);
+  }, [fullDate]);
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
     className: "relative flex",
     ref: inputRef
@@ -338,7 +339,7 @@ var Datepicker = function Datepicker(props) {
         return handleDateClick(currentDate);
       }
     }, /*#__PURE__*/React.createElement("h1", {
-      className: "h-[40px] w-[40px] grid place-content-center rounded-full cursor-pointer z-10 ".concat(currentMonth ? "" : "text-gray-400", " ").concat(isSameDay ? " bg-primary text-white" : "hover:bg-whiteSmoke")
+      className: "h-[40px] w-[40px] grid place-content-center rounded-full cursor-pointer z-10 \n                                                                ".concat(currentMonth ? "" : "text-gray-400", " ").concat(isSameDay ? " bg-primary text-white" : "hover:bg-whiteSmoke")
     }, currentDate.getDate()), isSameDay && /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("span", {
       className: "absolute flex inset-0 rounded-full overflow-visible"
     }, /*#__PURE__*/React.createElement("span", {
@@ -353,7 +354,8 @@ var DatepickerYear = function DatepickerYear(props) {
     startYear = props.startYear,
     endYear = props.endYear;
   var inputRef = useRef(null);
-  var _a = useState(value ? new Date(value) : currentDate),
+  var valueDate = new Date(value);
+  var _a = useState(value ? valueDate : currentDate),
     today = _a[0],
     setToday = _a[1];
   var _b = useState(false),
@@ -375,11 +377,11 @@ var DatepickerYear = function DatepickerYear(props) {
     animate = _g[0],
     setAnimate = _g[1];
   var currentMonth = today.getMonth();
-  var _h = useState(value ? value.split("-")[1] - 1 : currentMonth),
+  var _h = useState(value ? valueDate.getMonth() : currentMonth),
     selectedMonth = _h[0],
     setSelectedMonth = _h[1];
   var currentYear = today.getFullYear();
-  var _j = useState(value ? parseInt(value.split("-")[0]) : currentYear),
+  var _j = useState(value ? valueDate.getFullYear() : currentYear),
     selectedYear = _j[0],
     setSelectedYear = _j[1];
   var yearsPerPage = 16;
@@ -460,18 +462,18 @@ var DatepickerYear = function DatepickerYear(props) {
   }, []);
   var updateFromInput = function updateFromInput(inputValue) {
     var inputDate = new Date(inputValue);
-    if (!isNaN(inputDate.getTime())) {
+    if (!isNaN(inputDate.getTime()) && inputDate.getFullYear().toString().length == 4) {
       setToday(inputDate);
       setToggleOpen(true);
       setShowYearList(true);
-      setSelectedMonth(parseInt(inputValue.split("-")[1]) - 1);
-      setSelectedYear(parseInt(inputValue.split("-")[0]));
+      setSelectedMonth(inputDate.getMonth());
+      setSelectedYear(inputDate.getFullYear());
+      var selectedYearPageIndex = Math.ceil((inputDate.getFullYear() - startYear + 1) / yearsPerPage);
+      setCurrentPage(selectedYearPageIndex);
+    } else {
+      setToggleOpen(false);
     }
   };
-  useEffect(function () {
-    var selectedYearPageIndex = Math.ceil((selectedYear - startYear + 1) / yearsPerPage);
-    setCurrentPage(selectedYearPageIndex);
-  }, []);
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
     className: "relative flex",
     ref: inputRef
