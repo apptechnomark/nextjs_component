@@ -1,87 +1,152 @@
 import React, { useEffect, useRef, useState } from "react";
+
 import { Text } from "../Textfield/Text";
+
 import { Button } from "../Button/Button";
 
 import { EditIconDropdown } from "./icons/EditIconDropdown";
+
 import { DeleteIconDropdown } from "./icons/DeleteIconDropdown";
+
 import ChevronDown from "./icons/ChevronDown";
+
 import { Avatar } from "../Avatar/Avatar";
 
 interface Option {
   value: any;
+
   label: string;
 }
 
 interface SelectProps extends React.InputHTMLAttributes<HTMLInputElement> {
   id: string;
+
   options: Option[];
+
   type?: string;
+
   label?: string;
+
   className?: string;
+
   search?: boolean;
+
   validate?: boolean;
+
   defaultValue?: any;
+
   placeholder?: any;
+
   value?: any;
+
   avatar?: boolean;
+
   avatarName?: string;
+
   avatarImgUrl?: string;
+
   errorMessage?: string;
+
   hasError?: boolean;
+
   getValue: (value: any) => void;
+
   getError: (arg1: boolean) => void;
+
   supportingText?: string;
+
   errorClass?: string;
+
   addDynamicForm?: boolean;
+
   addDynamicForm_Label?: string;
+
   addDynamicForm_Placeholder?: string;
+
   addDynamicForm_Icons_Edit?: any;
+
   addDynamicForm_Icons_Delete?: any;
-  addDynamicForm_MaxLength?: number;
+
   onChangeText?: (value: any, label: any) => void;
+
   onClickButton?: (value: any) => void;
+
   onDeleteButton?: (value: any) => void;
+
   disabled?: boolean;
 }
 
 const Select: React.FC<SelectProps> = ({
   id,
+
   options,
+
   getValue,
+
   type,
+
   label,
+
   className,
+
   placeholder = "Please select",
+
   search = false,
+
   validate,
+
   defaultValue,
+
   value,
+
   errorMessage = "This is a required field.",
+
   supportingText,
+
   hasError,
+
   getError,
+
   avatar,
+
   avatarName,
+
   avatarImgUrl,
+
   errorClass,
+
   addDynamicForm,
+
   addDynamicForm_Label,
+
   addDynamicForm_Placeholder,
-  addDynamicForm_MaxLength,
+
   onClickButton,
+
   onChangeText,
+
   onDeleteButton,
+
   addDynamicForm_Icons_Edit,
+
   addDynamicForm_Icons_Delete,
+
   disabled,
 }) => {
   const [inputValue, setInputValue] = useState("");
+
   const [inputLabel, setInputLabel] = useState("");
+
   const [searchValue, setSearchValue] = useState("");
+
   const [error, setError] = useState(false);
+
   const [errMsg, setErrMsg] = useState("");
+
   const [open, setOpen] = useState(false);
+
   const selectRef = useRef<HTMLDivElement>(null);
+
   const [selectedOption, setSelectedOption] = useState<Option | null>(
     defaultValue
       ? options.find((option) => option.value === defaultValue) ?? null
@@ -89,9 +154,13 @@ const Select: React.FC<SelectProps> = ({
   );
 
   const [editing, setEditing] = useState(false);
+
   const [textName, setTextName] = useState("");
+
   const [textValue, setTextValue] = useState("");
+
   const [textNameError, setTextNameError] = useState(false);
+
   const [textNameHasError, setTextNameHasError] = useState(false);
 
   const filteredOptions = options.filter((option) =>
@@ -101,7 +170,11 @@ const Select: React.FC<SelectProps> = ({
   useEffect(() => {
     if (validate) {
       setErrMsg(errorMessage);
+
       setError(hasError);
+
+      hasError && getError(false);
+
       if (defaultValue !== "" && defaultValue !== null && defaultValue !== 0) {
         setInputValue(defaultValue);
       } else {
@@ -124,6 +197,7 @@ const Select: React.FC<SelectProps> = ({
       !selectRef.current.contains(event.target as Node)
     ) {
       setOpen(false);
+
       setEditing(false);
     }
   };
@@ -132,37 +206,50 @@ const Select: React.FC<SelectProps> = ({
     if (disabled) {
       return;
     }
+
     setOpen((prevOpen) => !prevOpen);
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value.toLowerCase();
+
     setSearchValue(inputValue); // Update search input value
+
     // setInputValue(inputValue); // Update display input value
 
     if (validate && inputValue === "") {
       setError(true);
+
       setErrMsg("Please select a valid option.");
     } else {
       setError(false);
+
       setErrMsg("");
     }
   };
 
   const handleSelect = (value: any) => {
     setSelectedOption(options.find((option) => option.value === value));
+
     setInputValue("");
+
     setSearchValue("");
+
     setOpen(false);
 
     if (!value) {
       setError(true);
+
       getError(false);
+
       setErrMsg("Please select a valid option.");
     } else {
       setError(false);
+
       setErrMsg("");
+
       getValue(value);
+
       getError(true);
     }
   };
@@ -171,11 +258,15 @@ const Select: React.FC<SelectProps> = ({
     if (validate) {
       if (inputValue === "") {
         setError(true);
+
         setErrMsg("Please select a valid option.");
+
         getError(false);
       } else {
         setError(false);
+
         setErrMsg("");
+
         getError(true);
       }
     }
@@ -183,22 +274,25 @@ const Select: React.FC<SelectProps> = ({
 
   const handleSubmit = () => {
     textName.trim().length <= 0 && setTextNameHasError(true);
-    inputLabel.trim().length <= 0 && setTextNameHasError(false);
+
+    inputLabel && setTextNameHasError(false);
+
     setErrMsg("");
+
     setError(false);
-    if (
-      textNameError &&
-      (textName.trim().length > 0 || inputLabel != "") &&
-      onClickButton
-    ) {
+
+    if ((textName.trim().length > 0 || inputLabel != "") && onClickButton) {
       onClickButton(editing);
+
       cleartextData();
     }
   };
 
   const cleartextData = () => {
     setInputLabel("");
+
     setTextValue("");
+
     setTextName("");
   };
 
@@ -242,6 +336,7 @@ const Select: React.FC<SelectProps> = ({
             htmlFor={id}
           >
             {label}
+
             {validate && (
               <span
                 className={`${disabled ? "lightSilver" : "text-defaultRed"}`}
@@ -284,6 +379,7 @@ const Select: React.FC<SelectProps> = ({
                 ? "text-primary"
                 : "text-darkCharcoal"
             } text-[14px] font-normal w-full
+
      ${
        disabled ? "cursor-default" : !open ? "cursor-pointer" : "cursor-default"
      } ${
@@ -306,6 +402,7 @@ const Select: React.FC<SelectProps> = ({
             <ChevronDown />
           </div>
         </div>
+
         {open && (
           <ul
             className={`absolute z-10 bg-pureWhite mt-[1px] shadow-md transition-transform w-full ${
@@ -322,7 +419,9 @@ const Select: React.FC<SelectProps> = ({
                     <li
                       key={index}
                       className={`p-[10px] group/item text-[14px] hover:bg-whiteSmoke font-normal cursor-pointer flex flex-row items-center ${
-                        addDynamicForm || addDynamicForm_Icons_Edit
+                        addDynamicForm ||
+                        addDynamicForm_Icons_Edit ||
+                        addDynamicForm_Icons_Delete
                           ? "justify-between"
                           : ""
                       } ${
@@ -345,9 +444,12 @@ const Select: React.FC<SelectProps> = ({
                           />
                         </div>
                       )}
+
                       {option.label}
 
-                      {(addDynamicForm || addDynamicForm_Icons_Edit) && (
+                      {(addDynamicForm ||
+                        addDynamicForm_Icons_Edit ||
+                        addDynamicForm_Icons_Delete) && (
                         <a className="group/edit invisible hover:bg-slate-100 group-hover/item:visible">
                           <div className="flex flex-row right-0 mr-2 justify-end items-end">
                             {addDynamicForm_Icons_Edit && (
@@ -355,9 +457,13 @@ const Select: React.FC<SelectProps> = ({
                                 className="p-[2px]"
                                 onClick={(event) => {
                                   event.stopPropagation();
+
                                   setTextValue(option.value);
+
                                   setInputLabel(option.label);
+
                                   onChangeText(option.value, option.label);
+
                                   setEditing(true);
                                 }}
                               >
@@ -370,7 +476,9 @@ const Select: React.FC<SelectProps> = ({
                                 className="p-[2px]"
                                 onClick={(event) => {
                                   event.stopPropagation();
+
                                   onChangeText(option.value, option.label);
+
                                   handleDeleteValue(option.value);
                                 }}
                               >
@@ -384,6 +492,7 @@ const Select: React.FC<SelectProps> = ({
                   ))}
               </ul>
             </li>
+
             {(addDynamicForm || editing) && (
               <li className="w-full z-50 bg-pureWhite">
                 <div className="bg-gray-100 flex flex-row items-center justify-between ">
@@ -395,14 +504,16 @@ const Select: React.FC<SelectProps> = ({
                       placeholder={addDynamicForm_Placeholder}
                       className="w-full"
                       value={editing ? inputLabel : textName}
-                      maxChar={addDynamicForm_MaxLength}
                       getValue={(e) => {
                         if (editing) {
                           setOpen(true);
+
                           setInputLabel(e);
+
                           onChangeText(textValue, e);
                         } else {
                           setTextName(e);
+
                           onChangeText(textValue, e);
                         }
                       }}
@@ -410,6 +521,7 @@ const Select: React.FC<SelectProps> = ({
                       getError={(e) => setTextNameError(e)}
                     />
                   </div>
+
                   <div className="ml-3 mr-2">
                     <Button
                       type="button"
@@ -426,11 +538,13 @@ const Select: React.FC<SelectProps> = ({
           </ul>
         )}
       </div>
+
       {!error && supportingText && (
         <span className="text-slatyGrey text-[12px] sm:text-[14px] -mt-[20px]">
           {supportingText}
         </span>
       )}
+
       {error && !inputValue && (
         <span
           className={`text-defaultRed text-[12px] sm:text-[14px] ${errorClass}`}
