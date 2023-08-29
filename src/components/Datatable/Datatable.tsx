@@ -6,17 +6,31 @@ import SortIcon from "./icons/SortIcon";
 interface AComponentProps {
   children: string;
 }
+
 interface BComponentProps {
   children: string;
 }
 
+interface ExpandableStyle {
+  columns?: string;
+  rows?: string;
+}
+
+interface Column {
+  header: any;
+  accessor: string;
+  sortable: boolean;
+  colStyle?: string;
+  rowStyle?: string;
+}
+
 interface DataTableProps {
-  columns: any[];
+  columns: Column[];
   data: any[];
   align?: "left" | "center" | "right";
-  headerStyle?: string;
-  rowStyle?: string;
   expandable?: boolean;
+  isExpanded?: boolean;
+  expandableStyle?: ExpandableStyle;
   sticky?: boolean;
   hoverEffect?: boolean;
   noHeader?: boolean;
@@ -25,11 +39,11 @@ interface DataTableProps {
 const DataTable = ({
   columns,
   data,
-  headerStyle,
-  rowStyle,
   align = "left",
-  sticky,
   expandable,
+  isExpanded = false,
+  expandableStyle,
+  sticky,
   hoverEffect,
   noHeader,
 }: DataTableProps) => {
@@ -70,6 +84,8 @@ const DataTable = ({
         const bProps = bValue.props as BComponentProps;
         const aPropValue = aProps.children;
         const bPropValue = bProps.children;
+
+        console.log(aPropValue, bPropValue);
 
         if (typeof aPropValue === "string" && typeof bPropValue === "string") {
           return sortConfig.direction === "asc"
@@ -126,10 +142,14 @@ const DataTable = ({
               sticky ? "shadow-md sticky" : "static"
             } ${noHeader ? "hidden" : ""}`}
           >
-            {expandable && <th className={`w-5 ${headerStyle}`}></th>}
+            {expandable && (
+              <th className={`w-5 ${expandableStyle?.columns}`}></th>
+            )}
             {columns?.map((column, colIndex) => (
               <th
-                className={`${headerStyle} h-12 text-sm font-bold p-2 whitespace-nowrap ${
+                className={`${
+                  column.colStyle
+                } h-12 text-sm font-bold p-2 whitespace-nowrap ${
                   column.sortable ? "cursor-pointer" : "cursor-default"
                 }`}
                 key={colIndex}
@@ -168,10 +188,10 @@ const DataTable = ({
               <tr className={`${hoverEffect ? "hover:bg-[#f2f2f2]" : ""}`}>
                 {expandable && (
                   <td
-                    className={`${rowStyle} h-12 pl-2 border-b border-b-[#ccc] cursor-pointer`}
+                    className={`${expandableStyle?.rows} h-12 pl-2 border-b border-b-[#ccc] cursor-pointer`}
                     onClick={() => handleRowToggle(rowIndex)}
                   >
-                    {expandedRows.has(rowIndex) ? (
+                    {expandedRows.has(rowIndex) || isExpanded ? (
                       <ChevronDown />
                     ) : (
                       <ChevronRight />
@@ -181,7 +201,7 @@ const DataTable = ({
                 {columns?.map((column, colIndex) => (
                   <td
                     key={colIndex}
-                    className={`${rowStyle} h-12 text-xs p-2 border-b border-b-[#ccc] break-all`}
+                    className={`${row?.style} ${column.rowStyle} h-12 text-xs p-2 border-b border-b-[#ccc] break-all`}
                   >
                     <span
                       className={`flex items-center justify-${getAlignment(
@@ -193,13 +213,15 @@ const DataTable = ({
                   </td>
                 ))}
               </tr>
-              {expandedRows.has(rowIndex) && (
+              {(expandedRows.has(rowIndex) || isExpanded) && (
                 <tr>
                   <td colSpan={columns.length + 1}>
                     {row.details ? (
                       row.details
                     ) : (
-                      <div className="m-3">No data to display</div>
+                      <div className={`m-3 ${expandableStyle?.rows}`}>
+                        No data to display
+                      </div>
                     )}
                   </td>
                 </tr>
