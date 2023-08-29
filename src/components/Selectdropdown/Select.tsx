@@ -322,7 +322,9 @@ const Select: React.FC<SelectProps> = ({
                     <li
                       key={index}
                       className={`p-[10px] group/item text-[14px] hover:bg-whiteSmoke font-normal cursor-pointer flex flex-row items-center ${
-                        addDynamicForm ? "justify-between" : ""
+                        addDynamicForm || addDynamicForm_Icons_Edit
+                          ? "justify-between"
+                          : ""
                       } ${
                         option.value === selectedOption?.value
                           ? "bg-whiteSmoke"
