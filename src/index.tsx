@@ -9,8 +9,8 @@ import CheckBox from "./components/Checkbox/Checkbox";
 import { Close } from "./components/Closebutton/Close";
 import { ColorPicker } from "./components/Colorpicker/Colorpicker";
 import DataTable from "./components/Datatable/Datatable";
-import { Calendar } from "./components/Datepicker/calendar";
-import { CalendarYear } from "./components/Datepicker/calendarYear";
+import { Datepicker } from "./components/Datepicker/datepicker";
+import { DatepickerYear } from "./components/Datepicker/datepickerYear";
 import Uploader from "./components/Fileupload/Fileupload";
 import InputMask from "./components/Inputmask/Inputmask";
 import { Loader } from "./components/Loader/Loader";
@@ -55,8 +55,8 @@ export {
     CheckBox,
     Close,
     ColorPicker,
-    Calendar,
-    CalendarYear,
+    Datepicker,
+    DatepickerYear,
     DataTable,
     Uploader,
     InputMask,

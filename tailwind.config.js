@@ -20,6 +20,7 @@ module.exports = {
       defaultOrange: "#664D03",
       defaultBlue: "#0A58CA",
       lightPrimary: "#A9ECE1",
+      lightGreen: '#E6F8F6',
       successColor: "#198754",
       darkBlue: "#0281B9",
       textGood: "#FFBF00",
@@ -36,6 +37,7 @@ module.exports = {
       lightYellow: '#FFC107',
       lightGray: "#F4F4F4",
       slatyGreen: "#CCF1EB",
+      textColor: "#333333",
       pinkSwan: '#B7B7B7',
     },
 

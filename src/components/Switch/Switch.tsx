@@ -36,7 +36,7 @@ const Switch: React.FC<SwitchProps> = ({ checked, disabled, variant }) => {
                 className={`group relative border-[1.5px] border-lightSilver ${variant === "invalid"
                         ? "hover:border-defaultRed"
                         : "hover:border-primary"
-                    } focus:outline-none bg-pureWhite rounded-full shadow-sm h-[22px] overflow-hidden w-[40px] relative ${disabled ? "cursor-not-allowed opacity-60 pointer-events-none" : ""
+                    } focus:outline-none bg-lightGray rounded-full shadow-sm h-[22px] overflow-hidden w-[40px] relative ${disabled ? "cursor-not-allowed opacity-60 pointer-events-none" : ""
                     }`}
                 id="btn"
                 onClick={handleClick}
@@ -62,7 +62,7 @@ const Switch: React.FC<SwitchProps> = ({ checked, disabled, variant }) => {
                         }`}
                 ></div>
                 <div
-                    className={`rounded-full bg-pureWhite absolute top-[4px] h-[13px] w-[13px] right-[4px]`}
+                    className={`rounded-full bg-lightGray absolute top-[4px] h-[13px] w-[13px] right-[4px]`}
                 ></div>
             </button>
         </>
