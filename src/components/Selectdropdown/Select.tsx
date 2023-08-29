@@ -66,7 +66,7 @@ interface SelectProps extends React.InputHTMLAttributes<HTMLInputElement> {
   addDynamicForm_Icons_Edit?: any;
 
   addDynamicForm_Icons_Delete?: any;
-
+  addDynamicForm_MaxLength?: number;
   onChangeText?: (value: any, label: any) => void;
 
   onClickButton?: (value: any) => void;
@@ -120,7 +120,7 @@ const Select: React.FC<SelectProps> = ({
   addDynamicForm_Label,
 
   addDynamicForm_Placeholder,
-
+  addDynamicForm_MaxLength,
   onClickButton,
 
   onChangeText,
@@ -274,14 +274,18 @@ const Select: React.FC<SelectProps> = ({
 
   const handleSubmit = () => {
     textName.trim().length <= 0 && setTextNameHasError(true);
-
-    inputLabel && setTextNameHasError(false);
+    inputLabel.trim().length <= 0 && setTextNameHasError(false);	
+    //inputLabel && setTextNameHasError(false);
 
     setErrMsg("");
 
     setError(false);
 
-    if ((textName.trim().length > 0 || inputLabel != "") && onClickButton) {
+    if (	
+      textNameError &&	
+      (textName.trim().length > 0 || inputLabel != "") &&	
+      onClickButton	
+    ) {
       onClickButton(editing);
 
       cleartextData();
@@ -504,6 +508,7 @@ const Select: React.FC<SelectProps> = ({
                       placeholder={addDynamicForm_Placeholder}
                       className="w-full"
                       value={editing ? inputLabel : textName}
+                      maxChar={addDynamicForm_MaxLength}
                       getValue={(e) => {
                         if (editing) {
                           setOpen(true);
