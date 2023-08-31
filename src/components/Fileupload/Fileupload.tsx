@@ -208,7 +208,7 @@ function Uploader({ multiSelect, variant, type }: UploaderProps) {
               variant === "small" ? "ml-[10px]" : "mt-4"
             } text-[14px] text-darkCharcoal `}
           >
-            Drag and Drop or <span className="text-teal-500">Browse</span> to
+            Drag and Drop or <span className="text-primary">Browse</span> to
             Upload
           </p>
         </div>
@@ -345,7 +345,7 @@ function Uploader({ multiSelect, variant, type }: UploaderProps) {
                   variant === "small" ? "ml-[10px]" : "mt-4"
                 } text-[14px] text-darkCharcoal `}
               >
-                Drag and Drop or <span className="text-teal-500">Browse</span>{" "}
+                Drag and Drop or <span className="text-primary">Browse</span>{" "}
                 to Upload
               </p>
             </div>

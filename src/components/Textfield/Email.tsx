@@ -145,7 +145,7 @@ const Email: React.FC<EmailProps> = ({
       >
         <input
           type="email"
-          className={`${className} py-1 border-b outline-none transition duration-600 w-full h-full ${disabled ? "text-slatyGrey" : "text-darkCharcoal"} ${err
+          className={`${className} ${err&&"text-defaultRed"} py-1 border-b outline-none transition duration-600 w-full h-full ${disabled ? "text-slatyGrey" : "text-darkCharcoal"} ${err
             ? "border-b-defaultRed"
             : focus
               ? "border-b-primary"

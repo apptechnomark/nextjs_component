@@ -249,7 +249,7 @@ const Password: React.FC<PasswordProps> = ({
         }`}
       >
         <input
-          className={`${className} py-1 border-b outline-none w-full pr-10 ${
+          className={`${className} ${err&&"text-defaultRed"} py-1 border-b outline-none w-full pr-10 ${
             err
               ? "border-defaultRed"
               : focus
@@ -278,9 +278,9 @@ const Password: React.FC<PasswordProps> = ({
       {type === "password" ? (
         <span
           className={`absolute ${
-            !label ? "top-2" : "top-7"
+            !label ? "top-2" : "top-6"
           } right-1 text-md sm:text-lg ${
-            err ? "text-defaultRed" : "text-[#979797]"
+            err ? "text-defaultRed" : "text-darkCharcoal"
           }`}
           onClick={() => setType("text")}
         >
@@ -289,9 +289,9 @@ const Password: React.FC<PasswordProps> = ({
       ) : (
         <span
           className={`absolute ${
-            !label ? "top-2" : "top-7"
-          } right-1 text-md sm:text-lg ${
-            err ? "text-defaultRed" : "text-[#979797]"
+            !label ? "top-2" : "top-6"
+          } right-[7px] text-md sm:text-lg ${
+            err ? "text-defaultRed" : "text-darkCharcoal"
           }`}
           onClick={() => setType("password")}
         >

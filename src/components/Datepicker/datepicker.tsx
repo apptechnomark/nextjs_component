@@ -2,6 +2,7 @@ import { generateDate, months } from "./utils/datepickerUtility";
 import React, { useEffect, useState, useRef } from "react";
 import style from "./Datepicker.module.scss";
 import ChevronLeftIcon from "./icons/ChevronLeft.js";
+import CalendarIcon from "./icons/CalendarIcon.js";
 
 interface DatepickerDate {
     date: Date;
@@ -177,14 +178,18 @@ const Datepicker = (props: any): JSX.Element => {
 
     return (
         <>
-            <div className="relative flex" ref={inputRef}>
+            <div className={`${"relative flex before:absolute before:bottom-0 before:left-0 before:block before:w-0 before:h-px before:bg-primary before:transition-width before:duration-[800ms] before:ease-in hover:before:w-full"
+                }`} ref={inputRef}>
                 <input
                     type="date"
-                    className={`peer block min-h-[auto] pl-1 w-full rounded border-2 bg-transparent px-3 py-[0.32rem] leading-[1.6] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 peer-focus:text-primary data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-500 dark:placeholder:text-neutral-500 dark:peer-focus:text-primary [&:not([data-te-input-placeholder-active])]:placeholder:opacity-1 text-black border-lightSilver`}
+                    className={`peer block min-h-[auto] pl-1 w-full border-b bg-transparent px-3 py-[0.32rem] border-lightSilver outline-none`}
                     onClick={calendarShow}
                     defaultValue={fullDate}
                     onChange={(e: any) => updateFromInput(e.target.value)}
                 />
+                <span className="absolute right-2 top-2.5">
+                    <CalendarIcon />
+                </span>
             </div>
             {toggleOpen && (
                 <div className="relative">

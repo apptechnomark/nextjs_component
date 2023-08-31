@@ -1,6 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import data from "./data";
+import countryCodes from "./countrycode";
+
 import { Select } from "../Selectdropdown/Select";
+import style from "./Tel.module.scss";
 
 interface TelInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
@@ -57,21 +60,30 @@ const Tel: React.FC<TelInputProps> = ({
   }
 
   const validateInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+
     if (e.target.value === "") {
       setErr(true);
       setErrorMsg("This is a required field!");
       getError(false);
-    } else if (e.target.value.length < 12) {
-      setErr(true);
-      // setErrorMsg("Please Enter valid 10 digits Phone Number.");  //old one statement
-      setErrorMsg("Please enter minimum 10 digits.");
-      getError(false);
-    } else if (e.target.value.length >= 12) {
-      setErr(false);
-      getError(true);
-    } else {
-      setErr(false);
-      getError(true);
+    }
+    else {
+      const selectedCountry = countryCodes.find(code => code.countryCode === selectedCountryCode);
+      const requiredLength = selectedCountry && selectedCountry.length;
+
+      if (e.target.value.length < requiredLength) {
+        setErr(true);
+        setErrorMsg(`Please enter minimum ${requiredLength} digits.`);
+        getError(false);
+      }
+      else if (e.target.value.length > requiredLength) {
+        setErr(true);
+        setErrorMsg(`Please enter maximum ${requiredLength} digits.`);
+        getError(false);
+      }
+      else {
+        setErr(false);
+        getError(true);
+      }
     }
   };
 
@@ -84,23 +96,24 @@ const Tel: React.FC<TelInputProps> = ({
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let inputValue = e.target.value || "";
+    // let inputValue = e.target.value || "";
     // inputValue = inputValue.replace(/\s/g, "");
-    inputValue = inputValue.replace(/[^\d]/g, "");
-    inputValue = inputValue.slice(0, 14);
+    // inputValue = inputValue.replace(/[^\d]/g, "");
+    // inputValue = inputValue.slice(0, 14);
 
-    let formattedValue = "";
-    for (let i = 0; i < inputValue.length; i++) {
-      if (i === 4 || i === 7 || i === 10) {
-        formattedValue += " ";
-      }
-      formattedValue += inputValue[i];
-    }
-    setValue(formattedValue);
+    // let formattedValue = "";
+    // for (let i = 0; i < inputValue.length; i++) {
+    //   if (i === 4 || i === 7 || i === 10) {
+    //     formattedValue += " ";
+    //   }
+    //   formattedValue += inputValue[i];
+    // }
+
+    setValue(e.target.value);
     if (err) {
       setErr(false);
     }
-    getValue(selectedCountryCode + " " + formattedValue);
+    getValue(selectedCountryCode + " " + e.target.value);
   };
 
   return (
@@ -108,13 +121,12 @@ const Tel: React.FC<TelInputProps> = ({
       {label && (
         <span className="flex">
           <label
-            className={`${
-              err
-                ? "text-defaultRed"
-                : focus
+            className={`${err
+              ? "text-defaultRed"
+              : focus
                 ? "text-primary"
                 : "text-slatyGrey"
-            }`}
+              }`}
           >
             {label}
           </label>
@@ -128,37 +140,36 @@ const Tel: React.FC<TelInputProps> = ({
         </span>
       )}
       <div
-        className={`flex ${
-          !err
-            ? "w-full relative before:absolute before:bottom-0 before:left-0 before:block before:w-0 before:h-px before:bg-primary before:transition-width before:duration-[800ms] before:ease-in hover:before:w-full"
-            : "w-full"
-        }`}
+        className={`flex ${!err
+          ? "w-full relative before:absolute before:bottom-0 before:left-0 before:block before:w-0 before:h-px before:bg-primary before:transition-width before:duration-[800ms] before:ease-in hover:before:w-full"
+          : "w-full"
+          }`}
       >
         <div
-          className={`flex border-b outline-none transition duration-600 w-full h-full ${
-            err
-              ? "border-b-defaultRed"
-              : focus
+          className={`flex border-b outline-none transition duration-600 w-full h-full ${err
+            ? "border-b-defaultRed"
+            : focus
               ? "border-b-primary"
               : "border-b-lightSilver"
-          }`}
+            }`}
         >
           {countryCode && (
-            <div className="w-[100px]">
+            <div className={`w-[128px] bg-pureWhite ${style.customScrollbar}`}>
               <Select
                 className="!border-none"
                 options={data}
                 id="basic"
+                search
                 getValue={(e) => {
                   setSelectedCountryCode(e);
                 }}
-                defaultValue="+91"
-                getError={(e) => {}}
+                defaultValue={selectedCountryCode}
+                getError={(e) => { }}
               />
             </div>
           )}
           <input
-            className={`${className} py-[4.5px] outline-none w-full h-full text-darkCharcoal`}
+            className={`${className} outline-none w-full h-full text-darkCharcoal`}
             ref={inputRef}
             type="tel"
             id={id}
@@ -168,10 +179,10 @@ const Tel: React.FC<TelInputProps> = ({
               onBlur
                 ? onBlur
                 : validate
-                ? validateInput
-                : !validate
-                ? focusHandler
-                : undefined
+                  ? validateInput
+                  : !validate
+                    ? focusHandler
+                    : undefined
             }
             onChange={handleInputChange}
             onFocus={handleFocus}
