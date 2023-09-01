@@ -28,6 +28,7 @@ interface DataTableProps {
   columns: Column[];
   data: any[];
   align?: "left" | "center" | "right";
+  overflow?: boolean;
   expandable?: boolean;
   isExpanded?: boolean;
   expandableStyle?: ExpandableStyle;
@@ -40,6 +41,7 @@ const DataTable = ({
   columns,
   data,
   align = "left",
+  overflow,
   expandable,
   isExpanded = false,
   expandableStyle,
@@ -134,7 +136,9 @@ const DataTable = ({
   };
 
   return (
-    <div className="h-full overflow-auto">
+    <div
+      className={`h-full ${overflow ? "overflow-auto" : "overflow-visible"}`}
+    >
       <table className="w-full">
         <thead>
           <tr
