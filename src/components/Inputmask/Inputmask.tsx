@@ -9,6 +9,7 @@ interface InputMaskProps {
   splitLengths?: number[];
   US?: boolean;
   label?: string;
+  getValue: (arg1: string) => void;
 }
 
 const InputMask: React.FC<InputMaskProps> = ({
@@ -19,6 +20,7 @@ const InputMask: React.FC<InputMaskProps> = ({
   splitLengths,
   US,
   label,
+  getValue
 }) => {
   var array: string[] | undefined;
   array = setPrefix ? setPrefix.split("") : [];
@@ -208,7 +210,9 @@ const InputMask: React.FC<InputMaskProps> = ({
       setValue(formattedValue);
     }
   };
-
+useEffect(()=>{
+getValue(value);
+},[value])
   const defaultLabel = getDefaultLabel(type);
   const defaultPlaceholder = getDefaultPlaceholder(type);
 
