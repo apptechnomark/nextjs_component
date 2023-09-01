@@ -1,7 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
 import data from "./data";
-import countryCodes from "./countrycode";
-
 import { Select } from "../Selectdropdown/Select";
 import style from "./Tel.module.scss";
 
@@ -60,16 +58,15 @@ const Tel: React.FC<TelInputProps> = ({
   }
 
   const validateInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-
     if (e.target.value === "") {
       setErr(true);
       setErrorMsg("This is a required field!");
       getError(false);
     }
     else {
-      const selectedCountry = countryCodes.find(code => code.countryCode === selectedCountryCode);
-      const requiredLength = selectedCountry && selectedCountry.length;
-
+      const selectedCountry = data.find(code => code.value === selectedCountryCode);
+      const requiredLength = selectedCountry && selectedCountry.telLength;
+      
       if (e.target.value.length < requiredLength) {
         setErr(true);
         setErrorMsg(`Please enter minimum ${requiredLength} digits.`);
@@ -96,9 +93,10 @@ const Tel: React.FC<TelInputProps> = ({
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // let inputValue = e.target.value || "";
-    // inputValue = inputValue.replace(/\s/g, "");
-    // inputValue = inputValue.replace(/[^\d]/g, "");
+    let inputValue = e.target.value || "";
+    inputValue = inputValue.replace(/\s/g, "");
+    inputValue = inputValue.replace(/[^\d]/g, "");
+
     // inputValue = inputValue.slice(0, 14);
 
     // let formattedValue = "";
@@ -109,11 +107,11 @@ const Tel: React.FC<TelInputProps> = ({
     //   formattedValue += inputValue[i];
     // }
 
-    setValue(e.target.value);
+    setValue(inputValue);
     if (err) {
       setErr(false);
     }
-    getValue(selectedCountryCode + " " + e.target.value);
+    getValue(inputValue);
   };
 
   return (

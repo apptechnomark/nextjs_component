@@ -14,6 +14,7 @@ interface MultiSelectChipProps {
   id?: string;
   label?: string;
   type?: string;
+  search?: string;
   className?: string;
   required?: boolean;
   avatar?: boolean;
@@ -38,6 +39,7 @@ const MultiSelectChip: React.FC<MultiSelectChipProps> = ({
   className,
   required = false,
   avatar,
+  search,
   avatarName,
   avatarImgUrl,
   errorMessage = "This is a required field.",
