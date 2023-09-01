@@ -186,18 +186,23 @@ const DataTable = ({
           {sortedData?.map((row, rowIndex) => (
             <React.Fragment key={rowIndex}>
               <tr className={`${hoverEffect ? "hover:bg-[#f2f2f2]" : ""}`}>
-                {expandable && (
-                  <td
-                    className={`${expandableStyle?.rows} h-12 pl-2 border-b border-b-[#ccc] cursor-pointer`}
-                    onClick={() => handleRowToggle(rowIndex)}
-                  >
-                    {expandedRows.has(rowIndex) || isExpanded ? (
-                      <ChevronDown />
-                    ) : (
-                      <ChevronRight />
-                    )}
-                  </td>
-                )}
+                {expandable &&
+                  (row.details ? (
+                    <td
+                      className={`${expandableStyle?.rows} h-12 pl-2 border-b border-b-[#ccc] cursor-pointer`}
+                      onClick={() => handleRowToggle(rowIndex)}
+                    >
+                      {expandedRows.has(rowIndex) || isExpanded ? (
+                        <ChevronDown />
+                      ) : (
+                        <ChevronRight />
+                      )}
+                    </td>
+                  ) : (
+                    <td
+                      className={`${expandableStyle?.rows} h-12 pl-2 border-b border-b-[#ccc] cursor-pointer`}
+                    ></td>
+                  ))}
                 {columns?.map((column, colIndex) => (
                   <td
                     key={colIndex}
