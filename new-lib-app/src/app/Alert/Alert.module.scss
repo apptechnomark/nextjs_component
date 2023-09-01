@@ -1,0 +1,59 @@
+.showAnimation {
+
+    animation: show 1s ease-in-out both;
+  
+  }
+  
+  
+  
+  
+  @keyframes show {
+  
+    0% {
+  
+      opacity: 0;
+  
+      transform: translateY(-100%);
+  
+    }
+  
+    100% {
+  
+      opacity: 1;
+  
+      transform: translateY(50%);
+  
+    }
+  
+  }
+  
+  
+  
+  
+  .hideAnimation {
+  
+      animation: hide 1s ease-in-out both;
+  
+    }
+  
+    
+  
+    @keyframes hide {
+  
+      0% {
+  
+        opacity: 1;
+  
+        transform: translateY(50%);
+  
+      }
+  
+      100% {
+  
+        opacity: 0;
+  
+        transform: translateY(-100%);
+  
+      }
+  
+    }
