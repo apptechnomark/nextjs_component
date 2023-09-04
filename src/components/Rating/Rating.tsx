@@ -26,6 +26,7 @@ const ratings: RatingItem[] = [
   { value: "1.5", isHalf: true },
   { value: "1", isHalf: false },
   { value: "0.5", isHalf: true },
+  
 ];
 
 const Rating: React.FC<Props> = ({
@@ -47,7 +48,6 @@ const Rating: React.FC<Props> = ({
     if (editable !== false) {
       setRating(event.target.value);
     }
-    console.log(event.target.name);
   };
 
   return (
@@ -67,7 +67,7 @@ const Rating: React.FC<Props> = ({
               id={`rating-${item.value}-${rateId}`}
               checked={rating === item.value}
               onChange={handleRatingChange}
-              disabled={!editable}
+              disabled={!editable || disabled}
             />
             <label
               className={`${styles.comment_stars_view} ${

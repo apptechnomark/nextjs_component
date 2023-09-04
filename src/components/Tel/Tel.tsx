@@ -155,13 +155,6 @@ const Tel: React.FC<TelInputProps> = ({
         >
           {countryCode && (
             <div className={`w-[128px] bg-pureWhite ${style.customScrollbar}`}>
-              {selectedCountryCode} <ReactCountryFlag countryCode="AF" svg style={{
-                width: '1.2em',
-                height: '1.2em',
-              }} />
-              {albanianFlag}
-
-              <span className="flag-icon flag-icon-us"></span>
               <Select
                 className="!border-none"
                 options={data}
