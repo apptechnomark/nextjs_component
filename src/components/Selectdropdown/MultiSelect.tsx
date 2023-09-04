@@ -12,7 +12,6 @@ interface MultiSelectProps {
   onSelect: (selectedValues: string[]) => void;
   label?: string;
   type?: string;
-  search?: string;
   className?: string;
   required?: boolean;
   defaultValue?: string;
@@ -38,7 +37,6 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
   required = false,
   defaultValue,
   avatar,
-  search,
   avatarName,
   avatarImgUrl,
   errorMessage = "This is a required field.",

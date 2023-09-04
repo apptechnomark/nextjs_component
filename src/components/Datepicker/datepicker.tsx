@@ -187,7 +187,7 @@ const Datepicker = (props: any): JSX.Element => {
                     defaultValue={fullDate}
                     onChange={(e: any) => updateFromInput(e.target.value)}
                 />
-                <span className="absolute right-2 top-2.5">
+                <span className="absolute right-2 top-2.5 cursor-pointer" onClick={calendarShow}>
                     <CalendarIcon />
                 </span>
             </div>

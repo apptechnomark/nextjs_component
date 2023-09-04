@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import data from "./data";
 import { Select } from "../Selectdropdown/Select";
 import style from "./Tel.module.scss";
+import ReactCountryFlag from "react-country-flag";
 
 interface TelInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
@@ -66,7 +67,7 @@ const Tel: React.FC<TelInputProps> = ({
     else {
       const selectedCountry = data.find(code => code.value === selectedCountryCode);
       const requiredLength = selectedCountry && selectedCountry.telLength;
-      
+
       if (e.target.value.length < requiredLength) {
         setErr(true);
         setErrorMsg(`Please enter minimum ${requiredLength} digits.`);
@@ -113,6 +114,7 @@ const Tel: React.FC<TelInputProps> = ({
     }
     getValue(inputValue);
   };
+  const albanianFlag = '\u{1F1E6}\u{1F1F1}';
 
   return (
     <div className="flex flex-col w-full text-[14px] relative">
@@ -153,6 +155,13 @@ const Tel: React.FC<TelInputProps> = ({
         >
           {countryCode && (
             <div className={`w-[128px] bg-pureWhite ${style.customScrollbar}`}>
+              {selectedCountryCode} <ReactCountryFlag countryCode="AF" svg style={{
+                width: '1.2em',
+                height: '1.2em',
+              }} />
+              {albanianFlag}
+
+              <span className="flag-icon flag-icon-us"></span>
               <Select
                 className="!border-none"
                 options={data}
