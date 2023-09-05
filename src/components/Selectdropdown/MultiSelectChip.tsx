@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 // Icon Components
 import CrossIcon from "./icons/CrossIcon.js";
 import ChevronDown from "./icons/ChevronDown.js";
-
+import { Text } from "../Textfield/Text.js";
 import { Avatar } from "../Avatar/Avatar.js";
 import CheckBox from "../Checkbox/Checkbox.js";
 
@@ -148,8 +148,8 @@ const MultiSelectChip: React.FC<MultiSelectChipProps> = ({
   );
 
   const selectedDisplay =
-    selected.length > 0 ? (
-      <div className="flex flex-wrap items-center">
+    selected.length > 0 && (
+      <div className="flex flex-wrap justify-center items-center">
         {selected.slice(0, 2).map((selectedValue) => {
           const selectedOption = options.find(
             (option) => option.value === selectedValue
@@ -157,7 +157,7 @@ const MultiSelectChip: React.FC<MultiSelectChipProps> = ({
           return (
             <div
               key={selectedValue}
-              className={`flex items-center  badge bg-[#E9ECEF] text-[#212529] border border-[#CED4DA] rounded-sm px-1 mr-[5px] mb-2 text-[14px] ${selectedOption?.label.length > 8 ? "max-w-[100px]" : ""
+              className={`flex items-center  badge bg-[#E9ECEF] text-[#212529] border border-[#CED4DA] rounded-sm px-1 mr-[3px] ml-[1px] mt-[1px] mb-2 text-[14px] ${selectedOption?.label.length > 8 ? "max-w-[100px]" : ""
                 }`}
             >
               <span title={selectedOption?.label}>
@@ -176,20 +176,16 @@ const MultiSelectChip: React.FC<MultiSelectChipProps> = ({
           );
         })}
         {selected.length > 2 && (
-          <div className="flex items-center badge bg-[#E9ECEF] text-darkCharcoal border border-[#CED4DA] rounded-sm px-1 mr-[5px] mb-2 text-[14px]">
+          <div className="flex items-center badge bg-[#E9ECEF] text-darkCharcoal border border-[#CED4DA] rounded-sm px-1 mb-2 text-[14px]">
             +{selected.length - 2}
           </div>
         )}
-      </div>
-    ) : (
-      <div className={`text-darkCharcoal ${open ? "text-primary" : ""}`}>
-        Please select
       </div>
     );
 
   return (
     <>
-      <div className={`relative w-full font-medium flex-row`} ref={selectRef}>
+      <div className={`relative font-medium`} ref={selectRef}>
         {label && (
           <label
             onClick={handleToggleOpen}
@@ -206,38 +202,42 @@ const MultiSelectChip: React.FC<MultiSelectChipProps> = ({
             {validate && <span className="text-defaultRed">&nbsp;*</span>}
           </label>
         )}
-        <div
-          onBlur={handleBlur}
-          onClick={handleToggleOpen}
-          className={`flex justify-between bg-white border-b text-[14px] font-normal  ${open
-            ? "text-primary cursor-default"
-            : selected.length === 0
-              ? "text-darkCharcoal cursor-pointer"
-              : ""
-            } ${selected.length > 0
-              ? "border-primary"
-              : error
-                ? "border-defaultRed"
-                : "border-lightSilver transition-colors duration-300 hover:border-primary"
-            } ${className}`}
-        >
-          {selectedDisplay}
-        </div>
 
-        <div className="flex flex-row items-center justify-center relative">
-          <input
-            id={id}
+
+        <div className="flex">
+          <div
             onBlur={handleBlur}
             onClick={handleToggleOpen}
-            onChange={(e) => setSearchInput(e.target.value)}
-            readOnly={!open}
-            placeholder="Please select"
-            // value={searchInput}
-            style={{ width: "191px" }}
-            className={`flex-grow bg-white outline-none text-darkCharcoal text-[14px] font-normal ${open ? "text-primary" : ""
-              } ${!open ? "cursor-pointer" : "cursor-default"} ${!open ? "placeholder-darkCharcoal" : "placeholder-primary"
-              }`}
-          />
+            className={`shrink-0 w-fit bg-white border-b max-h-[26px] text-[14px] font-normal  ${open
+              ? "text-primary cursor-default"
+              : selected.length === 0
+                ? "text-darkCharcoal cursor-pointer"
+                : ""
+              } ${selected.length > 0
+                ? "border-primary"
+                : error
+                  ? "border-defaultRed"
+                  : "border-lightSilver transition-colors duration-300 hover:border-primary"
+              } ${className}`}
+          >
+            {selectedDisplay}
+          </div>
+          <div className="flex-1 xsm:w-24 w-full">
+            <Text
+              id={id}
+              onBlur={handleBlur}
+              onClick={handleToggleOpen}
+              onChange={(e) => setSearchInput(e.target.value)}
+              readOnly={!open}
+              placeholder="Please select"
+              // value={searchInput}
+              getError={() => { }}
+              getValue={() => { }}
+              // style={{ width: "191px" }}
+              className={`bg-white outline-none text-darkCharcoal text-[14px] font-normal ${open ? "text-primary" : ""
+                } ${!open ? "cursor-pointer" : "cursor-default"} ${!open ? "placeholder-darkCharcoal" : "placeholder-primary"
+                }`} />
+          </div>
           <div
             onClick={handleToggleOpen}
             className={`text-[1.5rem] text-darkCharcoal cursor-pointer ${open ? "rotate-180" : ""
