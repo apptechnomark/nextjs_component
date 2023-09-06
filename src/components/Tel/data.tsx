@@ -1631,16 +1631,7 @@ const data = [
       <img src="https://flagcdn.com/pt.svg" width="24" alt="Portugal" />
     ),
   },
-  {
-    value: "+1",
-    label: "+1",
-    country: "Canada",
-    telLength: 10,
-    iso2: "ca",
-    JsxElement: (
-      <img src="https://flagcdn.com/ca.svg" width="24" alt="Canada" />
-    ),
-  },
+
   {
     value: "+974",
     label: "+974",
@@ -1669,16 +1660,6 @@ const data = [
     iso2: "ro",
     JsxElement: (
       <img src="https://flagcdn.com/ro.svg" width="24" alt="Romania" />
-    ),
-  },
-  {
-    value: "+7",
-    label: "+7",
-    country: "Kazakhstan",
-    telLength: 10,
-    iso2: "kz",
-    JsxElement: (
-      <img src="https://flagcdn.com/kz.svg" width="24" alt="Kazakhstan" />
     ),
   },
   {
@@ -1738,7 +1719,7 @@ const data = [
     telLength: 7,
     iso2: "vc",
     JsxElement: (
-      <img src="https://flagcdn.com/af.svg" width="24" alt="Saint Vincent And The Grenadines" />
+      <img src="https://flagcdn.com/vc.svg" width="24" alt="Saint Vincent And The Grenadines" />
     ),
   },
   {
@@ -2102,6 +2083,16 @@ const data = [
     ),
   },
   {
+    value: "+1",
+    label: "+1",
+    country: "United States of America",
+    telLength: 10,
+    iso2: "us",
+    JsxElement: (
+      <img src="https://flagcdn.com/us.svg" width="24" alt="United States of America" />
+    ),
+  },
+  {
     value: "+256",
     label: "+256",
     country: "Uganda",
@@ -2141,16 +2132,7 @@ const data = [
       <img src="https://flagcdn.com/gb.svg" width="24" alt="United Kingdom" />
     ),
   },
-  {
-    value: "+1",
-    label: "+1",
-    country: "Canada",
-    telLength: 10,
-    iso2: "ca",
-    JsxElement: (
-      <img src="https://flagcdn.com/ca.svg" width="24" alt="Canada" />
-    ),
-  },
+
   {
     value: "+598",
     label: "+598",

@@ -25,6 +25,7 @@ interface MultiSelectProps {
   supportingText?: string;
   errorClass?: string;
   validate?: boolean;
+  placeholder?: any;
 }
 
 const MultiSelect: React.FC<MultiSelectProps> = ({
@@ -46,6 +47,7 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
   getValue,
   errorClass,
   validate,
+  placeholder
 }) => {
   const selectRef = useRef<HTMLDivElement>(null);
   const [selectedValues, setSelectedValues] = useState<string[]>([]);
@@ -144,22 +146,22 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
     <>
       <div
         className={`relative font-medium w-full flex-row border-b ${selectedValues.length > 0
-            ? "border-primary"
-            : error
-              ? "border-defaultRed"
-              : "border-lightSilver hover:border-primary transition-colors duration-300"
+          ? "border-primary"
+          : error
+            ? "border-defaultRed"
+            : "border-lightSilver hover:border-primary transition-colors duration-300"
           } ${className}`}
         ref={selectRef}
       >
         {label && (
           <label
             className={`text-[14px] font-normal ${open
+              ? "text-primary"
+              : selectedValues.length > 0
                 ? "text-primary"
-                : selectedValues.length > 0
-                  ? "text-primary"
-                  : error
-                    ? "text-defaultRed"
-                    : "text-slatyGrey"
+                : error
+                  ? "text-defaultRed"
+                  : "text-slatyGrey"
               }`}
             htmlFor={id}
           >
@@ -178,7 +180,7 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
             placeholder={
               selectedValues.length > 0
                 ? `${selectedValues.length} selected`
-                : defaultValue || "Please select"
+                : open ? placeholder || "Search" : defaultValue || "Please select"
             }
             value={
               inputValue.length > 25
@@ -193,16 +195,15 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
           <div
             onClick={handleToggleOpen}
             className={`text-[1.5rem] text-darkCharcoal cursor-pointer ${open ? "rotate-180" : ""
-              }`}
-          >
+              }`}>
             <ChevronDown />
           </div>
         </div>
 
         <ul
           className={`absolute z-10 w-full bg-pureWhite mt-[1px] overflow-y-auto shadow-md transition-transform ${open
-              ? "max-h-60 translate-y-0 transition-opacity opacity-100 duration-500"
-              : "max-h-0 translate-y-20 transition-opacity opacity-0 duration-500"
+            ? "max-h-60 translate-y-0 transition-opacity opacity-100 duration-500"
+            : "max-h-0 translate-y-20 transition-opacity opacity-0 duration-500"
             } ${open ? "ease-out" : ""}`}
         >
           {options.length > 0 &&

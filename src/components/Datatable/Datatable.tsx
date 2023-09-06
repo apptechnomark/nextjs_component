@@ -22,6 +22,7 @@ interface Column {
   sortable: boolean;
   colStyle?: string;
   rowStyle?: string;
+  colalign?: "left" | "center" | "right";
 }
 
 interface DataTableProps {
@@ -84,8 +85,6 @@ const DataTable = ({
         const bProps = bValue.props as BComponentProps;
         const aPropValue = aProps.children;
         const bPropValue = bProps.children;
-
-        console.log(aPropValue, bPropValue);
 
         if (typeof aPropValue === "string" && typeof bPropValue === "string") {
           return sortConfig.direction === "asc"
@@ -158,7 +157,7 @@ const DataTable = ({
                 {column.sortable ? (
                   <span
                     className={`flex items-center justify-${getAlignment(
-                      align
+                      column.colalign
                     )} gap-2`}
                   >
                     {column.header}
@@ -172,7 +171,7 @@ const DataTable = ({
                 ) : (
                   <span
                     className={`flex items-center justify-${getAlignment(
-                      align
+                      column.colalign
                     )}`}
                   >
                     {column.header}
@@ -210,7 +209,7 @@ const DataTable = ({
                   >
                     <span
                       className={`flex items-center justify-${getAlignment(
-                        align
+                        column.colalign
                       )}`}
                     >
                       {row[column.accessor]}

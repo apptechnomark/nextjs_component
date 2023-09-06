@@ -27,6 +27,7 @@ interface MultiSelectChipProps {
   supportingText?: string;
   errorClass?: string;
   validate?: boolean;
+  placeholder?: any;
 }
 
 const MultiSelectChip: React.FC<MultiSelectChipProps> = ({
@@ -49,6 +50,7 @@ const MultiSelectChip: React.FC<MultiSelectChipProps> = ({
   getValue,
   errorClass,
   validate,
+  placeholder
 }) => {
   const [selected, setSelected] = useState<string[]>([]);
   const [open, setOpen] = useState(false);
@@ -204,7 +206,7 @@ const MultiSelectChip: React.FC<MultiSelectChipProps> = ({
         )}
 
 
-        <div className="flex">
+        <div className="flex relative">
           <div
             onBlur={handleBlur}
             onClick={handleToggleOpen}
@@ -229,20 +231,19 @@ const MultiSelectChip: React.FC<MultiSelectChipProps> = ({
               onClick={handleToggleOpen}
               onChange={(e) => setSearchInput(e.target.value)}
               readOnly={!open}
-              placeholder="Please select"
+              placeholder={open ? placeholder : "Please select"}
               // value={searchInput}
               getError={() => { }}
               getValue={() => { }}
-              // style={{ width: "191px" }}
               className={`bg-white outline-none text-darkCharcoal text-[14px] font-normal ${open ? "text-primary" : ""
                 } ${!open ? "cursor-pointer" : "cursor-default"} ${!open ? "placeholder-darkCharcoal" : "placeholder-primary"
                 }`} />
           </div>
+
           <div
             onClick={handleToggleOpen}
-            className={`text-[1.5rem] text-darkCharcoal cursor-pointer ${open ? "rotate-180" : ""
-              }`}
-          >
+            className={`absolute right-0 text-[1.5rem] text-darkCharcoal cursor-pointer ${open ? "rotate-180" : ""
+              }`}>
             <ChevronDown />
           </div>
         </div>
