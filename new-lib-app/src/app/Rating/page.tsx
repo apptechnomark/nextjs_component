@@ -48,10 +48,10 @@ const rating: React.FC = () => {
         </h2>
         <div className="pb-4 pl-6">
           <div className="my-6" >
-            <Rating rateId="rating5" selected="0" />
+            <Rating rateId="rating5" selected="0" disabled />
           </div>
           <div>
-            <Rating rateId="rating6" icon="heart" selected="0" />
+            <Rating rateId="rating6" icon="heart" selected="0" disabled />
           </div>
         </div>
       </div>

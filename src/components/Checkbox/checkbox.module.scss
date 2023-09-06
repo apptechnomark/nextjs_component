@@ -135,8 +135,8 @@ $defaultRed: #dc3545;
       line-height: 16px;
       user-select: none;
       > .checkBoxSpan {
-        width: 1em;
-        height: 1em;
+        width: 16px;
+        height: 16px;
         cursor: pointer;
         background: #fff;
         border-radius: 4px;
@@ -173,13 +173,13 @@ $defaultRed: #dc3545;
     + {
       .checkBoxLabel {
         > .checkBoxSpan {
-          border: 0.5em solid $primary;
+          border: 8px solid $primary;
           animation: shrink-bounce 200ms cubic-bezier(0.4, 0, 0.23, 1);
           &:before {
             content: "";
             position: absolute;
             top: 0.55em;
-            left: 0.15em;
+            left: 0.19em;
             border-right: 1px solid transparent;
             border-bottom: 1px solid transparent;
             transform: rotate(45deg);

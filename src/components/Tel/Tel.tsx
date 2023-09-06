@@ -1,7 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
 import data from "./data";
-import countryCodes from "./countrycode";
-
 import { Select } from "../Selectdropdown/Select";
 import style from "./Tel.module.scss";
 
@@ -39,7 +37,8 @@ const Tel: React.FC<TelInputProps> = ({
   const [err, setErr] = useState<boolean>(false);
   const [focus, setFocus] = useState<boolean>(false);
   const [value, setValue] = useState("");
-  const [selectedCountryCode, setSelectedCountryCode] = useState("+91");
+  const [selectedCountryCode, setSelectedCountryCode] = useState<any>("+91");
+  const [selectedCountryFlag, setSelectedCountryFlag] = useState<any>(<img src="https://flagcdn.com/in.svg" width="24" alt="India" />);
   const [errorMsg, setErrorMsg] = useState("");
 
   {
@@ -59,16 +58,20 @@ const Tel: React.FC<TelInputProps> = ({
       }, [hasError]);
   }
 
-  const validateInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+  useEffect(() => {
+    const selectedCountryJsxElement = data.find((item) => item.value == selectedCountryCode)?.JsxElement;
+    setSelectedCountryFlag(selectedCountryJsxElement)
+  }, [selectedCountryCode])
 
+  const validateInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.value === "") {
       setErr(true);
       setErrorMsg("This is a required field!");
       getError(false);
     }
     else {
-      const selectedCountry = countryCodes.find(code => code.countryCode === selectedCountryCode);
-      const requiredLength = selectedCountry && selectedCountry.length;
+      const selectedCountry = data.find(code => code.value === selectedCountryCode);
+      const requiredLength = selectedCountry && selectedCountry.telLength;
 
       if (e.target.value.length < requiredLength) {
         setErr(true);
@@ -96,9 +99,10 @@ const Tel: React.FC<TelInputProps> = ({
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // let inputValue = e.target.value || "";
-    // inputValue = inputValue.replace(/\s/g, "");
-    // inputValue = inputValue.replace(/[^\d]/g, "");
+    let inputValue = e.target.value || "";
+    inputValue = inputValue.replace(/\s/g, "");
+    inputValue = inputValue.replace(/[^\d]/g, "");
+
     // inputValue = inputValue.slice(0, 14);
 
     // let formattedValue = "";
@@ -109,11 +113,11 @@ const Tel: React.FC<TelInputProps> = ({
     //   formattedValue += inputValue[i];
     // }
 
-    setValue(e.target.value);
+    setValue(inputValue);
     if (err) {
       setErr(false);
     }
-    getValue(selectedCountryCode + " " + e.target.value);
+    getValue(inputValue);
   };
 
   return (
@@ -154,22 +158,30 @@ const Tel: React.FC<TelInputProps> = ({
             }`}
         >
           {countryCode && (
-            <div className={`w-[128px] bg-pureWhite ${style.customScrollbar}`}>
-              <Select
-                className="!border-none"
-                options={data}
-                id="basic"
-                search
-                getValue={(e) => {
-                  setSelectedCountryCode(e);
-                }}
-                defaultValue={selectedCountryCode}
-                getError={(e) => { }}
-              />
+            <div className={`bg-pureWhite ${style.customScrollbar}`}>
+              <div className="flex flex-row">
+                <div className="flex justify-center items-center h-6 w-6 ml-0.5 mr-1">
+                  {selectedCountryFlag}
+                </div>
+                <div className="flex w-[85px]">
+                  <Select
+                    className="!border-none"
+                    options={data}
+                    id="basic"
+                    placeholder={"Search"}
+                    search
+                    getValue={(e) => {
+                      setSelectedCountryCode(e);
+                    }}
+                    defaultValue={selectedCountryCode}
+                    getError={(e) => { }}
+                  />
+                </div>
+              </div>
             </div>
           )}
           <input
-            className={`${className} outline-none w-full h-full text-darkCharcoal`}
+            className={`${className} outline-none w-full h-full text-darkCharcoal ${err&&"text-defaultRed"} `}
             ref={inputRef}
             type="tel"
             id={id}

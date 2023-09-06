@@ -6,9 +6,9 @@ import { Tel } from "next-ts-lib";
 import "next-ts-lib/dist/index.css";
 
 const TelComponent: React.FC = () => {
-    const [phone, setPhone] = useState("");
-    const [phoneError, setPhoneError] = useState(false);
-    const [phoneHasError, setPhoneHasError] = useState(false);
+    const [phone, setPhone] = useState<string>("");
+    const [phoneError, setPhoneError] = useState<boolean>(false);
+    const [phoneHasError, setPhoneHasError] = useState<boolean>(false);
 
     return (
         <>
@@ -26,7 +26,7 @@ const TelComponent: React.FC = () => {
                             validate
                             required
                             value={phone}
-                            getValue={(e: any) => setPhone(e.slice(4))}
+                            getValue={(e: any) => setPhone(e)}
                             getError={(err: any) => setPhoneHasError(err)}
                             hasError={phoneError}
                             countryCode

@@ -6,18 +6,23 @@ import { Select, MultiSelect, MultiSelectChip } from "next-ts-lib";
 import "next-ts-lib/dist/index.css"
 
 const options = [
-    { label: "Option 1", value: "option 1" },
     { label: "Option 2", value: "option 2" },
     { label: "Option 3", value: "option 3" },
     { label: "Hello 1", value: "Hello 1" },
     { label: "Hello 11", value: "Hello 11" },
+    { label: "Hello 12", value: "Hello 12" },
+    { label: "Hello 13", value: "Hello 13" },
+    { label: "Hello 14", value: "Hello 14" },
 ];
 
 const options2 = [
-    { label: "Option 1", value: "option 11" },
     { label: "Option 2", value: "option 21" },
     { label: "Option 3", value: "option 31" },
     { label: "Hello 1", value: "Hello 1" },
+    { label: "Hello 11", value: "Hello 11" },
+    { label: "Hello 12", value: "Hello 12" },
+    { label: "Hello 13", value: "Hello 13" },
+    { label: "Hello 14", value: "Hello 14" },
 ];
 
 const SelectComponent: React.FC = () => {
@@ -59,14 +64,10 @@ const SelectComponent: React.FC = () => {
                         type="checkbox"
                         options={options}
                         id="basic"
-                        
                         onSelect={(value: any) => setSelectedValue(value)}
-                        getValue={function (value: string): void {
-                            throw new Error("Function not implemented.");
-                        }}
-                        getError={function (arg1: boolean): void {
-                            throw new Error("Function not implemented.");
-                        }}
+                        getValue={(value: any) => setOptionId(value)}
+                        getError={(e: any) => setOptionError(e)}
+                        hasError={optionError}
                     />
                 </div>
             </div>
@@ -80,13 +81,11 @@ const SelectComponent: React.FC = () => {
                         type="icons"
                         options={options2}
                         id="basic"
+                        placeholder="Search"
                         onSelect={(value: any) => setSelectedValue(value)}
-                        getValue={function (value: any): void {
-                            throw new Error("Function not implemented.");
-                        }}
-                        getError={function (arg1: boolean): void {
-                            throw new Error("Function not implemented.");
-                        }}
+                        getValue={(value: any) => setOptionId(value)}
+                        getError={(e: any) => setOptionError(e)}
+                        hasError={optionError}
                     />
                 </div>
             </div>

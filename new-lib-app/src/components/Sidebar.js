@@ -64,6 +64,11 @@ const sidebarItems = [
     icon: BsPalette,
   },
   {
+    name: "DataTable",
+    href: "/Datatable",
+    icon: BsTable,
+  },
+  {
     name: "Date Picker",
     href: "/Datepicker",
     icon: BsCalendarDate,

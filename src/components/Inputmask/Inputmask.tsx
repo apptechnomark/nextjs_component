@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import  Typography  from "../Typography/Typography";
+import Typography from "../Typography/Typography";
+import { Text } from "../Textfield/Text";
 
 interface InputMaskProps {
   type: string;
@@ -9,6 +10,7 @@ interface InputMaskProps {
   splitLengths?: number[];
   US?: boolean;
   label?: string;
+  getValue: (arg1: string) => void;
 }
 
 const InputMask: React.FC<InputMaskProps> = ({
@@ -19,12 +21,18 @@ const InputMask: React.FC<InputMaskProps> = ({
   splitLengths,
   US,
   label,
+  getValue
 }) => {
   var array: string[] | undefined;
   array = setPrefix ? setPrefix.split("") : [];
 
-  const [value, setValue] = useState("");
-  useEffect(() => {}, [value]);
+  const [value, setValue] = useState<string>("");
+  const [errorMessage, setErrorMessage] = useState<string>("");
+  const [hasErrorMessage, setHasErrorMessage] = useState<boolean>(false);
+  const [hasNoError, setHasNoError] = useState<boolean>(false);
+
+  // const [originalValue, setOriginalValue] = useState<string>("");
+  // const [maskedValue, setMaskedValue] = useState<string>("");
 
   const getDefaultLabel = (type: string) => {
     switch (type) {
@@ -66,6 +74,21 @@ const InputMask: React.FC<InputMaskProps> = ({
     }
   };
 
+  const getMaxLength = (type: string) => {
+    switch (type) {
+      case "time":
+        return 8;
+      case "phone":
+        return 12;
+      case "date":
+        return 10;
+      case "credit":
+        return 19;
+      default:
+        return undefined;
+    }
+  };
+
   const changeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     let inputValue = event.target.value || "";
 
@@ -95,6 +118,8 @@ const InputMask: React.FC<InputMaskProps> = ({
           currentIndex += length;
         }
         setValue(formattedValue);
+        getValue(formattedValue);
+
       } else {
         setValue(prefixValue);
       }
@@ -111,8 +136,10 @@ const InputMask: React.FC<InputMaskProps> = ({
         let finalResult = result.split("").reverse().join("");
 
         setValue(finalResult);
+        getValue(finalResult);
       }
     }
+
     //date inputmask
     else if (type === "date") {
       let inputValue = event.target.value || "";
@@ -120,55 +147,152 @@ const InputMask: React.FC<InputMaskProps> = ({
 
       let formattedValue = "";
       if (inputValue.length >= 1) {
-        formattedValue = inputValue.slice(0, 2);
+        if (US) {
+          const date = parseInt(inputValue.slice(0, 2));
+          if (date >= 1 && date <= 31) {
+            formattedValue = inputValue.slice(0, 2);
+          } else {
+            formattedValue = "31";
+          }
+        } else {
+          const month = parseInt(inputValue.slice(0, 2));
+          if (month >= 1 && month <= 12) {
+            formattedValue = inputValue.slice(0, 2);
+          } else {
+            formattedValue = "12";
+          }
+        }
       }
+
       if (inputValue.length >= 3) {
-        formattedValue += "/" + inputValue.slice(2, 4);
+        if (US) {
+          const month = parseInt(inputValue.slice(2, 4));
+          if (month >= 1 && month <= 12) {
+            formattedValue += "/" + inputValue.slice(2, 4);
+          } else {
+            formattedValue += "/12";
+          }
+        } else {
+          const date = parseInt(inputValue.slice(2, 4));
+          if (date >= 1 && date <= 31) {
+            formattedValue += "/" + inputValue.slice(2, 4);
+          } else {
+            formattedValue += "/31";
+          }
+        }
+
       }
       if (inputValue.length >= 5) {
-        formattedValue += "/" + inputValue.slice(4, 8);
+        const year = parseInt(inputValue.slice(4, 8));
+        if (year > 0 && year <= 2099) {
+          formattedValue += "/" + inputValue.slice(4, 8);
+        } else {
+          formattedValue += "/2099";
+        }
       }
+
       setValue(formattedValue);
+      getValue(formattedValue);
     }
+
     //time inputmask
     else if (type === "time") {
       let inputValue = event.target.value || "";
+      let updatedValue = inputValue.slice(0, 8);
       inputValue = inputValue.replace(/[^0-9]/g, "");
+      let hasError = false;
+
+      if (updatedValue == "00:00:00") {
+        hasError = true;
+        setErrorMessage("Time can't be 00:00:00");
+      } else {
+        setErrorMessage("");
+      }
 
       let formattedValue = "";
       if (inputValue.length >= 1) {
-        formattedValue = inputValue.slice(0, 2);
+        const hours = parseInt(inputValue.slice(0, 2));
+        if (hours >= 0 && hours <= 23) {
+          formattedValue = inputValue.slice(0, 2);
+        } else {
+          formattedValue = "23";
+        }
       }
+
       if (inputValue.length >= 3) {
-        formattedValue += ":" + inputValue.slice(2, 4);
+        const minutes = parseInt(inputValue.slice(2, 4));
+        if (minutes >= 0 && minutes <= 59) {
+          formattedValue += ":" + inputValue.slice(2, 4);
+        } else {
+          formattedValue += ":59";
+        }
       }
+
       if (inputValue.length >= 5) {
-        formattedValue += ":" + inputValue.slice(4, 6);
+        const seconds = parseInt(inputValue.slice(4, 6));
+        if (seconds >= 0 && seconds <= 59) {
+          formattedValue += ":" + inputValue.slice(4, 6);
+        } else {
+          formattedValue += ":59";
+        }
       }
+      setHasErrorMessage(hasError);
       setValue(formattedValue);
+      getValue(formattedValue);
     }
+
     //credit card inputmask
     else if (type === "credit") {
       let inputValue = event.target.value || "";
       inputValue = inputValue.replace(/\s/g, "");
       inputValue = inputValue.replace(/[^\d]/g, "");
       inputValue = inputValue.slice(0, 16);
-
+      let hasError = false;
       let formattedValue = "";
+
       for (let i = 0; i < inputValue.length; i++) {
         if (i > 0 && i % 4 === 0) {
           formattedValue += " ";
         }
         formattedValue += inputValue[i];
       }
+      if (formattedValue == "0000 0000 0000 0000") {
+        hasError = true;
+        setErrorMessage("Credit card number can't be 0000 0000 0000 0000");
+      } else {
+        setErrorMessage("");
+      }
+      setHasErrorMessage(hasError);
       setValue(formattedValue);
+      getValue(formattedValue);
+
+      //   let inputValue = event.target.value || "";
+      //   inputValue = inputValue.replace(/\s/g, "");
+      //   inputValue = inputValue.replace(/[^a-zA-Z0-9]/g, "");
+      //   inputValue = inputValue.slice(0, 16);
+      //   let newFormattedValue = "";
+
+      //   for (let i = 0; i < inputValue.length; i++) {
+      //     if (i > 11 && i <= 15) {
+      //       newFormattedValue += inputValue[i];
+      //     } else {
+      //       newFormattedValue += 'x';
+      //     }
+      //   }
+
+      //   // Update both original and masked values
+      //   setOriginalValue(inputValue);
+      //   setMaskedValue(newFormattedValue);
+      // }
     }
+
     //phone number inputmask
     else if (type === "phone") {
       let inputValue = event.target.value || "";
       inputValue = inputValue.replace(/\s/g, "");
       inputValue = inputValue.replace(/[^\d]/g, "");
       inputValue = inputValue.slice(0, 10);
+      let hasError = false;
 
       let formattedValue = "";
       for (let i = 0; i < inputValue.length; i++) {
@@ -177,7 +301,17 @@ const InputMask: React.FC<InputMaskProps> = ({
         }
         formattedValue += inputValue[i];
       }
+
+      if (formattedValue == "0000 000 000") {
+        hasError = true;
+        setErrorMessage("Phone number can't be 0000 000 000");
+      } else {
+        setErrorMessage("");
+      }
+      setHasErrorMessage(hasError);
       setValue(formattedValue);
+      getValue(formattedValue);
+
     }
     //delimiter inputmask
     else if (type === "delimiter") {
@@ -206,23 +340,52 @@ const InputMask: React.FC<InputMaskProps> = ({
         }
       }
       setValue(formattedValue);
+      getValue(formattedValue);
     }
   };
 
   const defaultLabel = getDefaultLabel(type);
   const defaultPlaceholder = getDefaultPlaceholder(type);
+  const maxLength = getMaxLength(type);
+
+  const handleBlur = () => {
+    if (type == "time" && hasErrorMessage) {
+      setHasErrorMessage(true);
+      setErrorMessage("Time can't be 00:00:00");
+    }
+    else if (type == "phone" && hasErrorMessage) {
+      setHasErrorMessage(true);
+      setErrorMessage("Phone number can't be 0000 000 000");
+    }
+    else if (type == "credit" && hasErrorMessage) {
+      setHasErrorMessage(true);
+      setErrorMessage("Credit card number can't be 0000 0000 0000 0000");
+    }
+    else if (value.trim() === "") {
+      setHasErrorMessage(true);
+      setErrorMessage("This is a required field!");
+    } else {
+      setHasErrorMessage(false);
+      setErrorMessage("");
+    }
+  };
 
   return (
     <>
-      <Typography type='label' className="block text-slatyGrey">
+      <Typography type="label" className="block text-slatyGrey">
         {label || defaultLabel}
       </Typography>
-      <input
-        type="text"
-        className={`${className} block w-full border-b-[1px] border-lightSilver outline-none bg-transparent`}
+      <Text
         onChange={changeHandler}
         value={value}
+        onBlur={handleBlur}
         placeholder={defaultPlaceholder}
+        validate
+        maxLength={maxLength}
+        errorMessage={errorMessage}
+        getValue={(e: any) => setValue(e)}
+        getError={(e: any) => setHasNoError(e)}
+        hasError={hasErrorMessage}
       />
     </>
   );

@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React, { useState } from "react";
 import BaseLayout from "../../components/BaseLayout";
@@ -7,8 +7,6 @@ import "next-ts-lib/dist/index.css";
 
 const page: React.FC = () => {
   const [selected, setSelected] = useState<string>("");
-  console.log(selected);
-  
 
   return (
     <BaseLayout>

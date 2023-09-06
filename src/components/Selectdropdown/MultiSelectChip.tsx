@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 // Icon Components
 import CrossIcon from "./icons/CrossIcon.js";
 import ChevronDown from "./icons/ChevronDown.js";
-
+import { Text } from "../Textfield/Text.js";
 import { Avatar } from "../Avatar/Avatar.js";
 import CheckBox from "../Checkbox/Checkbox.js";
 
@@ -14,6 +14,7 @@ interface MultiSelectChipProps {
   id?: string;
   label?: string;
   type?: string;
+  search?: string;
   className?: string;
   required?: boolean;
   avatar?: boolean;
@@ -26,6 +27,7 @@ interface MultiSelectChipProps {
   supportingText?: string;
   errorClass?: string;
   validate?: boolean;
+  placeholder?: any;
 }
 
 const MultiSelectChip: React.FC<MultiSelectChipProps> = ({
@@ -38,6 +40,7 @@ const MultiSelectChip: React.FC<MultiSelectChipProps> = ({
   className,
   required = false,
   avatar,
+  search,
   avatarName,
   avatarImgUrl,
   errorMessage = "This is a required field.",
@@ -47,13 +50,14 @@ const MultiSelectChip: React.FC<MultiSelectChipProps> = ({
   getValue,
   errorClass,
   validate,
+  placeholder
 }) => {
   const [selected, setSelected] = useState<string[]>([]);
   const [open, setOpen] = useState(false);
   const selectRef = useRef<HTMLDivElement>(null);
-  const [error, setError] = useState(false);
-  const [errMsg, setErrMsg] = useState("");
-
+  const [error, setError] = useState<boolean>(false);
+  const [errMsg, setErrMsg] = useState<string>("");
+  const [searchInput, setSearchInput] = useState<string>("");
   {
     validate &&
       useEffect(() => {
@@ -69,6 +73,7 @@ const MultiSelectChip: React.FC<MultiSelectChipProps> = ({
         setSelected(defaultValue);
       }, [defaultValue]);
   }
+
 
   const handleBlur = () => {
     if (validate) {
@@ -139,9 +144,14 @@ const MultiSelectChip: React.FC<MultiSelectChipProps> = ({
     setOpen((prevState) => !prevState);
   };
 
+  // Filter options based on search input
+  const filteredOptions = options.filter((option) =>
+    option.label.toLowerCase().includes(searchInput.toLowerCase())
+  );
+
   const selectedDisplay =
-    selected.length > 0 ? (
-      <div className="flex flex-wrap items-center">
+    selected.length > 0 && (
+      <div className="flex flex-wrap justify-center items-center">
         {selected.slice(0, 2).map((selectedValue) => {
           const selectedOption = options.find(
             (option) => option.value === selectedValue
@@ -149,7 +159,7 @@ const MultiSelectChip: React.FC<MultiSelectChipProps> = ({
           return (
             <div
               key={selectedValue}
-              className={`flex items-center badge bg-[#E9ECEF] text-[#212529] border border-[#CED4DA] rounded-sm px-1 mr-[5px] mb-2 text-[14px] ${selectedOption?.label.length > 8 ? "max-w-[100px]" : ""
+              className={`flex items-center  badge bg-[#E9ECEF] text-[#212529] border border-[#CED4DA] rounded-sm px-1 mr-[3px] ml-[1px] mt-[1px] mb-2 text-[14px] ${selectedOption?.label.length > 8 ? "max-w-[100px]" : ""
                 }`}
             >
               <span title={selectedOption?.label}>
@@ -168,68 +178,80 @@ const MultiSelectChip: React.FC<MultiSelectChipProps> = ({
           );
         })}
         {selected.length > 2 && (
-          <div className="flex items-center badge bg-[#E9ECEF] text-darkCharcoal border border-[#CED4DA] rounded-sm px-1 mr-[5px] mb-2 text-[14px]">
+          <div className="flex items-center badge bg-[#E9ECEF] text-darkCharcoal border border-[#CED4DA] rounded-sm px-1 mb-2 text-[14px]">
             +{selected.length - 2}
           </div>
         )}
-      </div>
-    ) : (
-      <div className={`text-darkCharcoal ${open ? "text-primary" : ""}`}>
-        Please Select...
       </div>
     );
 
   return (
     <>
-      <div className={`relative w-full font-medium flex-row`} ref={selectRef}>
+      <div className={`relative font-medium`} ref={selectRef}>
         {label && (
           <label
             onClick={handleToggleOpen}
             className={`text-[14px] font-normal ${open
+              ? "text-primary"
+              : selected.length > 0
                 ? "text-primary"
-                : selected.length > 0
-                  ? "text-primary"
-                  : error
-                    ? "text-defaultRed"
-                    : "text-slatyGrey"
+                : error
+                  ? "text-defaultRed"
+                  : "text-slatyGrey"
               }`}
           >
             {label}
             {validate && <span className="text-defaultRed">&nbsp;*</span>}
           </label>
         )}
-        <div
-          onBlur={handleBlur}
-          onClick={handleToggleOpen}
-          className={`flex justify-between bg-white border-b text-[14px] font-normal  ${open
+
+
+        <div className="flex relative">
+          <div
+            onBlur={handleBlur}
+            onClick={handleToggleOpen}
+            className={`shrink-0 w-fit bg-white border-b max-h-[26px] text-[14px] font-normal  ${open
               ? "text-primary cursor-default"
               : selected.length === 0
                 ? "text-darkCharcoal cursor-pointer"
                 : ""
-            } ${selected.length > 0
-              ? "border-primary"
-              : error
-                ? "border-defaultRed"
-                : "border-lightSilver transition-colors duration-300 hover:border-primary"
-            } ${className}`}
-        >
-          {selectedDisplay}
+              } ${selected.length > 0
+                ? "border-primary"
+                : error
+                  ? "border-defaultRed"
+                  : "border-lightSilver transition-colors duration-300 hover:border-primary"
+              } ${className}`}
+          >
+            {selectedDisplay}
+          </div>
+          <div className="flex-1 xsm:w-24 w-full">
+            <Text
+              id={id}
+              onBlur={handleBlur}
+              onClick={handleToggleOpen}
+              onChange={(e) => setSearchInput(e.target.value)}
+              readOnly={!open}
+              placeholder={open ? placeholder : "Please select"}
+              // value={searchInput}
+              getError={() => { }}
+              getValue={() => { }}
+              className={`bg-white outline-none text-darkCharcoal text-[14px] font-normal ${open ? "text-primary" : ""
+                } ${!open ? "cursor-pointer" : "cursor-default"} ${!open ? "placeholder-darkCharcoal" : "placeholder-primary"
+                }`} />
+          </div>
 
           <div
             onClick={handleToggleOpen}
-            className={`text-[1.5rem] text-darkCharcoal cursor-pointer ${open ? "rotate-180" : ""
-              }`}
-          >
-            <span onClick={handleToggleOpen}>
-              <ChevronDown />
-            </span>
+            className={`absolute right-0 text-[1.5rem] text-darkCharcoal cursor-pointer ${open ? "rotate-180" : ""
+              }`}>
+            <ChevronDown />
           </div>
         </div>
 
         <ul
           className={`absolute z-10 bg-pureWhite mt-[1px] overflow-y-auto shadow-md transition-transform ${open
-              ? "max-h-60 translate-y-0 transition-opacity opacity-100 duration-500 ease-out"
-              : "max-h-0 translate-y-20 transition-opacity opacity-0 duration-500 ease-out"
+            ? "max-h-60 translate-y-0 transition-opacity opacity-100 duration-500 ease-out"
+            : "max-h-0 translate-y-20 transition-opacity opacity-0 duration-500 ease-out"
             }`}
           // Setting the width inline style based on the client width of the parent div
           style={{ width: selectRef.current?.clientWidth }}
@@ -240,8 +262,8 @@ const MultiSelectChip: React.FC<MultiSelectChipProps> = ({
           >
             Clear All
           </li>
-          {options.length > 0 &&
-            options.map((option, index) => (
+          {filteredOptions.length > 0 &&
+            filteredOptions.map((option, index) => (
               <li
                 key={index}
                 className={`p-3 text-[14px] hover:bg-whiteSmoke font-normal cursor-pointer flex ${selected.includes(option.value) ? "bg-whiteSmoke" : ""
@@ -261,7 +283,6 @@ const MultiSelectChip: React.FC<MultiSelectChipProps> = ({
                     />
                   </div>
                 )}
-
                 {type === "checkbox" && (
                   <CheckBox
                     id={option.value + Math.random()}

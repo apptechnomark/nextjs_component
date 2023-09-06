@@ -162,7 +162,7 @@ const Table: React.FC<TableProps> = (props) => {
   const nestedKey = props.expandable ? detectExpandableKey() : null;
   return (
     <div
-      className={`scrollable-table w-full overflow-x-auto h-screen ${props.className} ${Style.table_container}`}
+      className={`w-full h-screen ${props.className} ${Style.table_container}`}
     >
       <table className="w-full">
         <thead>

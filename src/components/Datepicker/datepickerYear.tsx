@@ -57,7 +57,7 @@ const DatepickerYear = (props: any): JSX.Element => {
         selectedMonth ? setAnimate(style.slideRightAnimation) : setAnimate("");
         const formattedMonth = month < 10 ? `0${month}` : `${month}`;
         const formattedYear = selectedYear.toString();
-        const updatedDate = `${formattedYear}-${formattedMonth}`;
+        const updatedDate = `${formattedMonth}/${formattedYear}`;
         setFullDate(updatedDate);
         setToggleOpen(false);
     };
@@ -143,13 +143,15 @@ const DatepickerYear = (props: any): JSX.Element => {
             <div className={`${"relative flex before:absolute before:bottom-0 before:left-0 before:block before:w-0 before:h-px before:bg-primary before:transition-width before:duration-[800ms] before:ease-in hover:before:w-full"
                 }`} ref={inputRef}>
                 <input
-                    type="month"
-                    className={`peer block min-h-[auto] pl-1 w-full border-b bg-transparent px-3 py-[0.32rem] border-lightSilver outline-none`}
+                    type={toggleOpen ? "month" : "text"}
+                    className={`placeholder-pureBlack placeholder-opacity-100 peer block min-h-[auto] pl-1 w-full border-b bg-transparent px-3 py-[0.32rem] border-lightSilver outline-none`}
                     onClick={calendarShow}
+                    placeholder="mm/yyyy"
+                    readOnly={!toggleOpen && true}
                     defaultValue={fullDate.toString()}
                     onChange={(e) => updateFromInput(e.target.value)}
                 />
-                <span className="absolute right-2 top-2.5">
+                <span className="absolute right-2 top-2.5 cursor-pointer" onClick={calendarShow}>
                     <CalendarIcon />
                 </span>
             </div>

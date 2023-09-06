@@ -22,6 +22,7 @@ interface Column {
   sortable: boolean;
   colStyle?: string;
   rowStyle?: string;
+  colalign?: "left" | "center" | "right";
 }
 
 interface DataTableProps {
@@ -85,8 +86,6 @@ const DataTable = ({
         const aPropValue = aProps.children;
         const bPropValue = bProps.children;
 
-        console.log(aPropValue, bPropValue);
-
         if (typeof aPropValue === "string" && typeof bPropValue === "string") {
           return sortConfig.direction === "asc"
             ? aPropValue.localeCompare(bPropValue)
@@ -134,7 +133,7 @@ const DataTable = ({
   };
 
   return (
-    <div className="h-full overflow-auto">
+    <div className={`h-full`}>
       <table className="w-full">
         <thead>
           <tr
@@ -158,7 +157,7 @@ const DataTable = ({
                 {column.sortable ? (
                   <span
                     className={`flex items-center justify-${getAlignment(
-                      align
+                      column.colalign
                     )} gap-2`}
                   >
                     {column.header}
@@ -172,7 +171,7 @@ const DataTable = ({
                 ) : (
                   <span
                     className={`flex items-center justify-${getAlignment(
-                      align
+                      column.colalign
                     )}`}
                   >
                     {column.header}
@@ -186,18 +185,23 @@ const DataTable = ({
           {sortedData?.map((row, rowIndex) => (
             <React.Fragment key={rowIndex}>
               <tr className={`${hoverEffect ? "hover:bg-[#f2f2f2]" : ""}`}>
-                {expandable && (
-                  <td
-                    className={`${expandableStyle?.rows} h-12 pl-2 border-b border-b-[#ccc] cursor-pointer`}
-                    onClick={() => handleRowToggle(rowIndex)}
-                  >
-                    {expandedRows.has(rowIndex) || isExpanded ? (
-                      <ChevronDown />
-                    ) : (
-                      <ChevronRight />
-                    )}
-                  </td>
-                )}
+                {expandable &&
+                  (row.details ? (
+                    <td
+                      className={`${expandableStyle?.rows} h-12 pl-2 border-b border-b-[#ccc] cursor-pointer`}
+                      onClick={() => handleRowToggle(rowIndex)}
+                    >
+                      {expandedRows.has(rowIndex) || isExpanded ? (
+                        <ChevronDown />
+                      ) : (
+                        <ChevronRight />
+                      )}
+                    </td>
+                  ) : (
+                    <td
+                      className={`${expandableStyle?.rows} h-12 pl-2 border-b border-b-[#ccc] cursor-pointer`}
+                    ></td>
+                  ))}
                 {columns?.map((column, colIndex) => (
                   <td
                     key={colIndex}
@@ -205,7 +209,7 @@ const DataTable = ({
                   >
                     <span
                       className={`flex items-center justify-${getAlignment(
-                        align
+                        column.colalign
                       )}`}
                     >
                       {row[column.accessor]}

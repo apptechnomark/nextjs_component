@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import BaseLayout from "../../components/BaseLayout";
-import { CheckBox, Switch, Table } from "next-ts-lib";
-import "next-ts-lib/dist/index.css"
+import { CheckBox, Switch, Table, Tooltip } from "next-ts-lib";
+import "next-ts-lib/dist/index.css";
 import AcceptIcon from "./icons/AcceptIcon";
 
 export default function Home() {
@@ -11,9 +11,7 @@ export default function Home() {
 
   console.log(dummyData);
   if (dummyData === "Add") {
-
   }
-
 
   // const headers = [
   //   { heading: "ID", field: "id", sort: true },
@@ -25,7 +23,7 @@ export default function Home() {
     {
       heading: "Module",
       field: "module",
-      sort: false,
+      sort: true,
     },
     {
       heading: "View",
@@ -36,19 +34,16 @@ export default function Home() {
       heading: "Edit",
       field: "edit",
       sort: false,
-
     },
     {
       heading: "Create",
       field: "create",
       sort: false,
-
     },
     {
       heading: "Import",
       field: "import",
       sort: false,
-
     },
     {
       heading: "Sync",
@@ -61,30 +56,42 @@ export default function Home() {
     {
       userId: 1,
       module: "Common",
-      children:
-        [
-          {
-            userID: "Vendor",
-            view: <Switch />,
-            Edit: <CheckBox id={""} />,
-            Create: <CheckBox id={""} />,
-            import: <CheckBox id={""} />,
-            Sync: <CheckBox id={""} />,
-          },
-          {
-            id: "Documents",
-            view: <CheckBox id={""} />,
-            Edit: "",
-            Create: <CheckBox id={""} />,
-            import: "",
-            Sync: "",
-          }
-        ]
+      children: [
+        {
+          userID: "Vendor",
+          view: <CheckBox id={""} />,
+          Edit: <CheckBox id={""} />,
+          Create: <CheckBox id={""} />,
+          import: <CheckBox id={""} />,
+          Sync: <CheckBox id={""} />,
+        },
+        {
+          id: "Documents",
+          view: <CheckBox id={""} />,
+          Edit: "",
+          Create: <CheckBox id={""} />,
+          import: "",
+          Sync: "",
+        },
+      ],
     },
-    { id: 2, module: "Purchase Order", view: <CheckBox id={"v1"} />, edit: <CheckBox id={"e1"} />, create: <CheckBox id={"c1"} /> },
-    { module: "Bill Posting", view: <CheckBox id={"v2"} />, edit: <CheckBox id={"e2"} />, create: <CheckBox id={"c2"} />, import: <CheckBox id={"i1"} /> },
     {
-      module: "Approval", children: [
+      id: 2,
+      module: "Purchase Order",
+      view: <CheckBox id={"v1"} />,
+      edit: <CheckBox id={"e1"} />,
+      create: <CheckBox id={"c1"} />,
+    },
+    {
+      module: "Bill Posting",
+      view: <CheckBox id={"v2"} />,
+      edit: <CheckBox id={"e2"} />,
+      create: <CheckBox id={"c2"} />,
+      import: <CheckBox id={"i1"} />,
+    },
+    {
+      module: "Approval",
+      children: [
         {
           id: "Bill Approval",
           view: <CheckBox id={""} />,
@@ -108,23 +115,38 @@ export default function Home() {
           Create: "",
           import: "",
           Sync: "",
-        }
-      ]
+        },
+      ],
     },
-    { module: "Automation", view: <CheckBox id={"v3"} />, edit: <CheckBox id={"e3"} />, create: <CheckBox id={"c3"} /> },
+    {
+      module: "Automation",
+      view: <CheckBox id={"v3"} />,
+      edit: <CheckBox id={"e3"} />,
+      create: <CheckBox id={"c3"} />,
+    },
     { module: "Master Configuration" },
-    { module: "Notification", view: <CheckBox id={"v4"} />, edit: <CheckBox id={"e4"} /> },
-    { module: "Cloud Configuration", view: <CheckBox id={"v5"} />, edit: <CheckBox id={"e5"} /> },
+    {
+      module: "Notification",
+      view: <CheckBox id={"v4"} />,
+      edit: <CheckBox id={"e4"} />,
+    },
+    {
+      module: "Cloud Configuration",
+      view: <CheckBox id={"v5"} />,
+      edit: <CheckBox id={"e5"} />,
+    },
     { module: "Rights Management" },
     { module: "Payments" },
     {
-      module: "Reports", children: [{
-        Alvish: "Bill Analysis",
-      }, {
-        id: "Vendor Aging",
-
-
-      }]
+      module: "Reports",
+      children: [
+        {
+          Alvish: "Bill Analysis",
+        },
+        {
+          id: "Vendor Aging",
+        },
+      ],
     },
   ];
   // const data = [
@@ -173,22 +195,19 @@ export default function Home() {
   // ];
   const actionButtons = (
     <span className="flex justify-center items-center cursor-pointer">
-      <AcceptIcon />
+      <Tooltip position="top" content="Action"className="z-10">
+        <AcceptIcon />
+      </Tooltip>
     </span>
   );
-  const actions = [
-    actionButtons
-  ];
-
+  const actions = [actionButtons];
 
   // const dummy = {
   //     thumbnail: (item: any) => <Switch checked />,
   //     status:(item: any) => <Switch checked />,
   // }
 
-  const actionarry = [
-    "Add", "Update", "Delete"
-  ]
+  const actionarry = ["Add", "Update", "Delete"];
 
   // if (!data || data.length === 0) {
   //   return <div>No data available.</div>; // Render a message or loading state
@@ -205,35 +224,52 @@ export default function Home() {
             Basic
           </h2>
           <div className="h-auto ml-7">
-
-      <Table
-        data={Alvish}
-        headers={headers}
-        actions={actions}
-        getRowId={(data: any) => {
-          console.log(data);
-
-        }}
-        // JsxComponents={dummy}
-        actionDesc={actionarry}
-        getAction={setDummyData}
-        // actionSticky
-        // expandableHeading ={false}
-        expandable
-        sticky={true}
-        sortable
-        action
-      // selected
-      />
-
-
-      </div>
+            <Table
+              data={Alvish}
+              headers={headers}
+              actions={actions}
+              getRowId={(data: any) => {
+                console.log(data);
+              }}
+              // JsxComponents={dummy}
+              actionDesc={actionarry}
+              getAction={setDummyData}
+              // actionSticky
+              // expandableHeading ={false}
+              expandable
+              // sticky={true}
+              sortable
+              action
+              selected
+            />
+          </div>
+        </div>
+        <div className="p-2 m-3 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+          <h2 className="m-7 text-xl tracking-tight text-gray-900 dark:text-white">
+            Sticky Header
+          </h2>
+          <div className="h-auto ml-7">
+            <Table
+              data={Alvish}
+              headers={headers}
+              actions={actions}
+              getRowId={(data: any) => {
+                console.log(data);
+              }}
+              // JsxComponents={dummy}
+              actionDesc={actionarry}
+              getAction={setDummyData}
+              // actionSticky
+              // expandableHeading ={false}
+              expandable
+              sticky={true}
+              sortable
+              action
+              // selected
+            />
+          </div>
         </div>
       </BaseLayout>
     </>
   );
 }
-
-
-
-

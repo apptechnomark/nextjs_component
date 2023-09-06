@@ -32,7 +32,7 @@ const avatar = () => {
                     <Avatar
                         name="John Doe"
                         badge
-                        badgeText="99"
+                        badgeText="999999"
                     />
                     <Avatar
                         name="John Doe"

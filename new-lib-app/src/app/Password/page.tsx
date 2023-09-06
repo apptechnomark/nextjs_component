@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useState } from 'react'
 import { Password } from 'next-ts-lib'
 import BaseLayout from "../../components/BaseLayout"
@@ -8,6 +8,7 @@ export default function password() {
     const [password, setPassword] = useState("");
     const [passwordError, setPasswordError] = useState(false);
     const [passwordHasNoError, setPasswordHasNoError] = useState(false);
+    
     return (
         <BaseLayout>
             <h5 className="m-5 pt-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Password</h5>

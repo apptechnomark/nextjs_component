@@ -43,13 +43,13 @@ const Switch: React.FC<SwitchProps> = ({ checked, disabled, variant }) => {
                 disabled={disabled}
             >
                 <div
-                    className={`rounded-full ${getColorClasses()} absolute top-[4px] h-[13px] w-[13px] left-[4px] transition-transform duration-[800ms] linear`}
+                    className={`rounded-full ${getColorClasses()} absolute top-[3.5px] h-[13px] w-[13px] left-[4.5px] transition-transform duration-[800ms] linear`}
                     style={{
                         transform: isChecked ? "scale(4.5)" : "scale(1)",
                     }}
                 ></div>
                 <div
-                    className="rounded-full bg-pureWhite absolute top-[4px] h-[13px] w-[13px] right-[4px] transition-transform duration-[800ms] linear"
+                    className="rounded-full bg-pureWhite absolute top-[3px] h-[13px] w-[13px] right-[4px] transition-transform duration-[800ms] linear"
                     style={{
                         transform: isChecked ? "scale(1)" : "scale(1)",
                     }}
@@ -58,11 +58,11 @@ const Switch: React.FC<SwitchProps> = ({ checked, disabled, variant }) => {
                     className={`absolute rounded-full ${variant === "invalid"
                             ? "group-hover:delay-0 group-hover:bg-defaultRed"
                             : " group-hover:delay-0 group-hover:bg-primary"
-                        } absolute top-[20%] h-[13px] w-[13px] left-[4px] ${isChecked ? { getColorClasses } : "delay-[450ms] bg-pinkSwan"
+                        } absolute top-[15%] h-[14px] w-[14px] left-[4px] ${isChecked ? { getColorClasses } : "delay-[450ms] bg-pinkSwan"
                         }`}
                 ></div>
                 <div
-                    className={`rounded-full bg-lightGray absolute top-[4px] h-[13px] w-[13px] right-[4px]`}
+                    className={`rounded-full bg-lightGray absolute top-[3px] h-[13px] w-[13px] right-[4px]`}
                 ></div>
             </button>
         </>

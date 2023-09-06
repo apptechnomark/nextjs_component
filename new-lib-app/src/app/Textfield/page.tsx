@@ -19,11 +19,9 @@ const textfield = () => {
         </h2>
 
         <div className="pt-3 pl-7 mb-5 gap-8">
-          <Text label="text" id="text" name="text" getValue={() => {
-            console.log("Enter Value");
-          }} getError={function (arg1: boolean): void {
-            throw new Error("Function not implemented.");
-          }}></Text>
+          <Text label="text" id="text" name="text"
+            getValue={() => {}} 
+           getError={() => {}}></Text>
         </div>
       </div>
       <div className="p-2  m-3 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
@@ -31,11 +29,8 @@ const textfield = () => {
           Required
         </h2>
         <div className="pt-3 pl-7 mb-5 gap-8">
-          <Text label="text" validate id="text" name="text" getValue={() => {
-            console.log("Enter Value");
-          }} getError={function (arg1: boolean): void {
-            throw new Error("Function not implemented.");
-          }}></Text>
+          <Text label="text" validate id="text" name="text"
+            getValue={() => {}}getError={() => {}}></Text>
         </div>
       </div>
       <div className="p-2  m-3 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
@@ -50,11 +45,7 @@ const textfield = () => {
             name="email"
             type="email"
             validate
-            getValue={() => {
-              console.log("Enter Value");
-            }} getError={function (arg1: boolean): void {
-              throw new Error("Function not implemented.");
-            }}          ></Email>
+            getValue={() => {}}getError={() => {}}          ></Email>
         </div>
       </div>
     </BaseLayout>
