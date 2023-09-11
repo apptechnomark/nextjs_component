@@ -6,7 +6,7 @@ import { ColorPicker } from "next-ts-lib";
 import "next-ts-lib/dist/index.css";
 
 const ColorPickerComponent: React.FC = () => {
-    const [rgbaColorValue, setRgbaColorValue] = useState<string>("");
+    const [colorName, setColorName] = useState<string>("");
 
     return (
         <BaseLayout>
@@ -18,8 +18,11 @@ const ColorPickerComponent: React.FC = () => {
                     Basic
                 </h2>
                 <div className="pb-4 pl-7">
-                    <ColorPicker onChange={()=>{console.log("click");
-                    }}
+                    <ColorPicker
+                        value={colorName}
+                        onChange={(e:any) => {
+                            setColorName(e);
+                        }}
                     />
                 </div>
             </div>
