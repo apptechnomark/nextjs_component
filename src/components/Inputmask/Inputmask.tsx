@@ -349,7 +349,24 @@ const InputMask: React.FC<InputMaskProps> = ({
   const maxLength = getMaxLength(type);
 
   const handleBlur = () => {
-    if (type == "time" && hasErrorMessage) {
+    if (type === "phone") {
+      if (value.length < 12) {
+        setHasErrorMessage(true);
+        setErrorMessage("Minimum 10 digits required");
+      } else {
+        setHasErrorMessage(false);
+        setErrorMessage("");
+      }
+    }
+    if (type === "credit") {
+      if (value.length < 12) {
+        setHasErrorMessage(true);
+        setErrorMessage("Minimum 16 digits required");
+      } else {
+        setHasErrorMessage(false);
+        setErrorMessage("");
+      }
+    } else if (type == "time" && hasErrorMessage) {
       setHasErrorMessage(true);
       setErrorMessage("Time can't be 00:00:00");
     }
