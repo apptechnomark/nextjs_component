@@ -58,6 +58,8 @@ const MultiSelectChip: React.FC<MultiSelectChipProps> = ({
   const [error, setError] = useState<boolean>(false);
   const [errMsg, setErrMsg] = useState<string>("");
   const [searchInput, setSearchInput] = useState<string>("");
+  const isFirefox = typeof window !== 'undefined' && /Firefox\//.test(navigator.userAgent);
+
   {
     validate &&
       useEffect(() => {
@@ -220,7 +222,11 @@ const MultiSelectChip: React.FC<MultiSelectChipProps> = ({
                 : error
                   ? "border-defaultRed"
                   : "border-lightSilver transition-colors duration-300 hover:border-primary"
-              } ${className}`}
+              } ${className} @layer base {
+                @screen firefox {
+                  margin-top: 1rem;
+                }
+              }  ${isFirefox ? "mt-1" : ""}`}
           >
             {selectedDisplay}
           </div>

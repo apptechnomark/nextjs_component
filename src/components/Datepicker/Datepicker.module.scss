@@ -90,3 +90,9 @@ input[type=month] {
     -webkit-appearance: none;
   }
 }
+
+
+/* Add a class to hide the calendar icon */
+.hide-calendar-icon::-webkit-calendar-picker-indicator {
+  display: none;
+}

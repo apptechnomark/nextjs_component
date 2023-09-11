@@ -113,7 +113,8 @@ const Datepicker = (props: any): JSX.Element => {
         setToggleOpen(true);
     };
 
-    const handleIconClick = (isNextMonth: boolean) => {
+    const handleIconClick = (isNextMonth: boolean) => 
+    {
         const newDate = new Date(today);
         const year = newDate.getFullYear();
         if (isNextMonth) {
