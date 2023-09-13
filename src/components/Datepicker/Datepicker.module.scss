@@ -82,8 +82,8 @@
   }
 }
 
-input[type=date],
-input[type=month] {
+input[type="date"],
+input[type="month"] {
   &::-webkit-inner-spin-button,
   &::-webkit-calendar-picker-indicator {
     display: none;
@@ -91,8 +91,6 @@ input[type=month] {
   }
 }
 
-
-/* Add a class to hide the calendar icon */
-.hide-calendar-icon::-webkit-calendar-picker-indicator {
+input[type="date"]::-moz-calendar-picker-indicator {
   display: none;
 }
