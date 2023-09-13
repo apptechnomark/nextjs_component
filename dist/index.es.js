@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 
 /******************************************************************************
 Copyright (c) Microsoft Corporation.
@@ -17,6 +17,18 @@ PERFORMANCE OF THIS SOFTWARE.
 /* global Reflect, Promise */
 
 
+function __rest(s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
+}
+
 function __spreadArray(to, from, pack) {
     if (pack || arguments.length === 2) for (var i = 0, l = from.length, ar; i < l; i++) {
         if (ar || !(i in from)) {
@@ -27,70 +39,115 @@ function __spreadArray(to, from, pack) {
     return to.concat(ar || Array.prototype.slice.call(from));
 }
 
-var Table = function Table(props) {
-  var _a = useState(props.data),
-    filteredData = _a[0],
-    setFilteredData = _a[1];
-  var _b = useState(""),
-    sortingColumn = _b[0],
-    setSortingColumn = _b[1];
-  var _c = useState("asc"),
-    sortingOrder = _c[0],
-    setSortingOrder = _c[1];
-  var handleSort = function handleSort(column) {
-    var sortedData = __spreadArray([], filteredData, true);
-    var newSortingOrder = "asc";
-    if (column === sortingColumn && sortingOrder === "asc") {
-      newSortingOrder = "desc";
+var NavigationBar = function NavigationBar(_a) {
+  _a.className;
+    _a.disabled;
+    var getValue = _a.getValue,
+    tabs = _a.tabs,
+    visibleTab = _a.visibleTab;
+    __rest(_a, ["className", "disabled", "getValue", "tabs", "visibleTab"]);
+  var selectRef = useRef(null);
+  var _b = useState(0),
+    selectedTabIndex = _b[0],
+    setSelectedTabIndex = _b[1];
+  var _c = useState(tabs[0].id),
+    tab = _c[0],
+    setTab = _c[1];
+  var _d = useState(tabs.slice(0, visibleTab)),
+    visibleTabs = _d[0],
+    setVisibleTabs = _d[1];
+  var _e = useState(tabs.slice(visibleTab)),
+    dropdownTabs = _e[0],
+    setDropdownTabs = _e[1];
+  var _f = useState(false),
+    isOpen = _f[0],
+    setIsOpen = _f[1];
+  var handleTabClick = function handleTabClick(tabId, index) {
+    var clickedTab = dropdownTabs[index];
+    var lastVisibleTab = visibleTabs[visibleTabs.length - 1];
+    // Check if the clicked tab is already visible, then return
+    if (visibleTabs.some(function (tab) {
+      return tab.id === tabId;
+    })) {
+      setTab(tabId); // Update the tab state
+      setSelectedTabIndex(index);
+      return;
     }
-    sortedData.sort(function (a, b) {
-      var valueA = a[column];
-      var valueB = b[column];
-      if (typeof valueA === "string" && typeof valueB === "string") {
-        return valueA.localeCompare(valueB);
-      } else if (typeof valueA === "number" && typeof valueB === "number") {
-        return valueA - valueB;
-      } else {
-        return 0;
-      }
+    // Find the index of the clicked tab in the dropdownTabs array
+    var clickedTabIndexInDropdown = dropdownTabs.findIndex(function (tab) {
+      return tab.id === tabId;
     });
-    if (newSortingOrder === "desc") {
-      sortedData.reverse();
+    // Update the state to swap the tabs
+    var updatedVisibleTabs = __spreadArray([], visibleTabs, true);
+    var updatedDropdownTabs = __spreadArray([], dropdownTabs, true);
+    // Replace the last visible tab with the clicked tab
+    updatedVisibleTabs[visibleTabs.length - 1] = clickedTab;
+    // If the clicked tab is already in the dropdown, replace it with the last visible tab
+    if (clickedTabIndexInDropdown !== -1) {
+      updatedDropdownTabs[clickedTabIndexInDropdown] = lastVisibleTab;
+      // Find the new index of the selected tab in the visible tabs
+      var newSelectedTabIndex = updatedVisibleTabs.findIndex(function (tab) {
+        return tab.id === tabId;
+      });
+      setSelectedTabIndex(newSelectedTabIndex);
+    } else {
+      // If the clicked tab is not in the dropdown, add the last visible tab to the beginning of the dropdown
+      updatedDropdownTabs.unshift(lastVisibleTab);
+      setSelectedTabIndex(visibleTabs.length + clickedTabIndexInDropdown);
     }
-    setFilteredData(sortedData);
-    setSortingColumn(column);
-    setSortingOrder(newSortingOrder);
+    setTab(tabId);
+    setVisibleTabs(updatedVisibleTabs);
+    setDropdownTabs(updatedDropdownTabs);
   };
-  return React.createElement("div", {
-    className: "w-full"
-  }, React.createElement("table", {
-    className: "w-full"
-  }, React.createElement("thead", null, React.createElement("tr", {
-    className: "bg-pureWhite border border-t-pureBlack border-b-pureBlack h-[48px]"
-  }, props.headers.map(function (header) {
-    return React.createElement("th", {
-      key: header,
-      className: "cursor-pointer uppercase text-[16px] text-center font-proxima font-bold",
-      onClick: function onClick() {
-        return handleSort(header);
+  useEffect(function () {
+    getValue(tab);
+  }, [tab]);
+  // To Toggle Tab-list
+  var handleToggleOpen = function handleToggleOpen() {
+    setIsOpen(!isOpen);
+  };
+  useEffect(function () {
+    var handleOutsideClick = function handleOutsideClick(event) {
+      if (selectRef.current && !selectRef.current.contains(event.target)) {
+        setIsOpen(false);
       }
-    }, header, sortingColumn === header && React.createElement("span", null, sortingOrder === "asc" ? "▲" : "▼"));
-  }))), React.createElement("tbody", null, filteredData.map(function (item, index) {
-    return React.createElement("tr", {
-      key: index,
-      className: "h-[56px] border border-b-lightSilver cursor-default hover:bg-whiteSmoke"
-    }, props.headers.map(function (header) {
-      return React.createElement("td", {
-        key: header,
-        className: "py-[19px] px-[20px] text-center text-base font-proxima font-normal"
-      }, typeof item[header] === "string" && item[header].startsWith("http") ? React.createElement("img", {
-        src: item[header],
-        alt: "Item",
-        className: "max-w-[50px] max-h-[50px] rounded"
-      }) : item[header]);
-    }));
-  }))));
+    };
+    window.addEventListener("click", handleOutsideClick);
+    return function () {
+      window.removeEventListener("click", handleOutsideClick);
+    };
+  }, []);
+  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
+    className: "flex items-center py-[10px]"
+  }, visibleTabs.map(function (tab, index) {
+    return /*#__PURE__*/React.createElement("div", {
+      onClick: function onClick() {
+        return handleTabClick(tab.id, index);
+      },
+      key: tab.id + index
+    }, /*#__PURE__*/React.createElement("label", {
+      className: "border-r ".concat(index > tabs.length - 2 ? "border-none" : "border-r-lightSilver", " px-[20px] cursor-pointer ").concat(selectedTabIndex === index ? "text-primary text-base font-semibold" : "text-slatyGrey font-medium text-sm")
+    }, tab.label));
+  }), visibleTab < tabs.length && /*#__PURE__*/React.createElement("div", {
+    ref: selectRef,
+    className: "cursor-pointer"
+  }, /*#__PURE__*/React.createElement("span", {
+    onClick: handleToggleOpen
+  }, "M"), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("ul", {
+    className: "absolute w-[215px] py-2 z-[1] bg-pureWhite overflow-y-auto transition-transform drop-shadow-lg ".concat(isOpen ? "max-h-full translate-y-0 transition-opacity opacity-100 duration-500 ease-out" : "max-h-0 translate-y-20 transition-opacity opacity-0 duration-500", " ")
+  }, dropdownTabs.map(function (tab, index) {
+    return /*#__PURE__*/React.createElement("li", {
+      key: tab.id,
+      onClick: function onClick() {
+        return handleTabClick(tab.id,
+        // visibleTabs.length +
+        index);
+      },
+      className: "p-2 hover:bg-whiteSmoke font-normal text-base cursor-pointer flex"
+    }, /*#__PURE__*/React.createElement("label", {
+      className: "cursor-pointer"
+    }, tab.label));
+  }))))));
 };
 
-export { Table as default };
-//# sourceMappingURL=index.es.js.map
+export { NavigationBar };
