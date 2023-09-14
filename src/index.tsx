@@ -1,4 +1,6 @@
-import Table from './components/Table';
-import './style.css'
+export { default as Card } from './components/Card';
+export { default as CardHeader} from './components/CardHeader'
+export { default as CardContent} from './components/CardContent'
+export { default as CardAction} from './components/CardAction'
 
-export default Table;
+import './style.css';

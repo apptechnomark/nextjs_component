@@ -1,0 +1,48 @@
+'use client'
+
+import React, { useState } from 'react';
+import { Modal, ModalTitle, ModalContent, ModalAction } from 'modal_lib';
+import 'modal_lib/dist/index.css';
+import { Close } from 'closebutton';
+import "closebutton/dist/index.css"
+
+const Home: React.FC = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const openModal = () => {
+    setIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsOpen(false);
+  };
+
+  return (
+    <div>
+      <button onClick={openModal} className="bg-blue-500 text-white px-4 py-2 rounded">
+        Open Modal
+      </button>
+      {isOpen && (
+        <Modal isOpen={isOpen} onClose={closeModal} size='lg'>
+          <ModalTitle>
+            <h2>Modal Title</h2>
+            <Close />
+          </ModalTitle>
+          <ModalContent>
+            This is Modal Content
+          </ModalContent>
+          <ModalAction >
+            <button onClick={closeModal} className="bg-red-500 text-white px-4 py-2 rounded mr-2">
+              Cancel
+            </button>
+            <button onClick={closeModal} className="bg-green-500 text-white px-4 py-2 rounded">
+              Save Changes
+            </button>
+          </ModalAction>
+        </Modal>
+      )}
+    </div>
+  );
+};
+
+export default Home;
