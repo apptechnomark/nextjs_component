@@ -31,6 +31,8 @@ function __rest(s, e) {
     return t;
 }
 
+var styles = {"slideRight":"navigation-module_slideRight__HDj5L","slideLeft":"navigation-module_slideLeft__OaWnh"};
+
 var Navigation = function Navigation(_a) {
   _a.className;
     _a.disabled;
@@ -43,24 +45,34 @@ var Navigation = function Navigation(_a) {
   var _c = React.useState(tabs[0].id),
     tab = _c[0],
     setTab = _c[1];
+  var _d = React.useState(false),
+    isOpen = _d[0],
+    setIsOpen = _d[1];
+  var _e = React.useState(null),
+    clickedLabel = _e[0],
+    setClickedLabel = _e[1];
   var handleTabClick = function handleTabClick(tabId, index) {
     setTab(tabId);
     setSelectedTabIndex(index);
+    setIsOpen(!isOpen);
+    setClickedLabel(tabId);
   };
   React.useEffect(function () {
     getValue(tab);
   }, [tab]);
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
-    className: "flex justify-center items-center py-[10px]"
+    className: "flex h-[60px] gap-1 justify-center max-w-full items-center py-[18px]"
   }, tabs.map(function (tab, index) {
     return /*#__PURE__*/React.createElement("div", {
-      className: "flex",
+      className: "flex h-6 max-w-auto  px-5 justify-center items-center",
       onClick: function onClick() {
         return handleTabClick(tab.id, index);
       },
       key: tab.id + index
-    }, tab.icon, /*#__PURE__*/React.createElement("label", {
-      className: "px-5 cursor-pointer ".concat(selectedTabIndex === index ? "text-primary text-base font-semibold" : "text-slatyGrey font-medium text-sm")
+    }, /*#__PURE__*/React.createElement("span", {
+      className: "cursor-pointer ".concat(clickedLabel === tab.id ? styles.slideRight : "")
+    }, tab.icon), selectedTabIndex === index && /*#__PURE__*/React.createElement("label", {
+      className: "pl-2.5 pr-5 ".concat(selectedTabIndex === index ? "text-primary text-base font-semibold" : "text-slatyGrey font-medium text-sm", " ").concat(clickedLabel === tab.id ? styles.slideRight : "")
     }, tab.label));
   })));
 };
