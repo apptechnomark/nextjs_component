@@ -1,1 +1,1 @@
-export { Spinner } from "./components/Spinner";
+export { Menu } from "./components/Menu";
