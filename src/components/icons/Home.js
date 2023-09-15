@@ -1,13 +1,22 @@
-import React from 'react'
+import React from "react";
 
-const Home = () => {
+const Home = (props) => {
     return (
         <div>
-            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M6 14H4V7H6V14ZM10 14H8V4H10V14ZM14 14H12V10H14V14ZM16 16H2V2H16V16.1V16ZM16 0H2C0.9 0 0 0.9 0 2V16C0 17.1 0.9 18 2 18H16C17.1 18 18 17.1 18 16V2C18 0.9 17.1 0 16 0Z" fill="#333333" />
+            <svg
+                width="25"
+                height="24"
+                viewBox="0 0 25 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+            >
+                <path
+                    d="M9.5 17H7.5V10H9.5V17ZM13.5 17H11.5V7H13.5V17ZM17.5 17H15.5V13H17.5V17ZM19.5 19H5.5V5H19.5V19.1V19ZM19.5 3H5.5C4.4 3 3.5 3.9 3.5 5V19C3.5 20.1 4.4 21 5.5 21H19.5C20.6 21 21.5 20.1 21.5 19V5C21.5 3.9 20.6 3 19.5 3Z"
+                    fill={props.bgColor}
+                />
             </svg>
         </div>
-    )
-}
+    );
+};
 
-export default Home
+export default Home;
