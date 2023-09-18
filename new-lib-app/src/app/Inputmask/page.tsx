@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import BaseLayout from "../../components/BaseLayout";
 import { InputMask } from "next-ts-lib";
 import "next-ts-lib/dist/index.css";
- 
+
 const inputMask: React.FC = () => {
   const [value, setValue] = useState("");
 

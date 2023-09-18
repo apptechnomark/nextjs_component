@@ -82,11 +82,15 @@
   }
 }
 
-input[type=date],
-input[type=month] {
+input[type="date"],
+input[type="month"] {
   &::-webkit-inner-spin-button,
   &::-webkit-calendar-picker-indicator {
     display: none;
     -webkit-appearance: none;
   }
+}
+
+input[type="date"]::-moz-calendar-picker-indicator {
+  display: none;
 }

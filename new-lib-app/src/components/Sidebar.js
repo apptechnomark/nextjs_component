@@ -3,7 +3,7 @@ import { AiOutlineCloseCircle, AiOutlineLoading3Quarters } from "react-icons/ai"
 import { BiMask, BiDialpad, BiToggleLeft } from "react-icons/bi"
 import { GoTypography, GoAlert, GoCheckbox } from "react-icons/go"
 import { RxButton, RxAvatar, RxDropdownMenu } from "react-icons/rx"
-import { BsCursorText, BsCalendarDate, BsSegmentedNav, BsPalette, BsUpload, BsBarChartSteps, BsTelephonePlus, BsTable } from "react-icons/bs"
+import { BsCursorText, BsCalendarDate, BsSegmentedNav, BsPalette, BsUpload, BsBarChartSteps, BsTelephonePlus, BsTable,BsCardHeading } from "react-icons/bs"
 import { TbTooltip, TbBoxMultiple } from "react-icons/tb"
 import { GrToast } from "react-icons/gr"
 import { IoMdTime } from "react-icons/io"
@@ -48,6 +48,11 @@ const sidebarItems = [
     icon: RxButton,
   },
   {
+    name: "Card",
+    href: "/Card",
+    icon: BsCardHeading,
+  },
+  {
     name: "Checkbox",
     href: "/Checkbox",
     icon: GoCheckbox,
@@ -61,6 +66,11 @@ const sidebarItems = [
   {
     name: "Color Picker",
     href: "/Colorpicker",
+    icon: BsPalette,
+  },
+  {
+    name: "Country Select Dropdown",
+    href: "/CountrySelect",
     icon: BsPalette,
   },
   {
@@ -89,8 +99,18 @@ const sidebarItems = [
     icon: AiOutlineLoading3Quarters,
   },
   {
+    name: "Menu Icon",
+    href: "/MenuIcon",
+    icon: AiOutlineLoading3Quarters,
+  },
+  {
     name: "Modal",
     href: "/Modal",
+    icon: TbBoxMultiple,
+  },
+  {
+    name: "Navigation Bar",
+    href: "/NavigationBar",
     icon: TbBoxMultiple,
   },
   {
