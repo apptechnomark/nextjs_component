@@ -298,7 +298,7 @@ const CountrySelect: React.FC<CountryCodeProps> = ({
                             className={`absolute w-full bg-pureWhite mt-[1px] overflow-y-auto shadow-md transition-transform ${open
                                 ? "max-h-60 translate-y-0 transition-opacity opacity-100 duration-500 ease-out"
                                 : "max-h-0 translate-y-20 transition-opacity opacity-0 duration-500"
-                                } ${open ? "" : ""}`}
+                                } `}
                         >
                             <li className="relative max-h-[215px] flex flex-col overflow-y-auto">
                                 <ul>

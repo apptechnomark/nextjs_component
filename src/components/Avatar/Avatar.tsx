@@ -1,6 +1,6 @@
 import React, { FC, ReactNode, SyntheticEvent } from "react";
 import styles from "./Avatar.module.scss";
-import Badge  from "../Badge/Badge";
+import Badge from "../Badge/Badge";
 
 interface AvatarProps {
   imageUrl?: string;
@@ -148,10 +148,15 @@ const Avatar: FC<AvatarProps> = ({
       {badge && (
         <span
           className={`absolute ${
-            type === "square" ? "-top-1 -right-2" : "top-0 -right-1"
+            type === "square" ? "-top-1 -right-2" : (badgeText && badgeText.length > 1) ? "-top-1 -right-3":`-top-1 ${variant === "small" ? "-right-1": "-right-0 -top-0"}`
           }`}
         >
-          <Badge badgetype="primary" variant="dot" text={badgeText} />
+          <Badge
+            badgetype="primary"
+            width={badgeText && badgeText.length > 1 ? 27:undefined}
+            variant="dot"
+            text={badgeText}
+          />
         </span>
       )}
     </div>
@@ -176,7 +181,11 @@ const AvatarGroup: FC<AvatarGroupProps> = ({
   if (React.Children.count(children) > show) {
     const remainingCount = React.Children.count(children) - show;
     const visibleChildren = React.Children.toArray(children).slice(0, show);
-    const finalCount = remainingCount.toString().split("").toString().replace(/,/g," ")
+    const finalCount = remainingCount
+      .toString()
+      .split("")
+      .toString()
+      .replace(/,/g, " ");
 
     return (
       <div className={`${styles.avatarGroup} flex items-center justify-center`}>
