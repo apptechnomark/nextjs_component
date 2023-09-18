@@ -1,7 +1,7 @@
 import { Accordion } from "./components/Accordian/Accordian";
 import { Alert } from "./components/Alert/Alert";
 import { Avatar } from "./components/Avatar/Avatar";
-import { AvatarGroup } from "./components/Avatar/Avatar";
+import { AvatarGroup } from "./components/Avatar/Avatar"; 
 import Badge from "./components/Badge/Badge";
 import Breadcrumb from "./components/Breadcrumb/Breadcrumb";
 import { Button } from "./components/Button/Button";
