@@ -31,6 +31,8 @@ const Loader: React.FC<LoaderProps> = ({ size, helperText }) => {
         width={svgSize}
         height={svgSize}
         viewBox="0 0 133 132"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
       >
         <g clipPath="url(#clip0_5047_872358)">
           <rect
