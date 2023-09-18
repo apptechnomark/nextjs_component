@@ -14,9 +14,21 @@ interface BadgeProps {
     | "primary";
   variant: "pill" | "dot";
   effect?: boolean;
+  classname?: string;
+  width?: number;
+  height?: number;
 }
 
-const Badge = ({ text, badgetype, variant, effect }: BadgeProps) => {
+const Badge = ({
+  text,
+  badgetype,
+  variant,
+  effect,
+  classname,
+  width,
+  height,
+}: BadgeProps) => {
+
   const getColor = (type: string) => {
     switch (type) {
       case "dark":
@@ -51,7 +63,11 @@ const Badge = ({ text, badgetype, variant, effect }: BadgeProps) => {
               color: `${effect ? getColor(badgetype) : ""}`,
               background: `${getColor(badgetype)}0D`,
             }
-          : { backgroundColor: `${getColor(badgetype)}` }
+          : {
+              backgroundColor: `${getColor(badgetype)}`,
+              width: width ? width : "18px",
+              height: height ? height : "18px",
+            }
       }
       className={`${
         variant === "pill"

@@ -1,20 +1,44 @@
 import Image from "next/image";
-import { AiOutlineCloseCircle, AiOutlineLoading3Quarters } from "react-icons/ai";
-import { BiMask, BiDialpad, BiToggleLeft } from "react-icons/bi"
-import { GoTypography, GoAlert, GoCheckbox } from "react-icons/go"
-import { RxButton, RxAvatar, RxDropdownMenu } from "react-icons/rx"
-import { BsCursorText, BsCalendarDate, BsSegmentedNav, BsPalette, BsUpload, BsBarChartSteps, BsTelephonePlus, BsTable,BsCardHeading } from "react-icons/bs"
-import { TbTooltip, TbBoxMultiple } from "react-icons/tb"
-import { GrToast } from "react-icons/gr"
-import { IoMdTime } from "react-icons/io"
-import { TfiLayoutAccordionMerged, TfiLayoutTabWindow } from "react-icons/tfi"
-import { ImPageBreak, ImSpinner9 } from "react-icons/im"
-import { SiProgress } from "react-icons/si"
-import { MdKeyboardArrowLeft, MdKeyboardArrowRight, MdTextFields, MdPassword, MdOutlineStarRate } from "react-icons/md";
-import { LiaIdBadgeSolid } from "react-icons/lia"
+import {
+  AiOutlineCloseCircle,
+  AiOutlineLoading3Quarters,
+} from "react-icons/ai";
+import { BiMask, BiDialpad, BiToggleLeft } from "react-icons/bi";
+import {
+  GoTypography,
+  GoAlert,
+  GoCheckbox,
+  GoKebabHorizontal,
+} from "react-icons/go";
+import { RxButton, RxAvatar, RxDropdownMenu } from "react-icons/rx";
+import {
+  BsCursorText,
+  BsCalendarDate,
+  BsSegmentedNav,
+  BsPalette,
+  BsUpload,
+  BsBarChartSteps,
+  BsTelephonePlus,
+  BsTable,
+  BsCardHeading,
+} from "react-icons/bs";
+import { TbTooltip, TbBoxMultiple } from "react-icons/tb";
+import { GrToast } from "react-icons/gr";
+import { IoMdTime } from "react-icons/io";
+import { TfiLayoutAccordionMerged, TfiLayoutTabWindow,TfiLayoutTabMin } from "react-icons/tfi";
+import { ImPageBreak, ImSpinner9 } from "react-icons/im";
+import { SiProgress } from "react-icons/si";
+import {
+  MdKeyboardArrowLeft,
+  MdKeyboardArrowRight,
+  MdTextFields,
+  MdPassword,
+  MdOutlineStarRate,
+} from "react-icons/md";
+import { LiaIdBadgeSolid } from "react-icons/lia";
 import Link from "next/link";
 import { useState } from "react";
-import { usePathname } from "next/navigation"
+import { usePathname } from "next/navigation";
 
 const sidebarItems = [
   {
@@ -71,7 +95,7 @@ const sidebarItems = [
   {
     name: "Country Select Dropdown",
     href: "/CountrySelect",
-    icon: BsPalette,
+    icon: RxDropdownMenu,
   },
   {
     name: "DataTable",
@@ -101,7 +125,7 @@ const sidebarItems = [
   {
     name: "Menu Icon",
     href: "/MenuIcon",
-    icon: AiOutlineLoading3Quarters,
+    icon: GoKebabHorizontal,
   },
   {
     name: "Modal",
@@ -111,7 +135,7 @@ const sidebarItems = [
   {
     name: "Navigation Bar",
     href: "/NavigationBar",
-    icon: TbBoxMultiple,
+    icon: TfiLayoutTabMin,
   },
   {
     name: "Pagination",
@@ -208,9 +232,6 @@ const sidebarItems = [
     href: "/Typography",
     icon: GoTypography,
   },
-
-
-
 ];
 
 const Sidebar = () => {
@@ -242,8 +263,9 @@ const Sidebar = () => {
             return (
               <li className="sidebar__item" key={name}>
                 <Link
-                  className={`sidebar__link ${pathname === href ? "sidebar__link--active" : ""
-                    }`}
+                  className={`sidebar__link ${
+                    pathname === href ? "sidebar__link--active" : ""
+                  }`}
                   href={href}
                 >
                   <span className="sidebar__icon">

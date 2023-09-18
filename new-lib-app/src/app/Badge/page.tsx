@@ -16,7 +16,7 @@ const badge = () => {
           Basic(Dot Badge)
         </h2>
         <div className="pt-3 pl-7 mb-5 gap-8 grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
-          <Badge variant="dot" badgetype="dark" text="1" />
+          <Badge variant="dot" badgetype="dark" text="1"/>
           <Badge variant="dot" badgetype="secondary" text="2" />
           <Badge variant="dot" badgetype="graph" text="3" />
           <Badge variant="dot" badgetype="success" text="4" />
