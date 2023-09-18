@@ -169,7 +169,7 @@ const Pagination: React.FC<PaginationProps> = (props) => {
   // for prop variant = "buttons"
   return variant === "vertical" ? (
     <div
-      className={`relative flex bg-pureWhite w-full  items-baseline ${styles.customScrollbar}`}>
+      className={`relative flex items-baseline ${styles.customScrollbar}`}  ref={selectRef}>
       <Typography className="text-[16px] font-medium mr-2.5">Page</Typography>
       <div className="w-[80px]">
         <div className="h-[42px] relative flex items-center">
