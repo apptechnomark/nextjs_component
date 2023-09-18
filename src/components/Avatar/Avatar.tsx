@@ -148,12 +148,12 @@ const Avatar: FC<AvatarProps> = ({
       {badge && (
         <span
           className={`absolute ${
-            type === "square" ? "-top-1 -right-2" : (badgeText && badgeText.length > 1) ? "-top-1 -right-3":`-top-1 ${variant === "small" ? "-right-1": "-right-0 -top-0"}`
+            type === "square" ? "-top-1 -right-2" : (badgeText && badgeText.length > 1) ? "-top-1 -right-3":`-top-1 ${variant === "small" ? "-right-1": variant === "medium" ? "-right-0" : variant === "large" && "right-0"}`
           }`}
         >
           <Badge
             badgetype="primary"
-            width={badgeText && badgeText.length > 1 ? 27:undefined}
+            width={badgeText && badgeText.length > 1 ? 30:undefined}
             variant="dot"
             text={badgeText}
           />
