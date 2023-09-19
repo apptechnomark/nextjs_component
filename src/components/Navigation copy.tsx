@@ -54,7 +54,7 @@ const Navigation: React.FC<NavigationProps> = React.memo(
     return (
       <>
         {variant === "vertical" && (
-          <div className="flex h-[60px] justify-between max-w-full items-center">
+          <div className="flex w-[387px] h-[70px] justify-center max-w-full items-center">
             {tabs.map((tab: any, index: number) => (
               <div
                 className={`px-5`}
@@ -67,10 +67,10 @@ const Navigation: React.FC<NavigationProps> = React.memo(
                   {tab.icon}
                 </span>
                 <label
-                  className={`flex justify-center items-center cursor-pointer ${
+                  className={`  flex justify-center items-center ${
                     selectedTabIndex === index
-                      ? "text-primary text-sm font-medium transition-color duration-[600ms]"
-                      : "text-darkCharcoal font-medium text-sm"
+                      ? "text-primary text-sm font-medium"
+                      : "text-slatyGrey font-medium text-sm"
                   }`}
                 >
                   {tab.label}

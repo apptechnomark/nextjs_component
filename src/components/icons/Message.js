@@ -4,6 +4,7 @@ const Mail = (props) => {
     return (
         <div>
             <svg
+        className="transition-color duration-[600ms]"
                 width="24"
                 height="24"
                 viewBox="0 0 24 24"

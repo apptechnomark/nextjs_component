@@ -10,7 +10,7 @@ import Message from "./icons/Message";
 import Profile from "./icons/Profile";
 
 const page = () => {
-  const [value, setValue] = useState<string>("");
+  const [value, setValue] = useState<string>("home");
 
   const tabs = [
     {
@@ -36,8 +36,8 @@ const page = () => {
   ];
 
   return (
-    <div className="flex flex-col w-full p-10">
-      <div className="mb-5">
+    <div className="flex flex-col p-10 w-[387px]">
+      {/* <div className="mb-5">
         <Navigation
           tabs={tabs}
           variant="vertical"
@@ -45,7 +45,7 @@ const page = () => {
             setValue(e);
           }}
         />
-      </div>
+      </div> */}
       <div className="mb-5">
         <Navigation
           tabs={tabs}
@@ -54,8 +54,8 @@ const page = () => {
             setValue(e);
           }}
         />
-      </div>
-      <div className="mb-5">
+      </div> 
+      {/* <div className="mb-5 ">
         <Navigation
           tabs={tabs}
           variant="horizontal"
@@ -64,7 +64,7 @@ const page = () => {
             setValue(e);
           }}
         />
-      </div>
+      </div> */}
     </div>
   );
 };
