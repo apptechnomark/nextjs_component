@@ -25,7 +25,7 @@ import {
 import { TbTooltip, TbBoxMultiple } from "react-icons/tb";
 import { GrToast } from "react-icons/gr";
 import { IoMdTime } from "react-icons/io";
-import { TfiLayoutAccordionMerged, TfiLayoutTabWindow,TfiLayoutTabMin } from "react-icons/tfi";
+import { TfiLayoutAccordionMerged, TfiLayoutTabWindow, TfiLayoutTabMin } from "react-icons/tfi";
 import { ImPageBreak, ImSpinner9 } from "react-icons/im";
 import { SiProgress } from "react-icons/si";
 import {
@@ -263,9 +263,8 @@ const Sidebar = () => {
             return (
               <li className="sidebar__item" key={name}>
                 <Link
-                  className={`sidebar__link ${
-                    pathname === href ? "sidebar__link--active" : ""
-                  }`}
+                  className={`sidebar__link ${pathname === href ? "sidebar__link--active" : ""
+                    }`}
                   href={href}
                 >
                   <span className="sidebar__icon">

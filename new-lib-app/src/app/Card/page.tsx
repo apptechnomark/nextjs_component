@@ -1,15 +1,65 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
+import { useState } from "react";
 import BaseLayout from "../../components/BaseLayout";
 import Image from "next/image";
 import Technomark from "./Technomark.png"
-import Start from "./Start"
-import { Card, CardAction, CardContent, CardHeader, Button, Avatar } from "next-ts-lib";
+import Start from "./icons/Start"
+import ApIcon from "./icons/ApIcon"
+import Badge from "./icons/Badge"
+import Play from "./icons/play"
+import Stop from "./icons/stop"
+import ActionIcon from "./icons/ActionIcon"
+import TaskIcon from "./icons/TaskIcon"
+import { Card, CardAction, CardContent, CardHeader, Button, Avatar, CheckBox, Radio, Select, AvatarGroup } from "next-ts-lib";
 import "next-ts-lib/dist/index.css"
 
 
+const options = [
+    { label: "Task 1", value: "Task 1" },
+    { label: "Task 2", value: "Task 2" },
+    { label: "Task 3", value: "Task 3" },
+];
+
 const card: React.FC = () => {
+    const [optionId, setOptionId] = useState<number>(1);
+    const [isPlaying, setIsPlaying] = useState(false);
+    const [time, setTime] = useState("00:00");
+
+    const current = new Date();
+    const date = `${current.getDate()}/${current.getMonth() + 1}/${current.getFullYear()}`;
+
+    const handlePlayClick = () => {
+        setIsPlaying(true);
+    };
+
+    const handleStopClick = () => {
+        setIsPlaying(false);
+    };
+
+    useEffect(() => {
+        let interval: NodeJS.Timeout | undefined; // Initialize as undefined
+        if (isPlaying) {
+            let seconds = 0;
+            interval = setInterval(() => {
+                seconds++;
+                const minutes = Math.floor(seconds / 60);
+                const remainderSeconds = seconds % 60;
+                const formattedTime = `${minutes.toString().padStart(2, "0")}:${remainderSeconds.toString().padStart(2, "0")}`;
+                setTime(formattedTime);
+            }, 1000);
+        } else if (interval) {
+            clearInterval(interval);
+        }
+
+        return () => {
+            if (interval) {
+                clearInterval(interval);
+            }
+        };
+    }, [isPlaying]);
+
     return <BaseLayout>
         <h5 className="m-5 pt-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Card</h5>
 
@@ -71,7 +121,7 @@ const card: React.FC = () => {
         </div>
 
         <div className="p-2  m-3 bg-[#DADADA] border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-            <Card style={{ width:"197px" }}>
+            <Card style={{ width: "197px" }}>
                 <CardHeader>
                     <div className="block">
                         <div className="ml-1">
@@ -91,7 +141,116 @@ const card: React.FC = () => {
                 </CardHeader>
             </Card>
         </div>
-    </BaseLayout>;
+
+        <div className="p-2  m-3 bg-[#DADADA] border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+            <Card style={{ width: "350px", height: "140px" }}>
+                <CardHeader>
+                    <div className="block relative w-full">
+                        <div className="mr-1 absolute right-0 top-2">
+                            <CheckBox id="Checked" />
+                        </div>
+                        <div className="absolute left-[146px] top-4">
+                            <span>
+                                <ApIcon />
+                            </span>
+                        </div>
+                        <div className="absolute top-[68px] left-[100px]">
+                            <span>
+                                Accounts Payable
+                            </span>
+                        </div>
+                    </div>
+                </CardHeader>
+            </Card>
+        </div>
+
+        <div className="p-2  m-3 bg-[#DADADA] border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+            <Card style={{ width: "350px", height: "140px" }}>
+                <CardHeader>
+                    <div className="block relative w-full">
+                        <div className="mr-1 absolute right-0 top-2">
+                            <Radio id="Radio_Checked" />
+                        </div>
+                        <div className="absolute left-[146px] top-4">
+                            <span>
+                                <ApIcon />
+                            </span>
+                        </div>
+                        <div className="absolute top-[68px] left-[100px]">
+                            <span>
+                                Accounts Payable
+                            </span>
+                        </div>
+                    </div>
+                </CardHeader>
+            </Card>
+        </div>
+
+        <div className="p-2  m-3 bg-[#DADADA] border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+            <Card style={{ width: "345px" }}>
+                <CardHeader>
+                    <div className="relative w-full">
+                        <span className="font-bold">Title</span>
+                        <div className="inline-block ml-4">
+                            <Badge />
+                        </div>
+                        <div className="inline-block absolute right-0">
+                            <ActionIcon />
+                        </div>
+                    </div>
+                </CardHeader>
+                <CardContent>
+                    <div className="ml-2 mt-1 flex mb-2">
+                        <TaskIcon />
+                        <div >
+                            <Select
+                                id="basic"
+                                type="icons"
+                                options={options}
+                                validate
+                                search
+                                defaultValue={optionId}
+                                getValue={(value: any) => setOptionId(value)}
+                                getError={() => { }} />
+                        </div>
+                    </div>
+
+                    <hr className="border-t-[1px] border-[#D8D8D8]" />
+
+                    <div className="p-1 relative flex justify-between">
+                        <div className="relative right-[14px]">
+                            {isPlaying ? (
+
+                                <Button
+                                    className="rounded-md cursor-pointer"
+                                    onClick={handleStopClick}
+                                >
+
+                                    <Stop />
+                                </Button>
+                            ) : (
+                                <Button
+                                    className="rounded-full mr-2 cursor-pointer"
+                                    onClick={handlePlayClick}
+                                >
+                                    <Play />
+                                </Button>
+                            )}
+                            {isPlaying ? (
+                                <> <span className="absolute top-[8px] left-[50px] border-b-2 border-[#FB2424]">{time}</span></>
+                            ) : (
+                                <>
+                                    <span className="absolute top-[8px] left-[50px] border-b-2 border-[#02B89D]">{time}</span></>
+                            )}
+                        </div>
+                        <span className="absolute  top-[13px] right-[50px]">{date}</span>
+                        <AvatarGroup > <Avatar variant="small" name="Technomark"></Avatar>
+                            <Avatar variant="small" name="Pathquest"></Avatar></AvatarGroup>
+                    </div>
+                </CardContent>
+            </Card>
+        </div>
+    </BaseLayout >;
 };
 
 export default card;

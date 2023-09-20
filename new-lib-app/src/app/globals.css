@@ -124,4 +124,90 @@ body {
   font-size: 1.1rem;
 }
 
+:root {
+	--dark-grey: #151922;
+	--light-grey: #ccc;
+	--med-grey: #ddd;
+	--active: #4a4a4a;
 
+  --border: #48cae4;
+  --accent: #ade8f4;
+  --size: 100px;
+  --border-size: 3px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+
+
+
+.loader {
+  margin: 50px;
+}
+
+.circle {
+	--border: #FFFFFF;
+	--size: 25px;
+	--border-size: 3px;
+
+	position: relative;
+	display: flex;
+	border: var(--border-size) solid var(--border);
+	width: var(--size);
+	height: var(--size);
+	border-radius: 50%;
+	border-bottom-color: transparent;
+	background-color: transparent;
+	margin: 0;
+	padding: 0;
+	animation: rotate 1.5s linear infinite;
+
+}
+
+.circles {
+  position: relative;
+  display: flex;
+  border: var(--border-size) solid var(--accent);
+  width: calc(var(--size) - 45px);
+  height: calc(var(--size) - 45px);
+  border-radius: 50%;
+  border-bottom-color: transparent;
+  margin: 0;
+  padding: 0;
+  box-shadow: 10px 0 0 -10px var(--accent), 
+    0 5px 0 10px var(--border),
+		0 0 10px 10px var(--border),
+    10px 5px 30px 0 var(--border);
+  animation: rotate .9s linear infinite;
+
+  &:before,
+  &:after {
+    position: absolute;
+    content: "";
+    border-radius: 50%;
+  }
+  
+  &:before {
+    border: var(--border-size) solid var(--accent);
+    width: calc(var(--size) - 45px);
+    height: calc(var(--size) - 45px);
+    border-radius: 50%;
+    margin: 0;
+    padding: 0;
+  }
+  &:after {}
+  
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

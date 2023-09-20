@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "next-ts-lib";
+import { Button, Loader, Spinner } from "next-ts-lib";
 import "next-ts-lib/dist/index.css";
 import { BsPlusCircle } from "react-icons/bs";
 import BaseLayout from "../../components/BaseLayout";
@@ -117,7 +117,7 @@ const button = () => {
 
       <div className="p-2  m-3 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
         <h2 className="m-7 text-xl  tracking-tight text-gray-900 dark:text-white">
-          Link button 
+          Link button
         </h2>
 
         <div className="pt-3 pl-4 mb-5 gap-8 grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
@@ -174,7 +174,7 @@ const button = () => {
           <Button className="btm-sm" disabled>Disable</Button>
         </div>
       </div>
-     
+
       <div className="p-2  m-3 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
         <h2 className="m-7 text-xl  tracking-tight text-gray-900 dark:text-white">
           Round Button with small variant
@@ -571,6 +571,74 @@ const button = () => {
               </span>
               Warning
             </span>
+          </Button>
+        </div>
+      </div>
+
+      <div className="p-2  m-3 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+        <h2 className="m-7 text-xl  tracking-tight text-gray-900 dark:text-white">
+          Button with Loader
+        </h2>
+        <div className="pt-3 pl-4 mb-5 gap-8 grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
+          <Button className="rounded-md btn-sm" variant="btn" disabled>
+            <div className="flex mb-1">
+              <span className="mr-2 mt-1">
+                <div className="loader circle"></div>
+              </span>
+              <span className="mt-1">
+                Disable
+              </span>
+            </div>
+          </Button>
+          <Button className="rounded-md btn-sm" variant="btn-primary">
+            <div className="flex mb-1">
+              <span className="mr-2 mt-1">
+                <div className="loader circle"></div>
+              </span>
+              <span className="mt-1">
+                Primary
+              </span>
+            </div>
+          </Button>
+          <Button className="rounded-md btn-sm" variant="btn-secondary">
+            <div className="flex mb-1">
+              <span className="mr-2 mt-1">
+                <div className="loader circle"></div>
+              </span>
+              <span className="mt-1">
+                Secondary
+              </span>
+            </div>
+          </Button>
+          <Button className="rounded-md btn-sm" variant="btn-success">
+            <div className="flex mb-1">
+              <span className="mr-2 mt-1">
+                <div className="loader circle"></div>
+              </span>
+              <span className="mt-1">
+                Success
+              </span>
+            </div>
+          </Button>
+          <Button className="rounded-md btn-sm" variant="btn-error">
+            <div className="flex mb-1">
+              <span className="mr-2 mt-1">
+                <div className="loader circle"></div>
+              </span>
+              <span className="mt-1">
+                Error
+              </span>
+            </div>
+          </Button>
+          <Button className="rounded-md btn-sm" variant="btn-warning">
+            <div className="flex mb-1">
+              <span className="mr-2 mt-1">
+                <div className="loader circle"></div>
+              </span>
+              <span className="mt-1">
+                Warning
+              </span>
+            </div>
           </Button>
         </div>
       </div>
