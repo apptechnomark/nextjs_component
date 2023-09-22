@@ -197,7 +197,7 @@ const Pagination: React.FC<PaginationProps> = (props) => {
         </div>
 
         <ul
-          className={`w-[80px] bg-pureWhite border-[1px] mt-2.5 border-lightSilver rounded-lg overflow-y-auto shadow-md transition-transform
+          className={`absolute w-[80px] bg-pureWhite border-[1px] mt-2.5 border-lightSilver rounded-lg overflow-y-auto shadow-md transition-transform
              ${
                isOpen
                  ? "max-h-[200px] translate-y-0 transition-opacity opacity-100 duration-500 ease-out "
