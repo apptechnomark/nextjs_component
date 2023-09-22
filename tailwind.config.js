@@ -7,14 +7,20 @@ module.exports = {
     extend: {
       colors: {
         primary: "#02B89D",
-        pureWhite: "#FFF",
-        pureBlack: "#000000",
-        lightSilver: "#D8D8D8",
+        lightGray: "#F4F4F4",
         darkCharcoal: "#333333",
+        lightSilver: "#D8D8D8",
+        slatyGreen: "#CCF1EB",
+        defaultRed: "#DC3545",
         slatyGrey: "#6E6D7A",
-        lightPrimary: "#A9ECE1",
-        whiteSmoke: "#F6F6F6"
+        lightGreen: "#E6F8F6",
+        whiteSmoke: "#F6F6F6",
+        pureWhite: "#FFF",
+        secondaryGreen: "#CEF5EF",
       },
+    },
+    screens: {
+      xsm: "320px",
     },
   },
   variants: {

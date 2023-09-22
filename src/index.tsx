@@ -1,4 +1,3 @@
-import Table from './components/Table';
-import './style.css'
-
-export default Table;
+export { DatepickerRange } from "./components/DatepickerRange";
+export { DatepickerRangeExpanded } from "./components/EDatepickerRangeExpanded";
+import "./style.css"

@@ -10,15 +10,12 @@ module.exports = {
       file: 'dist/index.js',
       format: 'cjs',
       exports: 'auto',
-      sourcemap: true,
     },
     {
       file: 'dist/index.es.js',
       format: 'esm',
-      sourcemap: true,
     },
   ],
-  
   plugins: [
     typescript(
       {
@@ -36,7 +33,7 @@ module.exports = {
       plugins: [
         tailwindcss('./tailwind.config.js'),
       ],
-      extract: true, // Use true to enable CSS extraction
+      extract: true, 
       minimize: true,
     }),
   ],
