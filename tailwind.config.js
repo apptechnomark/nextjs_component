@@ -6,7 +6,13 @@ module.exports = {
         pureWhite: '#ffffff',
         pureBlack: '#000000',
         lightSilver: '#D8D8D8',
-
+        pureRed : '#FB2424',
+      },
+      screens: {
+        xsmd: "260px",
+        smd: "330px",
+        mdd: "420px",
+        lgd: "560px"
       },
     },
   },

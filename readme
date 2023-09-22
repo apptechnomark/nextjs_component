@@ -1,47 +1,95 @@
-'use client'
+"use client";
 
-import React, { useState } from 'react';
-import { Modal, ModalTitle, ModalContent, ModalAction } from 'modal_lib';
-import 'modal_lib/dist/index.css';
-import { Close } from 'closebutton';
-import "closebutton/dist/index.css"
+import React, { useState } from "react";
+import { AppBar, Hamburger, Notification, Search } from "appbar";
+import "appbar/dist/index.css";
 
 const Home: React.FC = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [searchResults, setSearchResults] = useState<any>([]);
 
-  const openModal = () => {
-    setIsOpen(true);
-  };
+  const sidebarItems = ["Dashboard", "Profile", "Messages", "Settings"];
+  const notificationItems = [
+    "Notification 1",
+    "Notification 2",
+    "Notification 3",
+    "Notification 4",
+    "Notification 5",
+    "Notification 6",
+    "Notification 7",
+    "Notification 8"
+  ];
 
-  const closeModal = () => {
-    setIsOpen(false);
+  const handleSearch = (query:any) => {
+    const dummyData = [
+      { id: 1, name: "kenil" },
+      { id: 2, name: "elvish" },
+      { id: 3, name: "mihir" },
+    ];
+    const filteredResults = dummyData.filter((item) =>
+      item.name.toLowerCase().includes(query.toLowerCase())
+    );
+    setSearchResults(filteredResults);
   };
 
   return (
     <div>
-      <button onClick={openModal} className="bg-blue-500 text-white px-4 py-2 rounded">
-        Open Modal
-      </button>
-      {isOpen && (
-        <Modal isOpen={isOpen} onClose={closeModal} size='lg'>
-          <ModalTitle>
-            <h2>Modal Title</h2>
-            <Close />
-          </ModalTitle>
-          <ModalContent>
-            This is Modal Content
-          </ModalContent>
-          <ModalAction >
-            <button onClick={closeModal} className="bg-red-500 text-white px-4 py-2 rounded mr-2">
-              Cancel
-            </button>
-            <button onClick={closeModal} className="bg-green-500 text-white px-4 py-2 rounded">
-              Save Changes
-            </button>
-          </ModalAction>
-        </Modal>
-      )}
+      <AppBar
+        classname="bg-red-200"
+        rightContent={
+          <>
+            <Notification
+              count={5}
+              classname="w-96 h-full bg-[#cfd1d0] border-l-[2px] border-l-lightSilver"
+            >
+              <ul>
+                {notificationItems.map((item, index) => (
+                  <li
+                    key={index}
+                    className="text-pureBlack p-3 pl-5 border-b-[1px] border-b-lightSilver cursor-pointer"
+                  >
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </Notification>
+            <Search onSearch={handleSearch} />
+          </>
+        }
+      >
+        <Hamburger
+          widths="260"
+          classname="h-full bg-[#cfd1d0] border-r-[2px] border-r-lightSilver"
+          logo={
+            <img
+              src="https://technomark.io/wp-content/uploads/2022/07/TM-Logo.svg"
+              alt="Logo"
+              height={120}
+              width={120}
+            />
+          }
+        >
+          <ul>
+            {sidebarItems.map((item, index) => (
+              <li
+                key={index}
+                className="text-pureBlack p-3 pl-5 border-b-[1px] border-b-lightSilver cursor-pointer"
+              >
+                {item}
+              </li>
+            ))}
+          </ul>
+        </Hamburger>
+        {/* <span className="ml-6 text-xl">
+          Page Title
+        </span> */}
+      </AppBar>
+      <ul>
+          {searchResults.map((result:any) => (
+            <li key={result.id}>{result.name}</li>
+          ))}
+        </ul>
     </div>
+    
   );
 };
 
