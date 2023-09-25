@@ -2,48 +2,80 @@
 import React from "react";
 import BaseLayout from "../../components/BaseLayout";
 import { Pagination } from "next-ts-lib";
-import "next-ts-lib/dist/index.css"
-
+import "next-ts-lib/dist/index.css";
 
 const pagination: React.FC = () => {
-    return <BaseLayout>
-        <h5 className="m-5 pt-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Pagination</h5>
+    return (
+        <BaseLayout>
+            <h5 className="m-5 pt-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                Pagination
+            </h5>
 
-        <div className="p-2  m-3 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-
-            <h2 className="m-7 text-xl  tracking-tight text-gray-900 dark:text-white">Basic</h2>
-            <div className="pb-4">
-            <Pagination totalPages={50} onChangePage={(e: any) => console.log("clicked")
-                } space={''} variant={''} />
-
+            <div className="p-2  m-3 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+                <h2 className="m-7 text-xl  tracking-tight text-gray-900 dark:text-white">
+                    Basic
+                </h2>
+                <div className="pb-4">
+                    <Pagination
+                        totalPages={50}
+                        onChangePage={(e: any) => console.log("clicked")}
+                        space={""}
+                        variant={""}
+                    />
+                </div>
+            </div> <div className="p-2  m-3 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+                <h2 className="m-7 text-xl  tracking-tight text-gray-900 dark:text-white">
+                    Basic with space variant
+                </h2>
+                <div className="pb-4">
+                    <Pagination
+                        totalPages={50}
+                        onChangePage={(e: any) => console.log("clicked")}
+                        space
+                        variant={""}
+                    />
+                </div>
             </div>
-        </div>
-        <div className="p-2  m-3 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-
-            <h2 className="m-7 text-xl  tracking-tight text-gray-900 dark:text-white">Basic with space variant</h2>
-            <div className="pb-4">
-                <Pagination  totalPages={50} onChangePage={(e: any) => console.log("clicked")
-                } space variant={''} />
+            <div className="p-2  m-3 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+                <h2 className="m-7 text-xl  tracking-tight text-gray-900 dark:text-white">
+                    Button Pagination
+                </h2>
+                <div className="pb-4">
+                    <Pagination
+                        totalPages={50}
+                        onChangePage={(e: any) => console.log("clicked")}
+                        space
+                        variant="buttons"
+                    />
+                </div>
             </div>
-        </div>
-        <div className="p-2  m-3 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-
-            <h2 className="m-7 text-xl  tracking-tight text-gray-900 dark:text-white">Button Pagination</h2>
-            <div className="pb-4">
-            <Pagination  totalPages={50} onChangePage={(e: any) => console.log("clicked")
-                } space variant='buttons' />
+            <div className="p-2  m-3 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+                <h2 className="m-7 text-xl  tracking-tight text-gray-900 dark:text-white">
+                    Buttons with Pagination
+                </h2>
+                <div className="pb-4">
+                    <Pagination
+                        totalPages={50}
+                        onChangePage={(e: any) => console.log("clicked")}
+                        space={""}
+                        variant="buttons"
+                    />
+                </div>
             </div>
-        </div>
-        <div className="p-2  m-3 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-
-            <h2 className="m-7 text-xl  tracking-tight text-gray-900 dark:text-white">Buttons with Pagination</h2>
-            <div className="pb-4">
-            <Pagination  totalPages={50} onChangePage={(e: any) => console.log("clicked")
-                } space={''} variant='buttons' />
+            <div className="p-2  m-3 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+                <h2 className="m-7 text-xl  tracking-tight text-gray-900 dark:text-white">
+                    Vertical Pagination
+                </h2>
+                <div className="pb-4">
+                    <Pagination
+                        totalPages={50}
+                        onChangePage={(e: any) => console.log("clicked")}
+                        variant="vertical"
+                    />
+                </div>
             </div>
-        </div>
-
-    </BaseLayout >;
+        </BaseLayout>
+    );
 };
 
 export default pagination;

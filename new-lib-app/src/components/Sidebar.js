@@ -21,8 +21,9 @@ import {
   BsTelephonePlus,
   BsTable,
   BsCardHeading,
+  BsCalendarRange
 } from "react-icons/bs";
-import { TbTooltip, TbBoxMultiple } from "react-icons/tb";
+import { TbTooltip, TbBoxMultiple, TbLayoutSidebar } from "react-icons/tb";
 import { GrToast } from "react-icons/gr";
 import { IoMdTime } from "react-icons/io";
 import { TfiLayoutAccordionMerged, TfiLayoutTabWindow, TfiLayoutTabMin } from "react-icons/tfi";
@@ -52,6 +53,11 @@ const sidebarItems = [
     icon: GoAlert,
   },
   {
+    name: "AppBar",
+    href: "/AppBar",
+    icon: TbLayoutSidebar,
+  },
+  {
     name: "Avatar",
     href: "/Avatar",
     icon: RxAvatar,
@@ -70,6 +76,11 @@ const sidebarItems = [
     name: "Button",
     href: "/Button",
     icon: RxButton,
+  },
+  {
+    name: "Calendar Range",
+    href: "/CalendarRange",
+    icon: BsCalendarRange,
   },
   {
     name: "Card",
