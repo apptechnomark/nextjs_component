@@ -233,8 +233,8 @@ const DatepickerRange = (props: any): JSX.Element => {
     };
 
     useEffect(() => {
-        props.getValue(fullDate);
-    }, [fullDate]);
+        props.getValue(startDates+" - "+endDates);
+    }, [startDates,endDates]);
 
     return (
         <>
