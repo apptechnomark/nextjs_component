@@ -143,6 +143,7 @@ const MultiSelectChip: React.FC<MultiSelectChipProps> = ({
   };
 
   const handleToggleOpen = () => {
+    setSearchInput("");
     setOpen((prevState) => !prevState);
   };
 

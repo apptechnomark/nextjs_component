@@ -1,8 +1,8 @@
 module.exports = {
-  content: ['./src/**/*.{js,jsx,ts,tsx}'],
+  content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
     fontFamily: {
-      proxima: ['Proxima Nova'],
+      proxima: ["Proxima Nova"],
     },
     colors: {
       primary: "#02B89D",
@@ -20,7 +20,7 @@ module.exports = {
       defaultOrange: "#664D03",
       defaultBlue: "#0A58CA",
       lightPrimary: "#A9ECE1",
-      lightGreen: '#E6F8F6',
+      lightGreen: "#E6F8F6",
       successColor: "#198754",
       darkBlue: "#0281B9",
       textGood: "#FFBF00",
@@ -32,14 +32,15 @@ module.exports = {
       yellowColor: "#FFC107",
       darkYellow: "#CC9A06",
       skyBlue: "#0DCAF0",
-      slatyBlue: '#0F2552',
-      darkGray: '#848a95',
-      lightYellow: '#FFC107',
+      slatyBlue: "#0F2552",
+      darkGray: "#848a95",
+      lightYellow: "#FFC107",
       lightGray: "#F4F4F4",
       slatyGreen: "#CCF1EB",
       textColor: "#333333",
-      pinkSwan: '#B7B7B7',
-      pureRed : '#FB2424',
+      pinkSwan: "#B7B7B7",
+      pureRed: "#FB2424",
+      secondaryGreen: "#CEF5EF",
     },
 
     screens: {
@@ -59,4 +60,4 @@ module.exports = {
     extend: {},
   },
   plugins: [],
-}
+};

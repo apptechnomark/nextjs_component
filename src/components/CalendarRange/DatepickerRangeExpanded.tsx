@@ -97,6 +97,49 @@ const DatepickerRangeExpanded = (props: any): JSX.Element => {
         }, 0);
     };
 
+    // const handleDateClick = (date: Date) => {
+    //     const newDate = new Date(date);
+    //     setToday(newDate);
+    //     setSelectedDate(date);
+
+    //     if (startDate == null) {
+    //         setStartDate(date);
+    //         setEndDate(null);
+    //         newDate.setDate(date.getDate() + 1);
+    //         const formattedDate = newDate.toISOString().slice(0, 10).split("-");
+    //         const updatedDate = `${formattedDate[0]}-${formattedDate[1]}-${formattedDate[2]}`;
+    //         setStartDates(updatedDate);
+    //     } else if (endDate == null) {
+    //         newDate.setDate(date.getDate() + 1);
+    //         const formattedDate = newDate.toISOString().slice(0, 10).split("-");
+    //         const updatedDate = `${formattedDate[0]}-${formattedDate[1]}-${formattedDate[2]}`;
+    //         // setToggleOpen(false);
+    //         setEndDates(updatedDate);
+    //         if (date > startDate) {
+    //             setEndDate(date);
+    //         } else {
+    //             setEndDate(startDate);
+    //             setStartDate(date);
+    //         }
+    //     } else {
+    //         setStartDate(date);
+    //         setEndDate(null);
+    //         newDate.setDate(date.getDate() + 1);
+    //         const formattedDate = newDate.toISOString().slice(0, 10).split("-");
+    //         const updatedDate = `${formattedDate[0]}-${formattedDate[1]}-${formattedDate[2]}`;
+    //         setStartDates(updatedDate);
+    //     }
+
+    //     if (date.getMonth() < selectedMonth) {
+    //         handleIconClick(false);
+    //     }
+    //     if (date.getMonth() > selectedMonth) {
+    //         handleIconClick(true);
+    //     }
+    //     setAnimate("");
+    //     setRangeDates([]);
+    // };
+    
     const handleDateClick = (date: Date) => {
         const newDate = new Date(date);
         setToday(newDate);
@@ -112,14 +155,15 @@ const DatepickerRangeExpanded = (props: any): JSX.Element => {
             newDate.setDate(date.getDate() + 1);
             const formattedDate = newDate.toISOString().slice(0, 10).split("-");
             const updatedDate = `${formattedDate[0]}-${formattedDate[1]}-${formattedDate[2]}`;
-            // setToggleOpen(false);
-            setEndDates(updatedDate);
+
             if (date > startDate) {
+                setEndDates(updatedDate);
                 setEndDate(date);
             } else {
-                setEndDate(startDate);
                 setStartDate(date);
+                setStartDates(updatedDate);
             }
+            setToggleOpen(false);
         } else {
             setStartDate(date);
             setEndDate(null);
@@ -141,10 +185,10 @@ const DatepickerRangeExpanded = (props: any): JSX.Element => {
                 current.setDate(current.getDate() + 1);
                 rangeDates.push(new Date(current));
             }
-            while (current > date) {
-                current.setDate(current.getDate() - 1);
-                rangeDates.push(new Date(current));
-            }
+            // while (current > date) {
+            //     current.setDate(current.getDate() - 1);
+            //     rangeDates.push(new Date(current));
+            // }
             setRangeDates(rangeDates);
         }
     };
@@ -226,8 +270,8 @@ const DatepickerRangeExpanded = (props: any): JSX.Element => {
     };
 
     useEffect(() => {
-        props.getValue(fullDate);
-    }, [fullDate]);
+        props.getValue(startDates + " to " + endDates);
+    }, [startDates, endDates]);
 
     return (
         <>
@@ -311,7 +355,7 @@ const DatepickerRangeExpanded = (props: any): JSX.Element => {
                                                                         className="proxima text-[14px] font-semibold  text-slatyBlue"
                                                                     // onClick={toggleMonthList}
                                                                     >
-                                                                        {months[currentMonth + 1]}
+                                                                        {months[currentMonth !== 11 ? currentMonth + 1 : 0]}
                                                                     </h1>
                                                             }
                                                             {showYearList && !showMonthList ? ("") : (
@@ -319,7 +363,7 @@ const DatepickerRangeExpanded = (props: any): JSX.Element => {
                                                                     className={`proxima text-[14px] font-semibold ml-1  text-slatyBlue`}
                                                                 // onClick={toggleYearList}
                                                                 >
-                                                                    {currentYear}
+                                                                    {currentMonth !== 11 ? currentYear : currentYear + 1}
                                                                 </h1>
                                                             )}
                                                         </div>
@@ -491,7 +535,7 @@ const DatepickerRangeExpanded = (props: any): JSX.Element => {
                                                                 <label
                                                                     className={`h-[40px] w-[40px] m-[2px] grid place-content-center rounded-full cursor-pointer z-10 
                                                                 ${currentMonth ? "" : "text-[#cbd5e0]   pointer-events-none "}
-                                                                ${(isSelected && !isStartDate && !isEndDate) && "bg-secondaryGreen transition-color duration-[700ms] font-semibold"} 
+                                                                ${(isSelected && !isStartDate && !isEndDate) && `bg-secondaryGreen ${currentMonth && "transition-color duration-[700ms]"} font-semibold`} 
                                                                 ${isInRange && "border-dashed border border-primary"}
                                                                 ${(isSameDay || isStartDate || isEndDate)
                                                                             ? " bg-primary font-semibold text-white border-none"
@@ -557,7 +601,7 @@ const DatepickerRangeExpanded = (props: any): JSX.Element => {
                                                                 <label
                                                                     className={`h-[40px] w-[40px] m-[2px] grid place-content-center rounded-full cursor-pointer z-10 
                                                                 ${currentMonth ? "" : "text-[#cbd5e0] invisible pointer-events-none "}
-                                                                ${(isSelected && !isStartDate && !isEndDate) && "bg-secondaryGreen transition-color duration-[700ms] font-semibold"} 
+                                                                ${(isSelected && !isStartDate && !isEndDate) && `bg-secondaryGreen ${currentMonth && "transition-color duration-[700ms]"} font-semibold`} 
                                                                 ${isInRange && "border-dashed border border-primary"}
                                                                 ${(isSameDay || isStartDate || isEndDate)
                                                                             ? " bg-primary font-semibold text-white border-none"

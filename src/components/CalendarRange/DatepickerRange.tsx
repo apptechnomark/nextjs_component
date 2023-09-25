@@ -97,6 +97,49 @@ const DatepickerRange = (props: any): JSX.Element => {
         }, 0);
     };
 
+    // const handleDateClick = (date: Date) => {
+    //     const newDate = new Date(date);
+    //     setToday(newDate);
+    //     setSelectedDate(date);
+
+    //     if (startDate == null) {
+    //         setStartDate(date);
+    //         setEndDate(null);
+    //         newDate.setDate(date.getDate() + 1);
+    //         const formattedDate = newDate.toISOString().slice(0, 10).split("-");
+    //         const updatedDate = `${formattedDate[0]}-${formattedDate[1]}-${formattedDate[2]}`;
+    //         setStartDates(updatedDate);
+    //     } else if (endDate == null) {
+    //         newDate.setDate(date.getDate() + 1);
+    //         const formattedDate = newDate.toISOString().slice(0, 10).split("-");
+    //         const updatedDate = `${formattedDate[0]}-${formattedDate[1]}-${formattedDate[2]}`;
+    //         // setToggleOpen(false);
+    //         setEndDates(updatedDate);
+    //         if (date > startDate) {
+    //             setEndDate(date);
+    //         } else {
+    //             setEndDate(startDate);
+    //             setStartDate(date);
+    //         }
+    //     } else {
+    //         setStartDate(date);
+    //         setEndDate(null);
+    //         newDate.setDate(date.getDate() + 1);
+    //         const formattedDate = newDate.toISOString().slice(0, 10).split("-");
+    //         const updatedDate = `${formattedDate[0]}-${formattedDate[1]}-${formattedDate[2]}`;
+    //         setStartDates(updatedDate);
+    //     }
+
+    //     if (date.getMonth() < selectedMonth) {
+    //         handleIconClick(false);
+    //     }
+    //     if (date.getMonth() > selectedMonth) {
+    //         handleIconClick(true);
+    //     }
+    //     setAnimate("");
+    //     setRangeDates([]);
+    // };
+
     const handleDateClick = (date: Date) => {
         const newDate = new Date(date);
         setToday(newDate);
@@ -109,19 +152,22 @@ const DatepickerRange = (props: any): JSX.Element => {
             const formattedDate = newDate.toISOString().slice(0, 10).split("-");
             const updatedDate = `${formattedDate[0]}-${formattedDate[1]}-${formattedDate[2]}`;
             setStartDates(updatedDate);
-        } else if (endDate == null) {
+        }
+        else if (endDate == null) {
             newDate.setDate(date.getDate() + 1);
             const formattedDate = newDate.toISOString().slice(0, 10).split("-");
             const updatedDate = `${formattedDate[0]}-${formattedDate[1]}-${formattedDate[2]}`;
-            // setToggleOpen(false);
-            setEndDates(updatedDate);
+
             if (date > startDate) {
+                setEndDates(updatedDate);
                 setEndDate(date);
             } else {
-                setEndDate(startDate);
                 setStartDate(date);
+                setStartDates(updatedDate);
             }
+            setToggleOpen(false);
         } else {
+
             setStartDate(date);
             setEndDate(null);
             newDate.setDate(date.getDate() + 1);
@@ -148,10 +194,10 @@ const DatepickerRange = (props: any): JSX.Element => {
                 current.setDate(current.getDate() + 1);
                 rangeDates.push(new Date(current));
             }
-            while (current > date) {
-                current.setDate(current.getDate() - 1);
-                rangeDates.push(new Date(current));
-            }
+            // while (current > date) {
+            //     current.setDate(current.getDate() - 1);
+            //     rangeDates.push(new Date(current));
+            // }
             setRangeDates(rangeDates);
         }
     };
@@ -233,8 +279,8 @@ const DatepickerRange = (props: any): JSX.Element => {
     };
 
     useEffect(() => {
-        props.getValue(fullDate);
-    }, [fullDate]);
+        props.getValue(startDates + " to " + endDates);
+    }, [startDates, endDates]);
 
     return (
         <>

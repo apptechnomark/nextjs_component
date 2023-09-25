@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback, useRef } from "react";
-import styles from "./navigation.module.scss";
+import styles from "./scss/navigation.module.scss";
 
 interface Tab {
   id: string;
@@ -22,7 +22,7 @@ const Navigation: React.FC<NavigationProps> = React.memo(
     const [tab, setTab] = useState<string>(tabs[0].id);
     const [animationStyle, setAnimationStyle] = useState({
       left: "0",
-      width: "92px",
+      width: "106px",
     });
 
     const tabRef = useRef<HTMLDivElement | null>(null);
@@ -67,11 +67,10 @@ const Navigation: React.FC<NavigationProps> = React.memo(
                   {tab.icon}
                 </span>
                 <label
-                  className={`flex justify-center items-center cursor-pointer ${
-                    selectedTabIndex === index
-                      ? "text-primary text-sm font-medium transition-color duration-[600ms]"
-                      : "text-darkCharcoal font-medium text-sm"
-                  }`}
+                  className={`flex justify-center items-center cursor-pointer ${selectedTabIndex === index
+                    ? "text-primary text-sm font-medium transition-color duration-[600ms]"
+                    : "text-darkCharcoal font-medium text-sm"
+                    }`}
                 >
                   {tab.label}
                 </label>
@@ -87,30 +86,25 @@ const Navigation: React.FC<NavigationProps> = React.memo(
               {tabs.map((tab: any, index: number) => (
                 <div
                   ref={selectedTabIndex === index ? tabRef : null}
-                  className={`py-[7px] px-2.5 z-[1] flex  justify-center items-center ${
-                    selectedTabIndex === index && `rounded`
-                  }`}
+                  className={` py-[7px] px-2.5 z-[1] flex  overflow-hidden justify-center items-center ${selectedTabIndex === index && `rounded`
+                    }`}
                   onClick={() => handleTabClick(tab.id, index)}
                   key={tab.id + index}
                 >
-                  <span className={`cursor-pointer`}>{tab.icon}</span>
-                  {selectedTabIndex === index && (
-                    <label
-                      className={`ml-[7px] ${
-                        selectedTabIndex === index
-                          ? "text-primary text-sm font-semibold"
-                          : "text-slatyGrey font-medium text-sm"
-                      }`}
-                    >
-                      {tab.label}
-                    </label>
-                  )}
+                  <span className={`cursor-pointer ${selectedTabIndex === index && "pr-4"}`}>{tab.icon}</span>
+                  <label
+                    className={`${selectedTabIndex === index
+                      ? "text-primary -ml-5  px-2.5 font-semibold"
+                      : "text-slatyGrey font-medium w-[0] overflow-hidden"
+                      }`} style={{ 'transition': 'all 0.4s' }}
+                  >
+                    {tab.label}
+                  </label>
                 </div>
               ))}
               <div
-                className={`${styles.animation} absolute  rounded z-0 ${
-                  filled ? "bg-secondaryGreen" : " bg-white"
-                }  h-[40px] my-2`}
+                className={`${styles.animation} absolute  rounded z-0 ${filled ? "bg-secondaryGreen" : " bg-white"
+                  }  h-[40px] my-2`}
                 style={animationStyle}
               ></div>
             </div>
@@ -122,24 +116,20 @@ const Navigation: React.FC<NavigationProps> = React.memo(
               {tabs.map((tab: any, index: number) => (
                 <div
                   ref={selectedTabIndex === index ? tabRef : null}
-                  className={`py-[7px] px-2.5 z-[1] flex  justify-center items-center  ${
-                    selectedTabIndex === index && `rounded`
-                  }`}
+                  className={`py-[7px] px-2.5 z-[1] flex  justify-center items-center  ${selectedTabIndex === index && `rounded`
+                    }`}
                   onClick={() => handleTabClick(tab.id, index)}
                   key={tab.id + index}
                 >
                   <span className={`cursor-pointer`}>{tab.icon}</span>
-                  {selectedTabIndex === index && (
-                    <label
-                      className={`ml-[7px] ${
-                        selectedTabIndex === index
-                          ?`text-primary text-sm font-semibold ${styles.animate__zoomIn}`
-                          : "text-slatyGrey font-medium text-sm"
-                      }`}
-                    >
-                      {tab.label}
-                    </label>
-                  )}
+                  <label
+                    className={`ml-[7px] ${selectedTabIndex === index
+                      ? "text-primary text-sm font-semibold"
+                      : "text-slatyGrey font-medium text-[0] overflow-hidden"
+                      }`} style={{ 'transition': 'all 0.4s' }}
+                  >
+                    {tab.label}
+                  </label>
                 </div>
               ))}
             </div>
