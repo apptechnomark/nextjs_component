@@ -6,7 +6,7 @@ interface TabBarProps {
   tabs: any[];
   className?: string;
   getValue: (arg1: string) => void;
-  alignIcon: "left" | "right";
+  alignIcon?: "left" | "right";
 }
 
 const TabBar = ({ tabs, getValue, className, alignIcon }: TabBarProps) => {

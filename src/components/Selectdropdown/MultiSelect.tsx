@@ -26,6 +26,7 @@ interface MultiSelectProps {
   errorClass?: string;
   validate?: boolean;
   placeholder?: any;
+  noborder?: boolean
 }
 
 const MultiSelect: React.FC<MultiSelectProps> = ({
@@ -47,7 +48,8 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
   getValue,
   errorClass,
   validate,
-  placeholder
+  placeholder,
+  noborder
 }) => {
   const selectRef = useRef<HTMLDivElement>(null);
   const [selectedValues, setSelectedValues] = useState<string[]>([]);
@@ -145,7 +147,7 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
   return (
     <>
       <div
-        className={`relative font-medium w-full flex-row border-b ${selectedValues.length > 0
+        className={`relative font-medium w-full flex-row ${!noborder ? 'border-b' : ''} ${selectedValues.length > 0
           ? "border-primary"
           : error
             ? "border-defaultRed"
@@ -189,7 +191,7 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
             }
             className={`w-full  flex-grow bg-white outline-none text-darkCharcoal text-[14px] font-normal ${open ? "text-primary" : ""
               } ${!open ? "cursor-pointer" : "cursor-default"} ${!open ? "placeholder-darkCharcoal" : "placeholder-primary"
-              }`}
+              }`} style={{ background: "transparent" }}
           />
           <div
             onClick={handleToggleOpen}

@@ -39,6 +39,7 @@ module.exports = {
       slatyGreen: "#CCF1EB",
       textColor: "#333333",
       pinkSwan: '#B7B7B7',
+      pureRed : '#FB2424',
     },
 
     screens: {

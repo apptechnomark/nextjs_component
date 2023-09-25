@@ -69,3 +69,15 @@
 .meatball.menu:focus .dot:last-child {
     transform: translateX(var(--dot-transform-left));
 }
+
+.menu:hover .dot:nth-child(2),
+.menu:focus .dot:first-child {
+  background-color: #02B89D;
+}
+
+.meatball.menu:hover .dot:nth-child(2),
+.meatball.menu:focus .dot:first-child {
+  background-color: #02B89D;
+}
+
+ 

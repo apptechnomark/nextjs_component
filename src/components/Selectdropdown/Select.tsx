@@ -42,6 +42,8 @@ interface SelectProps extends React.InputHTMLAttributes<HTMLInputElement> {
   onClickButton?: (value: any) => void;
   onDeleteButton?: (value: any) => void;
   disabled?: boolean;
+  noborder?: boolean
+
 }
 
 const Select: React.FC<SelectProps> = ({
@@ -74,6 +76,7 @@ const Select: React.FC<SelectProps> = ({
   addDynamicForm_Icons_Edit,
   addDynamicForm_Icons_Delete,
   disabled,
+  noborder
 }) => {
   const [inputValue, setInputValue] = useState("");
   const [inputLabel, setInputLabel] = useState("");
@@ -214,7 +217,7 @@ const Select: React.FC<SelectProps> = ({
   return (
     <>
       <div
-        className={`relative font-medium w-full flex-row border-b ${disabled
+        className={`relative font-medium w-full flex-row  ${!noborder ? 'border-b' : ''} ${disabled
           ? "border-lightSilver"
           : open
             ? "border-primary"
@@ -289,6 +292,7 @@ const Select: React.FC<SelectProps> = ({
                   ? "text-slatyGrey"
                   : "placeholder-primary"
               }`}
+            style={{ background: "transparent" }}
           />
 
           <div
