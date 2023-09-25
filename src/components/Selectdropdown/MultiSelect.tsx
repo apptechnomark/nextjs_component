@@ -187,8 +187,7 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
                 ? `${inputValue.substring(0, 20)}...`
                 : inputValue
             }
-            style={{ width: "191px" }}
-            className={`flex-grow bg-white outline-none text-darkCharcoal text-[14px] font-normal ${open ? "text-primary" : ""
+            className={`w-full  flex-grow bg-white outline-none text-darkCharcoal text-[14px] font-normal ${open ? "text-primary" : ""
               } ${!open ? "cursor-pointer" : "cursor-default"} ${!open ? "placeholder-darkCharcoal" : "placeholder-primary"
               }`}
           />

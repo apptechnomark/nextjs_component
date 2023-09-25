@@ -47,6 +47,10 @@ module.exports = {
       md: "1920px",
       lg: "1367px",
       xl: "1920px",
+      xsmd: "260px",
+      smd: "330px",
+      mdd: "420px",
+      lgd: "560px",
     },
   },
   variants: {

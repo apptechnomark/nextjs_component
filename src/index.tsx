@@ -7,6 +7,7 @@ import Search from "./components/Appbar/Search";
 import { Avatar } from "./components/Avatar/Avatar";
 import { AvatarGroup } from "./components/Avatar/Avatar";
 import Badge from "./components/Badge/Badge";
+import { Navigation } from "./components/Bottom Navigation/Navigation";
 import Breadcrumb from "./components/Breadcrumb/Breadcrumb";
 import { Button } from "./components/Button/Button";
 import Card from "./components/Card/Card";
@@ -65,6 +66,7 @@ export {
     Avatar,
     AvatarGroup,
     Badge,
+    Navigation,
     Breadcrumb,
     Button,
     Card,

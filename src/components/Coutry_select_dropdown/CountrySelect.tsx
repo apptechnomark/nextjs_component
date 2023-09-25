@@ -137,7 +137,8 @@ const CountrySelect: React.FC<CountryCodeProps> = ({
     };
 
     const filteredOptions = useMemo(() => country.filter(option =>
-        option.country.toLowerCase().includes(searchValue.toLowerCase())
+        option.country.toLowerCase().includes(searchValue.toLowerCase())||
+        option.value.includes(searchValue)
     ), [searchValue]);
 
     const handleSelect = useCallback((value: any, telValue: any) => {

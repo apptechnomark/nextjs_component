@@ -2083,7 +2083,7 @@ const country = [
         ),
     },
     {
-        value: "+1",
+        value: "1",
         label: "+1",
         country: "United States of America",
         telLength: 10,

@@ -50,7 +50,7 @@ const MultiSelectChip: React.FC<MultiSelectChipProps> = ({
   getValue,
   errorClass,
   validate,
-  placeholder
+  placeholder,
 }) => {
   const [selected, setSelected] = useState<string[]>([]);
   const [open, setOpen] = useState(false);
@@ -58,7 +58,8 @@ const MultiSelectChip: React.FC<MultiSelectChipProps> = ({
   const [error, setError] = useState<boolean>(false);
   const [errMsg, setErrMsg] = useState<string>("");
   const [searchInput, setSearchInput] = useState<string>("");
-  const isFirefox = typeof window !== 'undefined' && /Firefox\//.test(navigator.userAgent);
+  const isFirefox =
+    typeof window !== "undefined" && /Firefox\//.test(navigator.userAgent);
 
   {
     validate &&
@@ -75,7 +76,6 @@ const MultiSelectChip: React.FC<MultiSelectChipProps> = ({
         setSelected(defaultValue);
       }, [defaultValue]);
   }
-
 
   const handleBlur = () => {
     if (validate) {
@@ -151,41 +151,41 @@ const MultiSelectChip: React.FC<MultiSelectChipProps> = ({
     option.label.toLowerCase().includes(searchInput.toLowerCase())
   );
 
-  const selectedDisplay =
-    selected.length > 0 && (
-      <div className="flex flex-wrap justify-center items-center">
-        {selected.slice(0, 2).map((selectedValue) => {
-          const selectedOption = options.find(
-            (option) => option.value === selectedValue
-          );
-          return (
-            <div
-              key={selectedValue}
-              className={`flex items-center  badge bg-[#E9ECEF] text-[#212529] border border-[#CED4DA] rounded-sm px-1 mr-[3px] ml-[1px] mt-[1px] mb-2 text-[14px] ${selectedOption?.label.length > 8 ? "max-w-[100px]" : ""
-                }`}
-            >
-              <span title={selectedOption?.label}>
-                {selectedOption?.label.length > 8
-                  ? selectedOption?.label.substring(0, 8) + "..."
-                  : selectedOption?.label}
-              </span>
+  const selectedDisplay = selected.length > 0 && (
+    <div className="flex flex-wrap justify-center items-center">
+      {selected.slice(0, 2).map((selectedValue) => {
+        const selectedOption = options.find(
+          (option) => option.value === selectedValue
+        );
+        return (
+          <div
+            key={selectedValue}
+            className={`flex items-center  badge bg-[#E9ECEF] text-[#212529] border border-[#CED4DA] rounded-sm px-1 mr-[3px] ml-[1px] mt-[1px] mb-2 text-[14px] ${
+              selectedOption?.label.length > 8 ? "max-w-[100px]" : ""
+            }`}
+          >
+            <span title={selectedOption?.label}>
+              {selectedOption?.label.length > 8
+                ? selectedOption?.label.substring(0, 8) + "..."
+                : selectedOption?.label}
+            </span>
 
-              <div
-                onClick={() => handleSelect(selectedValue)}
-                className="ml-1 cursor-pointer"
-              >
-                <CrossIcon />
-              </div>
+            <div
+              onClick={() => handleSelect(selectedValue)}
+              className="ml-1 cursor-pointer"
+            >
+              <CrossIcon />
             </div>
-          );
-        })}
-        {selected.length > 2 && (
-          <div className="flex items-center badge bg-[#E9ECEF] text-darkCharcoal border border-[#CED4DA] rounded-sm px-1 mb-2 text-[14px]">
-            +{selected.length - 2}
           </div>
-        )}
-      </div>
-    );
+        );
+      })}
+      {selected.length > 2 && (
+        <div className="flex items-center badge bg-[#E9ECEF] text-darkCharcoal border border-[#CED4DA] rounded-sm px-1 mb-2 text-[14px]">
+          +{selected.length - 2}
+        </div>
+      )}
+    </div>
+  );
 
   return (
     <>
@@ -193,36 +193,38 @@ const MultiSelectChip: React.FC<MultiSelectChipProps> = ({
         {label && (
           <label
             onClick={handleToggleOpen}
-            className={`text-[14px] font-normal ${open
-              ? "text-primary"
-              : selected.length > 0
+            className={`text-[14px] font-normal ${
+              open
+                ? "text-primary"
+                : selected.length > 0
                 ? "text-primary"
                 : error
-                  ? "text-defaultRed"
-                  : "text-slatyGrey"
-              }`}
+                ? "text-defaultRed"
+                : "text-slatyGrey"
+            }`}
           >
             {label}
             {validate && <span className="text-defaultRed">&nbsp;*</span>}
           </label>
         )}
 
-
         <div className="flex relative">
           <div
             onBlur={handleBlur}
             onClick={handleToggleOpen}
-            className={`shrink-0 w-fit bg-white border-b max-h-[26px] text-[14px] font-normal  ${open
-              ? "text-primary cursor-default"
-              : selected.length === 0
+            className={`shrink-0 w-fit bg-white border-b max-h-[26px] text-[14px] font-normal  ${
+              open
+                ? "text-primary cursor-default"
+                : selected.length === 0
                 ? "text-darkCharcoal cursor-pointer"
                 : ""
-              } ${selected.length > 0
+            } ${
+              selected.length > 0
                 ? "border-primary"
                 : error
-                  ? "border-defaultRed"
-                  : "border-lightSilver transition-colors duration-300 hover:border-primary"
-              } ${className} @layer base {
+                ? "border-defaultRed"
+                : "border-lightSilver transition-colors duration-300 hover:border-primary"
+            } ${className} @layer base {
                 @screen firefox {
                   margin-top: 1rem;
                 }
@@ -237,28 +239,36 @@ const MultiSelectChip: React.FC<MultiSelectChipProps> = ({
               onClick={handleToggleOpen}
               onChange={(e) => setSearchInput(e.target.value)}
               readOnly={!open}
-              placeholder={open ? placeholder : "Please select"}
+              placeholder={
+                open ? placeholder : selected.length > 0 ? "" : "Please select"
+              }
               // value={searchInput}
-              getError={() => { }}
-              getValue={() => { }}
-              className={`bg-white outline-none text-darkCharcoal text-[14px] font-normal ${open ? "text-primary" : ""
-                } ${!open ? "cursor-pointer" : "cursor-default"} ${!open ? "placeholder-darkCharcoal" : "placeholder-primary"
-                }`} />
+              getError={() => {}}
+              getValue={() => {}}
+              className={`bg-white outline-none text-darkCharcoal text-[14px] font-normal ${
+                open ? "text-primary" : ""
+              } ${!open ? "cursor-pointer" : "cursor-default"} ${
+                !open ? "placeholder-darkCharcoal" : "placeholder-primary"
+              }`}
+            />
           </div>
 
           <div
             onClick={handleToggleOpen}
-            className={`absolute right-0 text-[1.5rem] text-darkCharcoal cursor-pointer ${open ? "rotate-180" : ""
-              }`}>
+            className={`absolute right-0 text-[1.5rem] text-darkCharcoal cursor-pointer ${
+              open ? "rotate-180" : ""
+            }`}
+          >
             <ChevronDown />
           </div>
         </div>
 
         <ul
-          className={`absolute z-10 bg-pureWhite mt-[1px] overflow-y-auto shadow-md transition-transform ${open
-            ? "max-h-60 translate-y-0 transition-opacity opacity-100 duration-500 ease-out"
-            : "max-h-0 translate-y-20 transition-opacity opacity-0 duration-500 ease-out"
-            }`}
+          className={`absolute z-10 bg-pureWhite mt-[1px] overflow-y-auto shadow-md transition-transform ${
+            open
+              ? "max-h-60 translate-y-0 transition-opacity opacity-100 duration-500 ease-out"
+              : "max-h-0 translate-y-20 transition-opacity opacity-0 duration-500 ease-out"
+          }`}
           // Setting the width inline style based on the client width of the parent div
           style={{ width: selectRef.current?.clientWidth }}
         >
@@ -272,8 +282,9 @@ const MultiSelectChip: React.FC<MultiSelectChipProps> = ({
             filteredOptions.map((option, index) => (
               <li
                 key={index}
-                className={`p-3 text-[14px] hover:bg-whiteSmoke font-normal cursor-pointer flex ${selected.includes(option.value) ? "bg-whiteSmoke" : ""
-                  }`}
+                className={`p-3 text-[14px] hover:bg-whiteSmoke font-normal cursor-pointer flex ${
+                  selected.includes(option.value) ? "bg-whiteSmoke" : ""
+                }`}
                 onClick={
                   type !== "checkbox"
                     ? () => handleSelect(option.value)
