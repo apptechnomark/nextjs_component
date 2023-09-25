@@ -28,7 +28,7 @@ const DatepickerRangeExpanded = (props: any): JSX.Element => {
     );
     const [fullDate, setFullDate] = useState<string>(value ? value : "");
     const [currentPage, setCurrentPage] = useState<number>(1);
-    const [toggleOpen, setToggleOpen] = useState<boolean>(true);
+    const [toggleOpen, setToggleOpen] = useState<boolean>(false);
     const [animate, setAnimate] = useState<string>("");
 
 
@@ -287,7 +287,7 @@ const DatepickerRangeExpanded = (props: any): JSX.Element => {
                                                         : showYearList ? ("") :
                                                             <h1
                                                                 className="proxima text-[14px] font-semibold  text-slatyBlue"
-                                                                // onClick={toggleMonthList}
+                                                            // onClick={toggleMonthList}
                                                             >
                                                                 {months[currentMonth]}
                                                             </h1>
@@ -295,7 +295,7 @@ const DatepickerRangeExpanded = (props: any): JSX.Element => {
                                                     {showYearList && !showMonthList ? ("") : (
                                                         <h1
                                                             className={`proxima text-[14px] font-semibold ml-1  text-slatyBlue`}
-                                                            // onClick={toggleYearList}
+                                                        // onClick={toggleYearList}
                                                         >
                                                             {currentYear}
                                                         </h1>
@@ -309,7 +309,7 @@ const DatepickerRangeExpanded = (props: any): JSX.Element => {
                                                                 : showYearList ? ("") :
                                                                     <h1
                                                                         className="proxima text-[14px] font-semibold  text-slatyBlue"
-                                                                        // onClick={toggleMonthList}
+                                                                    // onClick={toggleMonthList}
                                                                     >
                                                                         {months[currentMonth + 1]}
                                                                     </h1>
@@ -317,7 +317,7 @@ const DatepickerRangeExpanded = (props: any): JSX.Element => {
                                                             {showYearList && !showMonthList ? ("") : (
                                                                 <h1
                                                                     className={`proxima text-[14px] font-semibold ml-1  text-slatyBlue`}
-                                                                    // onClick={toggleYearList}
+                                                                // onClick={toggleYearList}
                                                                 >
                                                                     {currentYear}
                                                                 </h1>
@@ -356,7 +356,7 @@ const DatepickerRangeExpanded = (props: any): JSX.Element => {
                                                                 : showYearList ? ("") :
                                                                     <h1
                                                                         className="proxima text-[14px] font-semibold cursor-pointer text-slatyBlue"
-                                                                        // onClick={toggleMonthList}
+                                                                    // onClick={toggleMonthList}
                                                                     >
                                                                         {months[currentMonth]}
                                                                     </h1>
@@ -370,7 +370,7 @@ const DatepickerRangeExpanded = (props: any): JSX.Element => {
                                                             ) : (
                                                                 <h1
                                                                     className={`proxima text-[14px] font-semibold ml-1 cursor-pointer text-slatyBlue`}
-                                                                    // onClick={toggleYearList}
+                                                                // onClick={toggleYearList}
                                                                 >
                                                                     {currentYear}
                                                                 </h1>
@@ -483,14 +483,14 @@ const DatepickerRangeExpanded = (props: any): JSX.Element => {
                                                         return (
                                                             <div
                                                                 key={index}
-                                                                className="h-full  w-full grid place-content-center text-sm text-textColor  proxima relative "
+                                                                className={`h-full ${currentMonth ? "" : " invisible pointer-events-none"}    w-full grid place-content-center text-sm text-textColor  proxima relative `}
                                                                 onClick={() => handleDateClick(currentDate)}
                                                                 onMouseEnter={() => handleDateHover(currentDate)}
                                                                 onMouseLeave={handleMouseOut}
                                                             >
                                                                 <label
                                                                     className={`h-[40px] w-[40px] m-[2px] grid place-content-center rounded-full cursor-pointer z-10 
-                                                                ${currentMonth ? "" : "text-[#cbd5e0] invisible  pointer-events-none "}
+                                                                ${currentMonth ? "" : "text-[#cbd5e0]   pointer-events-none "}
                                                                 ${(isSelected && !isStartDate && !isEndDate) && "bg-secondaryGreen transition-color duration-[700ms] font-semibold"} 
                                                                 ${isInRange && "border-dashed border border-primary"}
                                                                 ${(isSameDay || isStartDate || isEndDate)
@@ -549,7 +549,7 @@ const DatepickerRangeExpanded = (props: any): JSX.Element => {
                                                         return (
                                                             <div
                                                                 key={index}
-                                                                className="h-full  w-full grid place-content-center text-sm text-textColor proxima relative "
+                                                                className={`h-full ${currentMonth ? "" : " invisible pointer-events-none"}    w-full grid place-content-center text-sm text-textColor  proxima relative `}
                                                                 onClick={() => handleDateClick(currentDate)}
                                                                 onMouseEnter={() => handleDateHover(currentDate)}
                                                                 onMouseLeave={handleMouseOut}
