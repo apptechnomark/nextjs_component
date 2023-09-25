@@ -52,6 +52,7 @@ module.exports = {
       smd: "330px",
       mdd: "420px",
       lgd: "560px",
+      xsc: "320px",
     },
   },
   variants: {

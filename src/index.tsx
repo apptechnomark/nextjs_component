@@ -10,6 +10,8 @@ import Badge from "./components/Badge/Badge";
 import { Navigation } from "./components/Bottom Navigation/Navigation";
 import Breadcrumb from "./components/Breadcrumb/Breadcrumb";
 import { Button } from "./components/Button/Button";
+import { DatepickerRange } from "./components/CalendarRange/DatepickerRange";
+import { DatepickerRangeExpanded } from "./components/CalendarRange/DatepickerRangeExpanded";
 import Card from "./components/Card/Card";
 import CardAction from "./components/Card/CardAction";
 import CardContent from "./components/Card/CardContent";
@@ -69,6 +71,8 @@ export {
     Navigation,
     Breadcrumb,
     Button,
+    DatepickerRange,
+    DatepickerRangeExpanded,
     Card,
     CardAction,
     CardContent,
