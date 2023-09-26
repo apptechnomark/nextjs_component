@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback, useRef } from "react";
-import styles from "./scss/navigation.module.scss";
+import styles from "./navigation.module.scss";
 
 interface Tab {
   id: string;

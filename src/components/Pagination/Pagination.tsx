@@ -205,7 +205,7 @@ const Pagination: React.FC<PaginationProps> = (props) => {
              }
              `}
         >
-          {Array.from({ length: 50 }, (_, index) => index + 1).map((number) => (
+          {Array.from({ length: totalPages }, (_, index) => index + 1).map((number) => (
             <li
               key={number}
               className={`py-[8px] px-[15px] text-[14px] hover:bg-whiteSmoke font-normal cursor-pointer flex flex-row items-center space-x-2 ${

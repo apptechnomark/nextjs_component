@@ -95,6 +95,8 @@ const Select: React.FC<SelectProps> = ({
   const [textValue, setTextValue] = useState("");
   const [textNameError, setTextNameError] = useState(false);
   const [textNameHasError, setTextNameHasError] = useState(false);
+  const [focusedIndex, setFocusedIndex] = useState<number>(-1);
+
 
   const filteredOptions = options.filter((option) =>
     option.label.toLowerCase().includes(searchValue)
@@ -214,6 +216,31 @@ const Select: React.FC<SelectProps> = ({
     setOpen(editing);
   }, [editing]);
 
+  const handleListItemKeyDown = (
+    e: React.KeyboardEvent<HTMLLIElement>,
+    value: string,
+    index: number
+  ) => {
+    if (e.key === "Enter" && e.target instanceof HTMLElement && e.target.tagName == 'LI') {
+      handleSelect(value);
+    } else if (e.key === "ArrowUp" && index > 0) {
+      e.preventDefault();
+      setFocusedIndex(index - 1);
+    } else if (e.key === "ArrowDown" && index < options.length - 1) {
+      e.preventDefault();
+      setFocusedIndex(index + 1);
+    }
+  };
+
+  useEffect(() => {
+    if (focusedIndex !== -1) {
+      const optionsElements = Array.from(
+        selectRef.current!.querySelectorAll("li")
+      );
+      optionsElements[focusedIndex].focus();
+    }
+  }, [focusedIndex]);
+
   return (
     <>
       <div
@@ -297,138 +324,141 @@ const Select: React.FC<SelectProps> = ({
 
           <div
             onClick={handleToggleOpen}
-            className={`text-[1.5rem] ${disabled
+            className={`text-[1.5rem] transition-transform ${disabled
               ? "text-slatyGrey cursor-default"
               : "text-darkCharcoal cursor-pointer"
-              } ${open ? "rotate-180" : ""}`}
+              } ${open ? "rotate-180 text-primary duration-400" : "duration-200"}`}
           >
             <ChevronDown />
           </div>
         </div>
 
-        {open && (
-          <ul
-            className={`absolute z-10 bg-pureWhite mt-[1px] shadow-md transition-transform w-full ${open
-              ? "max-h-60 translate-y-0 transition-opacity opacity-100 duration-500"
-              : "max-h-0 translate-y-20 transition-opacity opacity-0 duration-500"
-              } ${open ? "ease-out" : ""}`}
-            style={{ width: selectRef.current?.clientWidth }}
-          >
-            <li className="relative flex flex-col max-h-40 overflow-y-auto">
-              <ul>
-                {filteredOptions.length > 0 &&
-                  filteredOptions.map((option, index) => (
-                    <li
-                      key={index}
-                      className={`p-[10px] group/item text-[14px] hover:bg-whiteSmoke font-normal cursor-pointer flex flex-row items-center ${addDynamicForm ||
-                        addDynamicForm_Icons_Edit ||
-                        addDynamicForm_Icons_Delete
-                        ? "justify-between"
-                        : ""
-                        } ${option.value === selectedOption?.value
-                          ? "bg-whiteSmoke"
-                          : ""
-                        }`}
-                      onClick={() => {
-                        if (option.value !== inputValue) {
-                          handleSelect(option.value);
-                        }
-                      }}
-                    >
-                      {avatar && (
-                        <div className="mr-2 flex-shrink-0 items-center text-[1.5rem] text-darkCharcoal">
-                          <Avatar
-                            variant="x-small"
-                            name={avatarName}
-                            imageUrl={avatarImgUrl}
-                          />
-                        </div>
-                      )}
 
-                      {option.label}&nbsp;{option.JsxElement}
-
-                      {(addDynamicForm ||
-                        addDynamicForm_Icons_Edit ||
-                        addDynamicForm_Icons_Delete) && (
-                          <a className="group/edit invisible hover:bg-slate-100 group-hover/item:visible">
-                            <div className="flex flex-row right-0 mr-2 justify-end items-end">
-                              {addDynamicForm_Icons_Edit && (
-                                <div
-                                  className="p-[2px]"
-                                  onClick={(event) => {
-                                    event.stopPropagation();
-                                    setTextValue(option.value);
-                                    setInputLabel(option.label);
-                                    onChangeText(option.value, option.label);
-                                    setEditing(true);
-                                  }}
-                                >
-                                  <EditIconDropdown />
-                                </div>
-                              )}
-
-                              {addDynamicForm_Icons_Delete && (
-                                <div
-                                  className="p-[2px]"
-                                  onClick={(event) => {
-                                    event.stopPropagation();
-                                    onChangeText(option.value, option.label);
-                                    handleDeleteValue(option.value);
-                                  }}
-                                >
-                                  <DeleteIconDropdown />
-                                </div>
-                              )}
-                            </div>
-                          </a>
-                        )}
-                    </li>
-                  ))}
-              </ul>
-            </li>
-
-            {(addDynamicForm || editing) && (
-              <li className="w-full z-50 bg-pureWhite">
-                <div className="bg-gray-100 flex flex-row items-center justify-between ">
-                  <div className="m-2 w-full">
-                    <Text
-                      noSpecialChar
-                      validate
-                      label={addDynamicForm_Label}
-                      placeholder={addDynamicForm_Placeholder}
-                      className="w-full"
-                      value={editing ? inputLabel : textName}
-                      maxChar={addDynamicForm_MaxLength}
-                      getValue={(e) => {
-                        if (editing) {
-                          setOpen(true);
-                          setInputLabel(e);
-                          onChangeText(textValue, e);
-                        } else {
-                          setTextName(e);
-                          onChangeText(textValue, e);
-                        }
-                      }}
-                      hasError={textNameHasError}
-                      getError={(e) => setTextNameError(e)}
+        <ul
+          className={`absolute z-10 w-full bg-pureWhite mt-[1px] overflow-y-auto shadow-md transition-transform ${open
+            ? "max-h-60 translate-y-0 transition-opacity opacity-100 duration-500"
+            : "max-h-0 translate-y-20 transition-opacity opacity-0 duration-500"
+            } ${open ? "ease-out" : ""}`}
+        >
+          {filteredOptions.length > 0 &&
+            filteredOptions.map((option, index) => (
+              <li
+                key={index}
+                className={`p-[10px] outline-none focus:bg-whiteSmoke relative group/item text-[14px] hover:bg-whiteSmoke font-normal cursor-pointer flex flex-row items-center ${addDynamicForm ||
+                  addDynamicForm_Icons_Edit ||
+                  addDynamicForm_Icons_Delete
+                  ? "justify-between"
+                  : ""
+                  } ${option.value === selectedOption?.value
+                    ? "bg-whiteSmoke"
+                    : ""
+                  }`}
+                onClick={() => {
+                  if (option.value !== inputValue) {
+                    handleSelect(option.value);
+                  }
+                }}
+                onKeyDown={(e) =>
+                  handleListItemKeyDown(e, option.value, index)
+                }
+                tabIndex={0}
+                ref={(el) => {
+                  if (index === focusedIndex) {
+                    el?.focus();
+                  }
+                }}
+              >
+                {avatar && (
+                  <div className="mr-2 flex-shrink-0 items-center text-[1.5rem] text-darkCharcoal">
+                    <Avatar
+                      variant="x-small"
+                      name={avatarName}
+                      imageUrl={avatarImgUrl}
                     />
                   </div>
+                )}
 
-                  <div className="ml-3 mr-2">
-                    <Button
-                      type="button"
-                      variant="btn-primary"
-                      className="rounded-[4px] !h-auto"
-                      onClick={handleSubmit}
-                    >
-                      {editing ? "Save" : "ADD"}
-                    </Button>
-                  </div>
-                </div>
+                {option.label}&nbsp;{option.JsxElement}
+
+                {(addDynamicForm ||
+                  addDynamicForm_Icons_Edit ||
+                  addDynamicForm_Icons_Delete) && (
+                    <a className="group/edit invisible hover:bg-slate-100 group-hover/item:visible">
+                      <div className="flex flex-row right-0 mr-2 justify-end items-end">
+                        {addDynamicForm_Icons_Edit && (
+                          <div
+                            className="p-[2px]"
+                            onClick={(event) => {
+                              event.stopPropagation();
+                              setTextValue(option.value);
+                              setInputLabel(option.label);
+                              onChangeText(option.value, option.label);
+                              setEditing(true);
+                            }}
+                          >
+                            <EditIconDropdown />
+                          </div>
+                        )}
+
+                        {addDynamicForm_Icons_Delete && (
+                          <div
+                            className="p-[2px]"
+                            onClick={(event) => {
+                              event.stopPropagation();
+                              onChangeText(option.value, option.label);
+                              handleDeleteValue(option.value);
+                            }}
+                          >
+                            <DeleteIconDropdown />
+                          </div>
+                        )}
+                      </div>
+                    </a>
+                  )}
+
               </li>
-            )}
-          </ul>
-        )}
+            ))}
+          {(addDynamicForm || editing) && (
+            <li className="w-full z-50 bg-pureWhite">
+              <div className="bg-gray-100 flex flex-row items-center justify-between ">
+                <div className="m-2 w-full">
+                  <Text
+                    noSpecialChar
+                    validate
+                    label={addDynamicForm_Label}
+                    placeholder={addDynamicForm_Placeholder}
+                    className="w-full"
+                    value={editing ? inputLabel : textName}
+                    maxChar={addDynamicForm_MaxLength}
+                    getValue={(e) => {
+                      if (editing) {
+                        setOpen(true);
+                        setInputLabel(e);
+                        onChangeText(textValue, e);
+                      } else {
+                        setTextName(e);
+                        onChangeText(textValue, e);
+                      }
+                    }}
+                    hasError={textNameHasError}
+                    getError={(e) => setTextNameError(e)}
+                  />
+                </div>
+
+                <div className="ml-3 mr-2">
+                  <Button
+                    type="button"
+                    variant="btn-primary"
+                    className="rounded-[4px] !h-auto"
+                    onClick={handleSubmit}
+                  >
+                    {editing ? "Save" : "ADD"}
+                  </Button>
+                </div>
+              </div>
+            </li>
+          )}
+        </ul>
       </div>
 
       {!error && supportingText && (
