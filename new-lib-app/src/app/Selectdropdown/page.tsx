@@ -41,17 +41,17 @@ const SelectComponent: React.FC = () => {
                     Basic
                 </h2>
                 <div className="pt-3 pl-8 mb-5">
-                        <Select
-                            id="basic"
-                            type="icons"
-                            options={options}
-                            validate
-                            search
-                            defaultValue={optionId}
-                            getValue={(value: any) => setOptionId(value)}
-                            getError={(e: any) => setOptionError(e)}
-                            hasError={optionError}
-                        />
+                    <Select
+                        id="basic"
+                        type="icons"
+                        options={options}
+                        validate
+                        search
+                        defaultValue={optionId}
+                        getValue={(value: any) => setOptionId(value)}
+                        getError={(e: any) => setOptionError(e)}
+                        hasError={optionError}
+                    />
                 </div>
             </div>
 

@@ -12,6 +12,7 @@ import Play from "./icons/play"
 import Stop from "./icons/stop"
 import ActionIcon from "./icons/ActionIcon"
 import TaskIcon from "./icons/TaskIcon"
+// import Company from "./icons/Company"
 import { Card, CardAction, CardContent, CardHeader, Button, Avatar, CheckBox, Radio, Select, AvatarGroup } from "next-ts-lib";
 import "next-ts-lib/dist/index.css"
 
@@ -143,6 +144,76 @@ const card: React.FC = () => {
         </div>
 
         <div className="p-2  m-3 bg-[#DADADA] border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+            <Card style={{ width: "250px" }}>
+                <CardHeader>
+                    <div className="block w-[250px]">
+                        <div className="inline relative">
+                            <div className="ml-1">
+                                <Start />
+                            </div>
+                            <div className="absolute top-0 right-[0px]">
+                                <ActionIcon />
+                            </div>
+                        </div>
+                        <div className="ml-2 my-2">
+                            <span>
+                                Revenue
+                            </span>
+                        </div>
+                        <div className="ml-2 ">
+                            <span>
+                                $ 3,393.95
+                            </span>
+                        </div>
+                    </div>
+                </CardHeader>
+            </Card>
+        </div>
+
+        <div className="p-2  m-3 bg-[#DADADA] border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+            <Card style={{ width: "350px" }}>
+                <CardHeader>
+                    <div className="relative h-[80px]">
+                        <div className="absolute top-6">
+                            <Start />
+                        </div>
+                        <div className="absolute top-3 left-[30px]">
+                            <span>
+                                Revanue
+                            </span>
+                        </div>
+                        <div className="absolute top-11 left-[30px]">
+                            <span>
+                                $3,393.95
+                            </span>
+                        </div>
+                        <div className="absolute top-6 left-[280px]">
+                            <ActionIcon />
+                        </div>
+                    </div>
+                </CardHeader>
+            </Card>
+        </div>
+
+        <div className="p-2  m-3 bg-[#DADADA] border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+            <Card style={{ width: "350px" }}>
+                <CardHeader>
+                    <div>
+                        <div className="inline-block">
+                            <Start />
+                        </div>
+                        <div className="inline-block ml-3 mb-2">
+                            <span>Revenue</span>
+                        </div>
+                        <div className="inline-block ml-10">
+                            <ActionIcon />
+                        </div>
+                    </div>
+                </CardHeader>
+            </Card>
+        </div>
+
+        <div className="p-2  m-3 bg-[#DADADA] border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
             <Card style={{ width: "350px", height: "140px" }}>
                 <CardHeader>
                     <div className="block relative w-full">
@@ -169,6 +240,28 @@ const card: React.FC = () => {
                 <CardHeader>
                     <div className="block relative w-full">
                         <div className="mr-1 absolute right-0 top-2">
+                            <Radio id="Radio_Checked" />
+                        </div>
+                        <div className="absolute left-[146px] top-4">
+                            <span>
+                                <ApIcon />
+                            </span>
+                        </div>
+                        <div className="absolute top-[68px] left-[100px]">
+                            <span>
+                                Accounts Payable
+                            </span>
+                        </div>
+                    </div>
+                </CardHeader>
+            </Card>
+        </div>
+
+        <div className="p-2  m-3 bg-[#DADADA] border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+            <Card style={{ width: "350px", height: "140px" }}>
+                <CardHeader>
+                    <div className="block relative w-full">
+                        <div className="mr-1 absolute  top-2">
                             <Radio id="Radio_Checked" />
                         </div>
                         <div className="absolute left-[146px] top-4">

@@ -11,12 +11,13 @@ $lightSilver: #d8d8d8;
   text-align: center;
 }
 
-.tab:hover {
-  cursor: pointer !important;
-  color: $primary;
-  background-color: rgba(2, 184, 157, 0.116);
-  border-bottom: 2px solid $primary;
-}
+// .tab:hover {
+//   // cursor: pointer !important;
+//   // color: $primary;
+//   // background-color: #E1F7F3;
+//   background-color: aqua;
+//   // border-bottom: 2px solid $primary;
+// }
 
 .active {
   border-bottom: 2px solid $primary;
@@ -24,9 +25,9 @@ $lightSilver: #d8d8d8;
 }
 
 .tab__ripple {
-  width: 10%;
+  width: 18%;
   opacity: 0;
-  height: 48px;
+  height: 45px;
   position: absolute;
   transform: scale(0);
   border-radius: 30px;

@@ -26,7 +26,7 @@ import {
 import { TbTooltip, TbBoxMultiple, TbLayoutSidebar } from "react-icons/tb";
 import { GrToast } from "react-icons/gr";
 import { IoMdTime } from "react-icons/io";
-import { TfiLayoutAccordionMerged, TfiLayoutTabWindow, TfiLayoutTabMin } from "react-icons/tfi";
+import { TfiLayoutAccordionMerged, TfiLayoutTabWindow, TfiLayoutTab } from "react-icons/tfi";
 import { ImPageBreak, ImSpinner9 } from "react-icons/im";
 import { SiProgress } from "react-icons/si";
 import {
@@ -71,6 +71,11 @@ const sidebarItems = [
     name: "Breadcrumb",
     href: "/Breadcrumb",
     icon: SiProgress,
+  },
+  {
+    name: "Bottom Navigation",
+    href: "/BottomNavigation",
+    icon: TfiLayoutTab,
   },
   {
     name: "Button",
@@ -146,7 +151,7 @@ const sidebarItems = [
   {
     name: "Navigation Bar",
     href: "/NavigationBar",
-    icon: TfiLayoutTabMin,
+    icon: TfiLayoutTabWindow,
   },
   {
     name: "Pagination",

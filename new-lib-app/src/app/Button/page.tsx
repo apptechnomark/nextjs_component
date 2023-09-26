@@ -4,7 +4,7 @@ import { Button, Loader, Spinner } from "next-ts-lib";
 import "next-ts-lib/dist/index.css";
 import { BsPlusCircle } from "react-icons/bs";
 import BaseLayout from "../../components/BaseLayout";
-
+import SpinnerIcon from "./spinnerIcon";
 const button = () => {
   return (
     <BaseLayout>
@@ -583,9 +583,11 @@ const button = () => {
           <Button className="rounded-md btn-sm" variant="btn" disabled>
             <div className="flex mb-1">
               <span className="mr-2 mt-1">
-                <div className="loader circle"></div>
+                <div className="animate-spin">
+                  <SpinnerIcon bgColor="#FFF" />
+                </div>
               </span>
-              <span className="mt-1">
+              <span className="mt-[5px]">
                 Disable
               </span>
             </div>
@@ -593,9 +595,11 @@ const button = () => {
           <Button className="rounded-md btn-sm" variant="btn-primary">
             <div className="flex mb-1">
               <span className="mr-2 mt-1">
-                <div className="loader circle"></div>
+                <div className="animate-spin">
+                  <SpinnerIcon bgColor="#FFF" />
+                </div>
               </span>
-              <span className="mt-1">
+              <span className="mt-[5px]">
                 Primary
               </span>
             </div>
@@ -603,9 +607,11 @@ const button = () => {
           <Button className="rounded-md btn-sm" variant="btn-secondary">
             <div className="flex mb-1">
               <span className="mr-2 mt-1">
-                <div className="loader circle"></div>
+                <div className="animate-spin">
+                  <SpinnerIcon bgColor="#FFF" />
+                </div>
               </span>
-              <span className="mt-1">
+              <span className="mt-[5px]">
                 Secondary
               </span>
             </div>
@@ -613,9 +619,11 @@ const button = () => {
           <Button className="rounded-md btn-sm" variant="btn-success">
             <div className="flex mb-1">
               <span className="mr-2 mt-1">
-                <div className="loader circle"></div>
+                <div className="animate-spin">
+                  <SpinnerIcon bgColor="#FFF" />
+                </div>
               </span>
-              <span className="mt-1">
+              <span className="mt-[5px]">
                 Success
               </span>
             </div>
@@ -623,9 +631,11 @@ const button = () => {
           <Button className="rounded-md btn-sm" variant="btn-error">
             <div className="flex mb-1">
               <span className="mr-2 mt-1">
-                <div className="loader circle"></div>
+                <div className="animate-spin">
+                  <SpinnerIcon bgColor="#FFF" />
+                </div>
               </span>
-              <span className="mt-1">
+              <span className="mt-[5px]">
                 Error
               </span>
             </div>
@@ -633,9 +643,341 @@ const button = () => {
           <Button className="rounded-md btn-sm" variant="btn-warning">
             <div className="flex mb-1">
               <span className="mr-2 mt-1">
-                <div className="loader circle"></div>
+                <div className="animate-spin">
+                  <SpinnerIcon bgColor="#FFF" />
+                </div>
+              </span>
+              <span className="mt-[5px]">
+                Warning
+              </span>
+            </div>
+          </Button>
+        </div>
+      </div>
+
+      <div className="p-2  m-3 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+        <h2 className="m-7 text-xl  tracking-tight text-gray-900 dark:text-white">
+          Spinners-Button Shapes
+        </h2>
+        <div className="pt-3 pl-4 mb-5 gap-8 grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
+
+          {/* Square  */}
+          <Button className="btn-sm" variant="btn-primary">
+            <div className="flex mb-1">
+              <span className="mr-2 mt-1">
+                <div className="animate-spin">
+                  <SpinnerIcon bgColor="#FFF" />
+                </div>
+              </span>
+              <span className="mt-[5px]">
+                Primary
+              </span>
+            </div>
+          </Button>
+          <Button className="btn-sm" variant="btn-secondary">
+            <div className="flex mb-1">
+              <span className="mr-2 mt-1">
+                <div className="animate-spin">
+                  <SpinnerIcon bgColor="#FFF" />
+                </div>
+              </span>
+              <span className="mt-[5px]">
+                Secondary
+              </span>
+            </div>
+          </Button>
+          <Button className="btn-sm" variant="btn-success">
+            <div className="flex mb-1">
+              <span className="mr-2 mt-1">
+                <div className="animate-spin">
+                  <SpinnerIcon bgColor="#FFF" />
+                </div>
+              </span>
+              <span className="mt-[5px]">
+                Success
+              </span>
+            </div>
+          </Button>
+          <Button className="btn-sm" variant="btn-error">
+            <div className="flex mb-1">
+              <span className="mr-2 mt-1">
+                <div className="animate-spin">
+                  <SpinnerIcon bgColor="#FFF" />
+                </div>
+              </span>
+              <span className="mt-[5px]">
+                Error
+              </span>
+            </div>
+          </Button>
+          <Button className="btn-sm" variant="btn-warning">
+            <div className="flex mb-1">
+              <span className="mr-2 mt-1">
+                <div className="animate-spin">
+                  <SpinnerIcon bgColor="#FFF" />
+                </div>
+              </span>
+              <span className="mt-[5px]">
+                Warning
+              </span>
+            </div>
+          </Button>
+
+          {/* Rounded-sm */}
+          <Button className="rounded-md btn-sm" variant="btn-primary">
+            <div className="flex mb-1">
+              <span className="mr-2 mt-1">
+                <div className="animate-spin">
+                  <SpinnerIcon bgColor="#FFF" />
+                </div>
+              </span>
+              <span className="mt-[5px]">
+                Primary
+              </span>
+            </div>
+          </Button>
+          <Button className="rounded-md btn-sm" variant="btn-secondary">
+            <div className="flex mb-1">
+              <span className="mr-2 mt-1">
+                <div className="animate-spin">
+                  <SpinnerIcon bgColor="#FFF" />
+                </div>
+              </span>
+              <span className="mt-[5px]">
+                Secondary
+              </span>
+            </div>
+          </Button>
+          <Button className="rounded-md btn-sm" variant="btn-success">
+            <div className="flex mb-1">
+              <span className="mr-2 mt-1">
+                <div className="animate-spin">
+                  <SpinnerIcon bgColor="#FFF" />
+                </div>
+              </span>
+              <span className="mt-[5px]">
+                Success
+              </span>
+            </div>
+          </Button>
+          <Button className="rounded-md btn-sm" variant="btn-error">
+            <div className="flex mb-1">
+              <span className="mr-2 mt-1">
+                <div className="animate-spin">
+                  <SpinnerIcon bgColor="#FFF" />
+                </div>
+              </span>
+              <span className="mt-[5px]">
+                Error
+              </span>
+            </div>
+          </Button>
+          <Button className="rounded-md btn-sm" variant="btn-warning">
+            <div className="flex mb-1">
+              <span className="mr-2 mt-1">
+                <div className="animate-spin">
+                  <SpinnerIcon bgColor="#FFF" />
+                </div>
+              </span>
+              <span className="mt-[5px]">
+                Warning
+              </span>
+            </div>
+          </Button>
+
+          {/* Rounded-full */}
+          <Button className="rounded-full" variant="btn-primary">
+            <div className="flex mb-1">
+              <span className="mr-2 mt-1">
+                <div className="animate-spin">
+                  <SpinnerIcon bgColor="#FFF" />
+                </div>
               </span>
               <span className="mt-1">
+                Primary
+              </span>
+            </div>
+          </Button>
+          <Button className="rounded-full" variant="btn-secondary">
+            <div className="flex mb-1">
+              <span className="mr-2 mt-1">
+                <div className="animate-spin">
+                  <SpinnerIcon bgColor="#FFF" />
+                </div>
+              </span>
+              <span className="mt-1">
+                Secondary
+              </span>
+            </div>
+          </Button>
+          <Button className="rounded-full" variant="btn-success">
+            <div className="flex mb-1">
+              <span className="mr-2 mt-1">
+                <div className="animate-spin">
+                  <SpinnerIcon bgColor="#FFF" />
+                </div>
+              </span>
+              <span className="mt-1">
+                Success
+              </span>
+            </div>
+          </Button>
+          <Button className="rounded-full" variant="btn-error">
+            <div className="flex mb-1">
+              <span className="mr-2 mt-1">
+                <div className="animate-spin">
+                  <SpinnerIcon bgColor="#FFF" />
+                </div>
+              </span>
+              <span className="mt-1">
+                Error
+              </span>
+            </div>
+          </Button>
+          <Button className="rounded-full" variant="btn-warning">
+            <div className="flex mb-1">
+              <span className="mr-2 mt-1">
+                <div className="animate-spin">
+                  <SpinnerIcon bgColor="#FFF" />
+                </div>
+              </span>
+              <span className="mt-1">
+                Warning
+              </span>
+            </div>
+          </Button>
+
+          {/* Outline Button */}
+          <Button className="rounded-md" variant="btn-outline-primary">
+            <div className="flex mb-1">
+              <span className="mr-2 mt-1">
+                <div className="animate-spin">
+                  <SpinnerIcon bgColor="#02B89D" />
+                </div>
+              </span>
+              <span className="mt-1">
+                Primary
+              </span>
+            </div>
+          </Button>
+          <Button className="rounded-md" variant="btn-outline-secondary">
+            <div className="flex mb-1">
+              <span className="mr-2 mt-1">
+                <div className="animate-spin">
+                  <SpinnerIcon bgColor="#0281B9" />
+                </div>
+              </span>
+              <span className="mt-1">
+                Secondary
+              </span>
+            </div>
+          </Button>
+          <Button className="rounded-md" variant="btn-outline-success">
+            <div className="flex mb-1">
+              <span className="mr-2 mt-1">
+                <div className="animate-spin">
+                  <SpinnerIcon bgColor="#198754" />
+                </div>
+              </span>
+              <span className="mt-1">
+                Success
+              </span>
+            </div>
+          </Button>
+          <Button className="rounded-md" variant="btn-outline-error">
+            <div className="flex mb-1 ">
+              <span className="mr-2 mt-1  ">
+                <div className="animate-spin">
+                  <SpinnerIcon bgColor="#DC3545" />
+                </div>
+              </span>
+              <span className="mt-1 ">
+                Error
+              </span>
+            </div>
+          </Button>
+          <Button className="rounded-md" variant="btn-outline-warning">
+            <div className="flex mb-1">
+              <span className="mr-2 mt-1">
+                <div className="animate-spin">
+                  <SpinnerIcon bgColor="#FFC107" />
+                </div>
+              </span>
+              <span className="mt-1">
+                Warning
+              </span>
+            </div>
+          </Button>
+
+          {/* Link Spinner Button */}
+          {/* <Button className="btn-sm" disabled>
+            <div className="flex mb-1">
+              <span className="mr-2 mt-1">
+                <div className="animate-spin">
+                  <SpinnerIcon bgColor="#6E6D7A" />
+                </div>
+              </span>
+              <span className="mt-[5px]">
+                Disable
+              </span>
+            </div>
+          </Button> */}
+          <Button className="btn-sm">
+            <div className="flex mb-1">
+              <span className="mr-2 mt-1">
+                <div className="animate-spin">
+                  <SpinnerIcon bgColor="#02B89D" />
+                </div>
+              </span>
+              <span className="mt-[5px] text-[#02B89D]">
+                Primary
+              </span>
+            </div>
+          </Button>
+          <Button className="btn-sm">
+            <div className="flex mb-1">
+              <span className="mr-2 mt-1">
+                <div className="animate-spin">
+                  <SpinnerIcon bgColor="#0281B9" />
+                </div>
+              </span>
+              <span className="mt-[5px] text-[#0281B9]">
+                Secondary
+              </span>
+            </div>
+          </Button>
+          <Button className="btn-sm">
+            <div className="flex mb-1">
+              <span className="mr-2 mt-1">
+                <div className="animate-spin">
+                  <SpinnerIcon bgColor="#198754" />
+                </div>
+              </span>
+              <span className="mt-[5px] text-[#198754]">
+                Success
+              </span>
+            </div>
+          </Button>
+          <Button className="btn-sm">
+            <div className="flex mb-1 ">
+              <span className="mr-2 mt-1  ">
+                <div className="animate-spin">
+                  <SpinnerIcon bgColor="#DC3545" />
+                </div>
+              </span>
+              <span className="mt-[5px] text-[#DC3545]">
+                Error
+              </span>
+            </div>
+          </Button>
+          <Button className="btn-sm">
+            <div className="flex mb-1">
+              <span className="mr-2 mt-1">
+                <div className="animate-spin">
+                  <SpinnerIcon bgColor="#FFC107" />
+                </div>
+              </span>
+              <span className="mt-[5px] text-[#FFC107]">
                 Warning
               </span>
             </div>

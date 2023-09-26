@@ -7,7 +7,11 @@ import PlusIcon from "./PlusIcon";
 import "next-ts-lib/dist/index.css";
 
 const TabComponent: React.FC = () => {
-    const [value, setValue] = useState<string>("tab1");
+    const [value, setValue] = useState<string>("");
+    const [fValue, setFValue] = useState<string>("");
+    const [dValue, setDValue] = useState<string>("");
+    const [cValue, setCValue] = useState<string>("");
+    const [iValue, setIValue] = useState<string>("tab11");
     const [option, setOption] = useState([]);
     const [optionId, setOptionId] = useState<number>(0);
     const [optionError, setOptionError] = useState<boolean>(false);
@@ -23,28 +27,36 @@ const TabComponent: React.FC = () => {
     ];
 
     const defaultTabs = [
-        { id: "tab1", label: "Tab1" },
-        { id: "tab2", label: "Tab2" },
-        { id: "tab3", label: "Tab3" },
-        { id: "tab4", label: "Tab4", disabled: true },
+        { id: "dtab1", label: "Tab1" },
+        { id: "dtab2", label: "Tab2" },
+        { id: "dtab3", label: "Tab3" },
+        { id: "dtab4", label: "Tab4", disabled: true },
     ]
 
     const fullTabs = [
-        { id: "tab1", label: "Placeholder Text" },
-        { id: "tab2", label: "Placeholder Text" },
-        { id: "tab3", label: "Placeholder Text" },
-        { id: "tab4", label: "Placeholder Text" },
+        { id: "ftab1", label: "Placeholder Text" },
+        { id: "ftab2", label: "Placeholder Text" },
+        { id: "ftab3", label: "Placeholder Text" },
+        { id: "ftab4", label: "Placeholder Text" },
     ]
 
     const iconTab = [
-        { id: "tab1", label: "Tab1", icon: <PlusIcon bgColor={value === "tab1" ? "#02B89D" : "#333333"} />, alignIcon: "left" },
-        { id: "tab2", label: "Placeholder Text", icon: <PlusIcon bgColor={value === "tab2" ? "#02B89D" : "#333333"} />, alignIcon: "right" },
-        { id: "tab3", label: "Placeholder Text", icon: <PlusIcon bgColor={value === "tab3" ? "#02B89D" : "#333333"} />, alignIcon: "right" },
-        { id: "tab4", label: "Placeholder Text", icon: <PlusIcon bgColor={value === "tab4" ? "#02B89D" : "#333333"} />, alignIcon: "right" },
+        { id: "tab11", label: "Tab1", icon: <PlusIcon bgColor={iValue === "tab11" ? "#02B89D" : "#333333"} />, alignIcon: "left" },
+        { id: "tab21", label: "Placeholder Text", icon: <PlusIcon bgColor={iValue === "tab21" ? "#02B89D" : "#333333"} />, alignIcon: "left" },
+        { id: "tab31", label: "Placeholder Text", icon: <PlusIcon bgColor={iValue === "tab31" ? "#02B89D" : "#333333"} />, alignIcon: "right" },
+        { id: "tab41", label: "Placeholder Text", icon: <PlusIcon bgColor={iValue === "tab41" ? "#02B89D" : "#333333"} />, alignIcon: "right" },
     ]
+
+    const centeredTabs = [
+        { id: "ctab1", label: "Tab1" },
+        { id: "ctab2", label: "Tab2" },
+        { id: "ctab3", label: "Tab3" },
+        { id: "ctab4", label: "Tab4", disabled: true },
+    ]
+    
     const dropdownTab = [
         {
-            id: "tab1", jsxElement:
+            id: "ddtab1", jsxElement:
                 <MultiSelect
                     type="checkbox"
                     options={options}
@@ -57,7 +69,7 @@ const TabComponent: React.FC = () => {
                 />
         },
         {
-            id: "tab2", jsxElement:
+            id: "ddtab2", jsxElement:
                 <MultiSelect
                     type="checkbox"
                     options={options}
@@ -70,7 +82,7 @@ const TabComponent: React.FC = () => {
                 />
         },
         {
-            id: "tab3",
+            id: "ddtab3",
             jsxElement:
                 <MultiSelect
                     type="checkbox"
@@ -84,7 +96,7 @@ const TabComponent: React.FC = () => {
                 />
         },
         {
-            id: "tab4", jsxElement:
+            id: "ddtab4", jsxElement:
                 <MultiSelect
                     type="checkbox"
                     options={options}
@@ -121,7 +133,7 @@ const TabComponent: React.FC = () => {
                     </h2>
                     <div className="mx-7">
                         <TabBar tabs={fullTabs} getValue={(e: any) => {
-                            setValue(e);
+                            setFValue(e);
                         }} />
 
                     </div>
@@ -131,18 +143,18 @@ const TabComponent: React.FC = () => {
                         Centered Tabs
                     </h2>
                     <div className="mx-7">
-                        <TabBar tabs={defaultTabs} getValue={(e: any) => {
-                            setValue(e);
+                        <TabBar tabs={centeredTabs} getValue={(e: any) => {
+                            setCValue(e);
                         }} />
                     </div>
-                </div>
+                </div> 
                 <div className="p-2 m-3 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
                     <h2 className="m-7 text-xl tracking-tight text-gray-900 dark:text-white">
                         Icon Tabs
                     </h2>
                     <div className="mx-7">
-                        <TabBar tabs={iconTab} getValue={(e: any) => {
-                            setValue(e);
+                        <TabBar tabs={centeredTabs} getValue={(e: any) => {
+                            setIValue(e);
                         }} />
 
                     </div>
@@ -153,7 +165,7 @@ const TabComponent: React.FC = () => {
                     </h2>
                     <div className="mx-7">
                         <TabBar tabs={dropdownTab} getValue={(e: any) => {
-                            setValue(e);
+                            setDValue(e);
                         }} />
 
                     </div>

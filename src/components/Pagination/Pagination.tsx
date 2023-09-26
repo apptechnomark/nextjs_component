@@ -197,7 +197,7 @@ const Pagination: React.FC<PaginationProps> = (props) => {
         </div>
 
         <ul
-          className={`w-[80px] bg-pureWhite border-[1px] mt-2.5 border-lightSilver rounded-lg overflow-y-auto shadow-md transition-transform
+          className={`absolute w-[80px] bg-pureWhite border-[1px] mt-2.5 border-lightSilver rounded-lg overflow-y-auto shadow-md transition-transform
              ${
                isOpen
                  ? "max-h-[200px] translate-y-0 transition-opacity opacity-100 duration-500 ease-out "
@@ -205,7 +205,7 @@ const Pagination: React.FC<PaginationProps> = (props) => {
              }
              `}
         >
-          {Array.from({ length: 50 }, (_, index) => index + 1).map((number) => (
+          {Array.from({ length: totalPages }, (_, index) => index + 1).map((number) => (
             <li
               key={number}
               className={`py-[8px] px-[15px] text-[14px] hover:bg-whiteSmoke font-normal cursor-pointer flex flex-row items-center space-x-2 ${

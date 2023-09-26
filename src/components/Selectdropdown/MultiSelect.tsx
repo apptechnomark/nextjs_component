@@ -26,6 +26,7 @@ interface MultiSelectProps {
   errorClass?: string;
   validate?: boolean;
   placeholder?: any;
+  noborder?: boolean
 }
 
 const MultiSelect: React.FC<MultiSelectProps> = ({
@@ -47,7 +48,8 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
   getValue,
   errorClass,
   validate,
-  placeholder
+  placeholder,
+  noborder
 }) => {
   const selectRef = useRef<HTMLDivElement>(null);
   const [selectedValues, setSelectedValues] = useState<string[]>([]);
@@ -55,6 +57,7 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
   const [open, setOpen] = useState<boolean>(false);
   const [error, setError] = useState(false);
   const [errMsg, setErrMsg] = useState("");
+  const [focusedIndex, setFocusedIndex] = useState<number>(-1);
 
   {
     validate &&
@@ -142,10 +145,35 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
     }
   };
 
+  const handleListItemKeyDown = (
+    e: React.KeyboardEvent<HTMLLIElement>,
+    value: string,
+    index: number
+  ) => {
+    if (e.key === "Enter" && e.target instanceof HTMLElement && e.target.tagName == 'LI') {
+      handleSelect(value);
+    } else if (e.key === "ArrowUp" && index > 0) {
+      e.preventDefault();
+      setFocusedIndex(index - 1);
+    } else if (e.key === "ArrowDown" && index < options.length - 1) {
+      e.preventDefault();
+      setFocusedIndex(index + 1);
+    }
+  };
+
+  useEffect(() => {
+    if (focusedIndex !== -1) {
+      const optionsElements = Array.from(
+        selectRef.current!.querySelectorAll("li")
+      );
+      optionsElements[focusedIndex].focus();
+    }
+  }, [focusedIndex]);
+
   return (
     <>
       <div
-        className={`relative font-medium w-full flex-row border-b ${selectedValues.length > 0
+        className={`relative font-medium w-full flex-row ${!noborder ? 'border-b' : ''} ${selectedValues.length > 0
           ? "border-primary"
           : error
             ? "border-defaultRed"
@@ -187,14 +215,13 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
                 ? `${inputValue.substring(0, 20)}...`
                 : inputValue
             }
-            style={{ width: "191px" }}
-            className={`flex-grow bg-white outline-none text-darkCharcoal text-[14px] font-normal ${open ? "text-primary" : ""
+            className={`w-full  flex-grow bg-white outline-none text-darkCharcoal text-[14px] font-normal ${open ? "text-primary" : ""
               } ${!open ? "cursor-pointer" : "cursor-default"} ${!open ? "placeholder-darkCharcoal" : "placeholder-primary"
-              }`}
+              }`} style={{ background: "transparent" }}
           />
           <div
             onClick={handleToggleOpen}
-            className={`text-[1.5rem] text-darkCharcoal cursor-pointer ${open ? "rotate-180" : ""
+            className={`text-[1.5rem] transition-transform text-darkCharcoal cursor-pointer  ${open ? "rotate-180 text-primary duration-400" : "duration-200"}
               }`}>
             <ChevronDown />
           </div>
@@ -210,7 +237,7 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
             options.map((option, index) => (
               <li
                 key={index}
-                className={`p-[10px] text-[14px] hover:bg-whiteSmoke font-normal cursor-pointer flex items-center ${selectedValues.includes(option.value) ? "bg-whiteSmoke" : ""
+                className={`outline-none focus:bg-whiteSmoke p-[10px] text-[14px] hover:bg-whiteSmoke font-normal cursor-pointer flex items-center ${selectedValues.includes(option.value) ? "bg-whiteSmoke" : ""
                   } ${!option.label.toLowerCase().startsWith(inputValue)
                     ? "hidden"
                     : ""
@@ -224,6 +251,16 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
                     }
                     : undefined
                 }
+                onKeyDown={(e) =>
+                  handleListItemKeyDown(e, option.value, index)
+                } 
+                tabIndex={0} 
+                ref={(el) => {
+                  if (index === focusedIndex) {
+                    el?.focus();
+                  }
+                }}
+
               >
                 {avatar && (
                   <div className="mr-2 flex-shrink-0 items-center text-[1.5rem] text-darkCharcoal">
