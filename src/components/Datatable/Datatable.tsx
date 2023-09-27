@@ -184,7 +184,7 @@ const DataTable = ({
         <tbody>
           {sortedData?.map((row, rowIndex) => (
             <React.Fragment key={rowIndex}>
-              <tr className={`${hoverEffect ? "hover:bg-[#f2f2f2]" : ""}`}>
+              <tr className={`${hoverEffect ? "hover:bg-[#f2f2f2] cursor-pointer" : ""}`}>
                 {expandable &&
                   (row.details ? (
                     <td
