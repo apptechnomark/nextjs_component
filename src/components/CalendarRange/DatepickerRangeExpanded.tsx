@@ -312,7 +312,7 @@ const DatepickerRangeExpanded = (props: any): JSX.Element => {
             </div>
             {toggleOpen && (
                 <div className="relative ">
-                    <div className={`bottomAnimation w-full absolute z-20  bg-white ${toggleOpen ? style.bottomAnimation : ""}`}>
+                    <div className={`bottomAnimation absolute z-20  bg-white ${toggleOpen ? style.bottomAnimation : ""}`}>
                         <div className="flex mx-auto items-center">
                             <div className="shadow-md overflow-hidden">
                                 <div className="flex justify-between border-b-2 border-lightSilver ">

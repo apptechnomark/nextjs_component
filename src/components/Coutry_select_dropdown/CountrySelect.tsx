@@ -40,13 +40,15 @@ const CountrySelect: React.FC<CountryCodeProps> = ({
         <img src="https://flagcdn.com/in.svg" width="24" alt="India" />
     );
 
-    const selectRef = useRef(null);
+    const selectRef = useRef<HTMLDivElement>(null);
+
     const [errorMsg, setErrorMsg] = useState<string>("");
     const [open, setOpen] = useState<boolean>(false);
     const [searchValue, setSearchValue] = useState<string>("");
     const [error, setError] = useState<boolean>(false);
     const [errMsg, setErrMsg] = useState<string>("");
     const [inputValue, setInputValue] = useState<string>("");
+    const [focusedIndex, setFocusedIndex] = useState<number>(-1);
     {
         validate &&
             useEffect(() => {
@@ -126,6 +128,7 @@ const CountrySelect: React.FC<CountryCodeProps> = ({
             setErr(false);
         }
         getValue(formattedValue);
+        setFocusedIndex(-1);
     };
 
     const handleSearchInputChange = (e: any) => {
@@ -142,41 +145,13 @@ const CountrySelect: React.FC<CountryCodeProps> = ({
         option.value.includes(searchValue)
     ), [searchValue]);
 
-    const handleSelect = useCallback((value: any, telValue: any) => {
+    const handleSelect = (value: any, telValue: any) => {
         setSelectedCountryCode(value);
         setInputValue("");
         setSearchValue("");
         setOpen(false);
-
-        const selectedCountry = country.find(
-            (code) => code.value === value
-        );
-        const requiredLength = selectedCountry && selectedCountry.telLength;
-        let updatedLength = telValue.split(" ").join("").length;
-
-        if (updatedLength < requiredLength) {
-            setErr(true);
-            setErrorMsg(`Please enter minimum ${requiredLength} digits.`);
-            getError(false);
-        } else if (updatedLength > requiredLength) {
-            setErr(true);
-            setErrorMsg(`Please enter maximum ${requiredLength} digits.`);
-            getError(false);
-        } else {
-            setErr(false);
-            getError(true);
-        }
-        if (!value) {
-            setError(true);
-            getError(false);
-            setErrMsg("Please select a valid option.");
-        } else {
-            setError(false);
-            setErrMsg("");
-            getValue(value);
-            getError(true);
-        }
-    }, [getError, getValue]);
+        setFocusedIndex(-1);
+    }
 
     useEffect(() => {
         const handleOutsideClick = (event: MouseEvent) => {
@@ -192,6 +167,36 @@ const CountrySelect: React.FC<CountryCodeProps> = ({
             window.removeEventListener("click", handleOutsideClick);
         };
     }, []);
+
+
+    const handleListItemKeyDown = (
+        e: React.KeyboardEvent<HTMLLIElement>,
+        value: string,
+        index: number,
+    ) => {
+        if (e.key === "Enter") {
+            handleSelect(value, telValue);
+        } else if (e.key === "ArrowUp" && index > 0) {
+            e.preventDefault();
+            setFocusedIndex(index - 1);
+        } else if (e.key === "ArrowDown" && index < country.length - 1) {
+            e.preventDefault();
+            setFocusedIndex(index + 1);
+        }
+        else {
+            e.preventDefault();
+            setFocusedIndex(-1);
+        }
+    };
+
+    useEffect(() => {
+        if (focusedIndex !== -1) {
+            const optionsElements = Array.from(
+                selectRef.current!.querySelectorAll("li")
+            );
+            optionsElements[focusedIndex];
+        }
+    }, [focusedIndex]);
 
     return (
         <div className="flex flex-col w-full text-[14px] relative">
@@ -261,6 +266,15 @@ const CountrySelect: React.FC<CountryCodeProps> = ({
                                                 ? "text-primary placeholder-primary"
                                                 : "text-darkCharcoal"
                                             } text-[14px] font-normal w-full`}
+                                        onKeyDown={(e) => {
+                                            if (e.key === "ArrowUp" && focusedIndex > 0) {
+                                                e.preventDefault();
+                                                setFocusedIndex(focusedIndex - 1);
+                                            } else if (e.key === "ArrowDown" && focusedIndex < filteredOptions.length - 1) {
+                                                e.preventDefault();
+                                                setFocusedIndex(focusedIndex + 1);
+                                            }
+                                        }}
                                     />
                                 </div>
                                 <div
@@ -276,12 +290,13 @@ const CountrySelect: React.FC<CountryCodeProps> = ({
                             </div>
                             <span className="border-l-[1.5px] border-l-lightSilver pl-1 py-1 mb-1"></span>
                             <input
-                                className={`${className} placeholder-[#ADB5BD] placeholder-opacity-100 pt-0.5 pb-1 outline-none w-full h-full text-darkCharcoal ${err && "text-defaultRed"
+                                className={`${className}  placeholder-[#ADB5BD] placeholder-opacity-100 pt-0.5 pb-1 outline-none w-full h-full text-darkCharcoal ${err && "text-defaultRed"
                                     } `}
                                 type="tel"
                                 id={id}
                                 name={name}
                                 value={telValue}
+                                autoFocus
                                 onBlur={
                                     onBlur
                                         ? onBlur
@@ -299,31 +314,37 @@ const CountrySelect: React.FC<CountryCodeProps> = ({
                             />
                         </div>
                         <ul
-                            className={`absolute w-full bg-pureWhite mt-[1px] overflow-y-auto shadow-md transition-transform ${open
+                            className={`absolute w-full h-[215px] bg-pureWhite mt-[1px] overflow-y-auto shadow-md transition-transform ${open
                                 ? "max-h-60 translate-y-0 transition-opacity opacity-100 duration-500 ease-out"
                                 : "max-h-0 translate-y-20 transition-opacity opacity-0 duration-500"
                                 } `}
                         >
-                            <li className="relative max-h-[215px] flex flex-col overflow-y-auto">
-                                <ul>
-                                    {filteredOptions.length > 0 && filteredOptions.map((option, index) => (
-                                        <li
-                                            key={index}
-                                            className={`p-[10px] group/item text-[14px] hover:bg-whiteSmoke font-normal cursor-pointer flex flex-row items-center space-x-2 ${option.value === selectedCountryCode ? "bg-whiteSmoke" : ""
-                                                }`}
-                                            onClick={() => {
-                                                if (option.value !== inputValue) {
-                                                    handleSelect(option.value, telValue);
-                                                }
-                                            }}
-                                        >
-                                            <span className="w-6">{option.JsxElement}</span>
-                                            <span className="w-10">{option.label}</span>
-                                            <span>{option.country}</span>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </li>
+
+                            {filteredOptions.length > 0 && filteredOptions.map((option, index) => (
+                                <li
+                                    key={index}
+                                    className={`p-[10px]  outline-none focus:bg-whiteSmoke text-[14px] hover:bg-whiteSmoke font-normal cursor-pointer flex flex-row items-center space-x-2 ${option.value === selectedCountryCode ? "bg-whiteSmoke" : ""
+                                        }`}
+                                    onClick={() => {
+                                        if (option.value !== inputValue) {
+                                            handleSelect(option.value, telValue);
+                                        }
+                                    }}
+                                    onKeyDown={(e) => {
+                                        handleListItemKeyDown(e, option.value, index)
+                                    }}
+                                    tabIndex={0}
+                                    ref={(el) => {
+                                        if (index === focusedIndex) {
+                                            el?.focus();
+                                        }
+                                    }}
+                                >
+                                    <span className="w-6">{option.JsxElement}</span>
+                                    <span className="w-10">{option.label}</span>
+                                    <span>{option.country}</span>
+                                </li>
+                            ))}
                         </ul>
                     </div>
                 </div>
