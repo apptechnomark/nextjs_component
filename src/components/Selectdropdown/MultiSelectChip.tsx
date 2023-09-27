@@ -137,6 +137,7 @@ const MultiSelectChip: React.FC<MultiSelectChipProps> = ({
 
     setSelected(updatedSelected);
     getValue(updatedSelected);
+    setFocusedIndex(-1);
   };
 
   const handleClearAll = () => {
@@ -206,7 +207,7 @@ const MultiSelectChip: React.FC<MultiSelectChipProps> = ({
       setFocusedIndex(index + 1);
     }
   };
-
+  
   useEffect(() => {
     if (focusedIndex !== -1) {
       const optionsElements = Array.from(
@@ -216,6 +217,16 @@ const MultiSelectChip: React.FC<MultiSelectChipProps> = ({
     }
   }, [focusedIndex]);
 
+  const handleKeyDown = (value: any) => {
+    if (value.key === "ArrowUp" && focusedIndex > 0) {
+      value.preventDefault();
+      setFocusedIndex(focusedIndex - 1);
+    } else if (value.key === "ArrowDown" && focusedIndex < options.length - 1) {
+      value.preventDefault();
+      setFocusedIndex(focusedIndex + 1);
+    }
+  }
+
   return (
     <>
       <div className={`relative font-medium`} ref={selectRef}>
@@ -223,12 +234,12 @@ const MultiSelectChip: React.FC<MultiSelectChipProps> = ({
           <label
             onClick={handleToggleOpen}
             className={`text-[14px] font-normal ${open
+              ? "text-primary"
+              : selected.length > 0
                 ? "text-primary"
-                : selected.length > 0
-                  ? "text-primary"
-                  : error
-                    ? "text-defaultRed"
-                    : "text-slatyGrey"
+                : error
+                  ? "text-defaultRed"
+                  : "text-slatyGrey"
               }`}
           >
             {label}
@@ -241,10 +252,10 @@ const MultiSelectChip: React.FC<MultiSelectChipProps> = ({
             onBlur={handleBlur}
             onClick={handleToggleOpen}
             className={`shrink-0 w-fit bg-white border-b max-h-[26px] text-[14px] font-normal  ${open
-                ? "text-primary cursor-default"
-                : selected.length === 0
-                  ? "text-darkCharcoal cursor-pointer"
-                  : ""
+              ? "text-primary cursor-default"
+              : selected.length === 0
+                ? "text-darkCharcoal cursor-pointer"
+                : ""
               } ${selected.length > 0
                 ? "border-primary"
                 : error
@@ -274,12 +285,14 @@ const MultiSelectChip: React.FC<MultiSelectChipProps> = ({
               className={`bg-white outline-none text-darkCharcoal text-[14px] font-normal ${open ? "text-primary" : ""
                 } ${!open ? "cursor-pointer" : "cursor-default"} ${!open ? "placeholder-darkCharcoal" : "placeholder-primary"
                 }`}
+              onKeyDown={(e) => handleKeyDown(e)}
+
             />
           </div>
 
           <div
             onClick={handleToggleOpen}
-            className={`absolute right-0 text-[1.5rem] text-darkCharcoal cursor-pointer ${open ? "rotate-180" : ""
+            className={`absolute right-0 text-[1.5rem] transition-transform text-darkCharcoal cursor-pointer ${open ? "rotate-180 text-primary duration-400" : " duration-200"
               }`}
           >
             <ChevronDown />
@@ -288,8 +301,8 @@ const MultiSelectChip: React.FC<MultiSelectChipProps> = ({
 
         <ul
           className={`absolute z-10 bg-pureWhite mt-[1px] overflow-y-auto shadow-md transition-transform ${open
-              ? "max-h-60 translate-y-0 transition-opacity opacity-100 duration-500 ease-out"
-              : "max-h-0 translate-y-20 transition-opacity opacity-0 duration-500 ease-out"
+            ? "max-h-60 translate-y-0 transition-opacity opacity-100 duration-500 ease-out"
+            : "max-h-0 translate-y-20 transition-opacity opacity-0 duration-500 ease-out"
             }`}
           // Setting the width inline style based on the client width of the parent div
           style={{ width: selectRef.current?.clientWidth }}

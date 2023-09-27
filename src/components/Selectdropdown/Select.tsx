@@ -167,6 +167,8 @@ const Select: React.FC<SelectProps> = ({
       getValue(value);
       getError(true);
     }
+    setFocusedIndex(-1);
+
   };
 
   const handleBlur = () => {
@@ -241,6 +243,15 @@ const Select: React.FC<SelectProps> = ({
     }
   }, [focusedIndex]);
 
+  const handleKeyDown = (value: any) => {
+    if (value.key === "ArrowUp" && focusedIndex > 0) {
+      value.preventDefault();
+      setFocusedIndex(focusedIndex - 1);
+    } else if (value.key === "ArrowDown" && focusedIndex < options.length - 1) {
+      value.preventDefault();
+      setFocusedIndex(focusedIndex + 1);
+    }
+  }
   return (
     <>
       <div
@@ -320,6 +331,7 @@ const Select: React.FC<SelectProps> = ({
                   : "placeholder-primary"
               }`}
             style={{ background: "transparent" }}
+            onKeyDown={(e) => handleKeyDown(e)}
           />
 
           <div

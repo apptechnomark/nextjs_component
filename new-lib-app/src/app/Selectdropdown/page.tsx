@@ -25,10 +25,20 @@ const options2 = [
     { label: "Hello 14", value: "Hello 14" },
 ];
 
+const options3 = [
+    { label: "Option 2", value: "option 2" },
+    { label: "Option 3", value: "option 3" },
+    { label: "Hello 1", value: "Hello 1" },
+    { label: "Hello 11", value: "Hello 11" },
+    { label: "Hello 12", value: "Hello 12" },
+    { label: "Hello 13", value: "Hello 13" },
+    { label: "Hello 14", value: "Hello 14" },
+];
 const SelectComponent: React.FC = () => {
     const [selectedValue, setSelectedValue] = useState<string>("");
     const [option, setOption] = useState([]);
     const [optionId, setOptionId] = useState<number>(0);
+    const [optionId2, setOptionId2] = useState<number>(0);
     const [optionError, setOptionError] = useState<boolean>(false);
 
     return (
@@ -62,7 +72,7 @@ const SelectComponent: React.FC = () => {
                 <div className="pt-3 pl-8 mb-5 ">
                     <MultiSelect
                         type="checkbox"
-                        options={options}
+                        options={options2}
                         id="basic"
                         onSelect={(value: any) => setSelectedValue(value)}
                         getValue={(value: any) => setOptionId(value)}
@@ -79,11 +89,11 @@ const SelectComponent: React.FC = () => {
                 <div className="pt-3 pl-8 mb-5 ">
                     <MultiSelectChip
                         type="icons"
-                        options={options2}
+                        options={options3}
                         id="basic"
                         placeholder="Search"
                         onSelect={(value: any) => setSelectedValue(value)}
-                        getValue={(value: any) => setOptionId(value)}
+                        getValue={(value: any) => setOptionId2(value)}
                         getError={(e: any) => setOptionError(e)}
                         hasError={optionError}
                     />

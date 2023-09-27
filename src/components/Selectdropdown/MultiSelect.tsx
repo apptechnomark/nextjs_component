@@ -129,6 +129,8 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
         getError(true);
       }
     }
+    setFocusedIndex(-1);
+
   };
 
   const handleBlur = () => {
@@ -169,6 +171,16 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
       optionsElements[focusedIndex].focus();
     }
   }, [focusedIndex]);
+
+  const handleKeyDown = (value: any) => {
+    if (value.key === "ArrowUp" && focusedIndex > 0) {
+      value.preventDefault();
+      setFocusedIndex(focusedIndex - 1);
+    } else if (value.key === "ArrowDown" && focusedIndex < options.length - 1) {
+      value.preventDefault();
+      setFocusedIndex(focusedIndex + 1);
+    }
+  }
 
   return (
     <>
@@ -218,6 +230,7 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
             className={`w-full  flex-grow bg-white outline-none text-darkCharcoal text-[14px] font-normal ${open ? "text-primary" : ""
               } ${!open ? "cursor-pointer" : "cursor-default"} ${!open ? "placeholder-darkCharcoal" : "placeholder-primary"
               }`} style={{ background: "transparent" }}
+            onKeyDown={(e) => handleKeyDown(e)}
           />
           <div
             onClick={handleToggleOpen}
@@ -253,8 +266,8 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
                 }
                 onKeyDown={(e) =>
                   handleListItemKeyDown(e, option.value, index)
-                } 
-                tabIndex={0} 
+                }
+                tabIndex={0}
                 ref={(el) => {
                   if (index === focusedIndex) {
                     el?.focus();
