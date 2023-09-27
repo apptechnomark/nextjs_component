@@ -5,6 +5,7 @@ import { useState } from "react";
 import BaseLayout from "../../components/BaseLayout";
 import Image from "next/image";
 import Technomark from "./Technomark.png"
+import Starbuck from "./starbuck_avtar.png"
 import Start from "./icons/Start"
 import ApIcon from "./icons/ApIcon"
 import Badge from "./icons/Badge"
@@ -12,9 +13,13 @@ import Play from "./icons/play"
 import Stop from "./icons/stop"
 import ActionIcon from "./icons/ActionIcon"
 import TaskIcon from "./icons/TaskIcon"
-// import Company from "./icons/Company"
+import Company from "./icons/Company"
+import Done from "./icons/Done"
+import Loader from "./icons/Loader"
+import CompanLogo from "./icons/companyLogo"
 import { Card, CardAction, CardContent, CardHeader, Button, Avatar, CheckBox, Radio, Select, AvatarGroup } from "next-ts-lib";
 import "next-ts-lib/dist/index.css"
+import "./card.scss"
 
 
 const options = [
@@ -195,23 +200,7 @@ const card: React.FC = () => {
             </Card>
         </div>
 
-        <div className="p-2  m-3 bg-[#DADADA] border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-            <Card style={{ width: "350px" }}>
-                <CardHeader>
-                    <div>
-                        <div className="inline-block">
-                            <Start />
-                        </div>
-                        <div className="inline-block ml-3 mb-2">
-                            <span>Revenue</span>
-                        </div>
-                        <div className="inline-block ml-10">
-                            <ActionIcon />
-                        </div>
-                    </div>
-                </CardHeader>
-            </Card>
-        </div>
+
 
         <div className="p-2  m-3 bg-[#DADADA] border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
             <Card style={{ width: "350px", height: "140px" }}>
@@ -235,6 +224,98 @@ const card: React.FC = () => {
             </Card>
         </div>
 
+
+
+        <div className="p-2  m-3 bg-[#DADADA] border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+            <Card className="Account-payable" style={{ width: "350px", height: "140px" }}>
+                <CardHeader>
+                    <div className="block relative w-full">
+                        <div className="mr-1 absolute  top-2">
+                            <Radio id="Radio_Checked1" />
+                        </div>
+                        <div className="absolute left-[146px] top-4">
+                            <span>
+                                <ApIcon />
+                            </span>
+                        </div>
+                        <div className="absolute top-[68px] left-[100px]">
+                            <span>
+                                Accounts Payable
+                            </span>
+                        </div>
+                    </div>
+                </CardHeader>
+            </Card>
+        </div>
+
+        <div className="p-2  m-3 bg-[#DADADA] border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+            <Card className="border border-[#00ACE2]" style={{ width: "350px" }}>
+                <CardHeader>
+                    <div className="relative h-[80px] w-[100%]">
+                        <div className="absolute top-6">
+                            <Done />
+                        </div>
+                        <div className="absolute top-3 left-[50px]">
+                            <span>
+                                Total Task Created
+                            </span>
+                        </div>
+                        <div className="vertical w-[2px] h-[25px] bg-[#D8D8D8] absolute left-[35px] top-[25px]"></div>
+                        <div className="absolute top-11 left-[50px]">
+                            <span className="font-semibold tracking-wide">
+                                285
+                            </span>
+                        </div>
+
+                    </div>
+                </CardHeader>
+            </Card>
+        </div>
+
+        <div className="p-2  m-3 bg-[#DADADA] border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+            <Card className="border border-[#FD7E14]" style={{ width: "350px" }}>
+                <CardHeader>
+                    <div className="relative h-[80px] w-[100%]">
+                        <div className="absolute top-6">
+                            <Loader />
+                        </div>
+                        <div className="absolute top-3 left-[50px]">
+                            <span>
+                                In Progress Work
+                            </span>
+                        </div>
+                        <div className="vertical w-[2px] h-[25px] bg-[#D8D8D8] absolute left-[35px] top-[25px]"></div>
+                        <div className="absolute top-11 left-[50px]">
+                            <span className="font-semibold tracking-wide">
+                                3918
+                            </span>
+                        </div>
+
+                    </div>
+                </CardHeader>
+            </Card>
+        </div>
+
+
+        <div className="p-2   m-3 bg-[#DADADA] border border-gray-200  shadow dark:bg-gray-800 dark:border-gray-700 ">
+            <Card variant="square" style={{ width: "350px" }} className="group cursor-pointer">
+                <CardHeader>
+                    <div>
+                        <div className="inline-block">
+                            <Start />
+                        </div>
+                        <div className="inline-block ml-3 mb-2">
+                            <span>Revenue</span>
+                        </div>
+                        <div className="inline-block ml-[130px]">
+                            $3,393.95
+                        </div>
+                    </div>
+                </CardHeader>
+                <div className="bg-[#D8D8D8] group-hover:transition-width group-hover:bg-[#02B89D]  group-hover:duration-[300ms] group-hover:ease-in bottom-0 h-[5px] w-full relative before:absolute before:bottom-0 before:left-0 before:block before:w-0 before:h-[5px] before:bg-[#02B89D] before:transition-width before:duration-[800ms] before:ease-in  group-hover:w-full"></div>
+            </Card>
+        </div >
+
         <div className="p-2  m-3 bg-[#DADADA] border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
             <Card style={{ width: "350px", height: "140px" }}>
                 <CardHeader>
@@ -257,26 +338,27 @@ const card: React.FC = () => {
             </Card>
         </div>
 
-        <div className="p-2  m-3 bg-[#DADADA] border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-            <Card style={{ width: "350px", height: "140px" }}>
+        <div className="p-5  m-3 bg-[#DADADA] border  border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 " >
+            <Card className="my-card">
                 <CardHeader>
-                    <div className="block relative w-full">
-                        <div className="mr-1 absolute  top-2">
-                            <Radio id="Radio_Checked" />
+                    <div className="flex flex-col justify-between items-start relative w-full  ">
+                        <div className="mr-1 relative  top-2">
+                            <Radio id="Radio_Checked2" />
                         </div>
-                        <div className="absolute left-[146px] top-4">
+                        <div className="absolute top-[70px] left-[120px]">
                             <span>
-                                <ApIcon />
+                                <Company />
                             </span>
                         </div>
-                        <div className="absolute top-[68px] left-[100px]">
+                        <div className="absolute top-[180px] font-bold left-[85px]">
                             <span>
-                                Accounts Payable
+                                View a demo company
                             </span>
                         </div>
                     </div>
                 </CardHeader>
             </Card>
+
         </div>
 
         <div className="p-2  m-3 bg-[#DADADA] border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
@@ -339,6 +421,45 @@ const card: React.FC = () => {
                         <span className="absolute  top-[13px] right-[50px]">{date}</span>
                         <AvatarGroup > <Avatar variant="small" name="Technomark"></Avatar>
                             <Avatar variant="small" name="Pathquest"></Avatar></AvatarGroup>
+                    </div>
+                </CardContent>
+            </Card>
+        </div>
+
+        <div className="p-2  m-3 bg-[#DADADA] border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+            <Card variant="square" style={{ width: "345px" }}>
+                <CardHeader>
+                    <div className="relative w-full">
+                        <div className="w-[50px]">
+                            <Image src={Starbuck} alt="" width={40}
+                                height={40} />
+                        </div>
+                        <div className=" absolute top-[10px] right-[32px] inline-block ml-4">
+                            <CompanLogo />
+                        </div>
+                        <div className="inline-block absolute right-0 top-[10px]">
+                            <ActionIcon />
+                        </div>
+                    </div>
+                </CardHeader>
+                <CardContent>
+                    <div className="ml-2 mt-1 flex mb-2">
+                        <span className="font-semibold text-[#333333]">Pereira Hawaii (Oahu)...</span>
+
+                    </div>
+                    <div className="ml-2 mt-1 flex mb-2">
+                        <span className="font-normal text-[14px] text-[#6E6D7A]">Last updated on Aug 11, 2020
+                            at <br />12:30:00</span>
+
+                    </div>
+
+
+                    <div className="p-1 relative flex justify-between">
+                        <AvatarGroup > <Avatar variant="small" name="Technomark"></Avatar>
+                            <Avatar variant="small" name="Pathquest"></Avatar>
+                            <Avatar variant="small" name="Pacific"></Avatar>
+                            <Avatar variant="small" name="Devloper"></Avatar>
+                        </AvatarGroup>
                     </div>
                 </CardContent>
             </Card>
