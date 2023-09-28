@@ -10,6 +10,9 @@ var Profile = function Profile(_a) {
   var _b = React.useState(null),
     image = _b[0],
     setImage = _b[1];
+  var inputId = React.useState(function () {
+    return "image-upload-".concat(Math.random().toString(36).substring(7));
+  })[0];
   var handleImageUpload = function handleImageUpload(event) {
     var _a;
     var file = (_a = event.target.files) === null || _a === void 0 ? void 0 : _a[0];
@@ -35,10 +38,10 @@ var Profile = function Profile(_a) {
     type: "file",
     accept: "image/*",
     onChange: handleImageUpload,
-    id: "image-upload",
+    id: inputId,
     className: "hidden"
   }), /*#__PURE__*/React.createElement("label", {
-    htmlFor: "image-upload",
+    htmlFor: inputId,
     className: "absolute ".concat(variant === "medium" ? "left-6 top-6" : "left-10 top-10", "  bg-pureWhite p-1 rounded-sm cursor-pointer z-10")
   }, /*#__PURE__*/React.createElement("svg", {
     width: "16",

@@ -15,6 +15,8 @@ const Profile: React.FC<ProfileProps> = ({
 }) => {
   const [image, setImage] = useState<string | null>(null);
 
+  const [inputId] = useState(() => `image-upload-${Math.random().toString(36).substring(7)}`);
+
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
@@ -26,6 +28,7 @@ const Profile: React.FC<ProfileProps> = ({
       reader.readAsDataURL(file);
     }
   };
+
 
   const typeStyle = type === "square" ? "rounded-sm" : "rounded-full";
   const variantStyle = variant === "medium" ? "w-12 h-12" : "w-16 h-16";
@@ -40,15 +43,15 @@ const Profile: React.FC<ProfileProps> = ({
 
   return (
     <div className="relative">
-      <input
+   <input
         type="file"
         accept="image/*"
         onChange={handleImageUpload}
-        id="image-upload"
+        id={inputId}
         className="hidden"
       />
       <label
-        htmlFor="image-upload"
+        htmlFor={inputId}
         className={`absolute ${
           variant === "medium" ? "left-6 top-6" : "left-10 top-10"
         }  bg-pureWhite p-1 rounded-sm cursor-pointer z-10`}
