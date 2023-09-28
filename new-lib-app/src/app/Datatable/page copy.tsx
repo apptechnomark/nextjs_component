@@ -210,26 +210,7 @@ const page = () => {
         amount: e.amount,
         age: e.age,
         action: <Actions id={e.Id} recNo={e.RecordNo} actions={actionArray} />,
-    })).slice(0, 3);
-
-    const classListData2 = dataList?.map((e: any) => ({
-        id: e.id,
-        name: e.name,
-        status: (
-            <div>
-                {e.status === "Active" ? (
-                    <Switch checked={true} />
-                ) : (
-                    <Switch checked={false} />
-                )}
-            </div>
-        ),
-        amount: e.amount,
-        age: e.age,
-        action: <MeatballsMenuIcon />
-    })).slice(4, 5);
-
-    const iconsArray = [<MeatballsMenuIcon />]
+    }));
 
     return (
         <>
@@ -237,7 +218,7 @@ const page = () => {
                 <h5 className="m-5 pt-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
                     Data Table
                 </h5>
-                {/* <div className="p-2 m-3 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+                <div className="p-2 m-3 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
                     <h2 className="m-7 text-xl tracking-tight text-gray-900 dark:text-white">
                         Basic
                     </h2>
@@ -247,21 +228,6 @@ const page = () => {
                             data={dataList.length > 0 ? classListData : []}
                             sticky
                             hoverEffect={true}
-                        />
-                    </div>
-                </div> */}
-
-                <div className="p-2 m-3 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                    <h2 className="m-7 text-xl tracking-tight text-gray-900 dark:text-white">
-                        Table With Hovered Effect
-                    </h2>
-                    <div className="h-auto ml-7">
-                        <DataTable
-                            columns={columns}
-                            data={dataList.length > 0 ? classListData2 : []}
-                            sticky
-                            hoverEffect={true}
-                            hoverIcons={iconsArray}
                         />
                     </div>
                 </div>

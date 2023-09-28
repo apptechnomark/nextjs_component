@@ -5,10 +5,8 @@ import BaseLayout from "../../components/BaseLayout";
 import { DatepickerRange, DatepickerRangeExpanded } from "next-ts-lib";
 import "next-ts-lib/dist/index.css"
 
-
 const CalenderRange: React.FC = () => {
     const [value, setValue] = useState<string>("");
-
 
     return <BaseLayout>
         <h5 className="m-5 pt-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Calendar Range </h5>

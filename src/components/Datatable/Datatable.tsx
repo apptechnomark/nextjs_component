@@ -34,6 +34,7 @@ interface DataTableProps {
   expandableStyle?: ExpandableStyle;
   sticky?: boolean;
   hoverEffect?: boolean;
+  hoverIcons?: any;
   noHeader?: boolean;
 }
 
@@ -47,6 +48,7 @@ const DataTable = ({
   sticky,
   hoverEffect,
   noHeader,
+  hoverIcons
 }: DataTableProps) => {
   const tableRef = useRef<HTMLTableElement>(null);
   const [sortConfig, setSortConfig] = useState({ key: null, direction: "" });
@@ -137,20 +139,17 @@ const DataTable = ({
       <table className="w-full">
         <thead>
           <tr
-            className={`top-0 z-[1] bg-[#f2f2f2] ${
-              sticky ? "shadow-md sticky" : "static"
-            } ${noHeader ? "hidden" : ""}`}
+            className={`top-0 z-[1] bg-[#f2f2f2] ${sticky ? "shadow-md sticky" : "static"
+              } ${noHeader ? "hidden" : ""}`}
           >
             {expandable && (
               <th className={`w-5 ${expandableStyle?.columns}`}></th>
             )}
             {columns?.map((column, colIndex) => (
               <th
-                className={`${
-                  column.colStyle
-                } h-12 text-sm font-bold p-2 whitespace-nowrap ${
-                  column.sortable ? "cursor-pointer" : "cursor-default"
-                }`}
+                className={`${column.colStyle
+                  } h-12 text-sm font-bold p-2 whitespace-nowrap ${column.sortable ? "cursor-pointer" : "cursor-default"
+                  }`}
                 key={colIndex}
                 onClick={() => column.sortable && handleSort(column.accessor)}
               >
@@ -208,12 +207,10 @@ const DataTable = ({
                     className={`${row?.style} ${column.rowStyle} h-12 text-xs p-2 border-b border-b-[#ccc] break-all`}
                   >
                     <span
-                      className={`flex items-center justify-${getAlignment(
-                        column.colalign
-                      )}`}
-                    >
+                      className={`flex items-center justify-${getAlignment(column.colalign)}`}>
                       {row[column.accessor]}
                     </span>
+                    <div className={`${hoverEffect ? 'hidden' : 'block'} bg-red-500 w-12 absolute top-0 right-0 h-full`}></div>
                   </td>
                 ))}
               </tr>

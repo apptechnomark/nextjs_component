@@ -18,6 +18,7 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   maxChar?: number;
   errorMessage?: string;
   noNumeric?: boolean;
+  noborder?:boolean;
   noSpecialChar?: boolean;
   noText?: boolean;
   noSpecialCharRegex?: any;
@@ -41,6 +42,7 @@ const Text: React.FC<InputProps> = ({
   maxChar,
   noText,
   noNumeric,
+  noborder,
   noSpecialChar,
   noSpecialCharRegex,
   errorMessage = "This is a required field!",
@@ -146,7 +148,7 @@ const Text: React.FC<InputProps> = ({
       <div
         className={`${
           !err
-            ? `flex w-full relative before:absolute before:bottom-0 before:left-0 before:block before:w-0 before:h-px before:bg-primary before:transition-width before:duration-[800ms] before:ease-in ${
+            ? `flex w-full relative before:absolute before:bottom-0 before:left-0 before:block before:w-0 before:h-px ${noborder ? '' : 'before:bg-primary'}  before:transition-width before:duration-[800ms] before:ease-in ${
                 !disabled && "hover:before:w-full"
               }`
             : "w-full"
@@ -154,7 +156,7 @@ const Text: React.FC<InputProps> = ({
       >
         <input
           type="text"
-          className={`${className} ${err&&"text-defaultRed"} py-1 border-b outline-none transition duration-600 w-full h-full ${
+          className={`${className} ${err&&"text-defaultRed"} py-1 ${noborder ? '' : 'border-b'} outline-none transition duration-600 w-full h-full ${
             disabled ? "text-slatyGrey" : "text-darkCharcoal"
           } ${
             err

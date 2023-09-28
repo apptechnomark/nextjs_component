@@ -185,7 +185,7 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
   return (
     <>
       <div
-        className={`relative font-medium w-full flex-row ${!noborder ? 'border-b' : ''} ${selectedValues.length > 0
+        className={`relative font-medium w-full flex-row ${noborder ? '' : 'border-b'} ${selectedValues.length > 0
           ? "border-primary"
           : error
             ? "border-defaultRed"
@@ -255,14 +255,13 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
                     ? "hidden"
                     : ""
                   }`}
-                onClick={
-                  type !== "checkbox"
-                    ? () => {
-                      if (option.value !== inputValue) {
-                        handleSelect(option.value);
-                      }
+                onClick={type !== "checkbox"
+                  ? () => {
+                    if (option.value !== inputValue) {
+                      handleSelect(option.value);
                     }
-                    : undefined
+                  }
+                  : undefined
                 }
                 onKeyDown={(e) =>
                   handleListItemKeyDown(e, option.value, index)
@@ -289,6 +288,7 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
                   <CheckBox
                     id={option.value}
                     label={option.label}
+                    checked={selectedValues.includes(option.value)}
                     onChange={(e: any) => {
                       e.target.checked
                         ? handleSelect(option.value)

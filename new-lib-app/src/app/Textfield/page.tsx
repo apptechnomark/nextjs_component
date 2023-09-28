@@ -20,8 +20,8 @@ const textfield = () => {
 
         <div className="pt-3 pl-7 mb-5 gap-8">
           <Text label="text" id="text" name="text"
-            getValue={() => {}} 
-           getError={() => {}}></Text>
+            getValue={() => { }}
+            getError={() => { }}></Text>
         </div>
       </div>
       <div className="p-2  m-3 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
@@ -30,7 +30,7 @@ const textfield = () => {
         </h2>
         <div className="pt-3 pl-7 mb-5 gap-8">
           <Text label="text" validate id="text" name="text"
-            getValue={() => {}}getError={() => {}}></Text>
+            getValue={() => { }} getError={() => { }} ></Text>
         </div>
       </div>
       <div className="p-2  m-3 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
@@ -45,7 +45,7 @@ const textfield = () => {
             name="email"
             type="email"
             validate
-            getValue={() => {}}getError={() => {}}          ></Email>
+            getValue={() => { }} getError={() => { }}          ></Email>
         </div>
       </div>
     </BaseLayout>

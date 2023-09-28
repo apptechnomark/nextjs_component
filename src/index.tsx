@@ -33,6 +33,7 @@ import ModalContent from "./components/Modal/ModalContent";
 import ModalTitle from "./components/Modal/ModalTitle";
 import { NavigationBar } from "./components/NavigationBar/NavigationBar";
 import Pagination from "./components/Pagination/Pagination";
+import { Profile } from "./components/Profile/Profile";
 import { Password } from "./components/Password/Password";
 import { ProgressBar } from "./components/Progressbar/Progressbar";
 import ProgressStep from "./components/Progressstep/Progressstep";
@@ -42,6 +43,7 @@ import { ScrollSpy } from "./components/Scrollspy/Scrollspy";
 import { Select } from "./components/Selectdropdown/Select";
 import { MultiSelect } from "./components/Selectdropdown/MultiSelect";
 import { MultiSelectChip } from "./components/Selectdropdown/MultiSelectChip";
+import { SearchBar } from "./components/Search/Search";
 import { SpeedDial } from "./components/Speeddial/Speeddial";
 import { Spinner } from "./components/Spinner/Spinner";
 import { Switch } from "./components/Switch/Switch";
@@ -95,6 +97,7 @@ export {
     NavigationBar,
     Pagination,
     Password,
+    Profile,
     ProgressBar,
     ProgressStep,
     Radio,
@@ -104,6 +107,7 @@ export {
     MultiSelect,
     MultiSelectChip,
     SpeedDial,
+    SearchBar,
     Spinner,
     Switch,
     TabBar,

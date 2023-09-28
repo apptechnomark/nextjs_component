@@ -3,7 +3,7 @@ import {
   AiOutlineCloseCircle,
   AiOutlineLoading3Quarters,
 } from "react-icons/ai";
-import { BiMask, BiDialpad, BiToggleLeft } from "react-icons/bi";
+import { BiMask, BiDialpad, BiToggleLeft, BiSearchAlt } from "react-icons/bi";
 import {
   GoTypography,
   GoAlert,
@@ -11,6 +11,7 @@ import {
   GoKebabHorizontal,
 } from "react-icons/go";
 import { RxButton, RxAvatar, RxDropdownMenu } from "react-icons/rx";
+import { CgProfile } from "react-icons/cg";
 import {
   BsCursorText,
   BsCalendarDate,
@@ -21,12 +22,16 @@ import {
   BsTelephonePlus,
   BsTable,
   BsCardHeading,
-  BsCalendarRange
+  BsCalendarRange,
 } from "react-icons/bs";
 import { TbTooltip, TbBoxMultiple, TbLayoutSidebar } from "react-icons/tb";
 import { GrToast } from "react-icons/gr";
 import { IoMdTime } from "react-icons/io";
-import { TfiLayoutAccordionMerged, TfiLayoutTabWindow, TfiLayoutTab } from "react-icons/tfi";
+import {
+  TfiLayoutAccordionMerged,
+  TfiLayoutTabWindow,
+  TfiLayoutTab,
+} from "react-icons/tfi";
 import { ImPageBreak, ImSpinner9 } from "react-icons/im";
 import { SiProgress } from "react-icons/si";
 import {
@@ -164,6 +169,11 @@ const sidebarItems = [
     icon: MdPassword,
   },
   {
+    name: "Profile",
+    href: "/Profile",
+    icon: CgProfile,
+  },
+  {
     name: "Progress Bar",
     href: "/Progressbar",
     icon: BsSegmentedNav,
@@ -182,6 +192,11 @@ const sidebarItems = [
     name: "Rating",
     href: "/Rating",
     icon: MdOutlineStarRate,
+  },
+  {
+    name: "Search",
+    href: "/Search",
+    icon: BiSearchAlt,
   },
   {
     name: "Select Dropdown",
@@ -279,8 +294,9 @@ const Sidebar = () => {
             return (
               <li className="sidebar__item" key={name}>
                 <Link
-                  className={`sidebar__link ${pathname === href ? "sidebar__link--active" : ""
-                    }`}
+                  className={`sidebar__link ${
+                    pathname === href ? "sidebar__link--active" : ""
+                  }`}
                   href={href}
                 >
                   <span className="sidebar__icon">

@@ -16,6 +16,7 @@ interface EmailProps extends React.InputHTMLAttributes<HTMLInputElement> {
   getError: (arg1: boolean) => void;
   hasError?: boolean;
   minChar?: number;
+  noborder?:boolean;
   maxChar?: number;
   errorMessage?: string;
   noNumeric?: boolean;
@@ -39,6 +40,7 @@ const Email: React.FC<EmailProps> = ({
   minChar,
   maxChar,
   noNumeric,
+  noborder,
   noSpecialChar,
   errorMessage = "This is a required field!",
   ...props
@@ -138,14 +140,14 @@ const Email: React.FC<EmailProps> = ({
 
       <div
         className={`${!err
-          ? `flex w-full relative before:absolute before:bottom-0 before:left-0 before:block before:w-0 before:h-px before:bg-primary before:transition-width before:duration-[800ms] before:ease-in ${!disabled && 'hover:before:w-full'
+          ? `flex w-full relative before:absolute before:bottom-0 before:left-0 before:block before:w-0 before:h-px ${noborder ? '' : 'before:bg-primary'} before:transition-width before:duration-[800ms] before:ease-in ${!disabled && 'hover:before:w-full'
           }`
           : 'w-full'
           }`}
       >
         <input
           type="email"
-          className={`${className} ${err&&"text-defaultRed"} py-1 border-b outline-none transition duration-600 w-full h-full ${disabled ? "text-slatyGrey" : "text-darkCharcoal"} ${err
+          className={`${className} ${err&&"text-defaultRed"} py-1 ${noborder ? '' : 'border-b'} outline-none transition duration-600 w-full h-full ${disabled ? "text-slatyGrey" : "text-darkCharcoal"} ${err
             ? "border-b-defaultRed"
             : focus
               ? "border-b-primary"
