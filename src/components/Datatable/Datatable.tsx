@@ -183,7 +183,7 @@ const DataTable = ({
         <tbody>
           {sortedData?.map((row, rowIndex) => (
             <React.Fragment key={rowIndex}>
-              <tr className={`${hoverEffect ? "hover:bg-[#f2f2f2]" : ""}`}>
+              <tr className={`group ${hoverEffect||hoverIcons ? "hover:bg-[#f2f2f2]" : ""}`}>
                 {expandable &&
                   (row.details ? (
                     <td
@@ -210,9 +210,20 @@ const DataTable = ({
                       className={`flex items-center justify-${getAlignment(column.colalign)}`}>
                       {row[column.accessor]}
                     </span>
-                    <div className={`${hoverEffect ? 'hidden' : 'block'} bg-red-500 w-12 absolute top-0 right-0 h-full`}></div>
+                  
                   </td>
                 ))}
+                {hoverIcons && (
+                  <td className=" invisible h-12 group-hover:visible border-t border-[#ccc] bg-[#f2f2f2] absolute  group-hover:translate-all group-hover:duration-300  group-hover:ease-out -right-9 group-hover:right-9">
+                    <div className="flex h-full border-l  border-[#ccc] justify-center items-center">
+                      {hoverIcons.map((value: any, index: number) => (
+                        <div className="flex px-2.5 border-r border-[#ccc] h-full items-center cursor-pointer" key={index}>
+                          {value}
+                        </div>
+                      ))}
+                    </div>
+                  </td>
+                )}
               </tr>
               {(expandedRows.has(rowIndex) || isExpanded) && (
                 <tr>

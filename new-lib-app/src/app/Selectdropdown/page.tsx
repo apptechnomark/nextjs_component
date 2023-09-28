@@ -57,6 +57,11 @@ const SelectComponent: React.FC = () => {
                         options={options}
                         validate
                         search
+                        // addDynamicForm
+                        // addDynamicForm_Icons_Edit
+                        // addDynamicForm_Icons_Delete
+                        // addDynamicForm_Label='Hello'
+                        // onChangeText={() => { }}
                         defaultValue={optionId}
                         getValue={(value: any) => setOptionId(value)}
                         getError={(e: any) => setOptionError(e)}

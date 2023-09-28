@@ -1,11 +1,15 @@
 "use client";
 
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
-import BaseLayout from "../../components/BaseLayout";
-import MeatballsMenuIcon from "./Icons/MeatballsMenu";
-import { CheckBox, DataTable, Switch, Table, Tooltip } from "next-ts-lib";
+import { DataTable, Switch, MenuIcon, Tooltip } from "next-ts-lib";
 import "next-ts-lib/dist/index.css";
+import BaseLayout from "../../components/BaseLayout";
+// import MeatballsMenuIcon from "./Icons/MeatballsMenu";
+import ChevronDownIcon from "./Icons/ChevronDown";
+import DeleteIcon from "./Icons/DeleteIcon";
+import MoveToIcon from "./Icons/MoveToIcon";
+import ViewIcon from "./Icons/ViewIcon";
 
 const page = () => {
 
@@ -41,10 +45,10 @@ const page = () => {
             colalign: "right"
         },
         {
-            header: "",
+            header: "ACTION",
             accessor: "action",
             sortable: false,
-            colalign: "left"
+            colalign: "center"
         },
     ];
 
@@ -155,7 +159,7 @@ const page = () => {
                     className="cursor-pointer w-10 flex justify-center items-center"
                     onClick={() => setOpen(!open)}
                 >
-                    <MeatballsMenuIcon />
+                    <MenuIcon size="small" direction="meatball" classname={"w-full"} />
                     {open && (
                         <React.Fragment>
                             <div className="absolute z-10 top-7 right-1 flex justify-center items-center">
@@ -186,6 +190,175 @@ const page = () => {
         );
     };
 
+    //ViewIcon Hover
+    const ViewIcons = ({ actions }: any) => {
+        const actionsRef = useRef<HTMLDivElement>(null);
+        const [open, setOpen] = useState(false);
+        const handleOutsideClick = (event: MouseEvent) => {
+            if (actionsRef.current && !actionsRef.current.contains(event.target as Node)) {
+                setOpen(false);
+            }
+        };
+        useEffect(() => {
+            window.addEventListener("click", handleOutsideClick);
+            return () => {
+                window.removeEventListener("click", handleOutsideClick);
+            };
+        }, []);
+
+        return (
+            <div className="relative w-full flex justify-end">
+                {/* <div
+                    ref={actionsRef}
+                    className="cursor-pointer w-10 flex justify-center items-center"
+                    onClick={() => setOpen(!open)}
+                > */}
+                <Tooltip content="View Bill" position="bottom">
+                    <ViewIcon />
+                </Tooltip>
+                {/* {open && (
+                        <React.Fragment>
+                            <div className="absolute z-10 top-7 right-1 flex justify-center items-center">
+                                <div className="py-2 border border-lightSilver rounded-md bg-pureWhite shadow-lg ">
+                                    <ul className="w-40">
+                                        {actions.map((action: any, index: any) => (
+                                            <li
+                                                key={index}
+                                                onClick={() => {
+                                                    handleKebabChange(action);
+                                                }}
+                                                className="flex w-full h-9 px-3 hover:bg-lightGray !cursor-pointer"
+                                            >
+                                                <div className="flex justify-center items-center ml-2 cursor-pointer">
+                                                    <label className="inline-block text-xs cursor-pointer">
+                                                        {action}
+                                                    </label>
+                                                </div>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            </div>
+                        </React.Fragment>
+                    )} */}
+                {/* </div> */}
+            </div>
+        );
+    };
+
+    //MoveToIcon Hover
+    const MoveToIcons = ({ actions }: any) => {
+        const actionsRef = useRef<HTMLDivElement>(null);
+        const [open, setOpen] = useState(false);
+        const handleOutsideClick = (event: MouseEvent) => {
+            if (actionsRef.current && !actionsRef.current.contains(event.target as Node)) {
+                setOpen(false);
+            }
+        };
+        useEffect(() => {
+            window.addEventListener("click", handleOutsideClick);
+            return () => {
+                window.removeEventListener("click", handleOutsideClick);
+            };
+        }, []);
+
+        return (
+            <div className="relative w-full flex justify-end">
+                <div
+                    ref={actionsRef}
+                    className="cursor-pointer w-10 flex justify-center items-center"
+                    onClick={() => setOpen(!open)}
+                >
+                    <Tooltip content="Move To" position="bottom">
+                        <MoveToIcon />
+                    </Tooltip>
+                    <div className={`mr-2.5  transition-transform ${open ? "rotate-180 duration-400" : "duration-200"}`}> <ChevronDownIcon /></div>
+                    {open && (
+                        <React.Fragment>
+                            <div className="absolute z-10 top-7 right-1 flex justify-center items-center">
+                                <div className="py-2 border border-lightSilver rounded-md bg-pureWhite shadow-lg ">
+                                    <ul className="w-40">
+                                        {actions.map((action: any, index: any) => (
+                                            <li
+                                                key={index}
+                                                onClick={() => {
+                                                    handleKebabChange(action);
+                                                }}
+                                                className="flex w-full h-9 px-3 hover:bg-lightGray !cursor-pointer"
+                                            >
+                                                <div className="flex justify-center items-center ml-2 cursor-pointer">
+                                                    <label className="inline-block text-xs cursor-pointer">
+                                                        {action}
+                                                    </label>
+                                                </div>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            </div>
+                        </React.Fragment>
+                    )}
+                </div>
+            </div>
+        );
+    };
+
+    //DeleteIcon Hover
+    const DeleteIcons = ({ actions }: any) => {
+        const actionsRef = useRef<HTMLDivElement>(null);
+        const [open, setOpen] = useState(false);
+        const handleOutsideClick = (event: MouseEvent) => {
+            if (actionsRef.current && !actionsRef.current.contains(event.target as Node)) {
+                setOpen(false);
+            }
+        };
+        useEffect(() => {
+            window.addEventListener("click", handleOutsideClick);
+            return () => {
+                window.removeEventListener("click", handleOutsideClick);
+            };
+        }, []);
+
+        return (
+            <div className="relative w-full flex justify-end">
+                {/* <div
+                    ref={actionsRef}
+                    className="cursor-pointer w-10 flex justify-center items-center"
+                    onClick={() => setOpen(!open)}
+                > */}
+                <Tooltip content="Delete" position="bottom">
+                    <DeleteIcon />
+                </Tooltip>
+                {/* {open && (
+                        <React.Fragment>
+                            <div className="absolute z-10 top-7 right-1 flex justify-center items-center">
+                                <div className="py-2 border border-lightSilver rounded-md bg-pureWhite shadow-lg ">
+                                    <ul className="w-40">
+                                        {actions.map((action: any, index: any) => (
+                                            <li
+                                                key={index}
+                                                onClick={() => {
+                                                    handleKebabChange(action);
+                                                }}
+                                                className="flex w-full h-9 px-3 hover:bg-lightGray !cursor-pointer"
+                                            >
+                                                <div className="flex justify-center items-center ml-2 cursor-pointer">
+                                                    <label className="inline-block text-xs cursor-pointer">
+                                                        {action}
+                                                    </label>
+                                                </div>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
+                            </div>
+                        </React.Fragment>
+                    )} */}
+                {/* </div> */}
+            </div>
+        );
+    };
+
     const handleKebabChange = (actionName: string) => {
         if (actionName === "Edit") {
             alert("Edit Clicked");
@@ -210,26 +383,10 @@ const page = () => {
         amount: e.amount,
         age: e.age,
         action: <Actions id={e.Id} recNo={e.RecordNo} actions={actionArray} />,
-    })).slice(0, 3);
+    }));
 
-    const classListData2 = dataList?.map((e: any) => ({
-        id: e.id,
-        name: e.name,
-        status: (
-            <div>
-                {e.status === "Active" ? (
-                    <Switch checked={true} />
-                ) : (
-                    <Switch checked={false} />
-                )}
-            </div>
-        ),
-        amount: e.amount,
-        age: e.age,
-        action: <MeatballsMenuIcon />
-    })).slice(4, 5);
-
-    const iconsArray = [<MeatballsMenuIcon />]
+    const moveToDataArray = ["Option 1", "Option 2"];
+    const iconsArray = [<ViewIcons />, <MoveToIcons actions={moveToDataArray} />, <DeleteIcons />]
 
     return (
         <>
@@ -237,7 +394,7 @@ const page = () => {
                 <h5 className="m-5 pt-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
                     Data Table
                 </h5>
-                {/* <div className="p-2 m-3 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+                <div className="p-2 m-3 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
                     <h2 className="m-7 text-xl tracking-tight text-gray-900 dark:text-white">
                         Basic
                     </h2>
@@ -249,22 +406,21 @@ const page = () => {
                             hoverEffect={true}
                         />
                     </div>
-                </div> */}
+                </div>
 
-                <div className="p-2 m-3 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+                {/* <div className="p-2 m-3 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
                     <h2 className="m-7 text-xl tracking-tight text-gray-900 dark:text-white">
                         Table With Hovered Effect
                     </h2>
                     <div className="h-auto ml-7">
                         <DataTable
                             columns={columns}
-                            data={dataList.length > 0 ? classListData2 : []}
+                            data={dataList.length > 0 ? classListData : []}
                             sticky
-                            hoverEffect={true}
                             hoverIcons={iconsArray}
                         />
                     </div>
-                </div>
+                </div> */}
 
             </BaseLayout>
         </>
