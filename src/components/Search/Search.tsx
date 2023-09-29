@@ -25,6 +25,7 @@ function SearchBar({ variant, options, type, Data, getValue }: SearchProps) {
 
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [filteredData, setFilteredData] = useState<string[]>(Data);
+  const [selectedCheckboxes, setSelectedCheckboxes] = useState<string[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -69,6 +70,16 @@ function SearchBar({ variant, options, type, Data, getValue }: SearchProps) {
       setOpen(!open)
     }
 
+  };
+
+  const handleCheckboxChange = (value: string) => {
+    setSelected((prevSelected) => {
+      if (prevSelected.includes(value)) {
+        return prevSelected.filter((item) => item !== value);
+      } else {
+        return [...prevSelected, value];
+      }
+    });
   };
 
   const selectedDisplay = selected.length > 0 && (
@@ -183,9 +194,11 @@ function SearchBar({ variant, options, type, Data, getValue }: SearchProps) {
               <div className="w-fit bg-slate-600 flex-1 ">
                 <Text
                   type="text"
-                  placeholder={selected.length>0?"":"Default Search"}
+                  placeholder={selected.length > 0 ? "" : "Default Search"}
                   noborder
-                  onClick={openDropdownOnClick} getValue={() => { }} getError={() => { }} />
+                  onClick={openDropdownOnClick}
+                  getValue={(value) => setInputValue(value)}
+                  getError={() => { }} />
               </div>
               {open && (
                 <div className={`flex absolute right-3 top-4 justify-center items-center cursor-pointer `} onClick={clearValue} >
@@ -225,12 +238,9 @@ function SearchBar({ variant, options, type, Data, getValue }: SearchProps) {
                         <CheckBox
                           id={option.value}
                           checked={selected.includes(option.value)}
-                          onChange={(e: any) => {
-                            e.target.checked
-                              ? handleSelect(option.value)
-                              : handleSelect(option.value);
-                          }}
-                        /><span className="ml-2"> {option.label}</span>
+                          onChange={() => handleCheckboxChange(option.value)}
+                          label={option.label}
+                        />
                       </li>
                     ))}
                 </ul>
@@ -300,7 +310,7 @@ function SearchBar({ variant, options, type, Data, getValue }: SearchProps) {
 
       </>) : (
         <div>
-          <div className={`font-Arial relative ml-30 w-[250px] border-[1px] ${isRounded ? 'rounded' : ''} border-[#D8D8D8] rounded-5 p-[12px]`}>
+          <div className={`font-Arial relative ml-30 w-[250px] border-[1px] ${isRounded ? 'rounded' : ''} border-[#D8D8D8] rounded-5 p-[12px] hover:border-[#00B0AE]`}>
             <button className="h-auto bg-white absolute left-0 border-none pl-[12px]">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <g id="search">
