@@ -5,7 +5,7 @@ module.exports = {
       proxima: ["Proxima Nova"],
     },
     colors: {
-      primary: "#02B89D",
+      primary: "#0592C6",
       secondary: "#0281B9",
       pureWhite: "#FFF",
       pureBlack: "#000",

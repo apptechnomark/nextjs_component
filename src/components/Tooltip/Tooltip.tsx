@@ -20,7 +20,7 @@ const Tooltip: React.FC<TooltipProps> = ({
       className={`${styles.tooltip} relative cursor-pointer p-2 text-sm sm:text-base max-w-fit ${className}`}
     >
       <span
-        className={`flex justify-center items-center tooltipText absolute bg-[#bcf1e8] w-max max-w-[300px] text-darkCharcoal whitespace-nowrap p-[10px] border border-primary rounded-md opacity-0 before:absolute before:w-3 before:h-3 before:bg-[#bcf1e8] before:border-t before:border-primary before:border-r ${
+        className={`flex justify-center items-center tooltipText absolute bg-[#84C9E3] w-max max-w-[300px] text-darkCharcoal whitespace-nowrap p-[10px] border border-primary rounded-md opacity-0 before:absolute before:w-3 before:h-3 before:bg-[#84C9E3] before:border-t before:border-primary before:border-r ${
           position === "top" &&
           `${styles.top} hidden left-1/2 transform -translate-x-1/2 before:left-1/2 before:-translate-x-1/2 before:bottom-[-7px] before:transform before:rotate-[135deg]`
         } 
