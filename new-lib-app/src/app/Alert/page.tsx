@@ -61,7 +61,7 @@ const alert: React.FC = () => {
                 <Alert variant="info" message="A simple alert-check it out" />
             </div>
         </div>
-
+ 
 
     </BaseLayout>;
 };
