@@ -53,7 +53,7 @@ const Button: React.FC<ButtonProps> = ({
           variant === "btn" && "!bg-lightSilver !text-slatyGrey"
         } ${
           variant === "btn-primary" &&
-          "!bg-primary !text-pureWhite hover:!bg-darkPrimary"
+          "!bg-primary !text-pureWhite hover:!bg-darkBlue"
         } ${
           variant === "btn-secondary" &&
           "!bg-blueColor !text-pureWhite hover:!bg-darkBlue"

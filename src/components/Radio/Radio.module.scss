@@ -37,7 +37,7 @@ $defaultRed: #dc3545;
     stroke-linecap: round;
   }
   #dot {
-    fill: #02b89d;
+    fill: #0592C6;
     transform: scale(0);
     transform-origin: 50% 50%;
   }
@@ -61,10 +61,10 @@ $defaultRed: #dc3545;
     &:not(:disabled) {
       + {
         label:not(.invalidLabel) {
-          color: #02b89d;
+          color: #0592C6;
           > .check {
             #border {
-              stroke: #02b89d;
+              stroke: #0592C6;
             }
           }
           > .invalidCheck {
@@ -80,7 +80,7 @@ $defaultRed: #dc3545;
     + {
       label {
         > .check {
-          box-shadow: 0 0 8px #02b89d;
+          box-shadow: 0 0 8px #0592C6;
           border-radius: 50%;
         }
         > .invalidCheck {
@@ -95,7 +95,7 @@ $defaultRed: #dc3545;
       label {
         .check {
           #border {
-            stroke: #02b89d;
+            stroke: #0592C6;
           }
           #dot {
             transform: scale(1.1);
