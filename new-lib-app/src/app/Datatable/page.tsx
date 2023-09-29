@@ -2,53 +2,47 @@
 
 import React, { useEffect, useRef, useState } from "react";
 
-import { DataTable, Switch, MenuIcon, Tooltip } from "next-ts-lib";
+import { CheckBox, DataTable, MenuIcon, Switch } from "next-ts-lib";
 import "next-ts-lib/dist/index.css";
 import BaseLayout from "../../components/BaseLayout";
-// import MeatballsMenuIcon from "./Icons/MeatballsMenu";
-import ChevronDownIcon from "./Icons/ChevronDown";
-import DeleteIcon from "./Icons/DeleteIcon";
-import MoveToIcon from "./Icons/MoveToIcon";
-import ViewIcon from "./Icons/ViewIcon";
 
 const page = () => {
-
     const columns: any = [
         {
             header: "ID",
             accessor: "id",
             sortable: true,
-            colalign: "left"
+            colalign: "left",
         },
         {
             header: "NAME",
             accessor: "name",
             sortable: true,
-            colalign: "left"
+            colalign: "left",
         },
         {
             header: "STATUS",
             accessor: "status",
             sortable: false,
-            colalign: "right"
+            colalign: "right",
         },
         {
             header: "AMOUNT",
             accessor: "amount",
-            sortable: false,
-            colalign: "right"
+            sortable: true,
+            colalign: "right",
         },
         {
             header: "AGE",
             accessor: "age",
             sortable: false,
-            colalign: "right"
+            colalign: "right",
         },
         {
-            header: "ACTION",
+            header: "",
             accessor: "action",
             sortable: false,
-            colalign: "center"
+            colalign: "right",
         },
     ];
 
@@ -134,6 +128,190 @@ const page = () => {
             action: "Delete",
         },
     ];
+
+    const nestedColumns: any = [
+        {
+            header: "ROLE NAME",
+            accessor: "role",
+            sortable: true,
+            colalign: "left",
+            colStyle: "!w-[100px]",
+        },
+        {
+            header: "DESCRIPTION",
+            accessor: "description",
+            sortable: false,
+            colalign: "left",
+            colStyle: "",
+        },
+    ];
+
+    //Nested Datatable Header
+    const nestedHeaders: any = [
+        {
+            header: "",
+            accessor: "Id",
+            sortable: false,
+            colStyle: "!w-5",
+        },
+        {
+            header: "Module",
+            accessor: "Module",
+            sortable: true,
+            colalign: "left",
+            colStyle: "!w-[105px]",
+        },
+        {
+            header: "View",
+            accessor: "View",
+            sortable: false,
+            colalign: "center",
+        },
+        {
+            header: "Edit",
+            accessor: "Edit",
+            sortable: false,
+            colalign: "center",
+        },
+        {
+            header: "Create",
+            accessor: "Create",
+            sortable: false,
+            colalign: "center",
+        },
+        {
+            header: "Import",
+            accessor: "Import",
+            sortable: false,
+            colalign: "center",
+        },
+        {
+            header: "Sync",
+            accessor: "Sync",
+            sortable: false,
+            colalign: "center",
+        },
+    ];
+
+    const nestedDataList = [
+        {
+            role: "Admin",
+            description: "Standard provided role cannot be edited and deleted",
+            children: [
+                {
+                    Id: "",
+                    Module: "Vendor",
+                    View: true,
+                    Edit: true,
+                    Create: false,
+                    Import: true,
+                    Sync: false,
+                },
+                {
+                    Id: "",
+                    Module: "Dashboard",
+                    View: true,
+                    Edit: false,
+                    Create: true,
+                    Import: false,
+                    Sync: true,
+                },
+                {
+                    Id: "",
+                    Module: "Documents",
+                    View: false,
+                    Edit: false,
+                    Create: true,
+                    Import: false,
+                    Sync: true,
+                },
+                {
+                    Id: "",
+                    Module: "Purchase Order",
+                    View: true,
+                    Edit: true,
+                    Create: false,
+                    Import: false,
+                    Sync: false,
+                },
+                {
+                    Id: "",
+                    Module: "Bill Posting",
+                    View: false,
+                    Edit: false,
+                    Create: true,
+                    Import: true,
+                    Sync: false,
+                },
+            ],
+        },
+        {
+            role: "Commmon",
+            children: [
+                {
+                    Id: "",
+                    Module: "Vendor",
+                    View: true,
+                    Edit: true,
+                    Create: false,
+                    Import: true,
+                    Sync: false,
+                },
+                {
+                    Id: "",
+                    Module: "Purchase Order",
+                    View: true,
+                    Edit: true,
+                    Create: false,
+                    Import: false,
+                    Sync: false,
+                },
+                {
+                    Id: "",
+                    Module: "Bill Posting",
+                    View: false,
+                    Edit: false,
+                    Create: true,
+                    Import: true,
+                    Sync: false,
+                },
+            ],
+        },
+        {
+            role: "Approval",
+            description: "Standard provided role cannot be edited and deleted",
+            children: [
+                {
+                    Id: "",
+                    Module: "Vendor",
+                    View: true,
+                    Edit: true,
+                    Create: false,
+                    Import: true,
+                    Sync: false,
+                },
+                {
+                    Id: "",
+                    Module: "Dashboard",
+                    View: true,
+                    Edit: false,
+                    Create: true,
+                    Import: false,
+                    Sync: true,
+                },
+                {
+                    Id: "",
+                    Module: "Documents",
+                    View: false,
+                    Edit: false,
+                    Create: true,
+                    Import: false,
+                    Sync: true,
+                }
+            ],
+        }
+    ];
+
     const actionArray = ["Edit", "Remove"];
 
     // Action
@@ -141,7 +319,10 @@ const page = () => {
         const actionsRef = useRef<HTMLDivElement>(null);
         const [open, setOpen] = useState(false);
         const handleOutsideClick = (event: MouseEvent) => {
-            if (actionsRef.current && !actionsRef.current.contains(event.target as Node)) {
+            if (
+                actionsRef.current &&
+                !actionsRef.current.contains(event.target as Node)
+            ) {
                 setOpen(false);
             }
         };
@@ -153,7 +334,7 @@ const page = () => {
         }, []);
 
         return (
-            <div className="relative w-full flex justify-end">
+            <div className="relative flex">
                 <div
                     ref={actionsRef}
                     className="cursor-pointer w-10 flex justify-center items-center"
@@ -190,175 +371,6 @@ const page = () => {
         );
     };
 
-    //ViewIcon Hover
-    const ViewIcons = ({ actions }: any) => {
-        const actionsRef = useRef<HTMLDivElement>(null);
-        const [open, setOpen] = useState(false);
-        const handleOutsideClick = (event: MouseEvent) => {
-            if (actionsRef.current && !actionsRef.current.contains(event.target as Node)) {
-                setOpen(false);
-            }
-        };
-        useEffect(() => {
-            window.addEventListener("click", handleOutsideClick);
-            return () => {
-                window.removeEventListener("click", handleOutsideClick);
-            };
-        }, []);
-
-        return (
-            <div className="relative w-full flex justify-end">
-                {/* <div
-                    ref={actionsRef}
-                    className="cursor-pointer w-10 flex justify-center items-center"
-                    onClick={() => setOpen(!open)}
-                > */}
-                <Tooltip content="View Bill" position="bottom">
-                    <ViewIcon />
-                </Tooltip>
-                {/* {open && (
-                        <React.Fragment>
-                            <div className="absolute z-10 top-7 right-1 flex justify-center items-center">
-                                <div className="py-2 border border-lightSilver rounded-md bg-pureWhite shadow-lg ">
-                                    <ul className="w-40">
-                                        {actions.map((action: any, index: any) => (
-                                            <li
-                                                key={index}
-                                                onClick={() => {
-                                                    handleKebabChange(action);
-                                                }}
-                                                className="flex w-full h-9 px-3 hover:bg-lightGray !cursor-pointer"
-                                            >
-                                                <div className="flex justify-center items-center ml-2 cursor-pointer">
-                                                    <label className="inline-block text-xs cursor-pointer">
-                                                        {action}
-                                                    </label>
-                                                </div>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </div>
-                            </div>
-                        </React.Fragment>
-                    )} */}
-                {/* </div> */}
-            </div>
-        );
-    };
-
-    //MoveToIcon Hover
-    const MoveToIcons = ({ actions }: any) => {
-        const actionsRef = useRef<HTMLDivElement>(null);
-        const [open, setOpen] = useState(false);
-        const handleOutsideClick = (event: MouseEvent) => {
-            if (actionsRef.current && !actionsRef.current.contains(event.target as Node)) {
-                setOpen(false);
-            }
-        };
-        useEffect(() => {
-            window.addEventListener("click", handleOutsideClick);
-            return () => {
-                window.removeEventListener("click", handleOutsideClick);
-            };
-        }, []);
-
-        return (
-            <div className="relative w-full flex justify-end">
-                <div
-                    ref={actionsRef}
-                    className="cursor-pointer w-10 flex justify-center items-center"
-                    onClick={() => setOpen(!open)}
-                >
-                    <Tooltip content="Move To" position="bottom">
-                        <MoveToIcon />
-                    </Tooltip>
-                    <div className={`mr-2.5  transition-transform ${open ? "rotate-180 duration-400" : "duration-200"}`}> <ChevronDownIcon /></div>
-                    {open && (
-                        <React.Fragment>
-                            <div className="absolute z-10 top-7 right-1 flex justify-center items-center">
-                                <div className="py-2 border border-lightSilver rounded-md bg-pureWhite shadow-lg ">
-                                    <ul className="w-40">
-                                        {actions.map((action: any, index: any) => (
-                                            <li
-                                                key={index}
-                                                onClick={() => {
-                                                    handleKebabChange(action);
-                                                }}
-                                                className="flex w-full h-9 px-3 hover:bg-lightGray !cursor-pointer"
-                                            >
-                                                <div className="flex justify-center items-center ml-2 cursor-pointer">
-                                                    <label className="inline-block text-xs cursor-pointer">
-                                                        {action}
-                                                    </label>
-                                                </div>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </div>
-                            </div>
-                        </React.Fragment>
-                    )}
-                </div>
-            </div>
-        );
-    };
-
-    //DeleteIcon Hover
-    const DeleteIcons = ({ actions }: any) => {
-        const actionsRef = useRef<HTMLDivElement>(null);
-        const [open, setOpen] = useState(false);
-        const handleOutsideClick = (event: MouseEvent) => {
-            if (actionsRef.current && !actionsRef.current.contains(event.target as Node)) {
-                setOpen(false);
-            }
-        };
-        useEffect(() => {
-            window.addEventListener("click", handleOutsideClick);
-            return () => {
-                window.removeEventListener("click", handleOutsideClick);
-            };
-        }, []);
-
-        return (
-            <div className="relative w-full flex justify-end">
-                {/* <div
-                    ref={actionsRef}
-                    className="cursor-pointer w-10 flex justify-center items-center"
-                    onClick={() => setOpen(!open)}
-                > */}
-                <Tooltip content="Delete" position="bottom">
-                    <DeleteIcon />
-                </Tooltip>
-                {/* {open && (
-                        <React.Fragment>
-                            <div className="absolute z-10 top-7 right-1 flex justify-center items-center">
-                                <div className="py-2 border border-lightSilver rounded-md bg-pureWhite shadow-lg ">
-                                    <ul className="w-40">
-                                        {actions.map((action: any, index: any) => (
-                                            <li
-                                                key={index}
-                                                onClick={() => {
-                                                    handleKebabChange(action);
-                                                }}
-                                                className="flex w-full h-9 px-3 hover:bg-lightGray !cursor-pointer"
-                                            >
-                                                <div className="flex justify-center items-center ml-2 cursor-pointer">
-                                                    <label className="inline-block text-xs cursor-pointer">
-                                                        {action}
-                                                    </label>
-                                                </div>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </div>
-                            </div>
-                        </React.Fragment>
-                    )} */}
-                {/* </div> */}
-            </div>
-        );
-    };
-
     const handleKebabChange = (actionName: string) => {
         if (actionName === "Edit") {
             alert("Edit Clicked");
@@ -369,8 +381,7 @@ const page = () => {
     };
 
     const classListData = dataList?.map((e: any) => ({
-        id: e.id,
-        name: e.name,
+        ...e,
         status: (
             <div>
                 {e.status === "Active" ? (
@@ -383,10 +394,56 @@ const page = () => {
         amount: e.amount,
         age: e.age,
         action: <Actions id={e.Id} recNo={e.RecordNo} actions={actionArray} />,
-    }));
+    })).slice(0, 5);
 
-    const moveToDataArray = ["Option 1", "Option 2"];
-    const iconsArray = [<ViewIcons />, <MoveToIcons actions={moveToDataArray} />, <DeleteIcons />]
+    //Nested Datatable Data
+    const classListData2 = nestedDataList?.map((e: any) => ({
+        ...e,
+        details: e.children?.length > 0 && (
+            <div>
+                <DataTable
+                    columns={nestedHeaders}
+                    data={e.children.map(
+                        (data: any) =>
+                            new Object({
+                                ...data,
+                                View: (
+                                    <CheckBox
+                                        id={data.Module + Math.random()}
+                                        defaultChecked={data.View}
+                                    />
+                                ),
+                                Edit: (
+                                    <CheckBox
+                                        id={data.Module + Math.random()}
+                                        defaultChecked={data.Edit}
+                                    />
+                                ),
+                                Create:
+                                    (
+                                        <CheckBox
+                                            id={data.Module + Math.random()}
+                                            defaultChecked={data.Create}
+                                        />
+                                    ),
+                                Import: (
+                                    <CheckBox
+                                        id={data.Module + Math.random()}
+                                        defaultChecked={data.Import}
+                                    />
+                                ),
+                                Sync: (
+                                    <CheckBox
+                                        id={data.Module + Math.random()}
+                                        defaultChecked={data.Sync}
+                                    />
+                                ),
+                            })
+                    )}
+                />
+            </div>
+        ),
+    }));
 
     return (
         <>
@@ -394,9 +451,22 @@ const page = () => {
                 <h5 className="m-5 pt-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
                     Data Table
                 </h5>
+
                 <div className="p-2 m-3 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
                     <h2 className="m-7 text-xl tracking-tight text-gray-900 dark:text-white">
                         Basic
+                    </h2>
+                    <div className="h-auto ml-7">
+                        <DataTable
+                            columns={columns}
+                            data={dataList.length > 0 ? classListData : []}
+                            hoverEffect={true}
+                        />
+                    </div>
+                </div>
+                <div className="p-2 m-3 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+                    <h2 className="m-7 text-xl tracking-tight text-gray-900 dark:text-white">
+                        Basic (Sticky Header)
                     </h2>
                     <div className="h-auto ml-7">
                         <DataTable
@@ -407,17 +477,15 @@ const page = () => {
                         />
                     </div>
                 </div>
-
                 {/* <div className="p-2 m-3 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
                     <h2 className="m-7 text-xl tracking-tight text-gray-900 dark:text-white">
-                        Table With Hovered Effect
+                        Expandable Datatable
                     </h2>
                     <div className="h-auto ml-7">
                         <DataTable
-                            columns={columns}
-                            data={dataList.length > 0 ? classListData : []}
-                            sticky
-                            hoverIcons={iconsArray}
+                            columns={nestedColumns}
+                            data={nestedDataList.length > 0 ? classListData2 : []}
+                            expandable
                         />
                     </div>
                 </div> */}
@@ -425,6 +493,6 @@ const page = () => {
             </BaseLayout>
         </>
     );
-}
+};
 
-export default page
+export default page;

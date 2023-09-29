@@ -296,6 +296,27 @@ const card: React.FC = () => {
             </Card>
         </div>
 
+        <div className="p-2   m-3 bg-[#DADADA] border border-gray-200  shadow dark:bg-gray-800 dark:border-gray-700 ">
+            <Card variant="square" style={{ width: "350px" }} className="group cursor-pointer">
+                <CardHeader>
+                    <div className="relative">
+                        <div className="inline-block">
+                            <Start />
+                        </div>
+                        <div className="inline-block ml-3 mb-2">
+                            <span>Revenue</span>
+                        </div>
+                        <div className="inline-block ml-[110px]">
+                            $3,393.95
+                        </div>
+                        <div className="absolute top-[6px] inline-block ml-[10px]">
+                            <ActionIcon />
+                        </div>
+                    </div>
+                </CardHeader>
+            </Card>
+        </div >
+
 
         <div className="p-2   m-3 bg-[#DADADA] border border-gray-200  shadow dark:bg-gray-800 dark:border-gray-700 ">
             <Card variant="square" style={{ width: "350px" }} className="group cursor-pointer">
@@ -309,6 +330,28 @@ const card: React.FC = () => {
                         </div>
                         <div className="inline-block ml-[130px]">
                             $3,393.95
+                        </div>
+                    </div>
+                </CardHeader>
+                <div className="bg-[#D8D8D8] group-hover:transition-width group-hover:bg-[#02B89D]  group-hover:duration-[300ms] group-hover:ease-in bottom-0 h-[5px] w-full relative before:absolute before:bottom-0 before:left-0 before:block before:w-0 before:h-[5px] before:bg-[#02B89D] before:transition-width before:duration-[800ms] before:ease-in  group-hover:w-full"></div>
+            </Card>
+        </div >
+
+        <div className="p-2   m-3 bg-[#DADADA] border border-gray-200  shadow dark:bg-gray-800 dark:border-gray-700 ">
+            <Card variant="square" style={{ width: "350px" }} className="group cursor-pointer">
+                <CardHeader>
+                    <div className="relative">
+                        <div className="inline-block">
+                            <Start />
+                        </div>
+                        <div className="inline-block ml-3 mb-2">
+                            <span>Revenue</span>
+                        </div>
+                        <div className="inline-block ml-[110px]">
+                            $3,393.95
+                        </div>
+                        <div className="absolute top-[6px] inline-block ml-[10px]">
+                            <ActionIcon />
                         </div>
                     </div>
                 </CardHeader>
@@ -344,6 +387,29 @@ const card: React.FC = () => {
                     <div className="flex flex-col justify-between items-start relative w-full  ">
                         <div className="mr-1 relative  top-2">
                             <Radio id="Radio_Checked2" />
+                        </div>
+                        <div className="absolute top-[70px] left-[120px]">
+                            <span>
+                                <Company />
+                            </span>
+                        </div>
+                        <div className="absolute top-[180px] font-bold left-[85px]">
+                            <span>
+                                View a demo company
+                            </span>
+                        </div>
+                    </div>
+                </CardHeader>
+            </Card>
+
+        </div>
+
+        <div className="p-5  m-3 bg-[#DADADA] border  border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 " >
+            <Card className="my-card">
+                <CardHeader>
+                    <div className="flex flex-col justify-between items-start relative w-full  ">
+                        <div className="mr-1 relative  top-2">
+                            <CheckBox id="checkbox_Checked2" />
                         </div>
                         <div className="absolute top-[70px] left-[120px]">
                             <span>

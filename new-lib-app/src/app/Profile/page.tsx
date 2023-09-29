@@ -13,7 +13,7 @@ const CalenderRange: React.FC = () => {
             <h2 className="m-7 text-xl tracking-tight text-gray-900 dark:text-white">
                 Basic
             </h2>
-            <div className="pt-3 pl-7 mb-5 gap-8 grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
+            <div className="pt-3 pl-7 mb-5 gap-8 grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3">
                 <Profile variant="medium" />
                 <Profile type="square" variant="medium" />
                 <Profile name="technomak solution" variant="medium" />
@@ -24,7 +24,7 @@ const CalenderRange: React.FC = () => {
             <h2 className="m-7 text-xl tracking-tight text-gray-900 dark:text-white">
                 Basic (Large Variant)
             </h2>
-            <div className="pt-3 pl-7 mb-5 gap-8 grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
+            <div className="pt-3 pl-7 mb-5 gap-8 grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3">
                 <Profile />
                 <Profile type="square" />
                 <Profile name="technomak solution" />
