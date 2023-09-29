@@ -33,7 +33,7 @@ import ModalContent from "./components/Modal/ModalContent";
 import ModalTitle from "./components/Modal/ModalTitle";
 import { NavigationBar } from "./components/NavigationBar/NavigationBar";
 import Pagination from "./components/Pagination/Pagination";
-import { Profile } from "./components/Profile/Profile";
+import Profile  from "./components/Profile/Profile";
 import { Password } from "./components/Password/Password";
 import { ProgressBar } from "./components/Progressbar/Progressbar";
 import ProgressStep from "./components/Progressstep/Progressstep";

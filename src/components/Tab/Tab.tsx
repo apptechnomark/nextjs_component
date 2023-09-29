@@ -28,24 +28,25 @@ const TabBar = ({ tabs, getValue, className, alignIcon }: TabBarProps) => {
   }
 
   return (
-    <ul className={`h-12 flex ${className}`}>
+    <ul className={`h-12 flex relative ${className}`}>
       {tabs.map((tab, index: any) => (
         <li
           key={index + 1}
           id={tab.id}
-          className={`!m-0 !p-0 select-none ${tab.disabled == true ? "text-slatyGrey hover:pointer-events-none" : "cursor-pointer hover:text-primary hover:border-b-2 hover:border-b-primary hover:bg-[#E1F7F3]"} w-full flex ${style.tab} ${tabId === tab.id ? style.active : ""}`}
+          className={`!m-0 !p-0 select-none ${tab.disabled == true ? "text-slatyGrey hover:pointer-events-none" : "cursor-pointer hover:text-primary hover:border-b-2 hover:border-primary hover:bg-[#E1F7F3]"} w-full flex h-auto px-5 justify-center items-center border-b-2 border-lightSilver text-center  ${tabId === tab.id ? "border-b-2 border-primary text-primary" : ""}`}
           onClick={tab.disabled ? null : handleClick}
         >
-          <span className={`${isClicked && tabId === tab.id && style.tab__ripple}`}></span>
+          <span className={`absolute ${isClicked && tabId === tab.id && style.tab__ripple}`}></span>
 
-          {/* {tab.alignIcon == "left" && <>{tab.icon}&nbsp;</>} */}
+          {tab.alignIcon == "left" && <>{tab.icon}&nbsp;</>}
           {tab.label}&nbsp;
-          {/* {tab.alignIcon == "right" && <>{tab.icon}</>} */}
+          {tab.alignIcon == "right" && <>{tab.icon}</>}
           {tab.jsxElement}
 
         </li>
-      ))}
-    </ul>
+      ))
+      }
+    </ul >
   );
 };
 
