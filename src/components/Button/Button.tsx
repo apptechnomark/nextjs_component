@@ -53,7 +53,7 @@ const Button: React.FC<ButtonProps> = ({
           variant === "btn" && "!bg-lightSilver !text-slatyGrey"
         } ${
           variant === "btn-primary" &&
-          "!bg-primary !text-pureWhite hover:!bg-darkPrimary"
+          "!bg-primary !text-pureWhite hover:!bg-darkBlue"
         } ${
           variant === "btn-secondary" &&
           "!bg-blueColor !text-pureWhite hover:!bg-darkBlue"
@@ -68,7 +68,7 @@ const Button: React.FC<ButtonProps> = ({
           "!bg-yellowColor !text-pureWhite hover:!bg-darkYellow"
         } ${
           variant === "primary" &&
-          "!text-primary hover:bg-[#E0F8F4] hover:!text-[#029882]"
+          "!text-primary hover:bg-[#E0F8F4] hover:!text-[#0281B9]"
         } ${
           variant === "secondary" &&
           "!text-blueColor hover:bg-[#E5F5FC] hover:!text-[#0281B9]"
@@ -85,7 +85,7 @@ const Button: React.FC<ButtonProps> = ({
           variant === "btn-outline" && "!text-slatyGrey border border-slatyGrey"
         } ${
           variant === "btn-outline-primary" &&
-          "!text-primary hover:!text-darkPrimary border border-primary hover:border-darkPrimary hover:!bg-[#E0F8F4]"
+          "!text-primary hover:!text-darkBlue border border-primary hover:border-darkBlue hover:!bg-[#E0F8F4]"
         } ${
           variant === "btn-outline-secondary" &&
           "!text-blueColor hover:!text-darkBlue border border-blueColor hover:border-darkBlue hover:!bg-[#E5F5FC]"

@@ -1,34 +1,7 @@
-$primary: #02b89d;
-$lightSilver: #d8d8d8;
-
-.tab {
-  height: auto;
-  display: flex;
-  padding: 0 20px;
-  align-items: center;
-  justify-content: center;
-  border-bottom: 2px solid $lightSilver;
-  text-align: center;
-}
-
-// .tab:hover {
-//   // cursor: pointer !important;
-//   // color: $primary;
-//   // background-color: #E1F7F3;
-//   background-color: aqua;
-//   // border-bottom: 2px solid $primary;
-// }
-
-.active {
-  border-bottom: 2px solid $primary;
-  color: $primary;
-}
-
 .tab__ripple {
-  width: 18%;
+  width: 25%;
   opacity: 0;
   height: 45px;
-  position: absolute;
   transform: scale(0);
   border-radius: 30px;
   animation: ripple 0.7s;

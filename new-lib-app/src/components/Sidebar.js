@@ -9,9 +9,11 @@ import {
   GoAlert,
   GoCheckbox,
   GoKebabHorizontal,
+  GoMultiSelect,
 } from "react-icons/go";
 import { RxButton, RxAvatar, RxDropdownMenu } from "react-icons/rx";
-import { CgProfile } from "react-icons/cg";
+import { RiLayoutBottom2Line } from "react-icons/ri";
+import { CgProfile,CgLoadbar } from "react-icons/cg";
 import {
   BsCursorText,
   BsCalendarDate,
@@ -30,7 +32,7 @@ import { IoMdTime } from "react-icons/io";
 import {
   TfiLayoutAccordionMerged,
   TfiLayoutTabWindow,
-  TfiLayoutTab,
+  TfiLineDouble,
 } from "react-icons/tfi";
 import { ImPageBreak, ImSpinner9 } from "react-icons/im";
 import { SiProgress } from "react-icons/si";
@@ -80,7 +82,7 @@ const sidebarItems = [
   {
     name: "Bottom Navigation",
     href: "/BottomNavigation",
-    icon: TfiLayoutTab,
+    icon: RiLayoutBottom2Line,
   },
   {
     name: "Button",
@@ -112,6 +114,11 @@ const sidebarItems = [
     name: "Color Picker",
     href: "/Colorpicker",
     icon: BsPalette,
+  },
+  {
+    name: "Company List",
+    href: "/CompanyList",
+    icon: GoMultiSelect,
   },
   {
     name: "Country Select Dropdown",
@@ -183,11 +190,21 @@ const sidebarItems = [
     href: "/Progressstep",
     icon: BsBarChartSteps,
   },
+  {
+    name: "Property Bar",
+    href: "/PropertyBar",
+    icon: CgLoadbar,
+  },
   // {
   //   name: "Radio",
   //   href: "/Radio",
   //   icon: MdPassword,
   // },
+  {
+    name: "Range Slider",
+    href: "/RangeSlider",
+    icon: TfiLineDouble,
+  },
   {
     name: "Rating",
     href: "/Rating",

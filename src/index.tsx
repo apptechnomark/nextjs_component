@@ -20,6 +20,7 @@ import CheckBox from "./components/Checkbox/Checkbox";
 import { Close } from "./components/Closebutton/Close";
 import { ColorPicker } from "./components/Colorpicker/Colorpicker";
 import { CountrySelect } from "./components/Coutry_select_dropdown/CountrySelect";
+import { CompanyList } from "./components/CompanyList/CompanyList";
 import DataTable from "./components/Datatable/Datatable";
 import { Datepicker } from "./components/Datepicker/datepicker";
 import { DatepickerYear } from "./components/Datepicker/datepickerYear";
@@ -33,11 +34,14 @@ import ModalContent from "./components/Modal/ModalContent";
 import ModalTitle from "./components/Modal/ModalTitle";
 import { NavigationBar } from "./components/NavigationBar/NavigationBar";
 import Pagination from "./components/Pagination/Pagination";
-import { Profile } from "./components/Profile/Profile";
+import Profile from "./components/Profile/Profile";
 import { Password } from "./components/Password/Password";
 import { ProgressBar } from "./components/Progressbar/Progressbar";
+import { PropertyBar } from "./components/PropertyBar/PropertyBar";
 import ProgressStep from "./components/Progressstep/Progressstep";
 import Radio from "./components/Radio/Radio";
+import { Range } from "./components/RangeSlider/Range";
+import { MinMaxRange } from "./components/RangeSlider/MinMaxRange";
 import { Rating } from "./components/Rating/Rating";
 import { ScrollSpy } from "./components/Scrollspy/Scrollspy";
 import { Select } from "./components/Selectdropdown/Select";
@@ -83,6 +87,7 @@ export {
     Close,
     ColorPicker,
     CountrySelect,
+    CompanyList,
     Datepicker,
     DatepickerYear,
     DataTable,
@@ -99,8 +104,11 @@ export {
     Password,
     Profile,
     ProgressBar,
+    PropertyBar,
     ProgressStep,
     Radio,
+    Range,
+    MinMaxRange,
     Rating,
     ScrollSpy,
     Select,

@@ -153,7 +153,7 @@ const TabComponent: React.FC = () => {
                         Icon Tabs
                     </h2>
                     <div className="mx-7">
-                        <TabBar tabs={centeredTabs} getValue={(e: any) => {
+                        <TabBar tabs={iconTab} getValue={(e: any) => {
                             setIValue(e);
                         }} />
 

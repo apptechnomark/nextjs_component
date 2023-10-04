@@ -50,7 +50,7 @@ const Badge = ({
         return "#DC3545";
         break;
       default:
-        return "#02B89D";
+        return "#0592C6";
         break;
     }
   };

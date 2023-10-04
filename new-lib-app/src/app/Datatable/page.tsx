@@ -477,7 +477,7 @@ const page = () => {
                         />
                     </div>
                 </div>
-                {/* <div className="p-2 m-3 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+                <div className="p-2 m-3 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
                     <h2 className="m-7 text-xl tracking-tight text-gray-900 dark:text-white">
                         Expandable Datatable
                     </h2>
@@ -488,7 +488,7 @@ const page = () => {
                             expandable
                         />
                     </div>
-                </div> */}
+                </div>
 
             </BaseLayout>
         </>

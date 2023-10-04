@@ -417,8 +417,8 @@ export const ColorPicker: React.FC<ColorPickerProps> = (props: any) => {
                 <div
                   className={`${Styles.color_box} ${Styles.color_box_primary}`}
                   onClick={() => {
-                    props.onChange("#02B89D");
-                    setColorBoxValue("#02B89D");
+                    props.onChange("#0592C6");
+                    setColorBoxValue("#0592C6");
                     setValue(props.value);
                     setOpen(false);
                   }}
