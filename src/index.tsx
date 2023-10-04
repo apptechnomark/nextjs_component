@@ -37,6 +37,7 @@ import Pagination from "./components/Pagination/Pagination";
 import Profile from "./components/Profile/Profile";
 import { Password } from "./components/Password/Password";
 import { ProgressBar } from "./components/Progressbar/Progressbar";
+import { PropertyBar } from "./components/PropertyBar/PropertyBar";
 import ProgressStep from "./components/Progressstep/Progressstep";
 import Radio from "./components/Radio/Radio";
 import { Range } from "./components/RangeSlider/Range";
@@ -103,6 +104,7 @@ export {
     Password,
     Profile,
     ProgressBar,
+    PropertyBar,
     ProgressStep,
     Radio,
     Range,
