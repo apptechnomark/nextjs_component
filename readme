@@ -1,0 +1,78 @@
+"use client";
+
+import React, { useState } from "react";
+import { Range, RangeSlider, MinMaxRange, SearchBar } from "rangeselector";
+import "rangeselector/dist/index.css";
+
+const Home: React.FC = () => {
+  const [number, setNumber] = useState("");
+
+  const handleChange = (value: number) => {
+    setNumber(value);
+  };
+
+  const [rangeValues, setRangeValues] = useState({ min: 0, max: 100 });
+
+  const handleRangeChange = (values: { min: number; max: number }) => {
+    setRangeValues(values);
+  };
+
+  return (
+    <>
+      <span className="px-4 font-semibold">Basic</span>
+      <div className="p-4">
+        <Range min={0} max={100} onChange={handleChange} />
+      </div>
+      <span className="px-4 font-semibold">Basic(Dot Variant)</span>
+      <div className="p-4">
+        <Range
+          variant="dot"
+          min={10}
+          max={100}
+          gap={10}
+          valueBetween
+          onChange={handleChange}
+          numbers
+        />
+      </div>
+      <div className="mt-4"></div>
+      <span className="px-4 font-semibold">Basic(line Variant)</span>
+      <div className="p-4">
+        <Range
+          variant="line"
+          min={10}
+          max={100}
+          gap={10}
+          onChange={handleChange}
+          numbers
+          valueBetween
+        />
+      </div>
+      <div className="mt-4"></div>
+      <span className="px-4 font-semibold">Min-max slider</span>
+      <div className="p-4">
+        <MinMaxRange
+          minValue={0}
+          maxValue={100}
+          minRange={0}
+          maxRange={10}
+          getValue={() => ""}
+        />
+      </div>
+  <span className="px-4 font-semibold">Min-max slider(Number)</span>
+      <div className="p-4">
+        <MinMaxRange
+          minValue={0}
+          maxValue={10}
+          minRange={1}
+          maxRange={3}
+          getValue={() => ""}
+          number
+        />
+      </div> 
+     <div className="mt-4">Value : {number}</div>
+    </>
+  );
+};
+
+export default Home;
