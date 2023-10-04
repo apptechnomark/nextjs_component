@@ -296,7 +296,6 @@ const CountrySelect: React.FC<CountryCodeProps> = ({
                                 id={id}
                                 name={name}
                                 value={telValue}
-                                autoFocus
                                 onBlur={
                                     onBlur
                                         ? onBlur
@@ -314,37 +313,38 @@ const CountrySelect: React.FC<CountryCodeProps> = ({
                             />
                         </div>
                         <ul
-                            className={`absolute w-full h-[215px] bg-pureWhite mt-[1px] overflow-y-auto shadow-md transition-transform ${open
+                            className={`absolute w-full bg-pureWhite mt-[1px] overflow-y-auto shadow-md transition-transform ${open
                                 ? "max-h-60 translate-y-0 transition-opacity opacity-100 duration-500 ease-out"
                                 : "max-h-0 translate-y-20 transition-opacity opacity-0 duration-500"
                                 } `}
                         >
-
-                            {filteredOptions.length > 0 && filteredOptions.map((option, index) => (
-                                <li
-                                    key={index}
-                                    className={`p-[10px]  outline-none focus:bg-whiteSmoke text-[14px] hover:bg-whiteSmoke font-normal cursor-pointer flex flex-row items-center space-x-2 ${option.value === selectedCountryCode ? "bg-whiteSmoke" : ""
-                                        }`}
-                                    onClick={() => {
-                                        if (option.value !== inputValue) {
-                                            handleSelect(option.value, telValue);
-                                        }
-                                    }}
-                                    onKeyDown={(e) => {
-                                        handleListItemKeyDown(e, option.value, index)
-                                    }}
-                                    tabIndex={0}
-                                    ref={(el) => {
-                                        if (index === focusedIndex) {
-                                            el?.focus();
-                                        }
-                                    }}
-                                >
-                                    <span className="w-6">{option.JsxElement}</span>
-                                    <span className="w-10">{option.label}</span>
-                                    <span>{option.country}</span>
-                                </li>
-                            ))}
+                            {filteredOptions.length == 0
+                                ? <span className="p-[10px]  outline-none focus:bg-whiteSmoke text-[15px] hover:bg-whiteSmoke font-normal cursor-pointer flex flex-row items-center space-x-2 text-defaultRed">No matching country found.</span>
+                                : filteredOptions.map((option, index) => (
+                                    <li
+                                        key={index}
+                                        className={`p-[10px]  outline-none focus:bg-whiteSmoke text-sm hover:bg-whiteSmoke font-normal cursor-pointer flex flex-row items-center space-x-2 ${option.value === selectedCountryCode ? "bg-whiteSmoke" : ""
+                                            }`}
+                                        onClick={() => {
+                                            if (option.value !== inputValue) {
+                                                handleSelect(option.value, telValue);
+                                            }
+                                        }}
+                                        onKeyDown={(e) => {
+                                            handleListItemKeyDown(e, option.value, index)
+                                        }}
+                                        tabIndex={0}
+                                        ref={(el) => {
+                                            if (index === focusedIndex) {
+                                                el?.focus();
+                                            }
+                                        }}
+                                    >
+                                        <span className="w-6">{option.JsxElement}</span>
+                                        <span className="w-10">{option.label}</span>
+                                        <span>{option.country}</span>
+                                    </li>
+                                ))}
                         </ul>
                     </div>
                 </div>

@@ -1,0 +1,49 @@
+.custom_range {
+  input[type="range"]::-webkit-slider-thumb {
+    pointer-events: auto;
+    -webkit-appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #fff;
+    background: #0592c6;
+    border-radius: 50%;
+    cursor: pointer;
+    margin-top: -7px;
+  }
+
+  input[type="range"]::-moz-range-thumb {
+    pointer-events: auto;
+    -moz-appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #fff;
+    background: #0592c6;
+    border-radius: 50%;
+    cursor: pointer;
+    margin-top: -7px;
+  }
+
+  input[type="range"]:hover::-webkit-slider-thumb {
+    box-shadow: 4px #aeddee;
+    -webkit-box-shadow: 0px 0px 0px 4px #aeddee;
+    -moz-box-shadow: 0px 0px 0px 4px #aeddee;
+  }
+
+  input[type="range"]:hover::-moz-range-thumb {
+    box-shadow: 4px #aeddee;
+    -webkit-box-shadow: 0px 0px 0px 4px #aeddee;
+    -moz-box-shadow: 0px 0px 0px 4px #aeddee;
+  }
+
+  input[type="range"]:focus::-webkit-slider-thumb {
+    box-shadow: 8px #aeddee;
+    -webkit-box-shadow: 0px 0px 0px 8px #aeddee;
+    -moz-box-shadow: 0px 0px 0px 8px #aeddee;
+  }
+
+  input[type="range"]:focus::-moz-range-thumb {
+    box-shadow: 8px #aeddee;
+    -webkit-box-shadow: 0px 0px 0px 8px #aeddee;
+    -moz-box-shadow: 0px 0px 0px 8px #aeddee;
+  }
+}
