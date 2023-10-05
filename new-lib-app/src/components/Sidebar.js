@@ -136,6 +136,11 @@ const sidebarItems = [
     icon: BsCalendarDate,
   },
   {
+    name: "Dropdown List",
+    href: "/DropdownList",
+    icon: GoMultiSelect,
+  },
+  {
     name: "File Uploader",
     href: "/Fileuploader",
     icon: BsUpload,

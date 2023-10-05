@@ -16,16 +16,30 @@ const TabComponent: React.FC = () => {
     const [optionId, setOptionId] = useState<number>(0);
     const [optionError, setOptionError] = useState<boolean>(false);
 
-    const options = [
-        { label: "Option 2", value: "option 2" },
-        { label: "Option 3", value: "option 3" },
-        { label: "Hello 1", value: "Hello 1" },
-        { label: "Hello 11", value: "Hello 11" },
-        { label: "Hello 12", value: "Hello 12" },
-        { label: "Hello 13", value: "Hello 13" },
-        { label: "Hello 14", value: "Hello 14" },
+    const options1 = [
+        { label: "Option 1", value: "Option 1" },
+        { label: "Option 2", value: "Option 2" },
+        { label: "Option 3", value: "Option 3" },
+        { label: "Option 4", value: "Option 4" },
     ];
-
+    const options2 = [
+        { label: "Option 5", value: "Option 5" },
+        { label: "Option 6", value: "Option 6" },
+        { label: "Option 7", value: "Option 7" },
+        { label: "Option 8", value: "Option 8" },
+    ];
+    const options3 = [
+        { label: "Hello 1", value: "Hello 1" },
+        { label: "Hello 2", value: "Hello 2" },
+        { label: "Hello 3", value: "Hello 3" },
+        { label: "Hello 4", value: "Hello 4" },
+    ];
+    const options4 = [
+        { label: "Hello 5", value: "Hello 5" },
+        { label: "Hello 6", value: "Hello 6" },
+        { label: "Hello 7", value: "Hello 7" },
+        { label: "Hello 8", value: "Hello 8" },
+    ];
     const defaultTabs = [
         { id: "dtab1", label: "Tab1" },
         { id: "dtab2", label: "Tab2" },
@@ -41,10 +55,10 @@ const TabComponent: React.FC = () => {
     ]
 
     const iconTab = [
-        { id: "tab11", label: "Tab1", icon: <PlusIcon bgColor={iValue === "tab11" ? "#02B89D" : "#333333"} />, alignIcon: "left" },
-        { id: "tab21", label: "Placeholder Text", icon: <PlusIcon bgColor={iValue === "tab21" ? "#02B89D" : "#333333"} />, alignIcon: "left" },
-        { id: "tab31", label: "Placeholder Text", icon: <PlusIcon bgColor={iValue === "tab31" ? "#02B89D" : "#333333"} />, alignIcon: "right" },
-        { id: "tab41", label: "Placeholder Text", icon: <PlusIcon bgColor={iValue === "tab41" ? "#02B89D" : "#333333"} />, alignIcon: "right" },
+        { id: "tab11", label: "Tab1", icon: <PlusIcon bgColor={iValue === "tab11" ? "#0592C6" : "#333333"} />, alignIcon: "left" },
+        { id: "tab21", label: "Placeholder Text", icon: <PlusIcon bgColor={iValue === "tab21" ? "#0592C6" : "#333333"} />, alignIcon: "left" },
+        { id: "tab31", label: "Placeholder Text", icon: <PlusIcon bgColor={iValue === "tab31" ? "#0592C6" : "#333333"} />, alignIcon: "right" },
+        { id: "tab41", label: "Placeholder Text", icon: <PlusIcon bgColor={iValue === "tab41" ? "#0592C6" : "#333333"} />, alignIcon: "right" },
     ]
 
     const centeredTabs = [
@@ -53,13 +67,13 @@ const TabComponent: React.FC = () => {
         { id: "ctab3", label: "Tab3" },
         { id: "ctab4", label: "Tab4", disabled: true },
     ]
-    
+
     const dropdownTab = [
         {
             id: "ddtab1", jsxElement:
                 <MultiSelect
                     type="checkbox"
-                    options={options}
+                    options={options1}
                     id="basic"
                     noborder
                     onSelect={(value: any) => setValue(value)}
@@ -72,7 +86,7 @@ const TabComponent: React.FC = () => {
             id: "ddtab2", jsxElement:
                 <MultiSelect
                     type="checkbox"
-                    options={options}
+                    options={options2}
                     id="basic"
                     noborder
                     onSelect={(value: any) => setValue(value)}
@@ -86,7 +100,7 @@ const TabComponent: React.FC = () => {
             jsxElement:
                 <MultiSelect
                     type="checkbox"
-                    options={options}
+                    options={options3}
                     noborder
                     id="basic"
                     onSelect={(value: any) => setValue(value)}
@@ -99,7 +113,7 @@ const TabComponent: React.FC = () => {
             id: "ddtab4", jsxElement:
                 <MultiSelect
                     type="checkbox"
-                    options={options}
+                    options={options4}
                     noborder
                     id="basic"
                     onSelect={(value: any) => setValue(value)}
@@ -147,7 +161,7 @@ const TabComponent: React.FC = () => {
                             setCValue(e);
                         }} />
                     </div>
-                </div> 
+                </div>
                 <div className="p-2 m-3 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
                     <h2 className="m-7 text-xl tracking-tight text-gray-900 dark:text-white">
                         Icon Tabs
