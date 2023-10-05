@@ -53,7 +53,7 @@ const MultiSelectChip: React.FC<MultiSelectChipProps> = ({
   placeholder,
 }) => {
   const [selected, setSelected] = useState<string[]>([]);
-  const [open, setOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const selectRef = useRef<HTMLDivElement>(null);
   const [error, setError] = useState<boolean>(false);
   const [errMsg, setErrMsg] = useState<string>("");
@@ -94,21 +94,21 @@ const MultiSelectChip: React.FC<MultiSelectChipProps> = ({
   };
 
   useEffect(() => {
-    window.addEventListener("click", handleOutsideClick);
+    const handleOutsideClick = (event: MouseEvent) => {
+      if (
+        selectRef.current &&
+        !selectRef.current.contains(event.target as Node)
+      ) {
+        setIsOpen(false);
+        setSearchInput("");
+      }
+    };
 
+    window.addEventListener("click", handleOutsideClick);
     return () => {
       window.removeEventListener("click", handleOutsideClick);
     };
   }, []);
-
-  const handleOutsideClick = (event: MouseEvent) => {
-    if (
-      selectRef.current &&
-      !selectRef.current.contains(event.target as Node)
-    ) {
-      setOpen(false);
-    }
-  };
 
   const handleSelect = (value: string) => {
     const selectedIndex = selected.indexOf(value);
@@ -148,7 +148,7 @@ const MultiSelectChip: React.FC<MultiSelectChipProps> = ({
 
   const handleToggleOpen = () => {
     setSearchInput("");
-    setOpen((prevState) => !prevState);
+    setIsOpen(!isOpen);
   };
 
   // Filter options based on search input
@@ -207,7 +207,7 @@ const MultiSelectChip: React.FC<MultiSelectChipProps> = ({
       setFocusedIndex(index + 1);
     }
   };
-  
+
   useEffect(() => {
     if (focusedIndex !== -1) {
       const optionsElements = Array.from(
@@ -233,7 +233,7 @@ const MultiSelectChip: React.FC<MultiSelectChipProps> = ({
         {label && (
           <label
             onClick={handleToggleOpen}
-            className={`text-[14px] font-normal ${open
+            className={`text-[14px] font-normal ${isOpen
               ? "text-primary"
               : selected.length > 0
                 ? "text-primary"
@@ -251,7 +251,7 @@ const MultiSelectChip: React.FC<MultiSelectChipProps> = ({
           <div
             onBlur={handleBlur}
             onClick={handleToggleOpen}
-            className={`shrink-0 w-fit bg-white border-b max-h-[26px] text-[14px] font-normal  ${open
+            className={`shrink-0 w-fit bg-white border-b max-h-[26px] text-[14px] font-normal  ${isOpen
               ? "text-primary cursor-default"
               : selected.length === 0
                 ? "text-darkCharcoal cursor-pointer"
@@ -275,24 +275,23 @@ const MultiSelectChip: React.FC<MultiSelectChipProps> = ({
               onBlur={handleBlur}
               onClick={handleToggleOpen}
               onChange={(e) => setSearchInput(e.target.value)}
-              readOnly={!open}
+              readOnly={!isOpen}
               placeholder={
-                open ? placeholder : selected.length > 0 ? "" : "Please select"
+                isOpen ? placeholder : selected.length > 0 ? "" : "Please select"
               }
-              // value={searchInput}
+              value={searchInput}
               getError={() => { }}
               getValue={() => { }}
-              className={`bg-white outline-none text-darkCharcoal text-[14px] font-normal ${open ? "text-primary" : ""
-                } ${!open ? "cursor-pointer" : "cursor-default"} ${!open ? "placeholder-darkCharcoal" : "placeholder-primary"
+              className={`bg-white outline-none text-darkCharcoal text-[14px] font-normal ${isOpen ? "text-primary" : ""
+                } ${!isOpen ? "cursor-pointer" : "cursor-default"} ${!isOpen ? "placeholder-darkCharcoal" : "placeholder-primary"
                 }`}
               onKeyDown={(e) => handleKeyDown(e)}
-
             />
           </div>
 
           <div
             onClick={handleToggleOpen}
-            className={`absolute right-0 text-[1.5rem] transition-transform text-darkCharcoal cursor-pointer ${open ? "rotate-180 text-primary duration-400" : " duration-200"
+            className={`absolute right-0 text-[1.5rem] transition-transform text-darkCharcoal cursor-pointer ${isOpen ? "rotate-180 text-primary duration-400" : " duration-200"
               }`}
           >
             <ChevronDown />
@@ -300,21 +299,23 @@ const MultiSelectChip: React.FC<MultiSelectChipProps> = ({
         </div>
 
         <ul
-          className={`absolute z-10 bg-pureWhite mt-[1px] overflow-y-auto shadow-md transition-transform ${open
+          className={`absolute z-10 bg-pureWhite mt-[1px] overflow-y-auto shadow-md transition-transform ${isOpen
             ? "max-h-60 translate-y-0 transition-opacity opacity-100 duration-500 ease-out"
             : "max-h-0 translate-y-20 transition-opacity opacity-0 duration-500 ease-out"
             }`}
           // Setting the width inline style based on the client width of the parent div
           style={{ width: selectRef.current?.clientWidth }}
         >
-          <label
-            className={`pt-3 pb-1 pl-3 text-[14px] font-normal text-primary cursor-pointer flex`}
-            onClick={handleClearAll}
-          >
-            Clear All
-          </label>
-          {filteredOptions.length > 0 &&
-            filteredOptions.map((option, index) => (
+          {filteredOptions.length == 0 ? ""
+            : <label
+              className={`pt-3 pb-1 pl-3 text-[14px] font-normal text-primary cursor-pointer flex`}
+              onClick={handleClearAll}
+            >
+              Clear All
+            </label>}
+          {filteredOptions.length == 0
+            ? <span className="p-[10px] outline-none focus:bg-whiteSmoke text-[15px] hover:bg-whiteSmoke font-medium cursor-pointer flex flex-row items-center space-x-2 ">No matching data found.</span>
+            : filteredOptions.map((option, index) => (
               <li
                 key={index}
                 className={`p-3 outline-none focus:bg-whiteSmoke text-[14px] hover:bg-whiteSmoke font-normal cursor-pointer flex ${selected.includes(option.value) ? "bg-whiteSmoke" : ""

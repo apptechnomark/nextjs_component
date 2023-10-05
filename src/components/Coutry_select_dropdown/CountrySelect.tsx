@@ -319,7 +319,7 @@ const CountrySelect: React.FC<CountryCodeProps> = ({
                                 } `}
                         >
                             {filteredOptions.length == 0
-                                ? <span className="p-[10px]  outline-none focus:bg-whiteSmoke text-[15px] hover:bg-whiteSmoke font-normal cursor-pointer flex flex-row items-center space-x-2 text-defaultRed">No matching country found.</span>
+                                ? <span className="p-[10px]  outline-none focus:bg-whiteSmoke text-[15px] hover:bg-whiteSmoke font-normal cursor-pointer flex flex-row items-center space-x-2 ">No matching country found.</span>
                                 : filteredOptions.map((option, index) => (
                                     <li
                                         key={index}

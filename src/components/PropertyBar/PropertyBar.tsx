@@ -143,11 +143,11 @@ const PropertyBar: React.FC<NavigationBarProps> = ({
                             </span>
                         </div>
                         <div className="flex ml-[40px] ">
-                            <div className="border-x-2 items-center flex px-[10px]">{firstIcon}</div>
+                            <div className="border-x-2 border-lightSilver items-center flex px-[10px]">{firstIcon}</div>
                             {otherIcons.map((icon, index) => (
-                                <div key={index} className="border-r-2 items-center flex px-[10px]">{icon}</div>
+                                <div key={index} className="border-r-2 border-lightSilver items-center flex px-[10px]">{icon}</div>
                             ))}
-                            <Button className="rounded-md btn-sm ml-5" variant="btn-outline-success">Submit Task</Button>
+                            <Button className="rounded-md btn-sm ml-5" variant="btn-outline-primary">Submit Task</Button>
                         </div>
                         <div className="ml-[40px]">
                             <span className="text-slatyGrey italic">
