@@ -54,7 +54,7 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
   const selectRef = useRef<HTMLDivElement>(null);
   const [selectedValues, setSelectedValues] = useState<string[]>([]);
   const [inputValue, setInputValue] = useState<string>("");
-  const [open, setOpen] = useState<boolean>(false);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   const [error, setError] = useState(false);
   const [errMsg, setErrMsg] = useState("");
   const [focusedIndex, setFocusedIndex] = useState<number>(-1);
@@ -75,7 +75,8 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
         selectRef.current &&
         !selectRef.current.contains(event.target as Node)
       ) {
-        setOpen(false);
+        setIsOpen(false);
+        setInputValue("");
       }
     };
 
@@ -87,7 +88,8 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
   }, []);
 
   const handleToggleOpen = () => {
-    setOpen((prevState) => !prevState);
+    setInputValue("");
+    setIsOpen(!isOpen);
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -195,7 +197,7 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
       >
         {label && (
           <label
-            className={`text-[14px] font-normal ${open
+            className={`text-[14px] font-normal ${isOpen
               ? "text-primary"
               : selectedValues.length > 0
                 ? "text-primary"
@@ -216,37 +218,40 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
             onBlur={handleBlur}
             onClick={handleToggleOpen}
             onChange={handleInputChange}
-            readOnly={!open}
+            readOnly={!isOpen}
             placeholder={
               selectedValues.length > 0
                 ? `${selectedValues.length} selected`
-                : open ? placeholder || "Search" : defaultValue || "Please select"
+                : isOpen ? placeholder || "Search" : defaultValue || "Please select"
             }
             value={
               inputValue.length > 25
                 ? `${inputValue.substring(0, 20)}...`
                 : inputValue
             }
-            className={`w-full  flex-grow bg-white outline-none text-darkCharcoal text-[14px] font-normal ${open ? "text-primary" : ""
-              } ${!open ? "cursor-pointer" : "cursor-default"} ${!open ? "placeholder-darkCharcoal" : "placeholder-primary"
+            className={`w-full  flex-grow bg-white outline-none text-darkCharcoal text-[14px] font-normal ${isOpen ? "text-primary" : ""
+              } ${!isOpen ? "cursor-pointer" : "cursor-default"} ${!isOpen ? "placeholder-darkCharcoal" : "placeholder-primary"
               }`} style={{ background: "transparent" }}
             onKeyDown={(e) => handleKeyDown(e)}
           />
           <div
             onClick={handleToggleOpen}
-            className={`text-[1.5rem] transition-transform text-darkCharcoal cursor-pointer  ${open ? "rotate-180 text-primary duration-400" : "duration-200"}
+            className={`text-[1.5rem] transition-transform text-darkCharcoal cursor-pointer  ${isOpen ? "rotate-180 text-primary duration-400" : "duration-200"}
               }`}>
             <ChevronDown />
           </div>
         </div>
 
         <ul
-          className={`absolute z-10 w-full bg-pureWhite mt-[1px] overflow-y-auto shadow-md transition-transform ${open
+          className={`absolute z-10 w-full bg-pureWhite mt-[1px] overflow-y-auto shadow-md transition-transform ${isOpen
             ? "max-h-60 translate-y-0 transition-opacity opacity-100 duration-500"
             : "max-h-0 translate-y-20 transition-opacity opacity-0 duration-500"
-            } ${open ? "ease-out" : ""}`}
+            } ${isOpen ? "ease-out" : ""}`}
         >
           {options.length > 0 &&
+            options.some((option) =>
+              option.label.toLowerCase().startsWith(inputValue)
+            ) ? (
             options.map((option, index) => (
               <li
                 key={index}
@@ -298,7 +303,11 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
                 )}
                 {/* {option.label} */}
               </li>
-            ))}
+            ))) : (
+            <span className="p-[10px] focus:bg-whiteSmoke text-[15px] hover:bg-whiteSmoke font-medium cursor-pointer flex flex-row items-center space-x-2 ">
+              No matching data found.
+            </span>
+          )}
         </ul>
       </div>
 

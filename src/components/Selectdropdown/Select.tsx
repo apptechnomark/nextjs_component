@@ -83,7 +83,7 @@ const Select: React.FC<SelectProps> = ({
   const [searchValue, setSearchValue] = useState("");
   const [error, setError] = useState(false);
   const [errMsg, setErrMsg] = useState("");
-  const [open, setOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const selectRef = useRef<HTMLDivElement>(null);
   const [selectedOption, setSelectedOption] = useState<Option | null>(
     defaultValue
@@ -126,7 +126,7 @@ const Select: React.FC<SelectProps> = ({
 
   const handleOutsideClick = (event: MouseEvent) => {
     if (selectRef.current && !selectRef.current.contains(event.target as Node)) {
-      setOpen(false);
+      setIsOpen(false);
       setEditing(false);
     }
   };
@@ -135,7 +135,7 @@ const Select: React.FC<SelectProps> = ({
     if (disabled) {
       return;
     }
-    setOpen((prevOpen) => !prevOpen);
+    setIsOpen((prevOpen) => !prevOpen);
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -155,7 +155,7 @@ const Select: React.FC<SelectProps> = ({
     setSelectedOption(options.find((option) => option.value === value));
     setInputValue("");
     setSearchValue("");
-    setOpen(false);
+    setIsOpen(false);
 
     if (!value) {
       setError(true);
@@ -215,7 +215,7 @@ const Select: React.FC<SelectProps> = ({
   };
 
   useEffect(() => {
-    setOpen(editing);
+    setIsOpen(editing);
   }, [editing]);
 
   const handleListItemKeyDown = (
@@ -257,7 +257,7 @@ const Select: React.FC<SelectProps> = ({
       <div
         className={`relative font-medium w-full flex-row  ${noborder ? '' : 'border-b'} ${disabled
           ? "border-lightSilver"
-          : open
+          : isOpen
             ? "border-primary"
             : inputValue
               ? "border-primary"
@@ -269,7 +269,7 @@ const Select: React.FC<SelectProps> = ({
       >
         {label && (
           <label
-            className={`text-[14px] font-normal w-full ${open
+            className={`text-[14px] font-normal w-full ${isOpen
               ? "text-primary"
               : inputValue
                 ? "text-primary"
@@ -297,11 +297,11 @@ const Select: React.FC<SelectProps> = ({
             onBlur={handleBlur}
             onClick={handleToggleOpen}
             onChange={handleInputChange}
-            readOnly={!search || !open}
+            readOnly={!search || !isOpen}
             disabled={disabled}
             placeholder={placeholder || "Please select"}
             value={
-              search && open
+              search && isOpen
                 ? searchValue // If in search mode and input is open, use searchValue
                 : defaultValue !== null && defaultValue !== undefined
                   ? options.find((option) => option.value === defaultValue)
@@ -318,13 +318,13 @@ const Select: React.FC<SelectProps> = ({
             autoComplete="off"
             className={`flex-grow outline-none bg-white ${disabled
               ? "text-slatyGrey"
-              : open
+              : isOpen
                 ? "text-primary"
                 : "text-darkCharcoal"
               } text-[14px] font-normal w-full
 
-     ${disabled ? "cursor-default" : !open ? "cursor-pointer" : "cursor-default"
-              } ${!open
+     ${disabled ? "cursor-default" : !isOpen ? "cursor-pointer" : "cursor-default"
+              } ${!isOpen
                 ? "placeholder-darkCharcoal"
                 : disabled
                   ? "text-slatyGrey"
@@ -339,7 +339,7 @@ const Select: React.FC<SelectProps> = ({
             className={`text-[1.5rem] transition-transform ${disabled
               ? "text-slatyGrey cursor-default"
               : "text-darkCharcoal cursor-pointer"
-              } ${open ? "rotate-180 text-primary duration-400" : "duration-200"}`}
+              } ${isOpen ? "rotate-180 text-primary duration-400" : "duration-200"}`}
           >
             <ChevronDown />
           </div>
@@ -347,13 +347,14 @@ const Select: React.FC<SelectProps> = ({
 
 
         <ul
-          className={`absolute z-10 w-full bg-pureWhite mt-[1px] overflow-y-auto shadow-md transition-transform ${open
+          className={`absolute z-10 w-full bg-pureWhite mt-[1px] overflow-y-auto shadow-md transition-transform ${isOpen
             ? "max-h-60 translate-y-0 transition-opacity opacity-100 duration-500"
             : "max-h-0 translate-y-20 transition-opacity opacity-0 duration-500"
-            } ${open ? "ease-out" : ""}`}
+            } ${isOpen ? "ease-out" : ""}`}
         >
-          {filteredOptions.length > 0 &&
-            filteredOptions.map((option, index) => (
+          {filteredOptions.length == 0
+            ? <span className="p-[10px] outline-none focus:bg-whiteSmoke text-[15px] hover:bg-whiteSmoke font-medium cursor-pointer flex flex-row items-center space-x-2 ">No matching data found.</span>
+            : filteredOptions.map((option, index) => (
               <li
                 key={index}
                 className={`p-[10px] outline-none focus:bg-whiteSmoke relative group/item text-[14px] hover:bg-whiteSmoke font-normal cursor-pointer flex flex-row items-center ${addDynamicForm ||
@@ -444,7 +445,7 @@ const Select: React.FC<SelectProps> = ({
                     maxChar={addDynamicForm_MaxLength}
                     getValue={(e) => {
                       if (editing) {
-                        setOpen(true);
+                        setIsOpen(true);
                         setInputLabel(e);
                         onChangeText(textValue, e);
                       } else {
