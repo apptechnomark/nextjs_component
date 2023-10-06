@@ -37,7 +37,6 @@ const TabBar = ({ tabs, getValue, className, alignIcon }: TabBarProps) => {
           onClick={tab.disabled ? null : handleClick}
         >
           <span className={`absolute ${isClicked && tabId === tab.id && style.tab__ripple}`}></span>
-
           {tab.alignIcon == "left" && <>{tab.icon}&nbsp;</>}
           {tab.label}&nbsp;
           {tab.alignIcon == "right" && <>{tab.icon}</>}

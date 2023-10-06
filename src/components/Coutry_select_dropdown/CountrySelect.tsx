@@ -43,7 +43,7 @@ const CountrySelect: React.FC<CountryCodeProps> = ({
     const selectRef = useRef<HTMLDivElement>(null);
 
     const [errorMsg, setErrorMsg] = useState<string>("");
-    const [open, setOpen] = useState<boolean>(false);
+    const [isOpen, setIsOpen] = useState<boolean>(false);
     const [searchValue, setSearchValue] = useState<string>("");
     const [error, setError] = useState<boolean>(false);
     const [errMsg, setErrMsg] = useState<string>("");
@@ -137,7 +137,7 @@ const CountrySelect: React.FC<CountryCodeProps> = ({
     };
 
     const handleToggleOpen = () => {
-        setOpen(!open);
+        setIsOpen(!isOpen);
     };
 
     const filteredOptions = useMemo(() => country.filter(option =>
@@ -149,7 +149,7 @@ const CountrySelect: React.FC<CountryCodeProps> = ({
         setSelectedCountryCode(value);
         setInputValue("");
         setSearchValue("");
-        setOpen(false);
+        setIsOpen(false);
         setFocusedIndex(-1);
     }
 
@@ -159,7 +159,7 @@ const CountrySelect: React.FC<CountryCodeProps> = ({
                 selectRef.current &&
                 !selectRef.current.contains(event.target as Node)
             ) {
-                setOpen(false);
+                setIsOpen(false);
             }
         };
         window.addEventListener("click", handleOutsideClick);
@@ -248,10 +248,10 @@ const CountrySelect: React.FC<CountryCodeProps> = ({
                                         type="text"
                                         onClick={handleToggleOpen}
                                         onChange={handleSearchInputChange}
-                                        readOnly={!open}
-                                        placeholder={open ? "Search" : "Please select"}
+                                        readOnly={!isOpen}
+                                        placeholder={isOpen ? "Search" : "Please select"}
                                         value={
-                                            open
+                                            isOpen
                                                 ? searchValue
                                                 : selectedCountryCode !== null && selectedCountryCode !== undefined
                                                     ? country.find((option) => option.value === selectedCountryCode)
@@ -262,7 +262,7 @@ const CountrySelect: React.FC<CountryCodeProps> = ({
                                         }
                                         className={`flex-grow outline-none mb-0.5 bg-white ${disabled
                                             ? "text-slatyGrey"
-                                            : open
+                                            : isOpen
                                                 ? "text-primary placeholder-primary"
                                                 : "text-darkCharcoal"
                                             } text-[14px] font-normal w-full`}
@@ -281,7 +281,7 @@ const CountrySelect: React.FC<CountryCodeProps> = ({
                                     className={`text-[1.5rem] mb-0.5 transition-transform ${disabled
                                         ? "text-slatyGrey cursor-default"
                                         : "text-darkCharcoal cursor-pointer"
-                                        } ${open ? "rotate-180 text-primary duration-400" : "duration-200"}`}
+                                        } ${isOpen ? "rotate-180 text-primary duration-400" : "duration-200"}`}
                                     onClick={handleToggleOpen}
                                     style={{ background: "transparent" }}
                                 >
@@ -313,13 +313,13 @@ const CountrySelect: React.FC<CountryCodeProps> = ({
                             />
                         </div>
                         <ul
-                            className={`absolute w-full bg-pureWhite mt-[1px] overflow-y-auto shadow-md transition-transform ${open
+                            className={`absolute w-full bg-pureWhite mt-[1px] overflow-y-auto shadow-md transition-transform ${isOpen
                                 ? "max-h-60 translate-y-0 transition-opacity opacity-100 duration-500 ease-out"
                                 : "max-h-0 translate-y-20 transition-opacity opacity-0 duration-500"
                                 } `}
                         >
-                            {filteredOptions.length == 0
-                                ? <span className="p-[10px]  outline-none focus:bg-whiteSmoke text-[15px] hover:bg-whiteSmoke font-normal cursor-pointer flex flex-row items-center space-x-2 ">No matching country found.</span>
+                            {filteredOptions.length == 0 && isOpen == true
+                                ? <span className="p-[10px]  outline-none focus:bg-whiteSmoke text-[15px] hover:bg-whiteSmoke font-medium cursor-pointer flex flex-row items-center space-x-2 ">No matching country found.</span>
                                 : filteredOptions.map((option, index) => (
                                     <li
                                         key={index}

@@ -24,6 +24,7 @@ import { CompanyList } from "./components/CompanyList/CompanyList";
 import DataTable from "./components/Datatable/Datatable";
 import { Datepicker } from "./components/Datepicker/datepicker";
 import { DatepickerYear } from "./components/Datepicker/datepickerYear";
+import { DropdownList } from "./components/DropdownList/DropdownList"
 import Uploader from "./components/Fileupload/Fileupload";
 import InputMask from "./components/Inputmask/Inputmask";
 import { Loader } from "./components/Loader/Loader";
@@ -43,7 +44,7 @@ import Radio from "./components/Radio/Radio";
 import { Range } from "./components/RangeSlider/Range";
 import { MinMaxRange } from "./components/RangeSlider/MinMaxRange";
 import { Rating } from "./components/Rating/Rating";
-import { ScrollSpy } from "./components/Scrollspy/Scrollspy";
+import { Scrollspy } from "./components/Scrollspy/Scrollspy";
 import { Select } from "./components/Selectdropdown/Select";
 import { MultiSelect } from "./components/Selectdropdown/MultiSelect";
 import { MultiSelectChip } from "./components/Selectdropdown/MultiSelectChip";
@@ -91,6 +92,7 @@ export {
     Datepicker,
     DatepickerYear,
     DataTable,
+    DropdownList,
     Uploader,
     InputMask,
     Loader,
@@ -110,7 +112,7 @@ export {
     Range,
     MinMaxRange,
     Rating,
-    ScrollSpy,
+    Scrollspy,
     Select,
     MultiSelect,
     MultiSelectChip,

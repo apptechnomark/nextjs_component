@@ -1,107 +1,76 @@
-import React, { useEffect, useRef, useState } from "react";
-import Styles from "./Scrollspy.module.scss";
+import React, { useState, useEffect } from "react";
 
-interface ScrollSpyProps {
-  targetIds: string[];
-  titles: string[]; // New prop for titles
-  position?: "horizontal" | "verticalDrawer" | "vertical";
-  icons?: React.ReactNode[]; // New prop for icons
+interface ScrollspyProps {
+  titles: any[];
+  targetIds: any[];
+  variant: "horizontal" | "vertical";
+  type?: string;
+  large?: boolean;
+  icons?: React.ReactNode[];
 }
 
-export const ScrollSpy: React.FC<ScrollSpyProps> = (props: any) => {
-  const [activeId, setActiveId] = useState<string>(props.targetIds[0]);
-
-  const observerRef = useRef<IntersectionObserver | null>(null);
+const Scrollspy = ({
+  titles,
+  targetIds,
+  variant,
+  icons,
+  type,
+  large,
+}: ScrollspyProps) => {
+  const [activeIndex, setActiveIndex] = useState(0);
 
   useEffect(() => {
-    observerRef.current = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setActiveId(entry.target.id);
-          }
-        });
-      },
-      { threshold: 0.5 } // Adjust the threshold value as needed
-    );
-
-    props.targetIds.forEach((id) => {
-      const element = document.getElementById(id);
-      if (element) {
-        observerRef.current?.observe(element);
-      }
-    });
-
-    return () => {
-      if (observerRef.current) {
-        observerRef.current.disconnect();
-        observerRef.current = null;
-      }
-    };
-  }, [props.targetIds]);
-
-  const handleClick = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      window.scrollTo({
-        top: element.offsetTop,
-        behavior: "smooth",
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
+      const sectionTops = targetIds.map((id) => {
+        const element = document.getElementById(id);
+        if (element) {
+          return element.offsetTop;
+        }
+        return 0;
       });
-      setActiveId(id);
-    }
-  };
 
-  const getScrollSpyItemClass = (id: string) => {
-    let scrollSpyItemClass = "";
-    if (props.position === "verticalDrawer") {
-      scrollSpyItemClass =
-        activeId === id
-          ? `${Styles.ScrollSpyItemVerticalDrawer} ${Styles.active_verticalDrawer}`
-          : `${Styles.ScrollSpyItemVerticalDrawer}`;
-    } else if (props.position === "vertical") {
-      scrollSpyItemClass =
-        activeId === id
-          ? `${Styles.ScrollSpyItemVertical} ${Styles.active_vertical}`
-          : `${Styles.ScrollSpyItemVertical}`;
-    } else {
-      scrollSpyItemClass =
-        activeId === id
-          ? `${Styles.ScrollSpyItemHorizontal} ${Styles.active_horizontal}`
-          : `${Styles.ScrollSpyItemHorizontal}`;
-    }
-    return scrollSpyItemClass;
-  };
+      const marginOfError = 100;
+      let newIndex = 0;
+      for (let i = sectionTops.length - 1; i >= 0; i--) {
+        if (scrollY + marginOfError >= sectionTops[i]) {
+          newIndex = i;
+          break;
+        }
+      }
+      setActiveIndex(newIndex);
+    };
+    window.addEventListener("scroll", handleScroll);
+    handleScroll();
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [targetIds]);
 
-  let positionClass = "";
-
-  switch (props.position) {
-    case "verticalDrawer":
-      positionClass = Styles.verticalDrawer;
-      break;
-    case "vertical":
-      positionClass = Styles.vertical;
-      break;
-    case "horizontal":
-      positionClass = Styles.horizontal;
-      break;
-    default:
-      positionClass = "";
-  }
   return (
-
-    <div className={`${Styles.ScrollSpyContainer} ${positionClass}`}>
-      {props.targetIds.map((id, index) => (
-        <div
-          key={id}
-          className={getScrollSpyItemClass(id)}
-          onClick={() => handleClick(id)}
+    <div
+      className={`bg-pureWhite sticky top-0 ${variant === "horizontal" && "flex"
+        }`}
+    >
+      {titles.map((title, index: any) => (
+        <a
+          href={`#${targetIds[index]}`}
+          key={index + 1}
+          className={`${type && large ? "px-7 py-3.5 text-xl" : "px-7 py-2.5 text-base"} select-none cursor-pointer hover:${type ? "border-l-4" : "border-b-2"
+            } ${type ? "border-l-4" : "border-b-2"
+            } hover:border-primary hover:bg-[#E1F7F3] w-full flex justify-center items-center border-lightSilver text-center font-medium ${index === activeIndex
+              ? `${type ? "border-l-4" : "border-b-2 text-primary"
+              } border-primary bg-[#E1F7F3]`
+              : ""
+            }`}
+          onClick={() => setActiveIndex(index)}
         >
-          {props.icons && props.icons[index]}{" "}
-          {/* Render the icon based on the index */}
-          <span>{props.titles[index]}</span>{" "}
-          {/* Display the title based on the index */}
-        </div>
+          {type && icons[index] && <span className="mr-2.5">{icons[index]}</span>}
+          {title}
+        </a>
       ))}
     </div>
   );
 };
+
+export { Scrollspy };
