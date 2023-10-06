@@ -1,4 +1,4 @@
-"use client";
+"use client"; 
 
 import BaseLayout from "@/components/BaseLayout";
 import { Accordion } from "next-ts-lib";

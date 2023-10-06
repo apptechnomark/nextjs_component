@@ -13,7 +13,7 @@ import {
 } from "react-icons/go";
 import { RxButton, RxAvatar, RxDropdownMenu } from "react-icons/rx";
 import { RiLayoutBottom2Line } from "react-icons/ri";
-import { CgProfile,CgLoadbar } from "react-icons/cg";
+import { CgProfile, CgLoadbar, CgScrollV } from "react-icons/cg";
 import {
   BsCursorText,
   BsCalendarDate,
@@ -214,6 +214,11 @@ const sidebarItems = [
     name: "Rating",
     href: "/Rating",
     icon: MdOutlineStarRate,
+  },
+  {
+    name: "Scrollspy",
+    href: "/Scrollspy",
+    icon: CgScrollV,
   },
   {
     name: "Search",

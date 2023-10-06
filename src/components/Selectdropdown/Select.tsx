@@ -168,7 +168,6 @@ const Select: React.FC<SelectProps> = ({
       getError(true);
     }
     setFocusedIndex(-1);
-
   };
 
   const handleBlur = () => {
@@ -252,6 +251,7 @@ const Select: React.FC<SelectProps> = ({
       setFocusedIndex(focusedIndex + 1);
     }
   }
+  
   return (
     <>
       <div
@@ -347,7 +347,7 @@ const Select: React.FC<SelectProps> = ({
 
 
         <ul
-          className={`absolute z-10 w-full bg-pureWhite mt-[1px] overflow-y-auto shadow-md transition-transform ${isOpen
+          className={`absolute z-10 w-full bg-pureWhite mt-[${noborder ? 13 : 1}px] overflow-y-auto shadow-md transition-transform ${isOpen
             ? "max-h-60 translate-y-0 transition-opacity opacity-100 duration-500"
             : "max-h-0 translate-y-20 transition-opacity opacity-0 duration-500"
             } ${isOpen ? "ease-out" : ""}`}
