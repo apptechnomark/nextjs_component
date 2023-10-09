@@ -10,6 +10,9 @@ var Profile = function Profile(_a) {
   var _b = React.useState(null),
     image = _b[0],
     setImage = _b[1];
+  var _c = React.useState(null),
+    error = _c[0],
+    setError = _c[1];
   var inputId = React.useState(function () {
     return "image-upload-".concat(Math.random().toString(36).substring(7));
   })[0];
@@ -17,12 +20,17 @@ var Profile = function Profile(_a) {
     var _a;
     var file = (_a = event.target.files) === null || _a === void 0 ? void 0 : _a[0];
     if (file) {
-      var reader_1 = new FileReader();
-      reader_1.onload = function () {
-        setImage(reader_1.result);
-        getValue === null || getValue === void 0 ? void 0 : getValue(file.name, reader_1.result);
-      };
-      reader_1.readAsDataURL(file);
+      if (file.type.startsWith("image/")) {
+        var reader_1 = new FileReader();
+        reader_1.onload = function () {
+          setImage(reader_1.result);
+          getValue === null || getValue === void 0 ? void 0 : getValue(file.name, reader_1.result);
+        };
+        reader_1.readAsDataURL(file);
+        setError(null);
+      } else {
+        setError("Please upload only image format");
+      }
     }
   };
   var typeStyle = type === "square" ? "rounded-sm" : "rounded-full";
@@ -32,7 +40,7 @@ var Profile = function Profile(_a) {
   var Blue = ["B", "G", "L", "Q", "V"];
   var Green = ["C", "H", "M", "R", "W"];
   var SkyBlue = ["D", "I", "N", "S", "X"];
-  return /*#__PURE__*/React.createElement("div", {
+  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
     className: "relative"
   }, /*#__PURE__*/React.createElement("input", {
     type: "file",
@@ -42,10 +50,10 @@ var Profile = function Profile(_a) {
     className: "hidden"
   }), /*#__PURE__*/React.createElement("label", {
     htmlFor: inputId,
-    className: "absolute ".concat(variant === "medium" ? "left-6 top-6" : "left-10 top-10", "  bg-pureWhite p-1 rounded-sm cursor-pointer z-10")
+    className: "absolute ".concat(variant === "medium" ? "left-[33px] top-[33px]" : "left-[46px] top-[46px]", "  bg-pureWhite p-[3px] rounded-sm cursor-pointer z-10")
   }, /*#__PURE__*/React.createElement("svg", {
-    width: "16",
-    height: "16",
+    width: variant === "medium" ? "14" : "16",
+    height: variant === "medium" ? "14" : "16",
     viewBox: "0 0 16 16",
     fill: "none",
     xmlns: "http://www.w3.org/2000/svg"
@@ -84,7 +92,11 @@ var Profile = function Profile(_a) {
     width: "32",
     height: "32",
     fill: "white"
-  }))))));
+  }))))), /*#__PURE__*/React.createElement("span", {
+    className: "absolute"
+  }, error && /*#__PURE__*/React.createElement("p", {
+    className: " text-defaultRed text-sm w-96"
+  }, error))));
 };
 
 exports.Profile = Profile;
