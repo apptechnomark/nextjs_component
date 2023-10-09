@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import Typography from "../Typography/Typography";
-import "../Typography/Typography.module.scss"
 
 interface ProfileProps {
   type?: "square" | "rounded";
@@ -45,6 +43,7 @@ const Profile: React.FC<ProfileProps> = ({ type, variant, name, getValue }) => {
   const SkyBlue = ["D", "I", "N", "S", "X"];
   const Yellow = ["E", "J", "O", "T", "Y"];
 
+  
   return (
     <>
       <div className="relative">
@@ -58,12 +57,12 @@ const Profile: React.FC<ProfileProps> = ({ type, variant, name, getValue }) => {
         <label
           htmlFor={inputId}
           className={`absolute ${
-            variant === "medium" ? "left-6 top-6" : "left-10 top-10"
-          }  bg-pureWhite p-1 rounded-sm cursor-pointer z-10`}
+            variant === "medium" ? "left-[33px] top-[33px]" : "left-[46px] top-[46px]"
+          }  bg-pureWhite p-[3px] rounded-sm cursor-pointer z-10`}
         >
           <svg
-            width="16"
-            height="16"
+            width={variant === "medium" ? "14" : "16"}
+            height={variant === "medium" ? "14" : "16"}
             viewBox="0 0 16 16"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
@@ -133,7 +132,7 @@ const Profile: React.FC<ProfileProps> = ({ type, variant, name, getValue }) => {
           </span>
         )}
         <span className="absolute">
-          {error && <Typography className="text-defaultRed w-96">{error}</Typography>}
+          {error && <p className=" text-defaultRed text-sm w-96">{error}</p>}
         </span>
       </div>
     </>

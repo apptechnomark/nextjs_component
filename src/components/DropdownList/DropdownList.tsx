@@ -9,38 +9,22 @@ import Typography from '../Typography/Typography';
 
 interface SelectProps extends React.InputHTMLAttributes<HTMLInputElement> {
     id: string;
-    type?: string;
     label?: string;
     className?: string;
-    search?: boolean;
     validate?: boolean;
-    defaultValue?: any;
-    placeholder?: any;
-    value?: any;
-    errorMessage?: string;
-    hasError?: boolean;
     getValue: (value: any) => void;
     getError: (arg1: boolean) => void;
-    errorClass?: string;
     disabled?: boolean;
     noborder?: boolean
-
 }
+
 const DropdownList: React.FC<SelectProps> = ({
     id,
     getValue,
-    type,
     label,
     className,
-    placeholder = "Please select",
-    search = false,
     validate,
-    defaultValue,
-    value,
-    errorMessage = "This is a required field.",
-    hasError,
     getError,
-    errorClass,
     disabled,
     noborder
 }) => {
@@ -52,10 +36,8 @@ const DropdownList: React.FC<SelectProps> = ({
     const [errorMsg, setErrorMsg] = useState<string>("");
     const [focusedIndex, setFocusedIndex] = useState<number>(-1);
     const [editList, setEditList] = useState<boolean>(false);
-    const [deleteList, setDeleteList] = useState<boolean>(false);
-    const [editValue, setEditValue] = useState<string>("");
     const [activeIndex, setActiveIndex] = useState<number>(-1);
-    const [selectedOption, setSelectedOption] = useState<any>([]);
+    const [selectedOption, setSelectedOption] = useState<any>("");
 
     const [options, setOptions] = useState([
         { label: "Option 1", value: "Option 1" },
@@ -87,10 +69,12 @@ const DropdownList: React.FC<SelectProps> = ({
     };
 
     const handleSelect = (value: any) => {
-        setSelectedOption(value);
+        if (!selectedOption.includes(value)) {
+            setSelectedOption(value);
+        }
         setInputValue("");
         setSearchValue("");
-        // setIsOpen(false);
+        setIsOpen(false);
 
         if (!value) {
             setError(true);
@@ -104,6 +88,7 @@ const DropdownList: React.FC<SelectProps> = ({
         }
         setFocusedIndex(-1);
     };
+
     const handleAddNewOption = () => {
         const inputValue = document.getElementById("newOptionInput") as HTMLInputElement;
         const newValue = inputValue.value;
@@ -114,10 +99,11 @@ const DropdownList: React.FC<SelectProps> = ({
         }
     };
 
-    const handleEditClick = (index: number) => {
+    const handleEditClick = (event, index) => {
+        event.stopPropagation(); // Prevent event propagation
         setEditList(true);
         setActiveIndex(index);
-        setInputValue(options.find((option: any, i: number) => i === index).label)
+        setInputValue(options.find((option, i) => i === index).label)
     }
 
     const handleEditChange = (e: any) => {
@@ -130,9 +116,13 @@ const DropdownList: React.FC<SelectProps> = ({
             setOptions(prevOptions => prevOptions.map((option: any, index: number) => index === activeIndex ? { label: inputValue, value: inputValue } : { ...option }));
         }
     }
+
     const handleDeleteClick = (index: number) => {
+        const deletedValue = options[index].value;
         setOptions(prevOptions => prevOptions.filter((_, i) => i !== index));
-    }
+        setSelectedOption(prevSelected => prevSelected.filter(option => option !== deletedValue));
+    };
+
 
     const handleListItemKeyDown = (
         e: React.KeyboardEvent<HTMLLIElement>,
@@ -223,7 +213,7 @@ const DropdownList: React.FC<SelectProps> = ({
                         onChange={handleInputChange}
                         readOnly={!isOpen}
                         placeholder={`${!isOpen ? "Enter Label Name" : selectedOption.length > 0 ? selectedOption : "Search"}`}
-                        value={isOpen ? inputValue == "" ? searchValue : inputValue : selectedOption}
+                        value={isOpen ? searchValue : selectedOption}
                         className={`w-full flex-grow bg-white outline-none text-[14px] font-normal ${!isOpen ? "placeholder-darkCharcoal cursor-pointer text-darkCharcoal " : "placeholder-primary cursor-default text-primary"}
                         ${error ? "placeholder-defaultRed" : "placeholder-slatyGrey"}`}
                         style={{ background: "transparent" }}
@@ -265,7 +255,7 @@ const DropdownList: React.FC<SelectProps> = ({
                                 }}
 
                             >
-                                <div className='w-full py-1' onClick={() => { handleSelect(option.value) }}>
+                                <div className='w-full py-1'>
                                     {editList && index === activeIndex
                                         ? <input
                                             value={inputValue}
@@ -273,7 +263,7 @@ const DropdownList: React.FC<SelectProps> = ({
                                             className="bg-white cursor-pointer outline-none  p-2 w-full"
                                             style={{ background: "transparent" }}
                                         />
-                                        : <Typography type='h6' className='p-2 font-normal'>{option.value}</Typography>
+                                        : <div onClick={() => { !editList && handleSelect(option.value) }}><Typography type='h6' className='p-2 font-normal' >{option.value}</Typography></div>
                                     }
                                 </div>
                                 {editList && index === activeIndex ?
@@ -282,7 +272,7 @@ const DropdownList: React.FC<SelectProps> = ({
                                         <div className='py-1' onClick={() => setEditList(false)}><CrossIcon /></div>
                                     </div>
                                     : <div className='hidden gap-2.5  group-hover:flex  group-hover:translate-all group-hover:duration-700  group-hover:ease-out '>
-                                        <div className='py-1' onClick={() => { handleEditClick(index) }}><EditIcon /></div>
+                                        <div className='py-1' onClick={(e) => { handleEditClick(e, index) }}><EditIcon /></div>
                                         <div className='py-1' onClick={() => { handleDeleteClick(index) }}><DeleteIcon /></div>
                                     </div>
                                 }
