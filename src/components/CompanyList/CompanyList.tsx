@@ -24,6 +24,7 @@ interface CompanyListProps {
     disabled?: boolean;
     checkbox?: boolean;
     supportingText?: string;
+    variant?: string;
 }
 const CompanyList: React.FC<CompanyListProps> = ({
     id,
@@ -42,6 +43,7 @@ const CompanyList: React.FC<CompanyListProps> = ({
     noborder,
     showAvatar = 3,
     disabled,
+    variant = "company",
     checkbox = true,
     ...props
 }) => {
@@ -243,7 +245,7 @@ const CompanyList: React.FC<CompanyListProps> = ({
                         <li
                             className={`relative outline-none focus:bg-whiteSmoke p-[10px] text-[14px] font-normal cursor-pointer flex items-center`}
                         >
-                            <div className="flex absolute left-2 ">
+                            <div className={`flex absolute  ${variant === "user" ? "left-3" : "left-2"}`}>
                                 <Search />
                             </div>
                             <input
@@ -255,7 +257,7 @@ const CompanyList: React.FC<CompanyListProps> = ({
                                         ? `${inputValue.substring(0, 20)}...`
                                         : inputValue
                                 }
-                                className={`w-full pl-6 py-1 border-b border-lightSilver flex-grow outline-none text-darkCharcoal text-[14px] font-normal ${isOpen ? "text-primary" : ""
+                                className={`w-full pl-6 py-1 ${variant === "user" ? "border rounded" : "border-b"} border-lightSilver  flex-grow outline-none text-darkCharcoal text-[14px] font-normal ${isOpen ? "text-primary" : ""
                                     } ${!isOpen ? "cursor-pointer" : "cursor-default"} ${!isOpen ? "placeholder-darkCharcoal" : "placeholder-primary"
                                     }`}
                                 style={{ background: "transparent" }}
@@ -266,49 +268,47 @@ const CompanyList: React.FC<CompanyListProps> = ({
                                 option.label.toLowerCase().startsWith(inputValue)
                             ) ? (
                             options.map((option, index) => (
-                                <>
-                                    <li
-                                        key={option.value + index}
-                                        className={`outline-none focus:bg-whiteSmoke p-[10px] text-[14px] hover:bg-whiteSmoke font-normal cursor-pointer flex items-center ${selectedValues.includes(option.value)
-                                            ? "bg-whiteSmoke"
+                                <li
+                                    key={option.value + index}
+                                    className={`outline-none focus:bg-whiteSmoke p-[10px] text-[14px] hover:bg-whiteSmoke font-normal cursor-pointer flex items-center ${selectedValues.includes(option.value)
+                                        ? "bg-whiteSmoke"
+                                        : ""
+                                        } ${!option.label.toLowerCase().startsWith(inputValue)
+                                            ? "hidden"
                                             : ""
-                                            } ${!option.label.toLowerCase().startsWith(inputValue)
-                                                ? "hidden"
-                                                : ""
-                                            }`}
-                                        onClick={() => {
-                                            if (option.value !== inputValue) {
-                                                handleSelect(option.value);
-                                            }
-                                        }}
-                                        onKeyDown={(e) =>
-                                            handleListItemKeyDown(e, option.value, index)
+                                        }`}
+                                    onClick={() => {
+                                        if (option.value !== inputValue) {
+                                            handleSelect(option.value);
                                         }
-                                        tabIndex={0}
-                                        ref={(el) => {
-                                            if (index === focusedIndex) {
-                                                el?.focus();
-                                            }
-                                        }}
-                                    >
-                                        {checkbox &&
-                                            <CheckBox
-                                                id={option.value}
-                                                checked={selectedValues.includes(option.value)}
-                                                onChange={() => {
-                                                    handleCheckboxChange(option.value);
-                                                }}
-                                            />}
-                                        <div className="mx-2 flex-shrink-0 items-center text-[1.5rem] text-darkCharcoal">
-                                            <Avatar
-                                                variant="small"
-                                                name={option.label}
-                                                imageUrl={option.imageUrl}
-                                            />
-                                        </div>
-                                        <Typography type="h6">{option.label}</Typography>
-                                    </li>
-                                </>
+                                    }}
+                                    onKeyDown={(e) =>
+                                        handleListItemKeyDown(e, option.value, index)
+                                    }
+                                    tabIndex={0}
+                                    ref={(el) => {
+                                        if (index === focusedIndex) {
+                                            el?.focus();
+                                        }
+                                    }}
+                                >
+                                    {checkbox &&
+                                        <CheckBox
+                                            id={option.value}
+                                            checked={selectedValues.includes(option.value)}
+                                            onChange={() => {
+                                                handleCheckboxChange(option.value);
+                                            }}
+                                        />}
+                                    <div className="mx-2 flex-shrink-0 items-center text-[1.5rem] text-darkCharcoal">
+                                        <Avatar
+                                            variant="small"
+                                            name={option.label}
+                                            imageUrl={option.imageUrl}
+                                        />
+                                    </div>
+                                    <Typography type="h6">{option.label}</Typography>
+                                </li>
                             ))
                         ) : (
                             <span className="p-[10px] focus:bg-whiteSmoke text-[15px] hover:bg-whiteSmoke font-medium cursor-pointer flex flex-row items-center space-x-2 ">
