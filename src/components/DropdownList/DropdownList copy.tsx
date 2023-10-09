@@ -70,7 +70,7 @@ const DropdownList: React.FC<SelectProps> = ({
 
     const handleBlur = () => {
         if (validate) {
-            if (searchValue.trim() === "" && selectedOption.length === 0) {
+            if (searchValue.trim() === "") {
                 setError(true);
                 setErrorMsg("Please select a valid option.");
                 getError(false);
@@ -95,7 +95,7 @@ const DropdownList: React.FC<SelectProps> = ({
         if (!value) {
             setError(true);
             getError(false);
-            setErrorMsg("Please select a valid option.");
+            setErrorMsg("Please select a valid option.3");
         } else {
             setError(false);
             setErrorMsg("");
@@ -222,9 +222,10 @@ const DropdownList: React.FC<SelectProps> = ({
                         onClick={handleToggleOpen}
                         onChange={handleInputChange}
                         readOnly={!isOpen}
-                        placeholder={`${!isOpen ? "Enter Label Name" : selectedOption.length > 0 ? selectedOption : "Search"}`}
-                        value={isOpen ? inputValue == "" ? searchValue : inputValue : selectedOption}
-                        className={`w-full flex-grow bg-white outline-none text-[14px] font-normal ${!isOpen ? "placeholder-darkCharcoal cursor-pointer text-darkCharcoal " : "placeholder-primary cursor-default text-primary"}
+                        // placeholder='Enter Label Name'
+                        // placeholder={selectedOption.length > 0 ? inputValue : "Enter Label Name"}
+                        value={isOpen ? inputValue : selectedOption}
+                        className={`w-full  flex-grow bg-white outline-none text-[14px] font-normal ${!isOpen ? "placeholder-darkCharcoal cursor-pointer text-darkCharcoal " : "placeholder-primary cursor-default text-primary"}
                         ${error ? "placeholder-defaultRed" : "placeholder-slatyGrey"}`}
                         style={{ background: "transparent" }}
                         onKeyDown={(e) => handleKeyDown(e)}
