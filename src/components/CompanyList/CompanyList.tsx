@@ -187,7 +187,7 @@ const CompanyList: React.FC<CompanyListProps> = ({
                 {label && (
                     <span className="flex">
                         <Typography
-                            type="h6"
+                            type="h5"
                             className={`${err
                                 ? "text-defaultRed"
                                 : focus
@@ -215,7 +215,7 @@ const CompanyList: React.FC<CompanyListProps> = ({
                         <AvatarGroup show={showAvatar}>{avatars}</AvatarGroup>
                     ) : (
                         <Typography
-                            type="h6"
+                            type="h5"
                             className={`!font-normal ${err && "text-defaultRed"} ${disabled && "text-slatyGrey"
                                 } select-none`}
                         >
@@ -271,9 +271,8 @@ const CompanyList: React.FC<CompanyListProps> = ({
                                 <li
                                     key={option.value + index}
                                     className={`outline-none focus:bg-whiteSmoke p-[10px] text-[14px] hover:bg-whiteSmoke font-normal cursor-pointer flex items-center ${selectedValues.includes(option.value)
-                                        ? "bg-whiteSmoke"
-                                        : ""
-                                        } ${!option.label.toLowerCase().startsWith(inputValue)
+                                        && ""}
+                                        ${!option.label.toLowerCase().startsWith(inputValue)
                                             ? "hidden"
                                             : ""
                                         }`}
@@ -307,7 +306,7 @@ const CompanyList: React.FC<CompanyListProps> = ({
                                             imageUrl={option.imageUrl}
                                         />
                                     </div>
-                                    <Typography type="h6">{option.label}</Typography>
+                                    <Typography type="h5">{option.label}</Typography>
                                 </li>
                             ))
                         ) : (

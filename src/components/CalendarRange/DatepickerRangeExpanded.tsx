@@ -3,6 +3,8 @@ import React, { useEffect, useState, useRef } from "react";
 import style from "./scss/Datepicker.module.scss";
 import ChevronLeftIcon from "./icons/ChevronLeft.js";
 import CalendarIcon from "./icons/CalendarIcon.js";
+import Typography from "../Typography/Typography";
+import "../Typography/Typography.module.scss";
 
 interface DatepickerDate {
     date: Date;
@@ -139,7 +141,7 @@ const DatepickerRangeExpanded = (props: any): JSX.Element => {
     //     setAnimate("");
     //     setRangeDates([]);
     // };
-    
+
     const handleDateClick = (date: Date) => {
         const newDate = new Date(date);
         setToday(newDate);
@@ -493,12 +495,13 @@ const DatepickerRangeExpanded = (props: any): JSX.Element => {
                                         <div className="w-full">
                                             <div className={`w-full grid grid-cols-7 proxima  ${animate}`}>
                                                 {days.map((day, index) => (
-                                                    <h1
+                                                    <Typography
+                                                        type="h6"
                                                         key={index}
                                                         className="h-14 grid place-content-center text-[12px]"
                                                     >
                                                         {day}
-                                                    </h1>
+                                                    </Typography>
                                                 ))}
                                             </div>
                                             <div className={`w-full h-full grid grid-cols-7 ${animate}`}>
@@ -532,10 +535,11 @@ const DatepickerRangeExpanded = (props: any): JSX.Element => {
                                                                 onMouseEnter={() => handleDateHover(currentDate)}
                                                                 onMouseLeave={handleMouseOut}
                                                             >
-                                                                <label
+                                                                <Typography
+                                                                    type="h5"
                                                                     className={`h-[40px] w-[40px] m-[2px] grid place-content-center rounded-full cursor-pointer z-10 
                                                                 ${currentMonth ? "" : "text-[#cbd5e0]   pointer-events-none "}
-                                                                ${(isSelected && !isStartDate && !isEndDate) && `bg-secondaryGreen ${currentMonth && "transition-color duration-[700ms]"} font-semibold`} 
+                                                                ${(isSelected && !isStartDate && !isEndDate) && `bg-secondaryPrimary ${currentMonth && "transition-color duration-[700ms]"} font-semibold`} 
                                                                 ${isInRange && "border-dashed border border-primary"}
                                                                 ${(isSameDay || isStartDate || isEndDate)
                                                                             ? " bg-primary font-semibold text-white border-none"
@@ -543,7 +547,7 @@ const DatepickerRangeExpanded = (props: any): JSX.Element => {
                                                                 `}
                                                                 >
                                                                     {currentDate.getDate()}
-                                                                </label>
+                                                                </Typography>
                                                                 {(isSameDay || isStartDate || isEndDate) && (
                                                                     <>
                                                                         <span className={`${style.rippleAnimation} absolute rounded-full w-6 h-6 top-[15px] left-2.5 bg-primary opacity-50`}
@@ -559,12 +563,13 @@ const DatepickerRangeExpanded = (props: any): JSX.Element => {
                                         <div className=" w-full border-l border-lightSilver">
                                             <div className={`w-full grid grid-cols-7 proxima  ${animate}`}>
                                                 {days.map((day, index) => (
-                                                    <h1
+                                                    <Typography
+                                                        type="h6"
                                                         key={index}
                                                         className="h-14 grid place-content-center text-[12px]"
                                                     >
                                                         {day}
-                                                    </h1>
+                                                    </Typography>
                                                 ))}
                                             </div>
                                             <div className={`w-full h-full grid grid-cols-7 ${animate}`}>
@@ -598,10 +603,11 @@ const DatepickerRangeExpanded = (props: any): JSX.Element => {
                                                                 onMouseEnter={() => handleDateHover(currentDate)}
                                                                 onMouseLeave={handleMouseOut}
                                                             >
-                                                                <label
+                                                                <Typography
+                                                                    type="h5"
                                                                     className={`h-[40px] w-[40px] m-[2px] grid place-content-center rounded-full cursor-pointer z-10 
                                                                 ${currentMonth ? "" : "text-[#cbd5e0] invisible pointer-events-none "}
-                                                                ${(isSelected && !isStartDate && !isEndDate) && `bg-secondaryGreen ${currentMonth && "transition-color duration-[700ms]"} font-semibold`} 
+                                                                ${(isSelected && !isStartDate && !isEndDate) && `bg-secondaryPrimary ${currentMonth && "transition-color duration-[700ms]"} font-semibold`} 
                                                                 ${isInRange && "border-dashed border border-primary"}
                                                                 ${(isSameDay || isStartDate || isEndDate)
                                                                             ? " bg-primary font-semibold text-white border-none"
@@ -609,7 +615,7 @@ const DatepickerRangeExpanded = (props: any): JSX.Element => {
                                                                 `}
                                                                 >
                                                                     {currentDate.getDate()}
-                                                                </label>
+                                                                </Typography>
                                                                 {(isSameDay || isStartDate || isEndDate) && (
                                                                     <>
                                                                         <span

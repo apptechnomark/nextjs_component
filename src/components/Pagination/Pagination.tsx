@@ -134,7 +134,7 @@ const Pagination: React.FC<PaginationProps> = (props) => {
   const middlePageNumStyle = `py-[1px] px-[9px] text-[14px] `;
 
   // Styel for current page number
-  const currentPageNumStyle = `bg-lightPrimary border border-primary text-darkCharcoal`;
+  const currentPageNumStyle = `bg-secondaryPrimary border border-primary text-darkCharcoal`;
 
   // Style for default Page Numbers with variant space
   const defaultPageNumSpaceStyle = `text-darkCharcoal bg-pureWhite border border-lightSilver hover:bg-whiteSmoke`;

@@ -41,6 +41,7 @@ module.exports = {
       pinkSwan: "#B7B7B7",
       pureRed: "#FB2424",
       secondaryGreen: "#CEF5EF",
+      secondaryPrimary:"#caf1ff"
     },
 
     screens: {

@@ -103,7 +103,7 @@ const Navigation: React.FC<NavigationProps> = React.memo(
                 </div>
               ))}
               <div
-                className={`${styles.animation} absolute  rounded z-0 ${filled ? "bg-secondaryGreen" : " bg-white"
+                className={`${styles.animation} absolute  rounded z-0 ${filled ? "bg-secondaryPrimary" : " bg-white"
                   }  h-[40px] my-2`}
                 style={animationStyle}
               ></div>

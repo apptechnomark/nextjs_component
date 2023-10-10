@@ -2,7 +2,7 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
-@import url("/public/styles/fonts/font.css");
+@import url("../public/styles/fonts/font.css");
 
 /* Button css */
 @keyframes ripple {

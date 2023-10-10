@@ -24,7 +24,7 @@ import CheckBox from "./components/Checkbox/Checkbox";
 import DataTable from "./components/Datatable/Datatable";
 // import { Datepicker } from "./components/Datepicker/datepicker";
 // import { DatepickerYear } from "./components/Datepicker/datepickerYear";
-export { DropdownList } from "./components/DropdownList/DropdownList"
+// import { DropdownList } from "./components/DropdownList/DropdownList"
 // import Uploader from "./components/Fileupload/Fileupload";
 // import InputMask from "./components/Inputmask/Inputmask";
 // import { Loader } from "./components/Loader/Loader";
@@ -57,7 +57,7 @@ import { Switch } from "./components/Switch/Switch";
 // import { Tel } from "./components/Tel/Tel";
 // import { Textarea } from "./components/Textarea/Textarea";
 // import { Email } from "./components/Textfield/Email";
-export { Text } from "./components/Textfield/Text";
+// import { Text } from "./components/Textfield/Text";
 // import { Timepicker } from "./components/Timepicker/Timepicker";
 // import { Timepicker24Hr } from "./components/Timepicker/Timepicker24Hr";
 // import { Toast } from "./components/Toast/Toast";
