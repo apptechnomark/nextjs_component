@@ -7,11 +7,12 @@ interface TypographyProps {
   className?: string;
   type?: string;
   children?: ReactNode;
+  htmlFor?: string;
 }
 
 export default class Typography extends React.Component<TypographyProps> {
   render() {
-    const { style, className, type, children } = this.props;
+    const { style, className, type, children, htmlFor } = this.props;
 
     let Element;
     let styles = "";
@@ -86,7 +87,7 @@ export default class Typography extends React.Component<TypographyProps> {
     const combinedClassName = `${className} ${styles} font-proxima`;
 
     return (
-      <Element style={style} className={combinedClassName}>
+      <Element style={style} className={combinedClassName} htmlFor={htmlFor}>
         {children}
       </Element>
     );

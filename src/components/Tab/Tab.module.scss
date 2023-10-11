@@ -1,9 +1,4 @@
 .tab__ripple {
-  width: 25%;
-  opacity: 0;
-  height: 45px;
-  transform: scale(0);
-  border-radius: 30px;
   animation: ripple 0.7s;
   background-color: rgba(2, 184, 157, 0.473);
 }
@@ -19,3 +14,8 @@
     transform: scale(1);
   }
 }
+
+  /* width */
+  ::-webkit-scrollbar {
+    width: 0px;
+  }

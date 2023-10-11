@@ -8,6 +8,7 @@ interface NavigationBarProps extends React.InputHTMLAttributes<HTMLInputElement>
     tabs: any;
     getValue: (arg: string) => void;
     visibleTab: number;
+    variant?: string;
 }
 
 const NavigationBar: React.FC<NavigationBarProps> = ({
@@ -16,14 +17,37 @@ const NavigationBar: React.FC<NavigationBarProps> = ({
     getValue,
     tabs,
     visibleTab,
+    variant,
     ...props
 }) => {
     const selectRef = useRef<HTMLDivElement>(null);
+
     const [selectedTabIndex, setSelectedTabIndex] = useState<number>(0);
     const [tab, setTab] = useState<string>(tabs[0].id);
+    const [isOpen, setIsOpen] = useState<boolean>(false);
     const [visibleTabs, setVisibleTabs] = useState<any>(tabs.slice(0, visibleTab));
     const [dropdownTabs, setDropdownTabs] = useState<any>(tabs.slice(visibleTab));
-    const [isOpen, setIsOpen] = useState<boolean>(false);
+
+    useEffect(() => {
+        const handleResize = () => {
+            if (window.innerWidth <= 321) {
+                setVisibleTabs(tabs.slice(0, 1));
+                setDropdownTabs(tabs.slice(1));
+            }
+            else if (window.innerWidth >= 322 && window.innerWidth <= 425) {
+                setVisibleTabs(tabs.slice(0, 2));
+                setDropdownTabs(tabs.slice(2));
+            }
+            else {
+                setVisibleTabs(tabs.slice(0, visibleTab));
+                setDropdownTabs(tabs.slice(visibleTab));
+            }
+        };
+        window.addEventListener('resize', handleResize);
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, [tabs]);
 
     const handleTabClick = (tabId: string, index: number) => {
         const clickedTab = dropdownTabs[index];
@@ -69,7 +93,7 @@ const NavigationBar: React.FC<NavigationBarProps> = ({
     useEffect(() => {
         getValue(tab);
     }, [tab])
-    // To Toggle Tab-list
+
     const handleToggleOpen = () => {
         setIsOpen(!isOpen);
     };
@@ -89,30 +113,37 @@ const NavigationBar: React.FC<NavigationBarProps> = ({
         };
     }, []);
 
+    const tabLabel = (index: number, label: any) => {
+        return <Typography className={`border-r ${index > (tabs.length - 2) ? `border-none` : `border-r-lightSilver`} px-5 cursor-pointer ${selectedTabIndex === index
+            ? "text-primary text-base font-semibold"
+            : "text-slatyGrey font-medium text-sm"
+            }`} type="h5">
+            {label}
+            
+        </Typography>
+    }
+
     return (
         <>
             <div className="flex items-center py-[10px]">
                 {visibleTabs.map((tab: any, index: number) => (
                     <div onClick={() => handleTabClick(tab.id, index)} key={tab.id + index}>
-
-                        <a href={`#${tab.id}`}>
-                            <Typography className={`border-r ${index > (tabs.length - 2) ? `border-none` : `border-r-lightSilver`} px-5 cursor-pointer ${selectedTabIndex === index
-                                ? "text-primary text-base font-semibold"
-                                : "text-slatyGrey font-medium text-sm"
-                                }`} type="h6">
-                                {tab.label}
-                            </Typography>
-                        </a>
+                        {variant === "modal"
+                            ? <a href={`#${tab.id}`}>
+                                {tabLabel(index, tab.label)}
+                            </a>
+                            : tabLabel(index, tab.label)
+                        }
                     </div>
                 ))}
-                {visibleTab < tabs.length &&
+                {visibleTab <= tabs.length && dropdownTabs.length > 0 &&
                     <div ref={selectRef} className="cursor-pointer">
                         <div onClick={handleToggleOpen} className="px-4 opacity-75" >
                             <MenuIcon size="small" direction="meatball" classname="w-full" />
                         </div>
                         <div>
                             <ul
-                                className={`absolute w-[215px] py-2 z-[1] bg-pureWhite overflow-y-auto transition-transform drop-shadow-lg ${isOpen
+                                className={`absolute  w-[215px] py-2 z-[1] bg-pureWhite overflow-y-auto transition-transform drop-shadow-lg ${isOpen
                                     ? "max-h-full translate-y-0 transition-opacity opacity-100 duration-500 ease-out"
                                     : "max-h-0 translate-y-20 transition-opacity opacity-0 duration-500"
                                     } `}
@@ -129,9 +160,11 @@ const NavigationBar: React.FC<NavigationBarProps> = ({
                                         }
                                         className="p-2 hover:bg-whiteSmoke font-normal text-base cursor-pointer flex"
                                     >
-                                        <a href={`#${tab.id}`}>
-                                            <Typography type="h6" className="cursor-pointer">{tab.label}</Typography>
-                                        </a>
+                                        {variant === "modal"
+                                            ? <a href={`#${tab.id}`}>
+                                                <Typography type="h6" className="cursor-pointer">{tab.label}</Typography>
+                                            </a>
+                                            : <Typography type="h6" className="cursor-pointer">{tab.label}</Typography>}
                                     </li>
                                 ))}
 
