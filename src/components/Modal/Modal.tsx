@@ -8,6 +8,7 @@ interface ModalProps {
   size?: "sm" | "md" | "lg" | "extra-lg" | "full";
   closeIcon?: boolean;
   width?: string;
+  className?: string;
 }
 
 const Modal: React.FC<ModalProps> = ({
@@ -16,6 +17,7 @@ const Modal: React.FC<ModalProps> = ({
   children,
   size,
   width,
+  className
 }) => {
   if (!isOpen) return null;
 
@@ -46,7 +48,7 @@ const Modal: React.FC<ModalProps> = ({
   return (
     <>
       <div
-        className={`fixed inset-0 bg-black bg-opacity-40 backdrop-blur-[1px] z-50`}
+        className={`${className} fixed inset-0 bg-black bg-opacity-40 backdrop-blur-[1px] z-50`}
         onClick={onClose}
       >
         <div

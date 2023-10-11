@@ -3,6 +3,8 @@ import React, { useEffect, useState, useRef } from "react";
 import style from "./scss/Datepicker.module.scss";
 import ChevronLeftIcon from "./icons/ChevronLeft.js";
 import CalendarIcon from "./icons/CalendarIcon.js";
+import Typography from "../Typography/Typography";
+import "../Typography/Typography.module.scss";
 
 interface DatepickerDate {
     date: Date;
@@ -468,12 +470,13 @@ const DatepickerRange = (props: any): JSX.Element => {
                                             className={`w-full grid grid-cols-7 proxima  ${animate}`}
                                         >
                                             {days.map((day, index) => (
-                                                <h1
+                                                <Typography
+                                                    type="h6"
                                                     key={index}
-                                                    className="h-14 grid place-content-center text-[12px]"
+                                                    className="h-14 grid place-content-center"
                                                 >
                                                     {day}
-                                                </h1>
+                                                </Typography>
                                             ))}
                                         </div>
                                         <div
@@ -508,19 +511,19 @@ const DatepickerRange = (props: any): JSX.Element => {
                                                             onClick={() => handleDateClick(currentDate)}
                                                             onMouseEnter={() => handleDateHover(currentDate)}
                                                             onMouseLeave={handleMouseOut}
-                                                        >
-                                                            <label
-                                                                className={`h-[40px] w-[40px] m-[2px] grid place-content-center rounded-full cursor-pointer z-10 
+                                                        ><Typography
+                                                            type="h5"
+                                                            className={`h-[40px] w-[40px] m-[2px] grid place-content-center rounded-full cursor-pointer z-10 
                                                                 ${currentMonth ? "" : "text-[#cbd5e0]"}
-                                                                ${(isSelected && !isStartDate && !isEndDate) && "bg-secondaryGreen transition-color duration-[700ms] font-semibold"} 
+                                                                ${(isSelected && !isStartDate && !isEndDate) && "bg-[#caf1ff] transition-color duration-[700ms] font-semibold"} 
                                                                 ${isInRange && "border-dashed border border-primary"}
                                                                 ${(isSameDay || isStartDate || isEndDate)
-                                                                        ? " bg-primary font-semibold text-white border-none"
-                                                                        : (isSelected && !isStartDate && !isEndDate) ? "" : "hover:bg-whiteSmoke"}
+                                                                    ? " bg-primary font-semibold text-white border-none"
+                                                                    : (isSelected && !isStartDate && !isEndDate) ? "" : "hover:bg-whiteSmoke"}
                                                                 `}
-                                                            >
+                                                        >
                                                                 {currentDate.getDate()}
-                                                            </label>
+                                                            </Typography>
                                                             {(isSameDay || isStartDate || isEndDate) && (
                                                                 <>
                                                                     <span

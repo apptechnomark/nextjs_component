@@ -243,7 +243,7 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
         </div>
 
         <ul
-          className={`absolute z-10 w-full bg-pureWhite mt-[${noborder ? 13 : 1}px] overflow-y-auto shadow-md transition-transform ${isOpen
+          className={`absolute z-10 w-full bg-pureWhite ${noborder ? "mt-[13px]" : "mt-[1px]"} overflow-y-auto shadow-md transition-transform ${isOpen
             ? "max-h-60 translate-y-0 transition-opacity opacity-100 duration-500"
             : "max-h-0 translate-y-20 transition-opacity opacity-0 duration-500"
             } ${isOpen ? "ease-out" : ""}`}

@@ -159,7 +159,7 @@ const page = () => {
             accessor: "Module",
             sortable: true,
             colalign: "left",
-            colStyle: "!w-[105px]",
+            colStyle: "!w-[120px]",
         },
         {
             header: "View",
@@ -404,38 +404,39 @@ const page = () => {
                 <DataTable
                     columns={nestedHeaders}
                     data={e.children.map(
-                        (data: any) =>
+                        (data: any, i: number) =>
                             new Object({
                                 ...data,
                                 View: (
                                     <CheckBox
                                         id={data.Module + Math.random()}
+                                        checked={data.View}
                                         defaultChecked={data.View}
                                     />
                                 ),
                                 Edit: (
                                     <CheckBox
                                         id={data.Module + Math.random()}
-                                        defaultChecked={data.Edit}
+                                        checked={data.Edit}
                                     />
                                 ),
                                 Create:
                                     (
                                         <CheckBox
                                             id={data.Module + Math.random()}
-                                            defaultChecked={data.Create}
+                                            checked={data.Create}
                                         />
                                     ),
                                 Import: (
                                     <CheckBox
                                         id={data.Module + Math.random()}
-                                        defaultChecked={data.Import}
+                                        checked={data.Import}
                                     />
                                 ),
                                 Sync: (
                                     <CheckBox
                                         id={data.Module + Math.random()}
-                                        defaultChecked={data.Sync}
+                                        checked={data.Sync}
                                     />
                                 ),
                             })
@@ -452,6 +453,19 @@ const page = () => {
                     Data Table
                 </h5>
 
+
+                <div className="p-2 m-3 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+                    <h2 className="m-7 text-xl tracking-tight text-gray-900 dark:text-white">
+                        Expandable Datatable
+                    </h2>
+                    <div className="h-auto ml-7">
+                        <DataTable
+                            columns={nestedColumns}
+                            data={nestedDataList.length > 0 ? classListData2 : []}
+                            expandable
+                        />
+                    </div>
+                </div>
                 <div className="p-2 m-3 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
                     <h2 className="m-7 text-xl tracking-tight text-gray-900 dark:text-white">
                         Basic
@@ -477,19 +491,6 @@ const page = () => {
                         />
                     </div>
                 </div>
-                <div className="p-2 m-3 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                    <h2 className="m-7 text-xl tracking-tight text-gray-900 dark:text-white">
-                        Expandable Datatable
-                    </h2>
-                    <div className="h-auto ml-7">
-                        <DataTable
-                            columns={nestedColumns}
-                            data={nestedDataList.length > 0 ? classListData2 : []}
-                            expandable
-                        />
-                    </div>
-                </div>
-
             </BaseLayout>
         </>
     );

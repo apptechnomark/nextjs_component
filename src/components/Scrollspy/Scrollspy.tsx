@@ -57,11 +57,11 @@ const Scrollspy = ({
           href={`#${targetIds[index]}`}
           key={index + 1}
           className={`${type && large ? "px-7 py-3.5 text-xl" : "px-7 py-2.5 text-base"} select-none cursor-pointer hover:${type ? "border-l-4" : "border-b-2"
-            } ${type ? "border-l-4" : "border-b-2"
-            } hover:border-primary hover:bg-[#E1F7F3] w-full flex justify-center items-center border-lightSilver text-center font-medium ${index === activeIndex
-              ? `${type ? "border-l-4" : "border-b-2 text-primary"
-              } border-primary bg-[#E1F7F3]`
-              : ""
+            } ${type ? "border-l-4 " : "border-b-2"
+            } hover:border-primary hover:bg-[#E1F7F3] w-full flex justify-center items-center border-lightSilver text-center font-medium 
+            ${index === activeIndex
+              ? `${type ? "border-l-4 " : "border-b-2 text-primary "} border-primary`
+              : "border-pureWhite"
             }`}
           onClick={() => setActiveIndex(index)}
         >

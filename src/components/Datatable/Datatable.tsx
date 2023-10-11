@@ -1,5 +1,4 @@
 import React, { useRef, useState } from "react";
-import ChevronDown from "./icons/ChevronDown";
 import ChevronRight from "./icons/ChevronRight";
 import SortIcon from "./icons/SortIcon";
 
@@ -228,7 +227,7 @@ const DataTable = ({
           ))}
         </tbody>
       </table>
-    </div>
+    </div >
   );
 };
 

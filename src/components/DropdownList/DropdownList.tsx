@@ -15,7 +15,8 @@ interface SelectProps extends React.InputHTMLAttributes<HTMLInputElement> {
     getValue: (value: any) => void;
     getError: (arg1: boolean) => void;
     disabled?: boolean;
-    noborder?: boolean
+    noborder?: boolean;
+    btnLabel: string;
 }
 
 const DropdownList: React.FC<SelectProps> = ({
@@ -26,7 +27,8 @@ const DropdownList: React.FC<SelectProps> = ({
     validate,
     getError,
     disabled,
-    noborder
+    noborder,
+    btnLabel
 }) => {
     const selectRef = useRef<HTMLDivElement>(null);
     const [searchValue, setSearchValue] = useState<string>("");
@@ -99,8 +101,8 @@ const DropdownList: React.FC<SelectProps> = ({
         }
     };
 
-    const handleEditClick = (event, index) => {
-        event.stopPropagation(); // Prevent event propagation
+    const handleEditClick = (e, index) => {
+        e.stopPropagation();
         setEditList(true);
         setActiveIndex(index);
         setInputValue(options.find((option, i) => i === index).label)
@@ -110,7 +112,8 @@ const DropdownList: React.FC<SelectProps> = ({
         setInputValue(e.target.value);
     };
 
-    const handleSaveEdit = () => {
+    const handleSaveEdit = (e: any) => {
+        e.stopPropagation();
         setEditList(false)
         if (inputValue !== "" && activeIndex !== -1) {
             setOptions(prevOptions => prevOptions.map((option: any, index: number) => index === activeIndex ? { label: inputValue, value: inputValue } : { ...option }));
@@ -120,9 +123,12 @@ const DropdownList: React.FC<SelectProps> = ({
     const handleDeleteClick = (index: number) => {
         const deletedValue = options[index].value;
         setOptions(prevOptions => prevOptions.filter((_, i) => i !== index));
-        setSelectedOption(prevSelected => prevSelected.filter(option => option !== deletedValue));
+        const optionExists = options.some(option => option.value === deletedValue);
+        if (optionExists) {
+            setSelectedOption("");
+        }
+        // setSelectedOption(prevSelected => prevSelected.filter(option => option !== deletedValue));
     };
-
 
     const handleListItemKeyDown = (
         e: React.KeyboardEvent<HTMLLIElement>,
@@ -158,6 +164,7 @@ const DropdownList: React.FC<SelectProps> = ({
             setFocusedIndex(focusedIndex + 1);
         }
     }
+
     useEffect(() => {
         const handleOutsideClick = (event: MouseEvent) => {
             if (!selectRef.current?.contains(event.target as Node)) {
@@ -186,7 +193,7 @@ const DropdownList: React.FC<SelectProps> = ({
                 {label && (
                     <span className="flex">
                         <Typography
-                            type="h6"
+                            type="h5"
                             className={`${isOpen || selectedOption.length > 0 ? "text-primary"
                                 : error
                                     ? "text-defaultRed"
@@ -214,8 +221,9 @@ const DropdownList: React.FC<SelectProps> = ({
                         readOnly={!isOpen}
                         placeholder={`${!isOpen ? "Enter Label Name" : selectedOption.length > 0 ? selectedOption : "Search"}`}
                         value={isOpen ? searchValue : selectedOption}
-                        className={`w-full flex-grow bg-white outline-none text-[14px] font-normal ${!isOpen ? "placeholder-darkCharcoal cursor-pointer text-darkCharcoal " : "placeholder-primary cursor-default text-primary"}
-                        ${error ? "placeholder-defaultRed" : "placeholder-slatyGrey"}`}
+                        className={`w-full flex-grow bg-white outline-none text-[14px] font-normal
+                        ${isOpen ? "placeholder-primary" : error ? "placeholder-defaultRed" : "placeholder-slatyGrey"}
+                        `}
                         style={{ background: "transparent" }}
                         onKeyDown={(e) => handleKeyDown(e)}
                     />
@@ -260,15 +268,18 @@ const DropdownList: React.FC<SelectProps> = ({
                                         ? <input
                                             value={inputValue}
                                             onChange={(e) => handleEditChange(e)}
+                                            autoFocus={editList}
+                                            onFocus={e => e.currentTarget.select()}
                                             className="bg-white cursor-pointer outline-none  p-2 w-full"
                                             style={{ background: "transparent" }}
                                         />
-                                        : <div onClick={() => { !editList && handleSelect(option.value) }}><Typography type='h6' className='p-2 font-normal' >{option.value}</Typography></div>
+                                        : <div onClick={() => { !editList && handleSelect(option.value) }}>
+                                            <Typography type='h5' className='p-2 font-normal' >{option.value}</Typography></div>
                                     }
                                 </div>
                                 {editList && index === activeIndex ?
                                     <div className='hidden gap-2.5  group-hover:flex  group-hover:translate-all group-hover:duration-700  group-hover:ease-out '>
-                                        <div className='py-1' onClick={handleSaveEdit}><RightIcon /></div>
+                                        <div className='py-1' onClick={(e) => { handleSaveEdit(e) }}><RightIcon /></div>
                                         <div className='py-1' onClick={() => setEditList(false)}><CrossIcon /></div>
                                     </div>
                                     : <div className='hidden gap-2.5  group-hover:flex  group-hover:translate-all group-hover:duration-700  group-hover:ease-out '>
@@ -283,17 +294,21 @@ const DropdownList: React.FC<SelectProps> = ({
                         </span>
                     )}
                     <li
-                        className={`bottom-0 w-full justify-end sticky bg-pureWhite gap-2 outline-none focus:bg-whiteSmoke 
-                    text-[14px] p-2.5 font-normal cursor-pointer flex items-center`}
+                        className={`bottom-0 w-full  sticky shadow-inner bg-pureWhite gap-2 outline-none focus:bg-whiteSmoke 
+                    text-[14px] p-2.5 font-normal cursor-pointer flex items-center `}
                     >
-                        <input
-                            id="newOptionInput"
-                            placeholder="Add new list"
-                            className={`px-[7px] w-[99px] border rounded-md h-[38px] border-lightSilver  outline-none text-darkCharcoal text-[14px] font-normal placeholder-darkCharcoal placeholder:opacity-50`}
-                        />
-                        <Button className="rounded-md outline-none" variant="btn-primary" onClick={handleAddNewOption}>
-                            Add New
-                        </Button>
+                        <div className='flex-grow bg-yellowColor'>
+                            <input
+                                id="newOptionInput"
+                                placeholder="Add new list"
+                                className={`w-full px-[7px] border-b h-[38px] border-lightSilver  outline-none text-darkCharcoal text-[14px] font-normal placeholder-darkCharcoal placeholder:opacity-50`}
+                            />
+                        </div>
+                        <div className=''>
+                            <Button className="rounded-md outline-none" variant="btn-primary" onClick={handleAddNewOption}>
+                                {btnLabel}
+                            </Button>
+                        </div>
                     </li>
 
                 </ul >

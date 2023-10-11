@@ -95,18 +95,20 @@ const NavigationBar: React.FC<NavigationBarProps> = ({
                 {visibleTabs.map((tab: any, index: number) => (
                     <div onClick={() => handleTabClick(tab.id, index)} key={tab.id + index}>
 
-                        <Typography className={`border-r ${index > (tabs.length - 2) ? `border-none` : `border-r-lightSilver`} px-5 cursor-pointer ${selectedTabIndex === index
-                            ? "text-primary text-base font-semibold"
-                            : "text-slatyGrey font-medium text-sm"
-                            }`} type="h6">
-                            {tab.label}
-                        </Typography>
+                        <a href={`#${tab.id}`}>
+                            <Typography className={`border-r ${index > (tabs.length - 2) ? `border-none` : `border-r-lightSilver`} px-5 cursor-pointer ${selectedTabIndex === index
+                                ? "text-primary text-base font-semibold"
+                                : "text-slatyGrey font-medium text-sm"
+                                }`} type="h6">
+                                {tab.label}
+                            </Typography>
+                        </a>
                     </div>
                 ))}
                 {visibleTab < tabs.length &&
                     <div ref={selectRef} className="cursor-pointer">
                         <div onClick={handleToggleOpen} className="px-4 opacity-75" >
-                            <MenuIcon size="small" direction="meatball" classname="w-full"/>
+                            <MenuIcon size="small" direction="meatball" classname="w-full" />
                         </div>
                         <div>
                             <ul
@@ -127,7 +129,9 @@ const NavigationBar: React.FC<NavigationBarProps> = ({
                                         }
                                         className="p-2 hover:bg-whiteSmoke font-normal text-base cursor-pointer flex"
                                     >
-                                        <Typography type="h6" className="cursor-pointer">{tab.label}</Typography>
+                                        <a href={`#${tab.id}`}>
+                                            <Typography type="h6" className="cursor-pointer">{tab.label}</Typography>
+                                        </a>
                                     </li>
                                 ))}
 

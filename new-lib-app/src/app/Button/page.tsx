@@ -852,7 +852,7 @@ const button = () => {
             <div className="flex mb-1">
               <span className="mr-2 mt-1">
                 <div className="animate-spin">
-                  <SpinnerIcon bgColor="#02B89D" />
+                  <SpinnerIcon bgColor="#0592C6" />
                 </div>
               </span>
               <span className="mt-1">
@@ -926,10 +926,10 @@ const button = () => {
             <div className="flex mb-1">
               <span className="mr-2 mt-1">
                 <div className="animate-spin">
-                  <SpinnerIcon bgColor="#02B89D" />
+                  <SpinnerIcon bgColor="#0592C6" />
                 </div>
               </span>
-              <span className="mt-[5px] text-[#02B89D]">
+              <span className="mt-[5px] text-[#0592C6]">
                 Primary
               </span>
             </div>

@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import BaseLayout from "../../components/BaseLayout";
-import { Scrollspy, Modal, ModalTitle, ModalContent, ModalAction, Button, Close } from "next-ts-lib";
+import { Scrollspy, Modal, ModalTitle, ModalContent, ModalAction, Button, Close, NavigationBar } from "next-ts-lib";
 import "next-ts-lib/dist/index.css";
 import Icon from "./CustomIcon";
 
@@ -15,7 +15,18 @@ const page: React.FC = () => {
     const targetIds5 = ["page-21", "page-22", "page-23", "page-24", "page-25"];
     const icons = [<Icon />, <Icon />, <Icon />, <Icon />, <Icon />];
 
+    const tabs = [
+        { id: "page-21", label: "CLASS" },
+        { id: "page-22", label: "LOCATION" },
+        { id: "page-23", label: "DEPARTMENT" },
+        { id: "page-24", label: "PROJECT" },
+        { id: "page-25", label: "MECHANICAL" },
+        { id: "page-26", label: "IT" },
+        { id: "page-27", label: "ELECTRICAL" },
+    ];
+
     const [lgOpen, setLgOpen] = useState(false);
+    const [value, setValue] = useState("");
 
     const lgOpenModal = () => {
         setLgOpen(true);
@@ -24,6 +35,7 @@ const page: React.FC = () => {
     const lgCloseModal = () => {
         setLgOpen(false);
     };
+
 
     return <BaseLayout>
         <h5 className="m-5 pt-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Scrollspy</h5>
@@ -342,8 +354,15 @@ const page: React.FC = () => {
             </button>
             {lgOpen && (
                 <Modal isOpen={lgOpen} onClose={lgCloseModal} size='lg'>
-                    <ModalTitle>
-                        <div className='p-5'>
+                    <ModalTitle className="bg-[#F6F6F6]">
+                        <div className='p-1'>
+                            <NavigationBar
+                                tabs={tabs}
+                                visibleTab={7}
+                                getValue={(e: any) => {
+                                    setValue(e);
+                                }}
+                            />
                         </div>
                         <div onClick={lgCloseModal}>
                             <div className='p-3'>
@@ -352,8 +371,6 @@ const page: React.FC = () => {
                         </div>
                     </ModalTitle>
                     <ModalContent>
-                        <Scrollspy titles={titles} targetIds={targetIds5} variant="horizontal" />
-
                         <div className="min-h-[calc(100vh-52px)] top-[100px] ">
                             <div
                                 id="page-21"
@@ -430,6 +447,36 @@ const page: React.FC = () => {
                                     culpa qui officia deserunt mollit anim id est laborum.
                                 </p>
                             </div>
+                            <div
+                                id="page-26"
+                                className="pt-[40px] min-h-[500px] w-full"
+                            >
+                                <div className="font-medium text-[24px] p-2">Page 6</div>
+                                <p className="p-2">
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                                    eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
+                                    ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+                                    aliquip ex ea commodo consequat. Duis aute irure dolor in
+                                    reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+                                    pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+                                    culpa qui officia deserunt mollit anim id est laborum.
+                                </p>
+                            </div>
+                            <div
+                                id="page-27"
+                                className="pt-[40px] min-h-[500px] w-full"
+                            >
+                                <div className="font-medium text-[24px] p-2">Page 7</div>
+                                <p className="p-2">
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                                    eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
+                                    ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
+                                    aliquip ex ea commodo consequat. Duis aute irure dolor in
+                                    reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+                                    pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
+                                    culpa qui officia deserunt mollit anim id est laborum.
+                                </p>
+                            </div>
                         </div>
                     </ModalContent>
                     <ModalAction>
@@ -443,7 +490,7 @@ const page: React.FC = () => {
                         </div>
                     </ModalAction>
                 </Modal>)}
-        </div>  
+        </div>
     </BaseLayout>;
 };
 

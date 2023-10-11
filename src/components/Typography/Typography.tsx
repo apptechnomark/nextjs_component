@@ -83,7 +83,7 @@ export default class Typography extends React.Component<TypographyProps> {
         break;
     }
 
-    const combinedClassName = `${className} ${styles}`;
+    const combinedClassName = `${className} ${styles} font-proxima`;
 
     return (
       <Element style={style} className={combinedClassName}>
