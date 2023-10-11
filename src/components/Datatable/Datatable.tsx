@@ -1,5 +1,4 @@
 import React, { useRef, useState } from "react";
-import ChevronDown from "./icons/ChevronDown";
 import ChevronRight from "./icons/ChevronRight";
 import SortIcon from "./icons/SortIcon";
 
@@ -211,19 +210,19 @@ const DataTable = ({
                   </td>
                 ))}
               </tr>
-              {/* {(expandedRows.has(rowIndex) || isExpanded) && ( */}
-              <tr className={`${(expandedRows.has(rowIndex) || isExpanded) ? "bg-primary !h-10 transition-height duration-300 ease-out visible" : "bg-pureRed !h-0 invisible"} `}>
-                <td colSpan={columns.length + 1}>
-                  {row.details ? (
-                    row.details
-                  ) : (
-                    <div className={`m-3 ${expandableStyle?.rows}`}>
-                      No data to display
-                    </div>
-                  )}
-                </td>
-              </tr>
-              {/* )} */}
+              {(expandedRows.has(rowIndex) || isExpanded) && (
+                <tr>
+                  <td colSpan={columns.length + 1}>
+                    {row.details ? (
+                      row.details
+                    ) : (
+                      <div className={`m-3 ${expandableStyle?.rows}`}>
+                        No data to display
+                      </div>
+                    )}
+                  </td>
+                </tr>
+              )}
             </React.Fragment>
           ))}
         </tbody>

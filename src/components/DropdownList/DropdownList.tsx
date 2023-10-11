@@ -294,17 +294,21 @@ const DropdownList: React.FC<SelectProps> = ({
                         </span>
                     )}
                     <li
-                        className={`bottom-0 w-full justify-end sticky shadow-inner bg-pureWhite gap-2 outline-none focus:bg-whiteSmoke 
+                        className={`bottom-0 w-full  sticky shadow-inner bg-pureWhite gap-2 outline-none focus:bg-whiteSmoke 
                     text-[14px] p-2.5 font-normal cursor-pointer flex items-center `}
                     >
-                        <input
-                            id="newOptionInput"
-                            placeholder="Add new list"
-                            className={`flex-grow px-[7px] border-b h-[38px] border-lightSilver  outline-none text-darkCharcoal text-[14px] font-normal placeholder-darkCharcoal placeholder:opacity-50`}
-                        />
-                        <Button className="rounded-md outline-none" variant="btn-primary" onClick={handleAddNewOption}>
-                            {btnLabel}
-                        </Button>
+                        <div className='flex-grow bg-yellowColor'>
+                            <input
+                                id="newOptionInput"
+                                placeholder="Add new list"
+                                className={`w-full px-[7px] border-b h-[38px] border-lightSilver  outline-none text-darkCharcoal text-[14px] font-normal placeholder-darkCharcoal placeholder:opacity-50`}
+                            />
+                        </div>
+                        <div className=''>
+                            <Button className="rounded-md outline-none" variant="btn-primary" onClick={handleAddNewOption}>
+                                {btnLabel}
+                            </Button>
+                        </div>
                     </li>
 
                 </ul >
