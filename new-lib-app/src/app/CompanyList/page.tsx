@@ -55,7 +55,7 @@ const page: React.FC = () => {
         </div>
         <div className="p-4 m-3 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
             <h2 className="m-5 text-xl  tracking-tight text-gray-900 dark:text-white">Assign User</h2>
-            <CompanyList id="user" showAvatar={4} label="User" variant="user" noborder options={options2} getError={() => { }} getValue={() => { }} />
+            <CompanyList id="user" showAvatar={5} label="User" variant="user" noborder options={options2} getError={() => { }} getValue={() => { }} />
         </div>
     </BaseLayout>;
 };

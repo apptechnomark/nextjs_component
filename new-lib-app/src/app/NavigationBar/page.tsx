@@ -1,6 +1,6 @@
 "use client";
 
-import { NavigationBar, Switch } from "next-ts-lib";
+import { NavigationBar } from "next-ts-lib";
 import "next-ts-lib/dist/index.css";
 import React, { useState } from "react";
 import BaseLayout from "../../components/BaseLayout";
@@ -14,7 +14,7 @@ const navigationBar: React.FC = () => {
         { id: "tab4", label: "TAB 4" },
     ];
     const tabs = [
-        { id: "class", label: "CLASS" },
+        { id: "class", label: "CLASS PLACEHOLDER TEXT" },
         { id: "location", label: "LOCATION" },
         { id: "department", label: "DEPARTMENT" },
         { id: "project", label: "PROJECT" },

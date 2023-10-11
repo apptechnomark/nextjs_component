@@ -52,7 +52,6 @@ const CompanyList: React.FC<CompanyListProps> = ({
     const [inputValue, setInputValue] = useState<string>("");
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [focusedIndex, setFocusedIndex] = useState<number>(-1);
-    const [avatars, setAvatars] = useState<JSX.Element[]>([]);
     const [err, setErr] = useState<boolean>(false);
     const [focus, setFocus] = useState<boolean>(false);
     const [errorMsg, setErrorMsg] = useState<string>("");
@@ -115,16 +114,14 @@ const CompanyList: React.FC<CompanyListProps> = ({
         });
     };
 
-    useEffect(() => {
-        const updatedAvatars = selectedValues.map((value, index) => (
-            <Avatar
-                key={index}
-                name={value}
-                imageUrl={options.find((item) => item.value == value)?.imageUrl}
-            />
-        ));
-        setAvatars(updatedAvatars);
-    }, [selectedValues, options]);
+    const updatedAvatars = selectedValues.map((value, index) => {
+        return <Avatar
+            key={index}
+            name={value}
+            variant="small"
+            imageUrl={options.find((item) => item.value == value)?.imageUrl}
+        />
+    });
 
     useEffect(() => {
         const handleOutsideClick = (event: MouseEvent) => {
@@ -212,7 +209,7 @@ const CompanyList: React.FC<CompanyListProps> = ({
                     onClick={handleToggleOpen}
                 >
                     {selectedValues.length > 0 ? (
-                        <AvatarGroup show={showAvatar}>{avatars}</AvatarGroup>
+                        <AvatarGroup variant="small" show={showAvatar}>{updatedAvatars}</AvatarGroup>
                     ) : (
                         <Typography
                             type="h5"

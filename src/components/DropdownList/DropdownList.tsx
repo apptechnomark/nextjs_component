@@ -278,7 +278,7 @@ const DropdownList: React.FC<SelectProps> = ({
                                     }
                                 </div>
                                 {editList && index === activeIndex ?
-                                    <div className='hidden gap-2.5  group-hover:flex  group-hover:translate-all group-hover:duration-700  group-hover:ease-out '>
+                                    <div className={`${index === activeIndex?"flex": "hidden"} gap-2.5  group-hover:flex  group-hover:translate-all group-hover:duration-700  group-hover:ease-out `}>
                                         <div className='py-1' onClick={(e) => { handleSaveEdit(e) }}><RightIcon /></div>
                                         <div className='py-1' onClick={() => setEditList(false)}><CrossIcon /></div>
                                     </div>
