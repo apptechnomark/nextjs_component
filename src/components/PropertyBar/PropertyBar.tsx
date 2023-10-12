@@ -43,6 +43,7 @@ const PropertyBar: React.FC<NavigationBarProps> = ({
 
     const selectRef = useRef<HTMLDivElement>(null);
     const [selectedTabIndex, setSelectedTabIndex] = useState<number>(0);
+    const [selectedTabIconIndex, setSelectedTabIconIndex] = useState<number>(0);
     const [tab, setTab] = useState<string>(
         tabs && tabs.length > 0 ? tabs[0].id : ""
     );
@@ -52,7 +53,19 @@ const PropertyBar: React.FC<NavigationBarProps> = ({
     const [dropdownTabs, setDropdownTabs] = useState<any>(
         tabs ? tabs.slice(visibleTab) : []
     );
+
+    const [tabIcon, setTabIcon] = useState<string>(
+        icons && icons.length > 0 ? icons[0].name : ""
+    );
+    const [visibleTabsIcon, setVisibleTabsIcon] = useState<any>(
+        icons ? icons.slice(0, visibleTab) : []
+    );
+    const [dropdownTabsIcon, setDropdownTabsIcon] = useState<any>(
+        icons ? icons.slice(visibleTab) : []
+    );
+
     const [isOpen, setIsOpen] = useState<boolean>(false);
+    const [isIconOpen, setIsIconOpen] = useState<boolean>(false);
 
     const handleTabClick = (tabId: string, index: number) => {
         const clickedTab = dropdownTabs[index];
@@ -99,11 +112,57 @@ const PropertyBar: React.FC<NavigationBarProps> = ({
         getValue(tab);
     }, [tab])
 
+    const handleTabIconClick = (tabId: string, index: number) => {
+        const clickedTab = dropdownTabsIcon[index];
+        const lastVisibleTab = visibleTabsIcon[visibleTabsIcon.length - 1];
+
+        // Check if the clicked tab is already visible, then return
+        if (visibleTabsIcon.some((tab: any) => tab.name === tabId)) {
+            setTabIcon(tabId); // Update the tab state
+            setSelectedTabIconIndex(index);
+            return;
+        }
+        // Find the index of the clicked tab in the dropdownTabs array
+        const clickedTabIndexInDropdown = dropdownTabsIcon.findIndex(
+            (tab: any) => tab.name === tabId
+        );
+
+        // Update the state to swap the tabs
+        const updatedVisibleTabs = [...visibleTabsIcon];
+        const updatedDropdownTabs = [...dropdownTabsIcon];
+
+        // Replace the last visible tab with the clicked tab
+        updatedVisibleTabs[visibleTabsIcon.length - 1] = clickedTab;
+
+        // If the clicked tab is already in the dropdown, replace it with the last visible tab
+        if (clickedTabIndexInDropdown !== -1) {
+            updatedDropdownTabs[clickedTabIndexInDropdown] = lastVisibleTab;
+
+            // Find the new index of the selected tab in the visible tabs
+            const newSelectedTabIndex = updatedVisibleTabs.findIndex(
+                (tab) => tab.name === tabId
+            );
+            setSelectedTabIconIndex(newSelectedTabIndex);
+        } else {
+            // If the clicked tab is not in the dropdown, add the last visible tab to the beginning of the dropdown
+            updatedDropdownTabs.unshift(lastVisibleTab);
+            setSelectedTabIconIndex(visibleTabs.length + clickedTabIndexInDropdown);
+        }
+
+        setTabIcon(tabId);
+        setVisibleTabsIcon(updatedVisibleTabs);
+        setDropdownTabsIcon(updatedDropdownTabs);
+    }
+
 
     // To Toggle Tab-list
     const handleToggleOpen = () => {
         setIsOpen(!isOpen);
     };
+
+    const handleIconToggleOpen = () => {
+        setIsIconOpen(!isIconOpen);
+    }
 
     useEffect(() => {
         const handleOutsideClick = (event: MouseEvent) => {
@@ -112,6 +171,7 @@ const PropertyBar: React.FC<NavigationBarProps> = ({
                 !selectRef.current.contains(event.target as Node)
             ) {
                 setIsOpen(false);
+                setIsIconOpen(false);
             }
         };
         window.addEventListener("click", handleOutsideClick);
@@ -148,6 +208,10 @@ const PropertyBar: React.FC<NavigationBarProps> = ({
                                 <div key={index} className="border-r-2 border-lightSilver items-center flex px-[10px]">{icon}</div>
                             ))}
                             <Button className="rounded-md btn-sm ml-5" variant="btn-outline-primary">Submit Task</Button>
+                        </div>
+
+                        <div className="ml-[15px] border-r-2 border-lightSilver  h-7 justify-center flex items-center ">
+
                         </div>
                         <div className="ml-[40px]">
                             <span className="text-slatyGrey italic">
@@ -204,10 +268,11 @@ const PropertyBar: React.FC<NavigationBarProps> = ({
                             </div>
                         )}
                     </div>
-                    <div className="flex gap-2">
+                    <div className="flex gap-2 overflow-visible">
+                       
                         {icons &&
                             icons.map((info, index) => (
-                                <div className="flex items-center cursor-pointer" key={`icon-${index}`}>
+                                <div className={`flex items-center cursor-pointer ${index === icons.length - 1 ? 'mr-5' : ''}`} key={`icon-${index}`}>
                                     {info.name ? (
                                         <Tooltip position="top" content={info.name}>
                                             {info.icon}
@@ -217,7 +282,10 @@ const PropertyBar: React.FC<NavigationBarProps> = ({
                                     )}
                                 </div>
                             ))}
+
                     </div>
+
+
                 </div>)}
         </>
     );
