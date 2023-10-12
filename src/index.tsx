@@ -22,7 +22,6 @@ import { ColorPicker } from "./components/Colorpicker/Colorpicker";
 import { CountrySelect } from "./components/Coutry_select_dropdown/CountrySelect";
 import { CompanyList } from "./components/CompanyList/CompanyList";
 import { CommentSentBox } from "./components/CommentSentBox/CommentSentBox";
-import { CommentBox } from "./components/CommentSentBox/CommentBox";
 import DataTable from "./components/Datatable/Datatable";
 import { Datepicker } from "./components/Datepicker/datepicker";
 import { DatepickerYear } from "./components/Datepicker/datepickerYear";
@@ -92,7 +91,6 @@ export {
     CountrySelect,
     CompanyList,
     CommentSentBox,
-    CommentBox,
     Datepicker,
     DatepickerYear,
     DataTable,

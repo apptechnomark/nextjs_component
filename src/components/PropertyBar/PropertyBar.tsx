@@ -269,7 +269,6 @@ const PropertyBar: React.FC<NavigationBarProps> = ({
                         )}
                     </div>
                     <div className="flex gap-2 overflow-visible">
-                       
                         {icons &&
                             icons.map((info, index) => (
                                 <div className={`flex items-center cursor-pointer ${index === icons.length - 1 ? 'mr-5' : ''}`} key={`icon-${index}`}>
@@ -282,10 +281,7 @@ const PropertyBar: React.FC<NavigationBarProps> = ({
                                     )}
                                 </div>
                             ))}
-
                     </div>
-
-
                 </div>)}
         </>
     );
