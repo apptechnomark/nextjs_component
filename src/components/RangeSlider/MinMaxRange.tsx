@@ -1,5 +1,6 @@
 import React, { useState, ChangeEvent, MouseEvent } from "react";
 import styles from "./MinMaxRange.module.scss";
+import { Tooltip } from "../Tooltip/Tooltip";
 
 interface MinMaxRangeProps {
   variant?: string;
@@ -105,7 +106,7 @@ const MinMaxRange: React.FC<MinMaxRangeProps> = ({
       100 - ((maxValueRange - minValue) / (maxValue - minValue)) * 100
     )}%`,
   };
-  
+
   const maxProgressStyle = {
     left: `${Math.max(
       0,
@@ -116,33 +117,42 @@ const MinMaxRange: React.FC<MinMaxRangeProps> = ({
       100 - ((minValueRange - minValue) / (maxValue - minValue)) * 100
     )}%`,
   };
-  
+
   const numbers = Math.ceil((maxValue - minValue) / gap);
 
   let totalSteps = Array.apply(null, new Array(gap + 1)).map(function (_el, i) {
     return i++;
   });
 
+
+  const tooltipNumber = Array.from({ length: maxValue - minValue + 1 }, (_, index) => index + minValue);
+
   return (
     <div className={`relative ${styles.container}`}>
       <div className={`${styles.range_slider}`} onClick={handleLineClick}>
         <div
-          className={`  flex items-center justify-between w-full absolute ${
-            variant === "dot" && "top-[1.5px]"
-          }`}
-        >
-          {totalSteps.map((i, index) => (
+          className={`flex items-center px-[7.5px] justify-between w-full absolute ${variant === "dot" && "top-[1.5px]"
+            }`}>
+          {tooltipNumber.map((no, index) => (
             <div
-              className={` flex  justify-center items-center bg-red-400 ${
-                variant === "line" ? `${styles.line}` : `${styles.dot}`
-              }`}
+              key={index}
+              className={`absolute bg-pureBlack flex  items-center !h-[1px] justify-center rounded-full z-0`}
+              style={{ left: `${(no / (maxValue - minValue)) * 100}%` }}
+            >
+              <Tooltip position="top" content={no} className="px-[5px] !mb-[13px] !w-[12px] !absolute"></Tooltip>
+            </div>
+          ))}
+          {totalSteps.map((index) => (
+            <div
+              className={` flex justify-center items-center ${variant === "line" ? `${styles.line}` : `${styles.dot}`
+                }`}
               key={index}
             >
-             {Numbers && (
-              <div className="absolute -ml-1.5 top-2 text-[#6E6D7A]">
-                {minValue + index * numbers}
-              </div>
-            )}
+              {Numbers && (
+                <div className="absolute -ml-1.5 top-2 text-[#6E6D7A]">
+                  {minValue + index * numbers}
+                </div>
+              )}
             </div>
           ))}
         </div>

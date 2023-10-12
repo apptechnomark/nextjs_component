@@ -32,16 +32,11 @@ const CommentSentBox: React.FC<CommentSentBoxProps> = ({ options, getValue, getI
         setMessage(text);
         setInputValue(text);
 
-
         if (text.endsWith("@")) {
             setIsOpen(true);
             setSearchValue("");
         } else {
-            if (text.trim() !== "") {
-                setIsOpen(true);
-            } else {
-                setIsOpen(false);
-            }
+            setIsOpen(false); // Close the ul when "@" is not at the end of the text
             setSearchValue(text.toLowerCase().substring(text.lastIndexOf("@") + 1));
         }
     };

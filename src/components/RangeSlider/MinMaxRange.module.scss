@@ -53,13 +53,13 @@
       -moz-box-shadow: 0px 0px 0px 4px #aeddee;
     }
   
-    input[type="range"]:focus::-webkit-slider-thumb{
+    input[type="range"]:active::-webkit-slider-thumb{
       box-shadow: 8px #aeddee;
       -webkit-box-shadow: 0px 0px 0px 8px #aeddee;
       -moz-box-shadow: 0px 0px 0px 8px #aeddee;
     }
   
-    input[type="range"]:focus::-moz-range-thumb {
+    input[type="range"]:active::-moz-range-thumb {
       box-shadow: 8px #aeddee;
       -webkit-box-shadow: 0px 0px 0px 8px #aeddee;
       -moz-box-shadow: 0px 0px 0px 8px #aeddee;

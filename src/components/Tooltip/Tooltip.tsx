@@ -5,7 +5,7 @@ import styles from "./Tooltip.module.scss";
 interface TooltipProps {
   content?: ReactNode;
   position: "top" | "bottom" | "left" | "right";
-  children: ReactNode;
+  children?: ReactNode;
   className?: string;
 }
 

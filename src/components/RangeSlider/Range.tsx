@@ -12,6 +12,7 @@ interface RangeSelectorProps {
   value?: number;
   valueBetween?: boolean;
   variant?: "default" | "dot" | "line";
+  types?: string;
 }
 
 const Range: React.FC<RangeSelectorProps> = ({
@@ -23,12 +24,12 @@ const Range: React.FC<RangeSelectorProps> = ({
   value,
   valueBetween,
   variant,
+  types
 }) => {
   const [selectedValue, setSelectedValue] = useState(value || min);
   const [step, setStep] = useState(1);
   const [values, setValues] = useState<number[]>([]);
   const [thumbValue, setThumbValue] = useState(value || min);
-  const [focusedInput, setFocusedInput] = useState<boolean>(false);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = parseInt(event.target.value);
@@ -62,30 +63,37 @@ const Range: React.FC<RangeSelectorProps> = ({
     background: `linear-gradient(to right, #0592C6 ${fillPercentage}%, #D8D8D8 0%)`,
   };
 
-  const sliderStyle = {
-    height: "6px",
-    width: "101.2%",
-  };
-
   const renderDotsOrLines = () => {
     if (variant === "dot" && gap) {
       const numberOfDots = (max - min) / gap;
       const dots = Array.from({ length: numberOfDots + 1 }, (_, index) => index * gap);
+      const tooltipNumber = Array.from({ length: max - min + 1 }, (_, index) => index + min);
+
       return (
-        <div className="relative w-full">
-          {dots.map((dot, index) => (
+        <div className="relative  mt-[-1.5px]">
+          {tooltipNumber.map((no, index) => (
             <div
               key={index}
-              className="absolute mt-[1.5px] h-[3px] w-[3px] flex bg-[#6E6D7A] items-start justify-center rounded-full z-0"
-              style={{ left: `${(dot / (max - min)) * 100}%` }}
+              className={`absolute  flex  items-center !h-[1px] justify-center rounded-full z-0`}
+              style={{ left: `${(no / (max - min)) * 100}%` }}
             >
-              {numbers && (
-                <div className="absolute top-2 text-[#6E6D7A]">
-                  {values[index]}
-                </div>
-              )}
+              <Tooltip position="top" content={no} className="px-[5px] !mb-[13px] !w-[12px] !absolute"></Tooltip>
             </div>
           ))}
+          {types === "dot" && (<>
+            {dots.map((dot, index) => (
+              <div
+                key={index}
+                className="absolute h-[3px] w-[3px] flex bg-[#6E6D7A] items-start justify-center rounded-full z-0"
+                style={{ left: `${(dot / (max - min)) * 100}%` }}
+              >
+                {numbers && (
+                  <div className="absolute top-2  text-[#6E6D7A] select-none">
+                    {values[index]}
+                  </div>
+                )}
+              </div>
+            ))}</>)}
         </div>
       );
     } else if (variant === "line" && gap) {
@@ -118,19 +126,14 @@ const Range: React.FC<RangeSelectorProps> = ({
     return null;
   };
 
-  const handleMouseEnter = () => {
-    setFocusedInput(true);
-  };
-  const handleMouseOut = () => {
-    setFocusedInput(false);
-  };
-
   return (
 
-    <div className={`w-full ${styles.custom_range}  flex relative justify-center items-center`}>
-      <span className="w-full absolute pl-[7.5px] pr-[12px] top-0">
-        {renderDotsOrLines()}
-      </span>
+    <div className={`w-full ${styles.custom_range} flex relative justify-center items-center`}>
+      <div>
+        <span className="w-full absolute pl-[7.5px] pr-[12px] ">
+          {renderDotsOrLines()}
+        </span>
+      </div>
       <input
         type="range"
         min={min}
@@ -139,9 +142,7 @@ const Range: React.FC<RangeSelectorProps> = ({
         onChange={handleChange}
         step={step}
         style={{ ...fillStyle }}
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseOut}
-        className={`w-full cursor-pointer  focus:bg-defaultRed`}
+        className={`w-full cursor-pointer`}
       />
     </div>
   );
