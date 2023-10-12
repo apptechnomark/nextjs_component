@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { Tooltip } from "../Tooltip/Tooltip";
+import "../Tooltip/Tooltip.module.scss";
 import styles from './Range.module.scss'
 
 interface RangeSelectorProps {
@@ -136,14 +138,11 @@ const Range: React.FC<RangeSelectorProps> = ({
         value={selectedValue}
         onChange={handleChange}
         step={step}
-        autoFocus
         style={{ ...fillStyle }}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseOut}
-        className={`w-full cursor-pointer outline-none ${focusedInput ? "" : styles.autoFocusedDiv
-          }`}
-
-      />{focusedInput.toString()}
+        className={`w-full cursor-pointer  focus:bg-defaultRed`}
+      />
     </div>
   );
 };

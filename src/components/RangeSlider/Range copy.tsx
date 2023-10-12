@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { Tooltip } from "../Tooltip/Tooltip";
+import "../Tooltip/Tooltip.module.scss";
 import styles from './Range.module.scss'
 
 interface RangeSelectorProps {
@@ -26,6 +28,7 @@ const Range: React.FC<RangeSelectorProps> = ({
   const [step, setStep] = useState(1);
   const [values, setValues] = useState<number[]>([]);
   const [thumbValue, setThumbValue] = useState(value || min);
+  const [focusedInput, setFocusedInput] = useState<boolean>(false);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = parseInt(event.target.value);
@@ -115,10 +118,17 @@ const Range: React.FC<RangeSelectorProps> = ({
     return null;
   };
 
+  const handleMouseEnter = () => {
+    setFocusedInput(true);
+  };
+  const handleMouseOut = () => {
+    setFocusedInput(false);
+  };
 
   return (
-    <div className={`w-full ${styles.custom_range} flex relative justify-center items-center`}>
-      <span className="w-[98.5%] absolute top-[1px]">
+
+    <div className={`w-full ${styles.custom_range}  flex relative justify-center items-center`}>
+      <span className="w-full absolute pl-[7.5px] pr-[12px] top-0">
         {renderDotsOrLines()}
       </span>
       <input
@@ -129,7 +139,9 @@ const Range: React.FC<RangeSelectorProps> = ({
         onChange={handleChange}
         step={step}
         style={{ ...fillStyle }}
-        className="w-full"
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseOut}
+        className={`w-full cursor-pointer  focus:bg-defaultRed`}
       />
     </div>
   );

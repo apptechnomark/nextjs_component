@@ -84,15 +84,6 @@ const CommentSentBox: React.FC<CommentSentBoxProps> = ({ options, getValue, getI
         const text = inputValue;
         const file = selectedFile;
 
-        // You can now send both `text` and `file` to your server or perform other actions.
-        if (text) {
-            // console.log("Text:", text);
-        }
-
-        if (file) {
-            // console.log("File Name:", file.name);
-        }
-
         // Clear the input field and reset the selected file
         getValue(selectedValues);
 
@@ -125,9 +116,9 @@ const CommentSentBox: React.FC<CommentSentBoxProps> = ({ options, getValue, getI
 
     return (
         <>
-            {variant === "commentSentBox" ? (<><div className="rounded relative border border-lightSilver w-auto h-[78px]">
+            {variant === "commentSentBox" ? (<><div className="rounded relative border border-lightSilver w-auto h-[75px]">
                 <input
-                    className="focus:outline-none w-full py-[18px] px-[20px] text-primary font-medium"
+                    className="focus:outline-none w-full py-[18px] text-pureBlack px-[20px] font-medium"
                     placeholder="Type a new message OR type @ if you want to mention anyone in the message."
                     type="text"
                     value={inputValue}
@@ -223,11 +214,11 @@ const CommentSentBox: React.FC<CommentSentBoxProps> = ({ options, getValue, getI
                         </li>
                     ))}
                 </ul></>) : (<>
-                    <div className="rounded flex  relative border border-lightSilver w-auto h-[78px]">
+                    <div className="rounded flex  relative border border-lightSilver w-auto h-[75px]">
 
                         <div className="flex-grow">
                             <input
-                                className="focus:outline-none w-full py-[18px] px-[20px] text-primary font-medium"
+                                className="focus:outline-none w-full py-[18px] px-[20px] font-medium"
                                 placeholder="Type a new message OR type @ if you want to mention anyone in the message."
                                 type="text"
                                 value={inputValue}
