@@ -1,9 +1,9 @@
 "use client";
 
+import { Close, NavigationBar, Scrollspy, ScrollspyPopup } from "next-ts-lib";
+import "next-ts-lib/dist/index.css";
 import React, { useState } from "react";
 import BaseLayout from "../../components/BaseLayout";
-import { Scrollspy, Modal, ModalTitle, ModalContent, ModalAction, Button, Close, NavigationBar } from "next-ts-lib";
-import "next-ts-lib/dist/index.css";
 import Icon from "./CustomIcon";
 
 const page: React.FC = () => {
@@ -352,144 +352,111 @@ const page: React.FC = () => {
             <button onClick={lgOpenModal} className="bg-blue-500 ml-5 text-white px-4 py-2 rounded">
                 Scrollspy Pop-up
             </button>
-            {lgOpen && (
-                <Modal isOpen={lgOpen} onClose={lgCloseModal} size='lg'>
-                    <ModalTitle className="bg-[#F6F6F6]">
-                        <div className='p-1'>
-                            <NavigationBar
-                                tabs={tabs}
-                                visibleTab={7}
-                                getValue={(e: any) => {
-                                    setValue(e);
-                                }}
-                            />
-                        </div>
-                        <div onClick={lgCloseModal}>
-                            <div className='p-3'>
-                                <Close variant='medium' />
-                            </div>
-                        </div>
-                    </ModalTitle>
-                    <ModalContent>
-                        <div className="min-h-[calc(100vh-52px)] top-[100px] ">
-                            <div
-                                id="page-21"
-                                className={`pt-[40px] min-h-[500px] w-full`}
-                            >
-                                <div className="font-medium text-[24px] p-2">Page 1</div>
-                                <p className="p-2">
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                                    eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-                                    ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                                    aliquip ex ea commodo consequat. Duis aute irure dolor in
-                                    reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-                                    pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-                                    culpa qui officia deserunt mollit anim id est laborum.
-                                </p>
-                            </div>
-                            <div
-                                id="page-22"
-                                className="pt-[40px] min-h-[500px] w-full"
-                            >
-                                <div className="font-medium text-[24px] p-2">Page 2</div>
-                                <p className="p-2">
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                                    eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-                                    ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                                    aliquip ex ea commodo consequat. Duis aute irure dolor in
-                                    reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-                                    pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-                                    culpa qui officia deserunt mollit anim id est laborum.
-                                </p>
-                            </div>
-                            <div
-                                id="page-23"
-                                className="pt-[40px] min-h-[500px] w-full"
-                            >
-                                <div className="font-medium text-[24px] p-2">Page 3</div>
-                                <p className="p-2">
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                                    eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-                                    ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                                    aliquip ex ea commodo consequat. Duis aute irure dolor in
-                                    reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-                                    pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-                                    culpa qui officia deserunt mollit anim id est laborum.
-                                </p>
-                            </div>
-                            <div
-                                id="page-24"
-                                className="pt-[40px] min-h-[500px] w-full"
-                            >
-                                <div className="font-medium text-[24px] p-2">Page 4</div>
-                                <p className="p-2">
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                                    eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-                                    ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                                    aliquip ex ea commodo consequat. Duis aute irure dolor in
-                                    reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-                                    pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-                                    culpa qui officia deserunt mollit anim id est laborum.
-                                </p>
-                            </div>
-                            <div
-                                id="page-25"
-                                className="pt-[40px] min-h-[500px] w-full"
-                            >
-                                <div className="font-medium text-[24px] p-2">Page 5</div>
-                                <p className="p-2">
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                                    eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-                                    ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                                    aliquip ex ea commodo consequat. Duis aute irure dolor in
-                                    reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-                                    pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-                                    culpa qui officia deserunt mollit anim id est laborum.
-                                </p>
-                            </div>
-                            <div
-                                id="page-26"
-                                className="pt-[40px] min-h-[500px] w-full"
-                            >
-                                <div className="font-medium text-[24px] p-2">Page 6</div>
-                                <p className="p-2">
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                                    eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-                                    ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                                    aliquip ex ea commodo consequat. Duis aute irure dolor in
-                                    reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-                                    pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-                                    culpa qui officia deserunt mollit anim id est laborum.
-                                </p>
-                            </div>
-                            <div
-                                id="page-27"
-                                className="pt-[40px] min-h-[500px] w-full"
-                            >
-                                <div className="font-medium text-[24px] p-2">Page 7</div>
-                                <p className="p-2">
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                                    eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-                                    ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-                                    aliquip ex ea commodo consequat. Duis aute irure dolor in
-                                    reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-                                    pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-                                    culpa qui officia deserunt mollit anim id est laborum.
-                                </p>
-                            </div>
-                        </div>
-                    </ModalContent>
-                    <ModalAction>
-                        <Button onClick={lgCloseModal} className="!ml-[20px] rounded-md mx-2" variant="btn-outline-primary">
-                            Cancel
-                        </Button>
-                        <div className='px-5 py-5'>
-                            <Button className="rounded-md !border-2  " variant="btn-primary">
-                                Save Changes
-                            </Button>
-                        </div>
-                    </ModalAction>
-                </Modal>)}
+            <ScrollspyPopup
+                isOpen={lgOpen}
+                onClose={() => setLgOpen(false)}
+                className="m-10 overflow-y-scroll !h-[600px]"
+            >
+                <div className="flex justify-between w-full sticky top-0 bg-[#F4F4F4]">
+                    <NavigationBar
+                        tabs={tabs}
+                        visibleTab={7}
+                        getValue={(e: any) => {
+                            setValue(e);
+                        }}
+                        variant="modal"
+                    />
+                    <div onClick={() => setLgOpen(false)} className="p-1">
+                        <Close variant="large" />
+                    </div>
+                </div>
+                <div>
+                    <div id="page-21" className={`pt-[40px] h-[300px] w-auto `}>
+                        <div className="font-medium text-[24px] p-2">Page 1</div>
+                        <p className="p-2">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+                            enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                            nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+                            reprehenderit in voluptate velit esse cillum dolore eu fugiat
+                            nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+                            sunt in culpa qui officia deserunt mollit anim id est laborum.
+                        </p>
+                    </div>
+                    <div id="page-22" className="pt-[40px] h-[300px] w-auto ">
+                        <div className="font-medium text-[24px] p-2">Page 2</div>
+                        <p className="p-2">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+                            enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                            nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+                            reprehenderit in voluptate velit esse cillum dolore eu fugiat
+                            nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+                            sunt in culpa qui officia deserunt mollit anim id est laborum.
+                        </p>
+                    </div>
+                    <div id="page-23" className="pt-[40px] h-[300px] w-auto ">
+                        <div className="font-medium text-[24px] p-2">Page 3</div>
+                        <p className="p-2">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+                            enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                            nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+                            reprehenderit in voluptate velit esse cillum dolore eu fugiat
+                            nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+                            sunt in culpa qui officia deserunt mollit anim id est laborum.
+                        </p>
+                    </div>
+                    <div id="page-24" className="pt-[40px] h-[300px] w-auto ">
+                        <div className="font-medium text-[24px] p-2">Page 4</div>
+                        <p className="p-2">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+                            enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                            nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+                            reprehenderit in voluptate velit esse cillum dolore eu fugiat
+                            nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+                            sunt in culpa qui officia deserunt mollit anim id est laborum.
+                        </p>
+                    </div>
+                    <div id="page-25" className="pt-[40px] h-[300px] w-auto ">
+                        <div className="font-medium text-[24px] p-2">Page 5</div>
+                        <p className="p-2">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+                            enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                            nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+                            reprehenderit in voluptate velit esse cillum dolore eu fugiat
+                            nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+                            sunt in culpa qui officia deserunt mollit anim id est laborum.
+                        </p>
+                    </div>
+                    <div id="page-26" className="pt-[40px] h-[300px] w-auto ">
+                        <div className="font-medium text-[24px] p-2">Page 6</div>
+                        <p className="p-2">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+                            enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                            nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+                            reprehenderit in voluptate velit esse cillum dolore eu fugiat
+                            nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+                            sunt in culpa qui officia deserunt mollit anim id est laborum.
+                        </p>
+                    </div>
+                    <div id="page-27" className="pt-[40px] h-[300px] w-auto ">
+                        <div className="font-medium text-[24px] p-2">Page 7</div>
+                        <p className="p-2">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+                            enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                            nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+                            reprehenderit in voluptate velit esse cillum dolore eu fugiat
+                            nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+                            sunt in culpa qui officia deserunt mollit anim id est laborum.
+                        </p>
+                    </div>
+                </div>
+            </ScrollspyPopup>
         </div>
     </BaseLayout>;
 };

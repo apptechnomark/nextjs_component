@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import styles from "./ScrollspyPopup.module.scss";
 
 interface ScrollspyProps {
   titles: any[];
@@ -47,27 +48,39 @@ const Scrollspy = ({
     };
   }, [targetIds]);
 
+  const handleClick = (index: number, event: any) => {
+    // event.stopPropagation();
+    setActiveIndex(index)
+    // Add a class for smooth scrolling when the modal is clicked
+    if (event.currentTarget) {
+     
+      event.currentTarget.classList.add(styles["smooth-scroll"]);
+    }
+  };
+
   return (
     <div
-      className={`bg-pureWhite sticky top-0 ${variant === "horizontal" && "flex"
+      className={`bg-pureWhite font-proxima sticky top-0 ${variant === "horizontal" && "flex"
         }`}
     >
       {titles.map((title, index: any) => (
+        
         <a
           href={`#${targetIds[index]}`}
           key={index + 1}
-          className={`${type && large ? "px-7 py-3.5 text-xl" : "px-7 py-2.5 text-base"} select-none cursor-pointer hover:${type ? "border-l-4" : "border-b-2"
+          className={`${type && large ? "px-7 py-3.5 text-xl" : "px-7 py-2.5 text-base"} font-proxima select-none cursor-pointer hover:${type ? "border-l-4" : "border-b-2"
             } ${type ? "border-l-4 " : "border-b-2"
             } hover:border-primary hover:bg-[#E1F7F3] w-full flex justify-center items-center border-lightSilver text-center font-medium 
             ${index === activeIndex
               ? `${type ? "border-l-4 " : "border-b-2 text-primary "} border-primary`
               : "border-pureWhite"
             }`}
-          onClick={() => setActiveIndex(index)}
+          onClick={(e) => { handleClick(index, e) }}
         >
           {type && icons[index] && <span className="mr-2.5">{icons[index]}</span>}
           {title}
         </a>
+        
       ))}
     </div>
   );

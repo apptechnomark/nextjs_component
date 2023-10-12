@@ -46,6 +46,7 @@ import { Range } from "./components/RangeSlider/Range";
 import { MinMaxRange } from "./components/RangeSlider/MinMaxRange";
 import { Rating } from "./components/Rating/Rating";
 import { Scrollspy } from "./components/Scrollspy/Scrollspy";
+import { ScrollspyPopup } from "./components/Scrollspy/ScrollspyPopup";
 import { Select } from "./components/Selectdropdown/Select";
 import { MultiSelect } from "./components/Selectdropdown/MultiSelect";
 import { MultiSelectChip } from "./components/Selectdropdown/MultiSelectChip";
@@ -115,6 +116,7 @@ export {
     MinMaxRange,
     Rating,
     Scrollspy,
+    ScrollspyPopup,
     Select,
     MultiSelect,
     MultiSelectChip,

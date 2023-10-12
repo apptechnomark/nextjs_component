@@ -20,12 +20,12 @@ const page: React.FC = () => {
             <div className="p-4">
                 <Range
                     variant="dot"
-                    min={10}
+                    min={0}
                     max={100}
-                    // gap={10}
-                    // valueBetween
+                    gap={10}
+                    valueBetween
                     onChange={handleChange}
-                    // numbers
+                // numbers
                 />
             </div>
         </div>
@@ -40,6 +40,7 @@ const page: React.FC = () => {
                     valueBetween
                     onChange={handleChange}
                     numbers
+                    types="dot"
                 />
             </div>
         </div>

@@ -10,7 +10,7 @@ const profileIcon = () => {
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >
-        <g clip-path="url(#clip0_9163_122174)">
+        <g clipPath="url(#clip0_9163_122174)">
           <rect
             width="20"
             height="20"
