@@ -52,6 +52,7 @@ const page: React.FC = () => {
                     minRange={10}
                     maxRange={30}
                     getValue={() => ""}
+                    gap={10}
                 />
             </div>
         </div>
@@ -66,7 +67,7 @@ const page: React.FC = () => {
                     maxRange={30}
                     getValue={() => ""}
                     Numbers
-                />
+                    gap={10} />
             </div>
         </div>
     </BaseLayout>;

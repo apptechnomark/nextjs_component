@@ -131,11 +131,12 @@ const TabComponent: React.FC = () => {
                 <h5 className="m-5 pt-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
                     Tab Bar
                 </h5>
+
                 <div className="p-2 m-3 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
                     <h2 className="m-7 text-xl tracking-tight text-gray-900 dark:text-white">
                         Default Tabs
                     </h2>
-                    <div className="mx-7">
+                    <div className="mx-7 overflow-x-auto">
                         <TabBar tabs={defaultTabs} getValue={(e: any) => {
                             setValue(e);
                         }} />
@@ -145,7 +146,7 @@ const TabComponent: React.FC = () => {
                     <h2 className="m-7 text-xl tracking-tight text-gray-900 dark:text-white">
                         Full Width Tabs
                     </h2>
-                    <div className="mx-7">
+                    <div className="mx-7 overflow-x-auto">
                         <TabBar tabs={fullTabs} getValue={(e: any) => {
                             setFValue(e);
                         }} />
@@ -156,7 +157,7 @@ const TabComponent: React.FC = () => {
                     <h2 className="m-7 text-xl tracking-tight text-gray-900 dark:text-white">
                         Centered Tabs
                     </h2>
-                    <div className="mx-7">
+                    <div className="mx-7 overflow-x-auto">
                         <TabBar tabs={centeredTabs} getValue={(e: any) => {
                             setCValue(e);
                         }} />
@@ -166,7 +167,7 @@ const TabComponent: React.FC = () => {
                     <h2 className="m-7 text-xl tracking-tight text-gray-900 dark:text-white">
                         Icon Tabs
                     </h2>
-                    <div className="mx-7">
+                    <div className="mx-7 overflow-x-auto">
                         <TabBar tabs={iconTab} getValue={(e: any) => {
                             setIValue(e);
                         }} />
@@ -177,13 +178,13 @@ const TabComponent: React.FC = () => {
                     <h2 className="m-7 text-xl tracking-tight text-gray-900 dark:text-white">
                         Dropdown Tabs
                     </h2>
-                    <div className="mx-7">
+                    <div className="mx-7 max-[320px]:overflow-x-auto">
                         <TabBar tabs={dropdownTab} getValue={(e: any) => {
                             setDValue(e);
                         }} />
-
                     </div>
                 </div>
+
             </BaseLayout>
 
         </>

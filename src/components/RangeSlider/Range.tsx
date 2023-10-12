@@ -67,10 +67,7 @@ const Range: React.FC<RangeSelectorProps> = ({
   const renderDotsOrLines = () => {
     if (variant === "dot" && gap) {
       const numberOfDots = (max - min) / gap;
-      const dots = Array.from(
-        { length: numberOfDots + 1 },
-        (_, index) => index * gap
-      );
+      const dots = Array.from({ length: numberOfDots + 1 }, (_, index) => index * gap);
       return (
         <div className="relative w-full">
           {dots.map((dot, index) => (
@@ -120,8 +117,10 @@ const Range: React.FC<RangeSelectorProps> = ({
 
 
   return (
-    <div className={`${styles.custom_range}  flex flex-col items-center`}>
-      {renderDotsOrLines()}
+    <div className={`w-full ${styles.custom_range} flex relative justify-center items-center`}>
+      <span className="w-[98%] absolute top-[1px]">
+        {renderDotsOrLines()}
+      </span>
       <input
         type="range"
         min={min}
@@ -129,7 +128,8 @@ const Range: React.FC<RangeSelectorProps> = ({
         value={selectedValue}
         onChange={handleChange}
         step={step}
-        style={{ ...fillStyle, ...sliderStyle }}
+        style={{ ...fillStyle }}
+        className="w-full"
       />
     </div>
   );

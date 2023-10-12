@@ -58,7 +58,7 @@ const Profile: React.FC<ProfileProps> = ({ type, variant, name, getValue }) => {
           htmlFor={inputId}
           className={`absolute ${
             variant === "medium" ? "left-[33px] top-[33px]" : "left-[46px] top-[46px]"
-          }  bg-pureWhite p-[3px] rounded-sm cursor-pointer z-10`}
+          }  bg-[#EEF4F8] p-[3px] rounded-sm cursor-pointer z-10`}
         >
           <svg
             width={variant === "medium" ? "14" : "16"}

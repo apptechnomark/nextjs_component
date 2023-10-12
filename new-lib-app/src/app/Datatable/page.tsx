@@ -449,16 +449,15 @@ const page = () => {
     return (
         <>
             <BaseLayout>
-                <h5 className="m-5 pt-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                <h5 className="m-5 pt-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white overflow-x-auto">
                     Data Table
                 </h5>
-
 
                 <div className="p-2 m-3 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
                     <h2 className="m-7 text-xl tracking-tight text-gray-900 dark:text-white">
                         Expandable Datatable
                     </h2>
-                    <div className="h-auto ml-7">
+                    <div className="h-auto ml-7 overflow-x-auto">
                         <DataTable
                             columns={nestedColumns}
                             data={nestedDataList.length > 0 ? classListData2 : []}
@@ -470,7 +469,7 @@ const page = () => {
                     <h2 className="m-7 text-xl tracking-tight text-gray-900 dark:text-white">
                         Basic
                     </h2>
-                    <div className="h-auto ml-7">
+                    <div className="h-auto ml-7 overflow-x-auto">
                         <DataTable
                             columns={columns}
                             data={dataList.length > 0 ? classListData : []}
@@ -482,7 +481,7 @@ const page = () => {
                     <h2 className="m-7 text-xl tracking-tight text-gray-900 dark:text-white">
                         Basic (Sticky Header)
                     </h2>
-                    <div className="h-auto ml-7">
+                    <div className="h-auto ml-7 overflow-x-auto">
                         <DataTable
                             columns={columns}
                             data={dataList.length > 0 ? classListData : []}

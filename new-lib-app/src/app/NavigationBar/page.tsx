@@ -14,7 +14,7 @@ const navigationBar: React.FC = () => {
         { id: "tab4", label: "TAB 4" },
     ];
     const tabs = [
-        { id: "class", label: "CLASS PLACEHOLDER TEXT" },
+        { id: "class", label: "CLASS" },
         { id: "location", label: "LOCATION" },
         { id: "department", label: "DEPARTMENT" },
         { id: "project", label: "PROJECT" },
@@ -33,25 +33,29 @@ const navigationBar: React.FC = () => {
                 <h2 className="m-5 text-xl  tracking-tight text-gray-900 dark:text-white">
                     Default Navigation
                 </h2>
-                <NavigationBar
-                    tabs={defaultTabs}
-                    visibleTab={4}
-                    getValue={(e: any) => {
-                        setValue(e);
-                    }}
-                />
+                <div className="overflow-x-auto">
+                    <NavigationBar
+                        tabs={defaultTabs}
+                        visibleTab={4}
+                        getValue={(e: any) => {
+                            setValue(e);
+                        }}
+                    />
+                </div>
             </div>
             <div className="p-4 m-3 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
                 <h2 className="m-5 text-xl  tracking-tight text-gray-900 dark:text-white">
                     Navigation With More Option
                 </h2>
-                <NavigationBar
-                    tabs={tabs}
-                    visibleTab={4}
-                    getValue={(e: any) => {
-                        setValue(e);
-                    }}
-                />
+                <div className="overflow-x-auto">
+                    <NavigationBar
+                        tabs={tabs}
+                        visibleTab={4}
+                        getValue={(e: any) => {
+                            setValue(e);
+                        }}
+                    />
+                </div>
             </div>
 
         </BaseLayout>

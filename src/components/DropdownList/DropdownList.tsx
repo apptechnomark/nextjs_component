@@ -101,7 +101,7 @@ const DropdownList: React.FC<SelectProps> = ({
         }
     };
 
-    const handleEditClick = (e, index) => {
+    const handleEditClick = (e: any, index: number) => {
         e.stopPropagation();
         setEditList(true);
         setActiveIndex(index);
@@ -120,7 +120,8 @@ const DropdownList: React.FC<SelectProps> = ({
         }
     }
 
-    const handleDeleteClick = (index: number) => {
+    const handleDeleteClick = (e: any, index: number) => {
+        e.stopPropagation();
         const deletedValue = options[index].value;
         setOptions(prevOptions => prevOptions.filter((_, i) => i !== index));
         const optionExists = options.some(option => option.value === deletedValue);
@@ -278,13 +279,13 @@ const DropdownList: React.FC<SelectProps> = ({
                                     }
                                 </div>
                                 {editList && index === activeIndex ?
-                                    <div className={`${index === activeIndex?"flex": "hidden"} gap-2.5  group-hover:flex  group-hover:translate-all group-hover:duration-700  group-hover:ease-out `}>
+                                    <div className={`${index === activeIndex ? "flex" : "hidden"} gap-2.5  group-hover:flex  group-hover:translate-all group-hover:duration-700  group-hover:ease-out `}>
                                         <div className='py-1' onClick={(e) => { handleSaveEdit(e) }}><RightIcon /></div>
                                         <div className='py-1' onClick={() => setEditList(false)}><CrossIcon /></div>
                                     </div>
                                     : <div className='hidden gap-2.5  group-hover:flex  group-hover:translate-all group-hover:duration-700  group-hover:ease-out '>
                                         <div className='py-1' onClick={(e) => { handleEditClick(e, index) }}><EditIcon /></div>
-                                        <div className='py-1' onClick={() => { handleDeleteClick(index) }}><DeleteIcon /></div>
+                                        <div className='py-1' onClick={(e) => { handleDeleteClick(e,index) }}><DeleteIcon /></div>
                                     </div>
                                 }
                             </li>

@@ -21,6 +21,8 @@
 // import { ColorPicker } from "./components/Colorpicker/Colorpicker";
 // import { CountrySelect } from "./components/Coutry_select_dropdown/CountrySelect";
 // import { CompanyList } from "./components/CompanyList/CompanyList";
+// import { CommentSentBox } from "./components/CommentSentBox/CommentSentBox";
+// import { CommentBox } from "./components/CommentSentBox/CommentBox";
 // import DataTable from "./components/Datatable/Datatable";
 // import { Datepicker } from "./components/Datepicker/datepicker";
 // import { DatepickerYear } from "./components/Datepicker/datepickerYear";
@@ -41,18 +43,18 @@
 // import { PropertyBar } from "./components/PropertyBar/PropertyBar";
 // import ProgressStep from "./components/Progressstep/Progressstep";
 // import Radio from "./components/Radio/Radio";
-// import { Range } from "./components/RangeSlider/Range";
-// import { MinMaxRange } from "./components/RangeSlider/MinMaxRange";
+import { Range } from "./components/RangeSlider/Range";
+import { MinMaxRange } from "./components/RangeSlider/MinMaxRange";
 // import { Rating } from "./components/Rating/Rating";
 // import { Scrollspy } from "./components/Scrollspy/Scrollspy";
 // import { Select } from "./components/Selectdropdown/Select";
-import { MultiSelect } from "./components/Selectdropdown/MultiSelect";
+// import { MultiSelect } from "./components/Selectdropdown/MultiSelect";
 // import { MultiSelectChip } from "./components/Selectdropdown/MultiSelectChip";
 // import { SearchBar } from "./components/Search/Search";
 // import { SpeedDial } from "./components/Speeddial/Speeddial";
 // import { Spinner } from "./components/Spinner/Spinner";
 // import { Switch } from "./components/Switch/Switch";
-import { TabBar } from "./components/Tab/Tab";
+// import { TabBar } from "./components/Tab/Tab";
 // import Table from "./components/Table/Table";
 // import { Tel } from "./components/Tel/Tel";
 // import { Textarea } from "./components/Textarea/Textarea";
@@ -64,8 +66,8 @@ import { TabBar } from "./components/Tab/Tab";
 // import { Tooltip } from "./components/Tooltip/Tooltip";
 // import Typography from "./components/Typography/Typography";
 import "./style.css"
+export { Range, MinMaxRange };
 
-export { TabBar, MultiSelect };
 // export {
 //     Accordion,
 //     Alert,
@@ -90,6 +92,8 @@ export { TabBar, MultiSelect };
 //     ColorPicker,
 //     CountrySelect,
 //     CompanyList,
+//     CommentSentBox,
+//     CommentBox,
 //     Datepicker,
 //     DatepickerYear,
 //     DataTable,

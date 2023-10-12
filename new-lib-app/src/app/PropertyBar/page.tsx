@@ -89,24 +89,33 @@ const page: React.FC = () => {
         <div className="p-4 m-3 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
 
             <h2 className="m-5 text-xl  tracking-tight text-gray-900 dark:text-white">Basic</h2>
-            <PropertyBar
-                tabs={tabs}
-                visibleTab={2}
-                getValue={(e) => { setValue(e) }}
-                icons={iconsInfo}
-            />
+            <div className="">
+
+                <PropertyBar
+                    tabs={tabs}
+                    visibleTab={2}
+                    getValue={(e) => { setValue(e) }}
+                    icons={iconsInfo}
+                />
+            </div>
         </div>
 
         <div className="p-4 m-3 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
 
             <h2 className="m-5 text-xl  tracking-tight text-gray-900 dark:text-white">Row select</h2>
-            <PropertyBar variant="selectedRows" count={10} getValue={values} tableBarIcons={iconsArray} message="shift+click to select, esc to deselect all" />
+            <div className="overflow-x-auto">
+
+                <PropertyBar variant="selectedRows" count={10} getValue={values} tableBarIcons={iconsArray} message="shift+click to select, esc to deselect all" />
+            </div>
         </div>
 
         <div className="p-4 m-3 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
 
             <h2 className="m-5 text-xl  tracking-tight text-gray-900 dark:text-white">Row select(Large)</h2>
-            <PropertyBar variant="selectedRows" count={5} getValue={values} tableBarIcons={iconsArray} message="shift+click to select, esc to deselect all" Size="large" />
+            <div className="overflow-x-auto">
+
+                <PropertyBar variant="selectedRows" count={5} getValue={values} tableBarIcons={iconsArray} message="shift+click to select, esc to deselect all" Size="large" />
+            </div>
         </div>
     </BaseLayout>;
 };

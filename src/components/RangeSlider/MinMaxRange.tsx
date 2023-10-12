@@ -2,13 +2,13 @@ import React, { useState, ChangeEvent, MouseEvent } from "react";
 import styles from "./MinMaxRange.module.scss";
 
 interface MinMaxRangeProps {
-  variant: string;
+  variant?: string;
   minValue: number;
   maxValue: number;
   minRange?: number;
   maxRange?: number;
   Numbers?: boolean;
-  gap?: number;
+  gap: number;
   noRangeBetween?: boolean;
   getValue: (arg1: number, arg2: number) => void;
 }
@@ -93,20 +93,30 @@ const MinMaxRange: React.FC<MinMaxRangeProps> = ({
     }
   };
 
-  getValue(minValueRange, maxValueRange);
+  getValue(Math.round(minValueRange), Math.round(maxValueRange));
 
   const minProgressStyle = {
-    left: `${((minValueRange - minValue) / (maxValue - minValue)) * 100}%`,
-    right: `${100 - ((maxValueRange - minValue) / (maxValue - minValue)) * 100
-      }%`,
+    left: `${Math.max(
+      0,
+      ((minValueRange - minValue) / (maxValue - minValue)) * 100
+    )}%`,
+    right: `${Math.max(
+      0,
+      100 - ((maxValueRange - minValue) / (maxValue - minValue)) * 100
+    )}%`,
   };
-
+  
   const maxProgressStyle = {
-    left: `${((maxValueRange - minValue) / (maxValue - minValue)) * 100}%`,
-    right: `${100 - ((minValueRange - minValue) / (maxValue - minValue)) * 100
-      }%`,
+    left: `${Math.max(
+      0,
+      ((maxValueRange - minValue) / (maxValue - minValue)) * 100
+    )}%`,
+    right: `${Math.max(
+      0,
+      100 - ((minValueRange - minValue) / (maxValue - minValue)) * 100
+    )}%`,
   };
-
+  
   const numbers = Math.ceil((maxValue - minValue) / gap);
 
   let totalSteps = Array.apply(null, new Array(gap + 1)).map(function (_el, i) {
@@ -117,20 +127,22 @@ const MinMaxRange: React.FC<MinMaxRangeProps> = ({
     <div className={`relative ${styles.container}`}>
       <div className={`${styles.range_slider}`} onClick={handleLineClick}>
         <div
-          className={`  flex items-center justify-between w-full absolute ${variant === "dot" && "top-[1.5px]"
-            }`}
+          className={`  flex items-center justify-between w-full absolute ${
+            variant === "dot" && "top-[1.5px]"
+          }`}
         >
           {totalSteps.map((i, index) => (
             <div
-              className={` flex  justify-center items-center bg-red-400 ${variant === "line" ? `${styles.line}` : `${styles.dot}`
-                }`}
+              className={` flex  justify-center items-center bg-red-400 ${
+                variant === "line" ? `${styles.line}` : `${styles.dot}`
+              }`}
               key={index}
             >
-              {Numbers && (
-                <div className="absolute -ml-1.5 top-2 text-[#6E6D7A]">
-                  {minValue + index * numbers}
-                </div>
-              )}
+             {Numbers && (
+              <div className="absolute -ml-1.5 top-2 text-[#6E6D7A]">
+                {minValue + index * numbers}
+              </div>
+            )}
             </div>
           ))}
         </div>

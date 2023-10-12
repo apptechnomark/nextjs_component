@@ -43,7 +43,7 @@ import {
   MdPassword,
   MdOutlineStarRate,
 } from "react-icons/md";
-import { LiaIdBadgeSolid } from "react-icons/lia";
+import { LiaIdBadgeSolid, LiaCommentDotsSolid } from "react-icons/lia";
 import Link from "next/link";
 import { useState } from "react";
 import { usePathname } from "next/navigation";
@@ -114,6 +114,11 @@ const sidebarItems = [
     name: "Color Picker",
     href: "/Colorpicker",
     icon: BsPalette,
+  },
+  {
+    name: "Comment Sent Box",
+    href: "/CommentSentBox",
+    icon: LiaCommentDotsSolid,
   },
   {
     name: "Company List",
