@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import BaseLayout from "../../components/BaseLayout";
-import { CommentSentBox, CommentBox } from "next-ts-lib";
+import { CommentSentBox } from "next-ts-lib";
 import "next-ts-lib/dist/index.css"
 
 const page: React.FC = () => {
@@ -27,34 +27,26 @@ const page: React.FC = () => {
         { label: "Aiden Martin", value: "Aiden Martin" },
         { label: "Zoe Thompson", value: "Zoe Thompson", imageUrl: secondImage },
     ];
-    const options2 = [
-        { label: "Caden Clark", value: "Caden Clark", imageUrl: firstImage },
-        { label: "Chloe Lewis", value: "Chloe Lewis", imageUrl: secondImage },
-        { label: "Mason Hall", value: "Mason Hall" },
-        { label: "Emily Turner", value: "Emily Turner" },
-        { label: "Liam Green", value: "Liam Green" },
-        { label: "Charlotte Harris", value: "Charlotte Harris", imageUrl: firstImage },
-        { label: "Elijah King", value: "Elijah King" },
-        { label: "Amelia White", value: "Amelia White", imageUrl: secondImage },
-        { label: "Oliver Davis", value: "Oliver Davis" },
-        { label: "Sophia Turner", value: "Sophia Turner", imageUrl: firstImage },
-        { label: "Ava Jackson", value: "Ava Jackson" },
-        { label: "Noah Harris", value: "Noah Harris", imageUrl: secondImage },
-        { label: "Isabella Lewis", value: "Isabella Lewis", imageUrl: firstImage },
-        { label: "Liam Martin", value: "Liam Martin" },
-        { label: "Olivia Thompson", value: "Olivia Thompson" },
-    ];
+    const handleGetValue = (value: any) => {
+    }
 
     return <BaseLayout>
         <h5 className="m-5 pt-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Comment Sent Box</h5>
 
         <div className="px-3 pb-12 mx-3 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
             <h2 className="m-5 text-xl  tracking-tight text-gray-900 dark:text-white">Basic</h2>
-            <CommentBox id="comment" options={options} />
+            <CommentSentBox options={options} getValue={(e) => { handleGetValue(e) }}
+                getInputValue={(e) => { handleGetValue(e) }}
+                getCompanyListValue={(e) => { handleGetValue(e) }}
+            />
         </div>
         <div className="mt-5 px-3 pb-12 mx-3 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
             <h2 className="m-5 text-xl  tracking-tight text-gray-900 dark:text-white">Basic With Selection</h2>
-            <CommentSentBox id="comment" options={options} />
+            <CommentSentBox options={options} getValue={(e) => { handleGetValue(e) }}
+                getInputValue={(e) => { handleGetValue(e) }}
+                getCompanyListValue={(e) => { handleGetValue(e) }}
+                variant="commentSentBox"
+            />
         </div>
     </BaseLayout>;
 };
