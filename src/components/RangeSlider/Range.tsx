@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Tooltip } from "../Tooltip/Tooltip";
+import { debounce } from "lodash";
 import "../Tooltip/Tooltip.module.scss";
 import styles from './Range.module.scss'
 
@@ -26,12 +27,13 @@ const Range: React.FC<RangeSelectorProps> = ({
   variant,
   types
 }) => {
-  const rangeRef = useRef<HTMLInputElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
   const [selectedValue, setSelectedValue] = useState(value || min);
   const [step, setStep] = useState(1);
   const [values, setValues] = useState<number[]>([]);
   const [thumbValue, setThumbValue] = useState(value || min);
   const [showTooltip, setShowTooltip] = useState<boolean>(false);
+  const [valueTwoPosition, setValueTwoPosition] = useState(0);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = parseInt(event.target.value);
@@ -39,26 +41,6 @@ const Range: React.FC<RangeSelectorProps> = ({
     onChange(newValue);
     setShowTooltip(true);
   };
-
-  const handleMouseEnter = () => {
-    if (rangeRef.current) {
-      const thumb = rangeRef.current.querySelector('.thumb') as HTMLElement;
-      const thumbRect = thumb.getBoundingClientRect();
-      const tooltipContent = selectedValue;
-
-      const tooltip = document.createElement('div');
-      tooltip.className = 'tooltip';
-      tooltip.textContent = tooltipContent.toString();
-
-      tooltip.style.top = `${thumbRect.top - 30}px`; // Adjust the top position as needed
-      tooltip.style.left = `${thumbRect.left + thumbRect.width / 2}px`; // Center the tooltip horizontally
-
-      document.body.appendChild(tooltip);
-
-      setShowTooltip(true);
-    }
-  };
-
 
   useEffect(() => {
     if (gap && !valueBetween) {
@@ -94,15 +76,6 @@ const Range: React.FC<RangeSelectorProps> = ({
 
       return (
         <div className="relative  mt-[-1.5px]">
-          {/* {tooltipNumber.map((no, index) => (
-            <div
-              key={index}
-              className={`absolute w-[2px] h-[2px] bg-primary  flex  items-center justify-center rounded-full z-0`}
-              style={{ left: `${(no / (max - min)) * 100}%` }}
-            >
-              <Tooltip position="top" content={no} className=""></Tooltip>
-            </div>
-          ))} */}
           {types === "dot" && (<>
             {dots.map((dot, index) => (
               <div
@@ -149,30 +122,49 @@ const Range: React.FC<RangeSelectorProps> = ({
     return null;
   };
 
-  return (
+  useEffect(() => {
+    setValueTwoPosition(
+      ((selectedValue) / (max - min)) * 100
+    );
+  }, [selectedValue, min, max]);
 
-    <div className={`w-full ${styles.custom_range} flex relative justify-center items-center`}>
+  const handleMouseEnter = () => {
+    setShowTooltip(true); // Show the tooltip on mouse enter
+  };
+
+  const handleMouseLeave = () => {
+    setShowTooltip(false); // Hide the tooltip on mouse leave
+  };
+
+  return (
+    <div className={`w-full group ${styles.custom_range} flex relative justify-center items-center`}>
       <div>
         <span className="w-full absolute pl-[7.5px] pr-[12px] ">
           {renderDotsOrLines()}
         </span>
       </div>
-      {/* <div className="range__thumb" id="range-thumb">
-        <div className="range__value">
-          <span className="range__value_number" id="range-number">{selectedValue}</span>
+
+      <div className="w-full relative  ">
+
+        <div className="bg-successColor w-[10px] h-[10px] group-hover:visible rounded-full " style={{ position: 'absolute', left: `calc(${valueTwoPosition}%)`, bottom: "20px" }}>
+          <Tooltip position="top" content={selectedValue}></Tooltip>
         </div>
-      </div> */}
-      <input
-        type="range"
-        min={min}
-        max={max}
-        value={selectedValue}
-        onChange={handleChange}
-        step={step}
-        onMouseEnter={handleMouseEnter}
-        style={{ ...fillStyle }}
-        className={`w-full cursor-pointer`}
-      />
+
+        <input
+          ref={inputRef}
+          type="range"
+          id="range_input_thumb"
+          min={min}
+          max={max}
+          value={selectedValue}
+          onChange={handleChange}
+          step={step}
+          style={{ ...fillStyle }}
+          className={`w-full cursor-pointer z-[1]`}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+        />
+      </div>
     </div>
   );
 };
