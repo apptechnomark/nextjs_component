@@ -49,12 +49,19 @@ const Scrollspy = ({
   }, [targetIds]);
 
   const handleClick = (index: number, event: any) => {
-    // event.stopPropagation();
+    event.stopPropagation();
     setActiveIndex(index)
+
+
     // Add a class for smooth scrolling when the modal is clicked
-    if (event.currentTarget) {
-     
-      event.currentTarget.classList.add(styles["smooth-scroll"]);
+    const targetId = targetIds[index];
+    const targetElement = document.getElementById(targetId);
+
+
+
+    if (targetElement) {
+      targetElement.classList.add(styles["smooth-scroll"])
+      targetElement.scrollIntoView({ behavior: "smooth" });
     }
   };
 
@@ -64,23 +71,24 @@ const Scrollspy = ({
         }`}
     >
       {titles.map((title, index: any) => (
-        
+
         <a
           href={`#${targetIds[index]}`}
           key={index + 1}
-          className={`${type && large ? "px-7 py-3.5 text-xl" : "px-7 py-2.5 text-base"} font-proxima select-none cursor-pointer hover:${type ? "border-l-4" : "border-b-2"
-            } ${type ? "border-l-4 " : "border-b-2"
-            } hover:border-primary hover:bg-[#E1F7F3] w-full flex justify-center items-center border-lightSilver text-center font-medium 
+          className={`${type && large ? "px-7 py-3.5 text-xl" : "px-7 py-2.5 text-base"} font-proxima select-none cursor-pointer 
+          hover:${type ? "border-l-4" : "border-b-2"}
+                ${type ? "border-l-4 " : "border-b-2  "}
+                 hover:border-primary hover:bg-[#E1F7F3] w-full flex justify-center items-center text-center font-medium 
             ${index === activeIndex
               ? `${type ? "border-l-4 " : "border-b-2 text-primary "} border-primary`
-              : "border-pureWhite"
+              : `${type ? "border-pureWhite" : "border-lightSilver"}`
             }`}
           onClick={(e) => { handleClick(index, e) }}
         >
           {type && icons[index] && <span className="mr-2.5">{icons[index]}</span>}
           {title}
         </a>
-        
+
       ))}
     </div>
   );

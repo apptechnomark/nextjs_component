@@ -20,25 +20,21 @@ const ScrollspyPopup: React.FC<ScrollspyPopupProps> = ({
 }) => {
   if (!isOpen) return null;
 
-  const modalStyle = {
-    width: width || "auto",
-    height: height || "auto",
-  };
-
   const handleModalClick = (event: React.MouseEvent<HTMLDivElement>) => {
     event.stopPropagation();
-    
+
     // Add a class for smooth scrolling when the modal is clicked
     if (event.currentTarget) {
-      
+      console.log(event.currentTarget);
       event.currentTarget.classList.add(styles["smooth-scroll"]);
+      event.currentTarget.scrollIntoView({ behavior: "smooth" });
     }
   };
 
   return (
     <>
       <div
-        className={`fixed inset-0 bg-black font-proxima bg-opacity-20 backdrop-blur-[1px] z-50`}
+        className={`${styles.customScrollbar} fixed inset-0 bg-black font-proxima bg-opacity-20 backdrop-blur-[1px] z-50`}
         onClick={onClose}
       >
         <div

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Tooltip } from "../Tooltip/Tooltip";
 import "../Tooltip/Tooltip.module.scss";
 import styles from './Range.module.scss'
@@ -26,16 +26,39 @@ const Range: React.FC<RangeSelectorProps> = ({
   variant,
   types
 }) => {
+  const rangeRef = useRef<HTMLInputElement>(null);
   const [selectedValue, setSelectedValue] = useState(value || min);
   const [step, setStep] = useState(1);
   const [values, setValues] = useState<number[]>([]);
   const [thumbValue, setThumbValue] = useState(value || min);
+  const [showTooltip, setShowTooltip] = useState<boolean>(false);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = parseInt(event.target.value);
     setSelectedValue(newValue);
     onChange(newValue);
+    setShowTooltip(true);
   };
+
+  const handleMouseEnter = () => {
+    if (rangeRef.current) {
+      const thumb = rangeRef.current.querySelector('.thumb') as HTMLElement;
+      const thumbRect = thumb.getBoundingClientRect();
+      const tooltipContent = selectedValue;
+
+      const tooltip = document.createElement('div');
+      tooltip.className = 'tooltip';
+      tooltip.textContent = tooltipContent.toString();
+
+      tooltip.style.top = `${thumbRect.top - 30}px`; // Adjust the top position as needed
+      tooltip.style.left = `${thumbRect.left + thumbRect.width / 2}px`; // Center the tooltip horizontally
+
+      document.body.appendChild(tooltip);
+
+      setShowTooltip(true);
+    }
+  };
+
 
   useEffect(() => {
     if (gap && !valueBetween) {
@@ -71,15 +94,15 @@ const Range: React.FC<RangeSelectorProps> = ({
 
       return (
         <div className="relative  mt-[-1.5px]">
-          {tooltipNumber.map((no, index) => (
+          {/* {tooltipNumber.map((no, index) => (
             <div
               key={index}
-              className={`absolute  flex  items-center !h-[1px] justify-center rounded-full z-0`}
+              className={`absolute w-[2px] h-[2px] bg-primary  flex  items-center justify-center rounded-full z-0`}
               style={{ left: `${(no / (max - min)) * 100}%` }}
             >
-              <Tooltip position="top" content={no} className="px-[5px] !mb-[13px] !w-[12px] !absolute"></Tooltip>
+              <Tooltip position="top" content={no} className=""></Tooltip>
             </div>
-          ))}
+          ))} */}
           {types === "dot" && (<>
             {dots.map((dot, index) => (
               <div
@@ -134,6 +157,11 @@ const Range: React.FC<RangeSelectorProps> = ({
           {renderDotsOrLines()}
         </span>
       </div>
+      {/* <div className="range__thumb" id="range-thumb">
+        <div className="range__value">
+          <span className="range__value_number" id="range-number">{selectedValue}</span>
+        </div>
+      </div> */}
       <input
         type="range"
         min={min}
@@ -141,6 +169,7 @@ const Range: React.FC<RangeSelectorProps> = ({
         value={selectedValue}
         onChange={handleChange}
         step={step}
+        onMouseEnter={handleMouseEnter}
         style={{ ...fillStyle }}
         className={`w-full cursor-pointer`}
       />
