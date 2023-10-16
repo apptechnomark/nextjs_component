@@ -23,7 +23,6 @@ interface CompanyListProps {
     showAvatar?: number;
     disabled?: boolean;
     checkbox?: boolean;
-    supportingText?: string;
     variant?: string;
 }
 const CompanyList: React.FC<CompanyListProps> = ({
@@ -39,7 +38,6 @@ const CompanyList: React.FC<CompanyListProps> = ({
     getError,
     validate,
     placeholder,
-    supportingText,
     noborder,
     showAvatar = 3,
     disabled,

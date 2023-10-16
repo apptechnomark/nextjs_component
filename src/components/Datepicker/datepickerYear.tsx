@@ -4,6 +4,7 @@ import style from "./Datepicker.module.scss";
 
 import ChevronLeftIcon from "./icons/ChevronLeft.js";
 import CalendarIcon from "./icons/CalendarIcon.js";
+import Typography from "../Typography/Typography";
 
 interface DatepickerDate {
     date: Date;
@@ -14,9 +15,33 @@ interface DatepickerDate {
     value: string;
 }
 
-const DatepickerYear = (props: any): JSX.Element => {
+interface DatepickerProps {
+    startYear: number;
+    endYear: number;
+    value: string;
+    id: string;
+    label?: string,
+    className?: string,
+    hasError?: boolean,
+    errorMessage?: string;
+    getValue: (value: any) => void;
+    getError: (arg1: boolean) => void;
+    validate?: boolean;
+    disabled?: boolean;
+}
+const DatepickerYear: React.FC<DatepickerProps> = ({
+    value,
+    startYear,
+    endYear,
+    label,
+    validate,
+    disabled,
+    hasError,
+    errorMessage = "This is required field!",
+    getValue,
+    getError,
+    ...props }) => {
     const currentDate: Date = new Date();
-    const { value, startYear, endYear } = props;
     const inputRef = useRef(null);
     const valueDate = new Date(value);
 
@@ -27,6 +52,9 @@ const DatepickerYear = (props: any): JSX.Element => {
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [toggleOpen, setToggleOpen] = useState<boolean>(false);
     const [animate, setAnimate] = useState<String>("");
+    const [err, setErr] = useState<boolean>(false);
+    const [focus, setFocus] = useState<boolean>(false);
+    const [errorMsg, setErrorMsg] = useState<string>("");
 
     const currentMonth = today.getMonth();
     const [selectedMonth, setSelectedMonth] = useState<number>(value ? valueDate.getMonth() : currentMonth);
@@ -60,6 +88,17 @@ const DatepickerYear = (props: any): JSX.Element => {
         const updatedDate = `${formattedMonth}/${formattedYear}`;
         setFullDate(updatedDate);
         setToggleOpen(false);
+        if (validate) {
+            if (!newDate) {
+                setErr(true);
+                setErrorMsg("Please select a date.");
+                getError(false);
+            } else {
+                setErr(false);
+                setErrorMsg("");
+                getError(true);
+            }
+        }
     };
 
     const toggleYearList = () => {
@@ -97,7 +136,7 @@ const DatepickerYear = (props: any): JSX.Element => {
     };
 
     useEffect(() => {
-        props.getValue(fullDate);
+        getValue(fullDate);
     }, [fullDate]);
 
     useEffect(() => {
@@ -137,22 +176,75 @@ const DatepickerYear = (props: any): JSX.Element => {
         }
     };
 
+    useEffect(() => {
+        if (validate) {
+            setFocus(hasError);
+            setErrorMsg(errorMessage);
+            setErr(hasError);
+            hasError && getError(false);
+        } else {
+            getError(true);
+            setFocus(hasError);
+        }
+    }, [validate, errorMessage, hasError]);
+
+
+    const handleInputBlur = () => {
+        if (fullDate === "") {
+            setErr(true);
+            setErrorMsg("Please select a date.");
+            getError(true);
+        }
+    };
+
 
     return (
         <>
-            <div className={`${"relative flex before:absolute before:bottom-0 before:left-0 before:block before:w-0 before:h-px before:bg-primary before:transition-width before:duration-[800ms] before:ease-in hover:before:w-full"
-                }`} ref={inputRef}>
+            {label && (
+                <span className="flex">
+                    <Typography
+                        type="h5"
+                        className={`${err
+                            ? "text-defaultRed"
+                            : focus
+                                ? "text-primary"
+                                : "text-slatyGrey"
+                            }`}
+                    >
+                        {label}
+                    </Typography>
+                    {validate && (
+                        <span
+                            className={`${disabled ? "text-slatyGrey" : "text-defaultRed"}`}
+                        >
+                            &nbsp;*
+                        </span>
+                    )}
+                </span>
+            )}
+            <div className={`relative flex`} ref={inputRef}>
                 <input
                     type={toggleOpen ? "month" : "text"}
-                    className={`placeholder-pureBlack placeholder-opacity-100 peer block min-h-[auto] pl-1 w-full border-b bg-transparent px-3 py-[0.32rem] border-lightSilver outline-none`}
-                    onClick={calendarShow}
                     placeholder="mm/yyyy"
                     readOnly={!toggleOpen && true}
+                    className={`!p-0 block w-full border-b bg-transparent px-3 py-[0.32rem] ${disabled
+                        ? "border-lightSilver"
+                        : toggleOpen
+                            ? "border-primary"
+                            : fullDate
+                                ? "border-primary"
+                                : err
+                                    ? "border-defaultRed "
+                                    : "border-lightSilver hover:border-primary  transition-colors duration-300 ease-in-out"
+                        } ${err ? "text-defaultRed placeholder:text-defaultRed" : "text-darkCharcoal placeholder:text-darkCharcoal"
+                        } outline-none`}
+                    onClick={calendarShow}
                     defaultValue={fullDate.toString()}
-                    onChange={(e) => updateFromInput(e.target.value)}
+                    onChange={(e: any) => updateFromInput(e.target.value)}
+                    onBlur={handleInputBlur}
                 />
-                <span className="absolute right-2 top-2.5 cursor-pointer" onClick={calendarShow}>
-                    <CalendarIcon />
+                <span className={`absolute right-1 bottom-1 cursor-pointer`} onClick={calendarShow}>
+                    <CalendarIcon bgColor={err ? "#DC3545" : "#333333"} />
                 </span>
             </div>
             {toggleOpen && (
@@ -264,6 +356,11 @@ const DatepickerYear = (props: any): JSX.Element => {
                         </div>
                     </div>
                 </div>
+            )}
+            {err && (
+                <span className="text-defaultRed text-[12px] sm:text-[14px]">
+                    {errorMsg}
+                </span>
             )}
         </>
     );

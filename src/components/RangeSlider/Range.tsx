@@ -63,63 +63,10 @@ const Range: React.FC<RangeSelectorProps> = ({
   }, [gap, max, min, numbers]);
 
   const fillPercentage = ((selectedValue - min) / (max - min)) * 100;
+  const leftAlign = (((selectedValue - min) / (max - min)) * ((905 - 10) - 10)) + 3;
 
   const fillStyle = {
     background: `linear-gradient(to right, #0592C6 ${fillPercentage}%, #D8D8D8 0%)`,
-  };
-
-  const renderDotsOrLines = () => {
-    if (variant === "dot" && gap) {
-      const numberOfDots = (max - min) / gap;
-      const dots = Array.from({ length: numberOfDots + 1 }, (_, index) => index * gap);
-      const tooltipNumber = Array.from({ length: max - min + 1 }, (_, index) => index + min);
-
-      return (
-        <div className="relative  mt-[-1.5px]">
-          {types === "dot" && (<>
-            {dots.map((dot, index) => (
-              <div
-                key={index}
-                className="absolute h-[3px] w-[3px] flex bg-[#6E6D7A] items-start justify-center rounded-full z-0"
-                style={{ left: `${(dot / (max - min)) * 100}%` }}
-              >
-                {numbers && (
-                  <div className="absolute top-2  text-[#6E6D7A] select-none">
-                    {values[index]}
-                  </div>
-                )}
-              </div>
-            ))}</>)}
-        </div>
-      );
-    } else if (variant === "line" && gap) {
-      const numberOfLines = (max - min) / gap;
-      const lines = Array.from(
-        { length: numberOfLines + 1 },
-        (_, index) => index * gap
-      );
-      return (
-        <div className="relative w-full">
-          {lines.map((line, index) => (
-            <div
-              key={index}
-              className="absolute h-2.5 w-[1px] bg-[#6E6D7A] rounded-sm"
-              style={{
-                left: `${(line / (max - min)) * 100}%`,
-                transform: "translateY(-20%)",
-              }}
-            >
-              {numbers && (
-                <div className="absolute top-2 ml-[-10px] text-[#6E6D7A]">
-                  {values[index]}
-                </div>
-              )}
-            </div>
-          ))}
-        </div>
-      );
-    }
-    return null;
   };
 
   useEffect(() => {
@@ -138,33 +85,28 @@ const Range: React.FC<RangeSelectorProps> = ({
 
   return (
     <div className={`w-full group ${styles.custom_range} flex relative justify-center items-center`}>
-      <div>
-        <span className="w-full absolute pl-[7.5px] pr-[12px] ">
-          {renderDotsOrLines()}
-        </span>
+            <div
+        className={`${styles.tooltip} bg-transparent rounded-full  cursor-pointer  text-sm sm:text-base z-[10]`} style={{ position: 'absolute', left: leftAlign, bottom: "10px" }}
+      >
+        <Tooltip position="top" content={selectedValue}>
+        </Tooltip>
       </div>
 
-      <div className="w-full relative  ">
-
-        <div className="bg-successColor w-[10px] h-[10px] group-hover:visible rounded-full " style={{ position: 'absolute', left: `calc(${valueTwoPosition}%)`, bottom: "20px" }}>
-          <Tooltip position="top" content={selectedValue}></Tooltip>
-        </div>
-
-        <input
-          ref={inputRef}
-          type="range"
-          id="range_input_thumb"
-          min={min}
-          max={max}
-          value={selectedValue}
-          onChange={handleChange}
-          step={step}
-          style={{ ...fillStyle }}
-          className={`w-full cursor-pointer z-[1]`}
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
-        />
-      </div>
+      <input
+        ref={inputRef}
+        type="range"
+        id="range_input_thumb"
+        min={min}
+        max={max}
+        value={selectedValue}
+        onChange={handleChange}
+        step={step}
+        style={{ ...fillStyle }}
+        // title={selectedValue.toString()}
+        className={`w-full cursor-pointer z-[1]`}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      />
     </div>
   );
 };

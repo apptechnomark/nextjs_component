@@ -14,13 +14,13 @@ const navigationBar: React.FC = () => {
         { id: "tab4", label: "TAB 4" },
     ];
     const tabs = [
-        { id: "class", label: "CLASS" },
-        { id: "location", label: "LOCATION" },
-        { id: "department", label: "DEPARTMENT" },
-        { id: "project", label: "PROJECT" },
-        { id: "mechanical", label: "MECHANICAL" },
-        { id: "it", label: "IT" },
-        { id: "electrical", label: "ELECTRICAL" },
+        { id: "class", label: "TAB 1" },
+        { id: "location", label: "TAB 2" },
+        { id: "department", label: "TAB 3" },
+        { id: "project", label: "TAB 4" },
+        { id: "mechanical", label: "TAB 5" },
+        { id: "it", label: "TAB 6" },
+        { id: "electrical", label: "TAB 7" },
     ];
 
     return (
@@ -33,7 +33,7 @@ const navigationBar: React.FC = () => {
                 <h2 className="m-5 text-xl  tracking-tight text-gray-900 dark:text-white">
                     Default Navigation
                 </h2>
-                <div className="overflow-x-auto">
+                <div className="">
                     <NavigationBar
                         tabs={defaultTabs}
                         visibleTab={4}
@@ -47,7 +47,7 @@ const navigationBar: React.FC = () => {
                 <h2 className="m-5 text-xl  tracking-tight text-gray-900 dark:text-white">
                     Navigation With More Option
                 </h2>
-                <div className="overflow-x-auto">
+                <div className="">
                     <NavigationBar
                         tabs={tabs}
                         visibleTab={4}

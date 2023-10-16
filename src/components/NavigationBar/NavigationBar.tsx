@@ -119,13 +119,13 @@ const NavigationBar: React.FC<NavigationBarProps> = ({
             : "text-slatyGrey font-medium text-sm"
             }`} type="h5">
             {label}
-            
+
         </Typography>
     }
 
     return (
         <>
-            <div className="flex items-center py-[10px]">
+            <div className="flex items-center py-[10px] relative ">
                 {visibleTabs.map((tab: any, index: number) => (
                     <div onClick={() => handleTabClick(tab.id, index)} key={tab.id + index}>
                         {variant === "modal"
@@ -137,16 +137,16 @@ const NavigationBar: React.FC<NavigationBarProps> = ({
                     </div>
                 ))}
                 {visibleTab <= tabs.length && dropdownTabs.length > 0 &&
-                    <div ref={selectRef} className="cursor-pointer">
+                    <div ref={selectRef} className="cursor-pointer ">
                         <div onClick={handleToggleOpen} className="px-4 opacity-75" >
                             <MenuIcon size="small" direction="meatball" classname="w-full" />
                         </div>
                         <div>
                             <ul
-                                className={`absolute  w-[215px] py-2 z-[1] bg-pureWhite overflow-y-auto transition-transform drop-shadow-lg ${isOpen
-                                    ? "max-h-full translate-y-0 transition-opacity opacity-100 duration-500 ease-out"
+                                className={`absolute z-[1] max-[425px]:right-0 max-[425px]:w-full w-[215px] bg-pureWhite overflow-y-auto shadow-md transition-transform ${isOpen
+                                    ? "max-h-60 translate-y-0 transition-opacity opacity-100 duration-500 ease-out"
                                     : "max-h-0 translate-y-20 transition-opacity opacity-0 duration-500"
-                                    } `}
+                                    }`}
                             >
                                 {dropdownTabs.map((tab: any, index: number) => (
                                     <li
@@ -167,10 +167,8 @@ const NavigationBar: React.FC<NavigationBarProps> = ({
                                             : <Typography type="h6" className="cursor-pointer">{tab.label}</Typography>}
                                     </li>
                                 ))}
-
                             </ul>
                         </div>
-
                     </div>}
             </div>
         </>
