@@ -30,13 +30,21 @@ const NavigationBar: React.FC<NavigationBarProps> = ({
 
     useEffect(() => {
         const handleResize = () => {
-            if (window.innerWidth <= 321) {
+            if (window.innerWidth <= 321 || document.documentElement.clientWidth <= 321) {
                 setVisibleTabs(tabs.slice(0, 1));
                 setDropdownTabs(tabs.slice(1));
             }
-            else if (window.innerWidth >= 322 && window.innerWidth <= 425) {
+            else if ((window.innerWidth >= 322 || document.documentElement.clientWidth >= 322) && (window.innerWidth <= 425 || document.documentElement.clientWidth <= 425)) {
                 setVisibleTabs(tabs.slice(0, 2));
                 setDropdownTabs(tabs.slice(2));
+            }
+            else if ((window.innerWidth >= 426 || document.documentElement.clientWidth >= 426) && (window.innerWidth <= 576 || document.documentElement.clientWidth <= 576)) {
+                setVisibleTabs(tabs.slice(0, 3));
+                setDropdownTabs(tabs.slice(3));
+            }
+            else if ((window.innerWidth >= 426 || document.documentElement.clientWidth >= 577) && (window.innerWidth <= 577 || document.documentElement.clientWidth <= 762)) {
+                setVisibleTabs(tabs.slice(0, 4));
+                setDropdownTabs(tabs.slice(4));
             }
             else {
                 setVisibleTabs(tabs.slice(0, visibleTab));
@@ -114,9 +122,9 @@ const NavigationBar: React.FC<NavigationBarProps> = ({
     }, []);
 
     const tabLabel = (index: number, label: any) => {
-        return <Typography className={`border-r ${index > (tabs.length - 2) ? `border-none` : `border-r-lightSilver`} px-5 cursor-pointer ${selectedTabIndex === index
+        return <Typography className={`max-[425px]:w-[320px] text-center text-ellipsis overflow-hidden whitespace-nowrap border-r ${index > (tabs.length - 2) ? `border-none` : `border-r-lightSilver`} px-5 cursor-pointer ${selectedTabIndex === index
             ? "text-primary text-base font-semibold"
-            : "text-slatyGrey font-medium text-sm"
+            : "text-slatyGrey dark:text-pureWhite font-medium text-sm"
             }`} type="h5">
             {label}
 
@@ -127,7 +135,7 @@ const NavigationBar: React.FC<NavigationBarProps> = ({
         <>
             <div className="flex items-center py-[10px] relative ">
                 {visibleTabs.map((tab: any, index: number) => (
-                    <div onClick={() => handleTabClick(tab.id, index)} key={tab.id + index}>
+                    <div className="text-ellipsis overflow-hidden " onClick={() => handleTabClick(tab.id, index)} key={tab.id + index}>
                         {variant === "modal"
                             ? <a href={`#${tab.id}`}>
                                 {tabLabel(index, tab.label)}
@@ -162,9 +170,9 @@ const NavigationBar: React.FC<NavigationBarProps> = ({
                                     >
                                         {variant === "modal"
                                             ? <a href={`#${tab.id}`}>
-                                                <Typography type="h6" className="cursor-pointer">{tab.label}</Typography>
+                                                <Typography type="h6" className="cursor-pointer whitespace-nowrap dark:text-pureWhite">{tab.label}</Typography>
                                             </a>
-                                            : <Typography type="h6" className="cursor-pointer">{tab.label}</Typography>}
+                                            : <Typography type="h6" className="cursor-pointer whitespace-nowrap dark:text-pureWhite">{tab.label}</Typography>}
                                     </li>
                                 ))}
                             </ul>

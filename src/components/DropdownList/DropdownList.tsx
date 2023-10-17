@@ -194,7 +194,7 @@ const DropdownList: React.FC<SelectProps> = ({
                 {label && (
                     <span className="flex">
                         <Typography
-                            type="h5"
+                            type="h6"
                             className={`${isOpen || selectedOption.length > 0 ? "text-primary"
                                 : error
                                     ? "text-defaultRed"
@@ -213,7 +213,7 @@ const DropdownList: React.FC<SelectProps> = ({
                     </span>
                 )}
 
-                <div className="flex flex-row items-center justify-center relative">
+                <div className="flex -mt-1 flex-row items-center justify-center relative">
                     <input
                         id={id}
                         onBlur={handleBlur}

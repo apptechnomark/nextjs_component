@@ -76,11 +76,11 @@ const Range: React.FC<RangeSelectorProps> = ({
   }, [selectedValue, min, max]);
 
   const handleMouseEnter = () => {
-    setShowTooltip(true);
+    setShowTooltip(true); // Show the tooltip on mouse enter
   };
 
   const handleMouseLeave = () => {
-    setShowTooltip(false);
+    setShowTooltip(false); // Hide the tooltip on mouse leave
   };
 
   return (
@@ -102,6 +102,7 @@ const Range: React.FC<RangeSelectorProps> = ({
         onChange={handleChange}
         step={step}
         style={{ ...fillStyle }}
+        // title={selectedValue.toString()}
         className={`w-full cursor-pointer z-[1]`}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
