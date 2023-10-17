@@ -36,6 +36,7 @@ module.exports = {
       darkGray: "#848a95",
       lightYellow: "#FFC107",
       lightGray: "#F4F4F4",
+      secondaryGray:"#374151",
       slatyGreen: "#CCF1EB",
       textColor: "#333333",
       pinkSwan: "#B7B7B7",

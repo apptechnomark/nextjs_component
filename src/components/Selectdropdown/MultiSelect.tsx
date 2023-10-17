@@ -187,7 +187,7 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
   return (
     <>
       <div
-        className={`relative font-medium w-full flex-row ${noborder ? '' : 'border-b'} ${selectedValues.length > 0
+        className={`relative font-medium w-full ${noborder ? '' : 'border-b'} ${selectedValues.length > 0
           ? "border-primary"
           : error
             ? "border-defaultRed"

@@ -182,12 +182,12 @@ const CompanyList: React.FC<CompanyListProps> = ({
                 {label && (
                     <span className="flex">
                         <Typography
-                            type="h5"
+                            type="h6"
                             className={`${err
                                 ? "text-defaultRed"
                                 : focus
                                     ? "text-primary"
-                                    : "text-slatyGrey"
+                                    : "text-slatyGrey dark:text-pureWhite"
                                 }`}
                         >
                             {label}
@@ -210,8 +210,8 @@ const CompanyList: React.FC<CompanyListProps> = ({
                         <AvatarGroup variant="small" show={showAvatar}>{updatedAvatars}</AvatarGroup>
                     ) : (
                         <Typography
-                            type="h5"
-                            className={`!font-normal ${err && "text-defaultRed"} ${disabled && "text-slatyGrey"
+                            type="h6"
+                            className={`!font-normal dark:text-pureWhite ${err && "text-defaultRed"} ${disabled && "text-slatyGrey dark:text-pureWhite"
                                 } select-none`}
                         >
                             {isOpen ? "" : "Please Select"}
@@ -223,8 +223,8 @@ const CompanyList: React.FC<CompanyListProps> = ({
                             ? "text-defaultRed"
                             : disabled
                                 ? "text-slatyGrey"
-                                : "text-darkCharcoal"
-                            }  cursor-pointer  ${isOpen ? "rotate-180 text-primary duration-400" : "duration-200"
+                                : "text-darkCharcoal dark:text-pureWhite"
+                            }  cursor-pointer   ${isOpen ? "rotate-180 text-primary duration-400" : "duration-200"
                             }}`}
                     >
                         <ChevronDown />
@@ -232,7 +232,7 @@ const CompanyList: React.FC<CompanyListProps> = ({
                 </div>
                 <div>
                     <ul
-                        className={`absolute z-10 w-full bg-pureWhite mt-[1px] overflow-y-auto shadow-md transition-transform ${isOpen
+                        className={`absolute z-10 w-full bg-pureWhite dark:bg-[#1f2937] mt-[1px] overflow-y-auto shadow-md transition-transform ${isOpen
                             ? "max-h-60 translate-y-0 transition-opacity opacity-100 duration-500"
                             : "max-h-0 translate-y-20 transition-opacity opacity-0 duration-500"
                             } ${isOpen ? "ease-out" : ""}`}
@@ -252,7 +252,7 @@ const CompanyList: React.FC<CompanyListProps> = ({
                                         ? `${inputValue.substring(0, 20)}...`
                                         : inputValue
                                 }
-                                className={`w-full pl-6 py-1 ${variant === "user" ? "border rounded" : "border-b"} border-lightSilver  flex-grow outline-none text-darkCharcoal text-[14px] font-normal ${isOpen ? "text-primary" : ""
+                                className={`dark:placeholder:text-pureWhite w-full pl-6 py-1 ${variant === "user" ? "border rounded" : "border-b"} border-lightSilver  flex-grow outline-none text-darkCharcoal text-[14px] font-normal ${isOpen ? "text-primary" : ""
                                     } ${!isOpen ? "cursor-pointer" : "cursor-default"} ${!isOpen ? "placeholder-darkCharcoal" : "placeholder-primary"
                                     }`}
                                 style={{ background: "transparent" }}
@@ -265,7 +265,7 @@ const CompanyList: React.FC<CompanyListProps> = ({
                             options.map((option, index) => (
                                 <li
                                     key={option.value + index}
-                                    className={`outline-none focus:bg-whiteSmoke p-[10px] text-[14px] hover:bg-whiteSmoke font-normal cursor-pointer flex items-center ${selectedValues.includes(option.value)
+                                    className={`outline-none focus:bg-whiteSmoke dark:focus:bg-secondaryGray dark:hover:bg-secondaryGray p-[10px] text-[14px] hover:bg-whiteSmoke font-normal cursor-pointer flex items-center ${selectedValues.includes(option.value)
                                         && ""}
                                         ${!option.label.toLowerCase().startsWith(inputValue)
                                             ? "hidden"
@@ -301,11 +301,11 @@ const CompanyList: React.FC<CompanyListProps> = ({
                                             imageUrl={option.imageUrl}
                                         />
                                     </div>
-                                    <Typography type="h5">{option.label}</Typography>
+                                    <Typography type="h5" className="dark:text-pureWhite">{option.label}</Typography>
                                 </li>
                             ))
                         ) : (
-                            <span className="p-[10px] focus:bg-whiteSmoke text-[15px] hover:bg-whiteSmoke font-medium cursor-pointer flex flex-row items-center space-x-2 ">
+                            <span className="p-[10px] focus:bg-whiteSmoke dark:focus:bg-secondaryGray dark:text-pureWhite text-[15px] hover:bg-whiteSmoke dark:hover:bg-secondaryGray font-medium cursor-pointer flex flex-row items-center space-x-2 ">
                                 No matching data found.
                             </span>
                         )}

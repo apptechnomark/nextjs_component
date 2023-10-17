@@ -190,7 +190,7 @@ const DatepickerYear: React.FC<DatepickerProps> = ({
 
 
     const handleInputBlur = () => {
-        if (fullDate === "") {
+        if (fullDate === "" && validate) {
             setErr(true);
             setErrorMsg("Please select a date.");
             getError(true);
@@ -203,7 +203,7 @@ const DatepickerYear: React.FC<DatepickerProps> = ({
             {label && (
                 <span className="flex">
                     <Typography
-                        type="h5"
+                        type="h6"
                         className={`${err
                             ? "text-defaultRed"
                             : focus
@@ -222,11 +222,11 @@ const DatepickerYear: React.FC<DatepickerProps> = ({
                     )}
                 </span>
             )}
-            <div className={`relative flex`} ref={inputRef}>
+            <div className={`relative flex -mt-1`} ref={inputRef}>
                 <input
                     type={toggleOpen ? "month" : "text"}
                     placeholder="mm/yyyy"
-                    readOnly={!toggleOpen && true}
+                    readOnly
                     className={`!p-0 block w-full border-b bg-transparent px-3 py-[0.32rem] ${disabled
                         ? "border-lightSilver"
                         : toggleOpen

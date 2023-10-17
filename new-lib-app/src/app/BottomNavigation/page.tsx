@@ -19,88 +19,88 @@ const page = () => {
     {
       id: "home",
       label: "Home",
-      icon: <Home bgColor={value == "home" ? "#02B89D" : "#333333"} />,
+      icon: <Home bgColor={value == "home" ? "#0592C6" : "#333333"} />,
     },
     {
       id: "message",
       label: "Message",
-      icon: <Message bgColor={value == "message" ? "#02B89D" : "#333333"} />,
+      icon: <Message bgColor={value == "message" ? "#0592C6" : "#333333"} />,
     },
     {
       id: "settings",
       label: "Settings",
-      icon: <Settings bgColor={value == "settings" ? "#02B89D" : "#333333"} />,
+      icon: <Settings bgColor={value == "settings" ? "#0592C6" : "#333333"} />,
     },
     {
       id: "profile",
       label: "Profile",
-      icon: <Profile bgColor={value == "profile" ? "#02B89D" : "#333333"} />,
+      icon: <Profile bgColor={value == "profile" ? "#0592C6" : "#333333"} />,
     },
   ];
   const hTabs = [
     {
       id: "home",
       label: "Home",
-      icon: <Home bgColor={hValue == "home" ? "#02B89D" : "#333333"} />,
+      icon: <Home bgColor={hValue == "home" ? "#0592C6" : "#333333"} />,
     },
     {
       id: "message",
       label: "Message",
-      icon: <Message bgColor={hValue == "message" ? "#02B89D" : "#333333"} />,
+      icon: <Message bgColor={hValue == "message" ? "#0592C6" : "#333333"} />,
     },
     {
       id: "settings",
       label: "Settings",
-      icon: <Settings bgColor={hValue == "settings" ? "#02B89D" : "#333333"} />,
+      icon: <Settings bgColor={hValue == "settings" ? "#0592C6" : "#333333"} />,
     },
     {
       id: "profile",
       label: "Profile",
-      icon: <Profile bgColor={hValue == "profile" ? "#02B89D" : "#333333"} />,
+      icon: <Profile bgColor={hValue == "profile" ? "#0592C6" : "#333333"} />,
     },
   ];
   const hfTabs = [
     {
       id: "home",
       label: "Home",
-      icon: <Home bgColor={hfValue == "home" ? "#02B89D" : "#333333"} />,
+      icon: <Home bgColor={hfValue == "home" ? "#0592C6" : "#333333"} />,
     },
     {
       id: "message",
       label: "Message",
-      icon: <Message bgColor={hfValue == "message" ? "#02B89D" : "#333333"} />,
+      icon: <Message bgColor={hfValue == "message" ? "#0592C6" : "#333333"} />,
     },
     {
       id: "settings",
       label: "Settings",
-      icon: <Settings bgColor={hfValue == "settings" ? "#02B89D" : "#333333"} />,
+      icon: <Settings bgColor={hfValue == "settings" ? "#0592C6" : "#333333"} />,
     },
     {
       id: "profile",
       label: "Profile",
-      icon: <Profile bgColor={hfValue == "profile" ? "#02B89D" : "#333333"} />,
+      icon: <Profile bgColor={hfValue == "profile" ? "#0592C6" : "#333333"} />,
     },
   ];
   const mTabs = [
     {
       id: "home",
       label: "Home",
-      icon: <Home bgColor={mValue == "home" ? "#02B89D" : "#333333"} />,
+      icon: <Home bgColor={mValue == "home" ? "#0592C6" : "#333333"} />,
     },
     {
       id: "message",
       label: "Message",
-      icon: <Message bgColor={mValue == "message" ? "#02B89D" : "#333333"} />,
+      icon: <Message bgColor={mValue == "message" ? "#0592C6" : "#333333"} />,
     },
     {
       id: "settings",
       label: "Settings",
-      icon: <Settings bgColor={mValue == "settings" ? "#02B89D" : "#333333"} />,
+      icon: <Settings bgColor={mValue == "settings" ? "#0592C6" : "#333333"} />,
     },
     {
       id: "profile",
       label: "Profile",
-      icon: <Profile bgColor={mValue == "profile" ? "#02B89D" : "#333333"} />,
+      icon: <Profile bgColor={mValue == "profile" ? "#0592C6" : "#333333"} />,
     },
   ];
   return (
@@ -125,16 +125,19 @@ const page = () => {
       <div className="p-2  m-3 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
         <h2 className="m-7 text-xl tracking-tight text-gray-900 dark:text-white">
           {/* Horizontal Navigation Bar */}
-        Basic
+          Basic
         </h2>
-        <div className="w-[387px] h-[60px] border border-[#D8D8D8]">
-          <Navigation
-            tabs={hTabs}
-            variant="horizontal"
-            getValue={(e: any) => {
-              setHValue(e);
-            }}
-          />
+        <div className="max-[425px]:overflow-x-scroll">
+          <div className="w-[387px] max-[425px]:w-[265px]  h-[60px] border border-[#D8D8D8]">
+
+            <Navigation
+              tabs={hTabs}
+              variant="horizontal"
+              getValue={(e: any) => {
+                setHValue(e);
+              }}
+            />
+          </div>
         </div>
       </div>
       {/* <div className="p-2  m-3 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">

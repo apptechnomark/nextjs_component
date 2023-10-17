@@ -15,3 +15,11 @@
 .smooth-scroll {
     scroll-behavior: smooth;
 }
+
+.customScrollbar {
+    /* width */
+    ::-webkit-scrollbar {
+        width: 0px;
+    }
+}
+
