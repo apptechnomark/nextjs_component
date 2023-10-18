@@ -51,6 +51,7 @@ import { Password } from "./components/Password/Password";
 import { ProgressBar } from "./components/Progressbar/Progressbar";
 import { PropertyBar } from "./components/PropertyBar/PropertyBar";
 import ProgressStep from "./components/Progressstep/Progressstep";
+import { PropertyDrawer } from "./components/PropertyBar/PropertyDrawer";
 
 import Radio from "./components/Radio/Radio";
 import { Range } from "./components/RangeSlider/Range";
@@ -148,4 +149,5 @@ export {
     Toast,
     Tooltip,
     Typography,
+    PropertyDrawer
 };
