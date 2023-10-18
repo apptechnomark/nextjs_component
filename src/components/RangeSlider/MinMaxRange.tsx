@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent, MouseEvent } from "react";
+import React, { useState, ChangeEvent, MouseEvent, useRef, useEffect } from "react";
 import styles from "./MinMaxRange.module.scss";
 import { Tooltip } from "../Tooltip/Tooltip";
 
@@ -6,8 +6,8 @@ interface MinMaxRangeProps {
   variant?: string;
   minValue: number;
   maxValue: number;
-  minRange?: number;
-  maxRange?: number;
+  minRange: number;
+  maxRange: number;
   Numbers?: boolean;
   gap: number;
   noRangeBetween?: boolean;
@@ -26,6 +26,8 @@ const MinMaxRange: React.FC<MinMaxRangeProps> = ({
   noRangeBetween = false,
 }) => {
   const gapValue = (maxRange - minRange) / gap;
+  const parentDivRef = useRef<HTMLDivElement>(null);
+  const [width, setWidth] = useState<number | null>(null);
 
   const [minValueRange, setMinValueRange] = useState<number>(minRange);
   const [maxValueRange, setMaxValueRange] = useState<number>(maxRange);
@@ -34,41 +36,10 @@ const MinMaxRange: React.FC<MinMaxRangeProps> = ({
     const { name, value } = e.target;
     const intValue = Number(value);
 
-    if (noRangeBetween) {
-      // If noRangeBetween is true, restrict values to gap multiples
-      const roundedValue = Math.round(intValue / gap) * gap;
-      if (name === "min") {
-        if (roundedValue <= minValue) {
-          setMinValueRange(minValue);
-        } else if (roundedValue >= maxValueRange - gapValue) {
-          setMinValueRange(maxValueRange - gapValue);
-        } else {
-          setMinValueRange(roundedValue);
-        }
-      } else {
-        if (roundedValue >= maxValue) {
-          setMaxValueRange(maxValue);
-        } else if (roundedValue <= minValueRange + gapValue) {
-          setMaxValueRange(minValueRange + gapValue);
-        } else {
-          setMaxValueRange(roundedValue);
-        }
-      }
+    if (name === "min") {
+      setMinValueRange(intValue);
     } else {
-      // If noRangeBetween is false, allow values between gaps
-      if (name === "min") {
-        if (intValue >= maxValueRange - gapValue) {
-          setMinValueRange(maxValueRange - gapValue);
-        } else {
-          setMinValueRange(intValue);
-        }
-      } else {
-        if (intValue <= minValueRange + gapValue) {
-          setMaxValueRange(minValueRange + gapValue);
-        } else {
-          setMaxValueRange(intValue);
-        }
-      }
+      setMaxValueRange(intValue);
     }
   };
 
@@ -81,18 +52,26 @@ const MinMaxRange: React.FC<MinMaxRangeProps> = ({
     // Calculate the corresponding value based on the click position
     const newValue = (clickX / totalWidth) * (maxValue - minValue) + minValue;
 
-    // Find which circle is closer to the clicked point
-    const minDistance = Math.abs(newValue - minValueRange);
-    const maxDistance = Math.abs(newValue - maxValueRange);
-
-    if (minDistance < maxDistance) {
-      // Update the position of the minimum circle
+    // Update the position of the minimum or maximum circle based on click position
+    if (
+      noRangeBetween ||
+      Math.abs(newValue - minValueRange) < Math.abs(newValue - maxValueRange)
+    ) {
       setMinValueRange(newValue);
     } else {
-      // Update the position of the maximum circle
       setMaxValueRange(newValue);
     }
   };
+  if (minValueRange < minValue) {
+    setMinValueRange(minValue);
+  } else if (minValueRange > maxValueRange - gapValue) {
+    setMinValueRange(maxValueRange - gapValue);
+  }
+  if (maxValueRange > maxValue) {
+    setMaxValueRange(maxValue);
+  } else if (maxValueRange < minValueRange + gapValue) {
+    setMaxValueRange(minValueRange + gapValue);
+  }
 
   getValue(Math.round(minValueRange), Math.round(maxValueRange));
 
@@ -107,41 +86,30 @@ const MinMaxRange: React.FC<MinMaxRangeProps> = ({
     )}%`,
   };
 
-  const maxProgressStyle = {
-    left: `${Math.max(
-      0,
-      ((maxValueRange - minValue) / (maxValue - minValue)) * 100
-    )}%`,
-    right: `${Math.max(
-      0,
-      100 - ((minValueRange - minValue) / (maxValue - minValue)) * 100
-    )}%`,
-  };
+  useEffect(() => {
+    if (parentDivRef.current) {
+      setWidth(parentDivRef.current.offsetWidth);
+    }
+  }, [parentDivRef]);
+
+  const left =
+    ((minValueRange - minValue) / (maxValue - minValue)) * (width - 10);
+
+  const right =
+    ((maxValueRange - minValue) / (maxValue - minValue)) * (width - 10);
 
   const numbers = Math.ceil((maxValue - minValue) / gap);
-
   let totalSteps = Array.apply(null, new Array(gap + 1)).map(function (_el, i) {
     return i++;
   });
 
-
-  const tooltipNumber = Array.from({ length: maxValue - minValue + 1 }, (_, index) => index + minValue);
-
   return (
-    <div className={`relative ${styles.container}`}>
+      <div ref={parentDivRef} id="parentDiv" className={`relative ${styles.container}`}>
       <div className={`${styles.range_slider}`} onClick={handleLineClick}>
         <div
           className={`flex items-center px-[7.5px] justify-between w-full absolute ${variant === "dot" && "top-[1.5px]"
-            }`}>
-          {tooltipNumber.map((no, index) => (
-            <div
-              key={index}
-              className={`absolute bg-pureBlack flex  items-center !h-[1px] justify-center rounded-full z-0`}
-              style={{ left: `${(no / (maxValue - minValue)) * 100}%` }}
-            >
-              <Tooltip position="top" content={no} className="px-[5px] !mb-[13px] !w-[12px] !absolute"></Tooltip>
-            </div>
-          ))}
+            }`}
+        >
           {totalSteps.map((index) => (
             <div
               className={` flex justify-center items-center ${variant === "line" ? `${styles.line}` : `${styles.dot}`
@@ -156,26 +124,53 @@ const MinMaxRange: React.FC<MinMaxRangeProps> = ({
             </div>
           ))}
         </div>
-        <div className={styles.progress} style={minProgressStyle}>
+        <div className={styles.progress} style={minProgressStyle}></div>
+        <div className="w-full">
+          <div
+            className="bg-transparent w-[12px] h-[12px] group-hover:visible rounded-full z-10"
+            style={{
+              position: "absolute",
+              left: left,
+              bottom: "7px",
+            }}
+          >
+            <Tooltip
+              position="top"
+              content={Math.round(minValueRange)}
+            ></Tooltip>
+          </div>
+          <input
+            type="range"
+            name="min"
+            min={minValue}
+            max={maxValue}
+            value={minValueRange}
+            onChange={handleInputChange}
+          />
         </div>
-        <input
-          type="range"
-          name="min"
-          min={minValue}
-          max={maxValue}
-          value={minValueRange}
-          tabIndex={0}
-          onChange={handleInputChange}
-        />
-        <input
-          type="range"
-          name="max"
-          min={minValue}
-          max={maxValue}
-          value={maxValueRange}
-          onChange={handleInputChange}
-          tabIndex={1}
-        />
+        <div className="w-full">
+          <div
+            className="bg-transparent w-[12px] h-[12px] group-hover:visible rounded-full z-10"
+            style={{
+              position: "absolute",
+              left: right,
+              bottom: "7px",
+            }}
+          >
+            <Tooltip
+              position="top"
+              content={Math.round(maxValueRange)}
+            ></Tooltip>
+          </div>
+          <input
+            type="range"
+            name="max"
+            min={minValue}
+            max={maxValue}
+            value={maxValueRange}
+            onChange={handleInputChange}
+          />
+        </div>
       </div>
     </div>
   );

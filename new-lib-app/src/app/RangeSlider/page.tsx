@@ -22,7 +22,7 @@ const page: React.FC = () => {
                     variant="dot"
                     min={0}
                     max={100}
-                    gap={10}
+                    // gap={10}
                     valueBetween
                     onChange={handleChange}
                 // numbers

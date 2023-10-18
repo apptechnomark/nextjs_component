@@ -184,7 +184,7 @@ const PropertyBar: React.FC<NavigationBarProps> = ({
     const otherIcons = tableBarIcons && tableBarIcons.length > 1 ? tableBarIcons.slice(1) : [];
 
 
-    const containerClasses = `bg-whiteSmoke rounded-[127px] w-auto border-[1px] border-primary py-[15px] ${Size === "large" ? "px-[30px]" : "px-[20px]"
+    const containerClasses = `bg-whiteSmoke rounded-[127px] w-max border-[1px] border-primary py-[15px] ${Size === "large" ? "px-[30px]" : "px-[20px]"
         } flex`;
 
 
@@ -192,28 +192,28 @@ const PropertyBar: React.FC<NavigationBarProps> = ({
         <>
 
             {variant === "selectedRows" ? (
-                <div>
+                <div className="lgd:px-[20px]">
                     <div className={containerClasses}>
                         <div className="gap-2.5 flex">
-                            <div>
+                            <div className="lgd:flex justify-center items-center">
                                 <MinusIcon />
                             </div>
-                            <span >
+                            <span className="flex justify-center items-center   ">
                                 {count} task selected
                             </span>
                         </div>
-                        <div className="flex ml-[40px] ">
-                            <div className="border-x-2 border-lightSilver items-center flex px-[10px]">{firstIcon}</div>
+                        <div className="flex ml-[40px] lgd:flex justify-center items-center">
+                            <div className="border-x-2 border-lightSilver items-center flex px-[10px] ">{firstIcon}</div>
                             {otherIcons.map((icon, index) => (
                                 <div key={index} className="border-r-2 border-lightSilver items-center flex px-[10px]">{icon}</div>
                             ))}
                             <Button className="rounded-md btn-sm ml-5" variant="btn-outline-primary">Submit Task</Button>
                         </div>
 
-                        <div className="ml-[15px] border-r-2 border-lightSilver  h-7 justify-center flex items-center ">
+                        <div className="ml-[15px] border-r-2 border-lightSilver justify-center  flex items-center lgd:h-[25px]">
 
                         </div>
-                        <div className="ml-[40px]">
+                        <div className="ml-[40px] flex justify-center items-center">
                             <span className="text-slatyGrey italic">
                                 {message}
                             </span>

@@ -182,7 +182,7 @@ const TabComponent: React.FC = () => {
                     <div className="max-[425px]:m-1 mx-7 max-[425px]:overflow-x-auto min-[426px]:overflow-visible">
                         <TabBar tabs={dropdownTab} getValue={(e: any) => {
                             setDValue(e);
-                        }} />
+                        }} /> 
                     </div>
                 </div>
 
