@@ -7,6 +7,9 @@ import "next-ts-lib/dist/index.css"
 import profileIcon from "./Icons/profileIcon";
 
 const page: React.FC = () => {
+    // const [selected, setSelected] = useState(['Mihir','Oliver Smith', 'Sophia Johnson', 'Liam Brown', 'Emma Taylor'])
+    // const [selected2, setSelected2] = useState(['Caden Clark','Chloe Lewis', 'Mason Hall', 'Emily Turner', 'Liam Green'])
+
     let firstImage = "https://images.unsplash.com/photo-1499952127939-9bbf5af6c51c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTF8fHBlcnNvbnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60"
     let secondImage = "https://images.unsplash.com/photo-1504593811423-6dd665756598?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTZ8fHBlcnNvbnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60"
     let thirdImage = "https://cdn-icons-png.flaticon.com/512/3177/3177440.png"
