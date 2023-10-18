@@ -179,7 +179,7 @@ const TabComponent: React.FC = () => {
                     <h2 className="max-[425px]:m-1 m-7 text-xl tracking-tight text-gray-900 dark:text-white">
                         Dropdown Tabs
                     </h2>
-                    <div className="max-[425px]:m-1 mx-7 overflow-x-auto">
+                    <div className="max-[425px]:m-1 mx-7 max-[425px]:overflow-x-auto min-[426px]:overflow-visible">
                         <TabBar tabs={dropdownTab} getValue={(e: any) => {
                             setDValue(e);
                         }} />

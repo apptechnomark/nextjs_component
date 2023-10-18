@@ -17,7 +17,7 @@ const PlusIcon = () => {
         height="16.5"
         rx="1.25"
         stroke="white"
-        stroke-width="1.5"
+        strokeWidth="1.5"
       />
       <rect
         x="7"
@@ -27,7 +27,7 @@ const PlusIcon = () => {
         rx="0.625"
         fill="white"
         stroke="white"
-        stroke-width="0.3"
+        strokeWidth="0.3"
       />
       <rect
         x="11.375"
@@ -38,7 +38,7 @@ const PlusIcon = () => {
         transform="rotate(-90 11.375 17)"
         fill="white"
         stroke="white"
-        stroke-width="0.3"
+        strokeWidth="0.3"
       />
     </svg>
   </div>
