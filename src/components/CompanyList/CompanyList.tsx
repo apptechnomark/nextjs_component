@@ -24,10 +24,12 @@ interface CompanyListProps {
     disabled?: boolean;
     checkbox?: boolean;
     variant?: string;
+    values?: any;
 }
 const CompanyList: React.FC<CompanyListProps> = ({
     id,
     options,
+    values,
     label,
     className,
     required,
@@ -77,6 +79,12 @@ const CompanyList: React.FC<CompanyListProps> = ({
         setInputValue(inputValue);
     };
 
+    useEffect(() => {
+        if (values && values.length > 0) {
+            setSelectedValues(values);
+        }
+    }, [values]);
+    
     const handleSelect = (value: string) => {
         const updatedValues = [...selectedValues];
         const index = updatedValues.indexOf(value);

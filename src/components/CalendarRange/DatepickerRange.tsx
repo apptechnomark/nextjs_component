@@ -10,46 +10,66 @@ interface DatepickerDate {
     date: Date;
     currentMonth: boolean;
     today: boolean;
-    startYear: Number;
-    endYear: Number;
-    value: string;
 }
 
-const DatepickerRange = (props: any): JSX.Element => {
+interface DatepickerProps {
+    startYear: number;
+    endYear: number;
+    value: string;
+    id: string;
+    label?: string,
+    className?: string,
+    hasError?: boolean,
+    errorMessage?: string;
+    getValue: (value: any) => void;
+    getError: (arg1: boolean) => void;
+    validate?: boolean;
+    disabled?: boolean;
+}
+
+const DatepickerRange: React.FC<DatepickerProps> = ({
+    value,
+    startYear,
+    endYear,
+    label,
+    validate,
+    disabled,
+    hasError,
+    errorMessage = "This is required field!",
+    getValue,
+    getError,
+    ...props }) => {
     const days: string[] = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
     const currentDate: Date = new Date();
-    const { value, startYear, endYear } = props;
     const inputRef = useRef(null);
-    const valueDate = new Date(value);
 
-    const [today, setToday] = useState<Date>(value ? valueDate : currentDate);
+    const [today, setToday] = useState<Date>(currentDate);
     const [showMonthList, setShowMonthList] = useState<boolean>(false);
     const [showYearList, setShowYearList] = useState<boolean>(false);
     const [selectedDate, setSelectedDate] = useState<Date>(
-        value ? valueDate : currentDate
+        currentDate
     );
-    const [fullDate, setFullDate] = useState<string>(value ? value : "");
+    const [fullDate, setFullDate] = useState<string>("");
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [toggleOpen, setToggleOpen] = useState<boolean>(false);
     const [animate, setAnimate] = useState<string>("");
 
+    let dateParts = value.split(" to ");
+    let startDateString = dateParts[0];
+    let endDateString = dateParts[1];
 
-    const [startDate, setStartDate] = useState<Date | null>();
-    const [endDate, setEndDate] = useState<Date | null>();
+    const [startDate, setStartDate] = useState<Date | null>(new Date(startDateString));
+    const [endDate, setEndDate] = useState<Date | null>(new Date(endDateString));
     const [rangeDates, setRangeDates] = useState<Date[]>([]);
-    const [startDates, setStartDates] = useState<string>(value ? value : "");
-    const [endDates, setEndDates] = useState<string>(value ? value : "");
+    const [startDates, setStartDates] = useState<string>(startDateString);
+    const [endDates, setEndDates] = useState<string>(endDateString);
 
 
     const currentMonth = today.getMonth();
-    const [selectedMonth, setSelectedMonth] = useState<number>(
-        value ? valueDate.getMonth() : currentMonth
-    );
+    const [selectedMonth, setSelectedMonth] = useState<number>(currentMonth);
 
     const currentYear = today.getFullYear();
-    const [selectedYear, setSelectedYear] = useState<number>(
-        value ? valueDate.getFullYear() : currentYear
-    );
+    const [selectedYear, setSelectedYear] = useState<number>(currentYear);
 
     const yearsPerPage: number = 16;
     const totalPages: number = Math.ceil(
@@ -281,7 +301,7 @@ const DatepickerRange = (props: any): JSX.Element => {
     };
 
     useEffect(() => {
-        props.getValue(startDates + " to " + endDates);
+        getValue(startDates + " to " + endDates);
     }, [startDates, endDates]);
 
     return (

@@ -10,6 +10,7 @@ import Typography from '../Typography/Typography';
 interface SelectProps extends React.InputHTMLAttributes<HTMLInputElement> {
     id: string;
     label?: string;
+    options: { value: any; label: string; }[];
     className?: string;
     validate?: boolean;
     getValue: (value: any) => void;
@@ -17,18 +18,22 @@ interface SelectProps extends React.InputHTMLAttributes<HTMLInputElement> {
     disabled?: boolean;
     noborder?: boolean;
     btnLabel: string;
+    value?: any;
 }
 
 const DropdownList: React.FC<SelectProps> = ({
     id,
     getValue,
     label,
+    options,
     className,
     validate,
     getError,
     disabled,
     noborder,
-    btnLabel
+    btnLabel,
+    value,
+    ...props
 }) => {
     const selectRef = useRef<HTMLDivElement>(null);
     const [searchValue, setSearchValue] = useState<string>("");
@@ -39,13 +44,14 @@ const DropdownList: React.FC<SelectProps> = ({
     const [focusedIndex, setFocusedIndex] = useState<number>(-1);
     const [editList, setEditList] = useState<boolean>(false);
     const [activeIndex, setActiveIndex] = useState<number>(-1);
-    const [selectedOption, setSelectedOption] = useState<any>("");
+    const [selectedOption, setSelectedOption] = useState<any>(value ? value : "");
+    const [option, setOptions] = useState([]);
 
-    const [options, setOptions] = useState([
-        { label: "Option 1", value: "Option 1" },
-        { label: "Option 2", value: "Option 2" },
-        { label: "Option 3", value: "Option 3" }
-    ]);
+    useEffect(() => {
+        if (options && options.length > 0) {
+            setOptions(options);
+        }
+    }, []);
 
     const handleToggleOpen = () => {
         // setInputValue("");
@@ -105,7 +111,7 @@ const DropdownList: React.FC<SelectProps> = ({
         e.stopPropagation();
         setEditList(true);
         setActiveIndex(index);
-        setInputValue(options.find((option, i) => i === index).label)
+        setInputValue(option.find((option, i) => i === index).label)
     }
 
     const handleEditChange = (e: any) => {
@@ -122,9 +128,9 @@ const DropdownList: React.FC<SelectProps> = ({
 
     const handleDeleteClick = (e: any, index: number) => {
         e.stopPropagation();
-        const deletedValue = options[index].value;
+        const deletedValue = option[index].value;
         setOptions(prevOptions => prevOptions.filter((_, i) => i !== index));
-        const optionExists = options.some(option => option.value === deletedValue);
+        const optionExists = option.some(option => option.value === deletedValue);
         if (optionExists) {
             setSelectedOption("");
         }
@@ -141,7 +147,7 @@ const DropdownList: React.FC<SelectProps> = ({
         } else if (e.key === "ArrowUp" && index > 0) {
             e.preventDefault();
             setFocusedIndex(index - 1);
-        } else if (e.key === "ArrowDown" && index < options.length - 1) {
+        } else if (e.key === "ArrowDown" && index < option.length - 1) {
             e.preventDefault();
             setFocusedIndex(index + 1);
         }
@@ -160,7 +166,7 @@ const DropdownList: React.FC<SelectProps> = ({
         if (value.key === "ArrowUp" && focusedIndex > 0) {
             value.preventDefault();
             setFocusedIndex(focusedIndex - 1);
-        } else if (value.key === "ArrowDown" && focusedIndex < options.length - 1) {
+        } else if (value.key === "ArrowDown" && focusedIndex < option.length - 1) {
             value.preventDefault();
             setFocusedIndex(focusedIndex + 1);
         }
@@ -241,16 +247,17 @@ const DropdownList: React.FC<SelectProps> = ({
                         : "max-h-0 translate-y-20 transition-opacity opacity-0 duration-500"
                         } `}
                 >
-                    {options.length > 0 &&
-                        options.some((option) =>
+                    {option.length > 0 &&
+                        option.some((option) =>
                             option.label.toLowerCase().startsWith(searchValue)
                         ) ? (
-                        options.map((option, index) => (
+                        option.map((option, index) => (
                             <li
                                 key={index}
                                 className={`px-[10px] group outline-none justify-end focus:bg-whiteSmoke text-sm hover:bg-whiteSmoke font-normal cursor-pointer flex flex-row items-center space-x-2  ${!option.label.toLowerCase().startsWith(searchValue)
                                     ? "hidden"
                                     : ""
+                                    } ${option.value === selectedOption && "bg-whiteSmoke"
                                     }`}
 
                                 onKeyDown={(e) => {
@@ -285,7 +292,7 @@ const DropdownList: React.FC<SelectProps> = ({
                                     </div>
                                     : <div className='hidden gap-2.5  group-hover:flex  group-hover:translate-all group-hover:duration-700  group-hover:ease-out '>
                                         <div className='py-1' onClick={(e) => { handleEditClick(e, index) }}><EditIcon /></div>
-                                        <div className='py-1' onClick={(e) => { handleDeleteClick(e,index) }}><DeleteIcon /></div>
+                                        <div className='py-1' onClick={(e) => { handleDeleteClick(e, index) }}><DeleteIcon /></div>
                                     </div>
                                 }
                             </li>
