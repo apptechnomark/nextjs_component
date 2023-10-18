@@ -151,7 +151,7 @@ const NavigationBar: React.FC<NavigationBarProps> = ({
                         </div>
                         <div>
                             <ul
-                                className={`absolute z-[1] max-[425px]:right-0 max-[425px]:w-full w-[215px] bg-pureWhite overflow-y-auto shadow-md transition-transform ${isOpen
+                                className={`absolute z-[1] max-[694px]:right-0 max-[694px]:w-full min-[695px]:w-[215px] bg-pureWhite overflow-y-auto shadow-md transition-transform ${isOpen
                                     ? "max-h-60 translate-y-0 transition-opacity opacity-100 duration-500 ease-out"
                                     : "max-h-0 translate-y-20 transition-opacity opacity-0 duration-500"
                                     }`}
