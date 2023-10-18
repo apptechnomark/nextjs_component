@@ -1,4 +1,4 @@
-import React, { useState, ChangeEvent, MouseEvent } from "react";
+import React, { useState, ChangeEvent, MouseEvent, useRef, useEffect } from "react";
 import styles from "./MinMaxRange.module.scss";
 import { Tooltip } from "../Tooltip/Tooltip";
 
@@ -26,6 +26,8 @@ const MinMaxRange: React.FC<MinMaxRangeProps> = ({
   noRangeBetween = false,
 }) => {
   const gapValue = (maxRange - minRange) / gap;
+  const parentDivRef = useRef<HTMLDivElement>(null);
+  const [width, setWidth] = useState<number | null>(null);
 
   const [minValueRange, setMinValueRange] = useState<number>(minRange);
   const [maxValueRange, setMaxValueRange] = useState<number>(maxRange);
@@ -83,9 +85,12 @@ const MinMaxRange: React.FC<MinMaxRangeProps> = ({
       100 - ((maxValueRange - minValue) / (maxValue - minValue)) * 100
     )}%`,
   };
-  
-  let newDiv = document.getElementById("parentDiv");
-  let width = newDiv && newDiv.offsetWidth;
+
+  useEffect(() => {
+    if (parentDivRef.current) {
+      setWidth(parentDivRef.current.offsetWidth);
+    }
+  }, [parentDivRef]);
 
   const left =
     ((minValueRange - minValue) / (maxValue - minValue)) * (width - 10);
@@ -99,18 +104,16 @@ const MinMaxRange: React.FC<MinMaxRangeProps> = ({
   });
 
   return (
-    <div id="parentDiv" className={`relative ${styles.container}`}>
+      <div ref={parentDivRef} id="parentDiv" className={`relative ${styles.container}`}>
       <div className={`${styles.range_slider}`} onClick={handleLineClick}>
         <div
-          className={`flex items-center px-[7.5px] justify-between w-full absolute ${
-            variant === "dot" && "top-[1.5px]"
-          }`}
+          className={`flex items-center px-[7.5px] justify-between w-full absolute ${variant === "dot" && "top-[1.5px]"
+            }`}
         >
           {totalSteps.map((index) => (
             <div
-              className={` flex justify-center items-center ${
-                variant === "line" ? `${styles.line}` : `${styles.dot}`
-              }`}
+              className={` flex justify-center items-center ${variant === "line" ? `${styles.line}` : `${styles.dot}`
+                }`}
               key={index}
             >
               {Numbers && (

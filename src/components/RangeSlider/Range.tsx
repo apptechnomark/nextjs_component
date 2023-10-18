@@ -27,9 +27,11 @@ const Range: React.FC<RangeSelectorProps> = ({
   types,
 }) => {
   const inputRef = useRef<HTMLInputElement>(null);
+  const parentDivRef = useRef<HTMLDivElement>(null);
   const [selectedValue, setSelectedValue] = useState(value || min);
   const [step, setStep] = useState(1);
   const [values, setValues] = useState<number[]>([]);
+  const [width, setWidth] = useState<number | null>(null);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = parseInt(event.target.value);
@@ -63,9 +65,12 @@ const Range: React.FC<RangeSelectorProps> = ({
     background: `linear-gradient(to right, #0592C6 ${fillPercentage}%, #D8D8D8 0%)`,
   };
 
-  let parentDiv = document.getElementById("parentDiv");
-  let width = parentDiv && parentDiv.offsetWidth;
-  
+  useEffect(() => {
+    if (parentDivRef.current) {
+      setWidth(parentDivRef.current.offsetWidth);
+    }
+  }, [parentDivRef]);
+
   const left = ((selectedValue - min) / (max - min)) * (width - 10 - 10) + 3;
 
   const renderDotsOrLines = () => {
@@ -78,21 +83,21 @@ const Range: React.FC<RangeSelectorProps> = ({
 
       return (
         <div className="relative  mt-[1.2px]">
-            <>
-              {dots.map((dot, index) => (
-                <div
-                  key={index}
-                  className="absolute h-[3px] w-[3px] flex bg-[#6E6D7A] items-start justify-center rounded-full z-10"
-                  style={{ left: `${(dot / (max - min)) * 100}%` }}
-                >
-                  {numbers && (
-                    <div className="absolute top-2  text-[#6E6D7A] select-none">
-                      {values[index]}
-                    </div>
-                  )}
-                </div>
-              ))}
-            </>
+          <>
+            {dots.map((dot, index) => (
+              <div
+                key={index}
+                className="absolute h-[3px] w-[3px] flex bg-[#6E6D7A] items-start justify-center rounded-full z-10"
+                style={{ left: `${(dot / (max - min)) * 100}%` }}
+              >
+                {numbers && (
+                  <div className="absolute top-2  text-[#6E6D7A] select-none">
+                    {values[index]}
+                  </div>
+                )}
+              </div>
+            ))}
+          </>
         </div>
       );
     } else if (variant === "line" && gap) {
@@ -127,6 +132,7 @@ const Range: React.FC<RangeSelectorProps> = ({
 
   return (
     <div
+      ref={parentDivRef}
       id="parentDiv"
       className={`w-full group ${styles.custom_range} flex relative justify-center items-center`}
     >
