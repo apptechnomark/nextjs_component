@@ -10,18 +10,18 @@
 // import CardAction from "./components/Card/CardAction";
 // import CardContent from "./components/Card/CardContent";
 // import CardHeader from "./components/Card/CardHeader";
-// import CheckBox from "./components/Checkbox/Checkbox";
+import CheckBox from "./components/Checkbox/Checkbox";
 // import { Close } from "./components/Closebutton/Close";
 // import { ColorPicker } from "./components/Colorpicker/Colorpicker";
 // import { CompanyList } from "./components/CompanyList/CompanyList";
 // import { CommentSentBox } from "./components/CommentSentBox/CommentSentBox";
 // import { CountrySelect } from "./components/Coutry_select_dropdown/CountrySelect";
 
-// import DataTable from "./components/Datatable/Datatable";
+import DataTable from "./components/Datatable/Datatable";
 // import { Datepicker } from "./components/Datepicker/datepicker";
 // import { DatepickerYear } from "./components/Datepicker/datepickerYear";
-export { DatepickerRange } from "./components/CalendarRange/DatepickerRange";
-export { DatepickerRangeExpanded } from "./components/CalendarRange/DatepickerRangeExpanded";
+// import { DatepickerRange } from "./components/CalendarRange/DatepickerRange";
+// import { DatepickerRangeExpanded } from "./components/CalendarRange/DatepickerRangeExpanded";
 // import { DropdownList } from "./components/DropdownList/DropdownList";
 // import { Email } from "./components/Textfield/Email";
 
@@ -34,7 +34,7 @@ export { DatepickerRangeExpanded } from "./components/CalendarRange/DatepickerRa
 
 // import { Loader } from "./components/Loader/Loader";
 
-// import { MenuIcon } from "./components/MenuIcon/MenuIcon";
+import { MenuIcon } from "./components/MenuIcon/MenuIcon";
 // import Modal from "./components/Modal/Modal";
 // import ModalAction from "./components/Modal/ModalAction";
 // import ModalContent from "./components/Modal/ModalContent";
@@ -64,7 +64,7 @@ export { DatepickerRangeExpanded } from "./components/CalendarRange/DatepickerRa
 // import { SearchBar } from "./components/Search/Search";
 // import { SpeedDial } from "./components/Speeddial/Speeddial";
 // import { Spinner } from "./components/Spinner/Spinner";
-// import { Switch } from "./components/Switch/Switch";
+import { Switch } from "./components/Switch/Switch";
 
 // import Table from "./components/Table/Table";
 // import { TabBar } from "./components/Tab/Tab";
@@ -80,6 +80,7 @@ export { DatepickerRangeExpanded } from "./components/CalendarRange/DatepickerRa
 // import Uploader from "./components/Fileupload/Fileupload";
 
 import "./style.css"
+export { DataTable, CheckBox, MenuIcon, Switch };
 
 // export {
 //     Accordion,
