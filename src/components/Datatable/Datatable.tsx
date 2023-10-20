@@ -137,7 +137,7 @@ const DataTable = ({
       <table className="w-full">
         <thead>
           <tr
-            className={`w-full top-0 z-[1] border-y border-pureBlack ${sticky ? "sticky" : "static"
+            className={`w-full top-0 z-[1]  ${sticky ? "sticky bg-pureWhite border-y border-pureBlack" : "static border-y border-pureBlack"
               } ${noHeader ? "hidden " : ""}`}
           >
             {expandable && (
@@ -193,13 +193,13 @@ const DataTable = ({
                     </td>
                   ) : (
                     <td
-                      className={`w-8 ${expandableStyle?.rows} h-12 pl-2 font-proxima ${expandedRows.has(rowIndex) ? "border-none" : "border-b"} ${noHeader&&"border-t"} border-[#ccc] cursor-pointer`}
+                      className={`w-8 ${expandableStyle?.rows} h-12 pl-2 font-proxima ${expandedRows.has(rowIndex) ? "border-none" : "border-b"} ${noHeader && "border-t"} border-[#ccc] cursor-pointer`}
                     ></td>
                   ))}
                 {columns?.map((column, colIndex) => (
                   <td
                     key={colIndex}
-                    className={` ${row?.style} ${noHeader && column.colStyle} ${column.rowStyle} h-12 text-xs py-2 px-1 ${expandedRows.has(rowIndex) ? "border-none" : "border-b"} border-[#ccc] break-all ${noHeader&&"border-t"}`}
+                    className={` ${row?.style} ${noHeader && column.colStyle} ${column.rowStyle} h-12 text-xs py-2 px-1 ${expandedRows.has(rowIndex) ? "border-none" : "border-b"} border-[#ccc] break-all ${noHeader && "border-t"}`}
                   >
                     <span
                       className={`flex py-2 px-1 font-proxima items-center justify-${getAlignment(
