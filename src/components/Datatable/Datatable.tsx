@@ -137,7 +137,7 @@ const DataTable = ({
       <table className="w-full">
         <thead>
           <tr
-            className={`w-full top-0 z-[1]  ${sticky ? "shadow-md sticky bg-[#f2f2f2]" : "static border-y border-pureBlack "
+            className={`w-full top-0 z-[1] border-y border-pureBlack ${sticky ? "sticky" : "static"
               } ${noHeader ? "hidden " : ""}`}
           >
             {expandable && (
