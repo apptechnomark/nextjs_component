@@ -12,7 +12,6 @@ interface RangeSelectorProps {
   value?: number;
   valueBetween?: boolean;
   variant?: "default" | "dot" | "line";
-  types?: string;
 }
 
 const Range: React.FC<RangeSelectorProps> = ({
@@ -24,18 +23,34 @@ const Range: React.FC<RangeSelectorProps> = ({
   value,
   valueBetween,
   variant,
-  types,
 }) => {
   const inputRef = useRef<HTMLInputElement>(null);
-  const parentDivRef = useRef<HTMLDivElement>(null);
   const [selectedValue, setSelectedValue] = useState(value || min);
   const [step, setStep] = useState(1);
   const [values, setValues] = useState<number[]>([]);
-  const [width, setWidth] = useState<number | null>(null);
+  const [tooltipVisible, setTooltipVisible] = useState(false);
+  const [tooltipValue, setTooltipValue] = useState(selectedValue);
+
+  const handleThumbClick = () => {
+    // Show/hide the tooltip when clicking on the thumb
+    setTooltipVisible(!tooltipVisible);
+  };
+
+  const handleThumbHover = () => {
+    // Show the tooltip on hover
+    setTooltipVisible(true);
+  };
+
+  const handleThumbLeave = () => {
+    // Hide the tooltip when the cursor leaves the thumb
+    setTooltipVisible(false);
+  };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    // Update the selected value and tooltip value
     const newValue = parseInt(event.target.value);
     setSelectedValue(newValue);
+    setTooltipValue(newValue);
     onChange(newValue);
   };
 
@@ -65,11 +80,8 @@ const Range: React.FC<RangeSelectorProps> = ({
     background: `linear-gradient(to right, #0592C6 ${fillPercentage}%, #D8D8D8 0%)`,
   };
 
-  useEffect(() => {
-    if (parentDivRef.current) {
-      setWidth(parentDivRef.current.offsetWidth);
-    }
-  }, [parentDivRef]);
+  let parentDiv = document.getElementById("parentDiv");
+  let width = parentDiv && parentDiv.offsetWidth;
 
   const left = ((selectedValue - min) / (max - min)) * (width - 10 - 10) + 3;
 
@@ -83,7 +95,7 @@ const Range: React.FC<RangeSelectorProps> = ({
 
       return (
         <div className="relative  mt-[1.2px]">
-          <>
+          <div>
             {dots.map((dot, index) => (
               <div
                 key={index}
@@ -97,7 +109,7 @@ const Range: React.FC<RangeSelectorProps> = ({
                 )}
               </div>
             ))}
-          </>
+          </div>
         </div>
       );
     } else if (variant === "line" && gap) {
@@ -132,7 +144,6 @@ const Range: React.FC<RangeSelectorProps> = ({
 
   return (
     <div
-      ref={parentDivRef}
       id="parentDiv"
       className={`w-full group ${styles.custom_range} flex relative justify-center items-center`}
     >
@@ -141,32 +152,33 @@ const Range: React.FC<RangeSelectorProps> = ({
           {renderDotsOrLines()}
         </span>
       </div>
-      <div className="w-full relative">
+      {tooltipVisible && (
         <div
-          className="bg-transparent w-[10px] h-[10px] group-hover:visible rounded-full"
+          className={`${styles.tooltip} ${styles.top}`}
           style={{
-            position: "absolute",
-            left: left,
-            bottom: "15px",
+            left: left + 5,
           }}
         >
-          <Tooltip position="top" content={selectedValue}></Tooltip>
+          <span className={`${styles.tooltiptext}`}>{tooltipValue}</span>
         </div>
-
-        <input
-          ref={inputRef}
-          type="range"
-          id="range_input_thumb"
-          min={min}
-          max={max}
-          value={selectedValue}
-          onChange={handleChange}
-          step={step}
-          style={{ ...fillStyle }}
-          className={`w-full cursor-pointer`}
-        />
-      </div>
+      )}
+      <input
+        ref={inputRef}
+        type="range"
+        id="range_input_thumb"
+        min={min}
+        max={max}
+        value={selectedValue}
+        onChange={handleChange}
+        step={step}
+        style={{ ...fillStyle }}
+        className={`w-full cursor-pointer`}
+        onClick={handleThumbClick}
+        onMouseOver={handleThumbHover}
+        onMouseOut={handleThumbLeave}
+      />
     </div>
+    // </div>
   );
 };
 

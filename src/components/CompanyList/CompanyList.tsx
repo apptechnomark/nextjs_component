@@ -22,8 +22,9 @@ interface CompanyListProps {
     noborder?: boolean;
     showAvatar?: number;
     disabled?: boolean;
+    type?:"avatar"|"text";
     checkbox?: boolean;
-    variant?: string;
+    variant?: "user"|"company";
     values?: any;
 }
 const CompanyList: React.FC<CompanyListProps> = ({
@@ -44,6 +45,7 @@ const CompanyList: React.FC<CompanyListProps> = ({
     showAvatar = 3,
     disabled,
     variant = "company",
+    type="avatar",
     checkbox = true,
     ...props
 }) => {
@@ -211,23 +213,29 @@ const CompanyList: React.FC<CompanyListProps> = ({
                 )}
                 <div
                     className={`flex items-center transition-height duration-200 ease-out cursor-pointer ${disabled && "pointer-events-none"
-                        } ${selectedValues.length > 0 ? "h-[42px]" : "h-[25px]"}`}
+                        } ${selectedValues.length > 0 &&type=="avatar" ? "h-[42px]" : "h-[25px]"}`}
                     onClick={handleToggleOpen}
                 >
                     {selectedValues.length > 0 ? (
-                        <AvatarGroup variant="small" show={showAvatar}>{updatedAvatars}</AvatarGroup>
+                        <>
+                        {type=="avatar"&&<AvatarGroup variant="small" show={showAvatar}>
+                            {updatedAvatars}
+                        </AvatarGroup>}
+                        {type=="text"&&<Typography type="h6">  {selectedValues.length > 0
+                        && `${selectedValues.length} selected.`} </Typography>}
+                        </>
                     ) : (
                         <Typography
                             type="h6"
                             className={`!font-normal dark:text-pureWhite ${err && "text-defaultRed"} ${disabled && "text-slatyGrey dark:text-pureWhite"
                                 } select-none`}
                         >
-                            {isOpen ? "" : "Please Select"}
+                            {isOpen ? "" :defaultValue?defaultValue: "Please Select"}
                         </Typography>
                     )}
                     <div
                         onClick={handleToggleOpen}
-                        className={`ml-1 text-[1.5rem]  transition-transform ${err
+                        className={`ml-1 text-[1.5rem]  absolute right-0 transition-transform ${err
                             ? "text-defaultRed"
                             : disabled
                                 ? "text-slatyGrey"
@@ -309,7 +317,7 @@ const CompanyList: React.FC<CompanyListProps> = ({
                                             imageUrl={option.imageUrl}
                                         />
                                     </div>
-                                    <Typography type="h5" className="dark:text-pureWhite">{option.label}</Typography>
+                                    <Typography type="h6" className="dark:text-pureWhite">{option.label}</Typography>
                                 </li>
                             ))
                         ) : (
