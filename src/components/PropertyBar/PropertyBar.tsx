@@ -221,8 +221,8 @@ const PropertyBar: React.FC<NavigationBarProps> = ({
                     </div>
                 </div>
             ) : (
-                <div className="flex justify-between bg-whiteSmoke h-[76px]">
-                    <div className="flex items-center  ">
+                <div className="flex justify-between bg-whiteSmoke h-[76px] w-max">
+                    <div className="flex items-center">
                         {visibleTabs.map((tab: any, index: number) => (
                             <div onClick={() => handleTabClick(tab.id, index)} key={tab.id + index}>
                                 <label

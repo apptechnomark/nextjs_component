@@ -222,7 +222,7 @@ const CountrySelect: React.FC<CountryCodeProps> = ({
                 </span>
             )}
             <div
-                className={`flex ${!err
+                className={`flex mt-1 ${!err
                     ? "w-full relative before:absolute before:bottom-0 before:left-0 before:block before:w-0 before:h-px before:bg-primary before:transition-width before:duration-[800ms] before:ease-in hover:before:w-full"
                     : "w-full"
                     }`}
