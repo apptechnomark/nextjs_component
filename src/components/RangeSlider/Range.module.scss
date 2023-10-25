@@ -44,4 +44,56 @@
     -webkit-box-shadow: 0px 0px 0px 8px #aeddee;
     -moz-box-shadow: 0px 0px 0px 8px #aeddee;
   }
+
+  .tooltip {
+    position: absolute;
+    background-color: #84c9e3;
+    color: #000;
+    border-radius: 4px;
+    padding: 4px 8px;
+    top: -45px;
+  }
+
+  .tooltip.tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: #84c9e3;
+    color: #000;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    left: 50%;
+  }
+
+  .tooltip .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #84c9e3 transparent transparent transparent;
+  }
+
+  .tooltip:hover .tooltiptext {
+    visibility: visible;
+  }
+
+  .tooltip.top {
+    opacity: 1;
+    animation: slideDown 0.6s ease-out both;
+  }
+
+  @keyframes slideDown {
+    0% {
+      transform: translate(-50%, -50%);
+      opacity: 0;
+    }
+    100% {
+      transform: translate(-50%, 0);
+      opacity: 1;
+    }
+  }
 }
