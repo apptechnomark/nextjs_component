@@ -316,7 +316,7 @@ const Select: React.FC<SelectProps> = ({
                         : inputValue
             }
             autoComplete="off"
-            className={`flex-grow outline-none bg-white ${disabled
+            className={`${error&&"placeholder:text-defaultRed text-defaultRed"} flex-grow outline-none bg-white ${disabled
               ? "text-slatyGrey"
               : isOpen
                 ? "text-primary"
@@ -339,7 +339,7 @@ const Select: React.FC<SelectProps> = ({
             className={`text-[1.5rem] transition-transform ${disabled
               ? "text-slatyGrey cursor-default"
               : "text-darkCharcoal cursor-pointer"
-              } ${isOpen ? "rotate-180 text-primary duration-400" : "duration-200"}`}
+              } ${error&&" text-defaultRed"} ${isOpen ? "rotate-180 text-primary duration-400" : "duration-200"}`}
           >
             <ChevronDown />
           </div>

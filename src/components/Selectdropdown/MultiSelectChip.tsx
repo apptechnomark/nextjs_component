@@ -259,7 +259,7 @@ const MultiSelectChip: React.FC<MultiSelectChipProps> = ({
               } ${selected.length > 0
                 ? "border-primary"
                 : error
-                  ? "border-defaultRed"
+                  ? "border-defaultRed hover:border-defaultRed"
                   : "border-lightSilver transition-colors duration-300 hover:border-primary"
               } ${className} @layer base {
                 @screen firefox {
@@ -282,16 +282,14 @@ const MultiSelectChip: React.FC<MultiSelectChipProps> = ({
               value={searchInput}
               getError={() => { }}
               getValue={() => { }}
-              className={`bg-white outline-none text-darkCharcoal text-[14px] font-normal ${isOpen ? "text-primary" : ""
-                } ${!isOpen ? "cursor-pointer" : "cursor-default"} ${!isOpen ? "placeholder-darkCharcoal" : "placeholder-primary"
-                }`}
+              className={` ${error && "placeholder:text-defaultRed text-defaultRed !border-defaultRed"} bg-pureWhite outline-none  text-[14px] font-normal ${!isOpen ? "text-darkCharcoal placeholder-darkCharcoal cursor-pointer" : "placeholder-primary cursor-default text-primary"}`}
               onKeyDown={(e) => handleKeyDown(e)}
             />
           </div>
 
           <div
             onClick={handleToggleOpen}
-            className={`absolute right-0 text-[1.5rem] transition-transform text-darkCharcoal cursor-pointer ${isOpen ? "rotate-180 text-primary duration-400" : " duration-200"
+            className={`${error && " text-defaultRed"} absolute right-0 text-[1.5rem] transition-transform text-darkCharcoal cursor-pointer ${isOpen ? "rotate-180 text-primary duration-400" : " duration-200"
               }`}
           >
             <ChevronDown />
