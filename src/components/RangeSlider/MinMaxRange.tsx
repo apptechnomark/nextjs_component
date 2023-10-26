@@ -1,6 +1,5 @@
-import React, { useState, ChangeEvent, MouseEvent } from "react";
+import React, { useEffect, useRef, useState, ChangeEvent, MouseEvent } from "react";
 import styles from "./MinMaxRange.module.scss";
-import { Tooltip } from "../Tooltip/Tooltip";
 
 interface MinMaxRangeProps {
   variant?: string;
@@ -27,10 +26,13 @@ const MinMaxRange: React.FC<MinMaxRangeProps> = ({
 }) => {
   const gapValue = (maxRange - minRange) / gap;
 
+  const parentDivRef = useRef<HTMLDivElement>(null);
   const [minValueRange, setMinValueRange] = useState<number>(minRange);
   const [maxValueRange, setMaxValueRange] = useState<number>(maxRange);
   const [tooltipVisibleMin, setTooltipVisibleMin] = useState(false);
   const [tooltipVisibleMax, setTooltipVisibleMax] = useState(false);
+  const [width, setWidth] = useState<number | null>(null); // Add this line
+
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -86,8 +88,11 @@ const MinMaxRange: React.FC<MinMaxRangeProps> = ({
     )}%`,
   };
 
-  let newDiv = document.getElementById("parentDiv");
-  let width = newDiv && newDiv.offsetWidth;
+  useEffect(() => {
+    if (parentDivRef.current) {
+      setWidth(parentDivRef.current.offsetWidth);
+    }
+  }, [parentDivRef]);
 
   const left =
     ((minValueRange - minValue) / (maxValue - minValue)) * (width - 10);
@@ -101,7 +106,7 @@ const MinMaxRange: React.FC<MinMaxRangeProps> = ({
   });
 
   return (
-    <div id="parentDiv" className={`relative ${styles.container}`}>
+    <div id="parentDiv" className={`relative ${styles.container}`} ref={parentDivRef}>
       <div className={`${styles.range_slider}`} onClick={handleLineClick}>
         <div
           className={`flex items-center px-[7.5px] justify-between w-full absolute ${variant === "dot" && "top-[1.5px]"

@@ -1,6 +1,4 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Tooltip } from "../Tooltip/Tooltip";
-import "../Tooltip/Tooltip.module.scss";
 import styles from "./Range.module.scss";
 
 interface RangeSelectorProps {
@@ -25,11 +23,13 @@ const Range: React.FC<RangeSelectorProps> = ({
   variant,
 }) => {
   const inputRef = useRef<HTMLInputElement>(null);
+  const parentDivRef = useRef<HTMLDivElement>(null);
   const [selectedValue, setSelectedValue] = useState(value || min);
   const [step, setStep] = useState(1);
   const [values, setValues] = useState<number[]>([]);
   const [tooltipVisible, setTooltipVisible] = useState(false);
   const [tooltipValue, setTooltipValue] = useState(selectedValue);
+  const [width, setWidth] = useState<number | null>(null); // Add this line
 
   const handleThumbClick = () => {
     // Show/hide the tooltip when clicking on the thumb
@@ -80,8 +80,11 @@ const Range: React.FC<RangeSelectorProps> = ({
     background: `linear-gradient(to right, #0592C6 ${fillPercentage}%, #D8D8D8 0%)`,
   };
 
-  let parentDiv = document.getElementById("parentDiv");
-  let width = parentDiv && parentDiv.offsetWidth;
+  useEffect(() => {
+    if (parentDivRef.current) {
+      setWidth(parentDivRef.current.offsetWidth);
+    }
+  }, [parentDivRef]);
 
   const left = ((selectedValue - min) / (max - min)) * (width - 10 - 10) + 3;
 
@@ -99,7 +102,7 @@ const Range: React.FC<RangeSelectorProps> = ({
             {dots.map((dot, index) => (
               <div
                 key={index}
-                className="absolute h-[3px] w-[3px] flex bg-[#6E6D7A] items-start justify-center rounded-full z-10"
+                className="absolute h-[3px] -mt-[3px] w-[3px] flex bg-[#6E6D7A] items-start justify-center rounded-full z-10"
                 style={{ left: `${(dot / (max - min)) * 100}%` }}
               >
                 {numbers && (
@@ -144,6 +147,7 @@ const Range: React.FC<RangeSelectorProps> = ({
 
   return (
     <div
+      ref={parentDivRef}
       id="parentDiv"
       className={`w-full group ${styles.custom_range} flex relative justify-center items-center`}
     >
