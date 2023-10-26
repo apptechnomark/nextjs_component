@@ -314,7 +314,7 @@ const page: React.FC = () => {
     }
 
     const iconsArray = [
-        <Export key={1} />, <Import key={2} />, <Filter key={3} />, <News key={4} />, <Export key={1} />, <Import key={2} />, <Filter key={3} />, <Export key={1} />, <Import key={2} />, <Filter key={3} />
+        <Export key={1} />, <Import key={2} />, <Filter key={3} />, <News key={4} />, <Export key={1} />, <Import key={2} />, <Filter key={3} />, <Export key={1} />
     ];
 
 
@@ -343,71 +343,71 @@ const page: React.FC = () => {
 
     return (
         <>
-             <BaseLayout>
+            <BaseLayout>
 
-            <h5 className="m-5 pt-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Property Bar</h5>
+                <h5 className="m-5 pt-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Property Bar</h5>
 
-            <div className="p-4 m-3 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+                <div className="p-4 m-3 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
 
-                <h2 className="m-5 text-xl  tracking-tight text-gray-900 dark:text-white">Basic</h2>
-                <div className="">
+                    <h2 className="m-5 text-xl  tracking-tight text-gray-900 dark:text-white">Basic</h2>
+                    <div className="overflow-x-auto">
 
-                    <PropertyBar
-                        tabs={tabs}
-                        visibleTab={2}
-                        getValue={(e) => { setValue(e) }}
-                        icons={iconsInfo}
-                    />
-                </div>
-            </div>
-
-            <div className="p-4 m-3 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-
-                <h2 className="m-5 text-xl   tracking-tight text-gray-900 dark:text-white">Row select</h2>
-                <div className="overflow-x-auto ">
-
-                    <PropertyBar variant="selectedRows" count={10} getValue={values} tableBarIcons={iconsArray} message="shift+click to select, esc to deselect all" />
-                </div>
-            </div>
-
-            <div className="p-4 m-3 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-
-                <h2 className="m-5 text-xl   tracking-tight text-gray-900 dark:text-white"></h2>
-                <div className="overflow-x-auto ">
-
-                    <DataTable
-                        columns={columns}
-                        data={dataList.length > 0 ? classListData : []}
-                        hoverEffect={true}
-                    />
-                    <div className={`fixed bottom-5 left-0 w-full bg-white transition-transform duration-300 transform ${selectedRowCount > 0 ? 'translate-y-0' : 'translate-y-20'}`}>
-                        {selectedRowCount > 0 && isMobileView ? (
-                            <>
-                                <PropertyDrawer
-                                    isOpen={isOpen}
-                                    counts={selectedRowCount}
-                                    onClose={closeDrawer}
-                                    items={itemList}
-                                    icons={iconList}
-                                />
-                            </>
-                        ) : (
-
-
-                            selectedRowCount > 0 && (
-                                <PropertyBar
-                                    variant="selectedRows"
-                                    count={selectedRowCount}
-                                    getValue={values}
-                                    tableBarIcons={iconsArray}
-                                    message="shift+click to select, esc to deselect all"
-                                />
-                            )
-
-                        )}
+                        <PropertyBar
+                            tabs={tabs}
+                            visibleTab={2}
+                            getValue={(e) => { setValue(e) }}
+                            icons={iconsInfo}
+                        />
                     </div>
                 </div>
-            </div>
+
+                <div className="p-4 m-3 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+
+                    <h2 className="m-5 text-xl   tracking-tight text-gray-900 dark:text-white">Row select</h2>
+                    <div className="overflow-x-auto ">
+
+                        <PropertyBar variant="selectedRows" count={10} getValue={values} tableBarIcons={iconsArray} message="shift+click to select, esc to deselect all" />
+                    </div>
+                </div>
+
+                <div className="p-4 m-3 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+
+                    <h2 className="m-5 text-xl   tracking-tight text-gray-900 dark:text-white"></h2>
+                    <div className="overflow-x-auto ">
+
+                        <DataTable
+                            columns={columns}
+                            data={dataList.length > 0 ? classListData : []}
+                            hoverEffect={true}
+                        />
+                        <div className={`fixed bottom-5 w-full bg-white transition-transform duration-300 transform ${selectedRowCount > 0 ? 'translate-y-0' : 'translate-y-20'}`}>
+                            {selectedRowCount > 0 && isMobileView ? (
+                                <>
+                                    <PropertyDrawer
+                                        isOpen={isOpen}
+                                        counts={selectedRowCount}
+                                        onClose={closeDrawer}
+                                        items={itemList}
+                                        icons={iconList}
+                                    />
+                                </>
+                            ) : (
+
+
+                                selectedRowCount > 0 && (
+                                    <PropertyBar
+                                        variant="selectedRows"
+                                        count={selectedRowCount}
+                                        getValue={values}
+                                        tableBarIcons={iconsArray}
+                                        message="shift+click to select, esc to deselect all"
+                                    />
+                                )
+
+                            )}
+                        </div>
+                    </div>
+                </div>
 
             </BaseLayout>
         </>
