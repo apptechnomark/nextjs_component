@@ -40,7 +40,6 @@ const page: React.FC = () => {
                     valueBetween
                     onChange={handleChange}
                     numbers
-                    types="dot"
                 />
             </div>
         </div>
