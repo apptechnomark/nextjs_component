@@ -1,11 +1,12 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
-import ChevronDown from "./icons/ChevronDown";
-import EditIcon from "./icons/EditIcon";
-import DeleteIcon from "./icons/DeleteIcon";
-import RightIcon from "./icons/RightIcon";
-import CrossIcon from "./icons/CrossIcon";
+import React, { useEffect, useRef, useState } from 'react';
 import { Button } from '../Button/Button';
 import Typography from '../Typography/Typography';
+import ChevronDown from "./icons/ChevronDown";
+import CrossIcon from "./icons/CrossIcon";
+import DeleteIcon from "./icons/DeleteIcon";
+import EditIcon from "./icons/EditIcon";
+import RightIcon from "./icons/RightIcon";
+import styles from "./DropdownList.module.scss";
 
 interface SelectProps extends React.InputHTMLAttributes<HTMLInputElement> {
     id: string;
@@ -14,11 +15,16 @@ interface SelectProps extends React.InputHTMLAttributes<HTMLInputElement> {
     className?: string;
     validate?: boolean;
     getValue: (value: any) => void;
+    onFunctionCall?: any;
     getError: (arg1: boolean) => void;
     disabled?: boolean;
     noborder?: boolean;
     btnLabel: string;
     value?: any;
+    placeholder?: string;
+    listPlaceholder?: string;
+    maxLength?: number;
+    minLength?: number;
 }
 
 const DropdownList: React.FC<SelectProps> = ({
@@ -29,10 +35,15 @@ const DropdownList: React.FC<SelectProps> = ({
     className,
     validate,
     getError,
+    onFunctionCall,
     disabled,
     noborder,
     btnLabel,
     value,
+    placeholder = "Enter Label Name",
+    listPlaceholder = "Add new list",
+    maxLength,
+    minLength,
     ...props
 }) => {
     const selectRef = useRef<HTMLDivElement>(null);
@@ -45,7 +56,7 @@ const DropdownList: React.FC<SelectProps> = ({
     const [editList, setEditList] = useState<boolean>(false);
     const [activeIndex, setActiveIndex] = useState<number>(-1);
     const [selectedOption, setSelectedOption] = useState<any>(value ? value : "");
-    const [option, setOptions] = useState([]);
+    const [option, setOptions] = useState<any>([]);
 
     useEffect(() => {
         if (options && options.length > 0) {
@@ -188,7 +199,7 @@ const DropdownList: React.FC<SelectProps> = ({
     return (
         <>
             <div
-                className={`relative font-medium w-full flex-row ${noborder ? '' : 'border-b'} ${disabled && "pointer-events-none"
+                className={`${styles.customScrollbar} relative font-medium w-full flex-row ${noborder ? '' : 'border-b'} ${disabled && "pointer-events-none"
                     } ${selectedOption.length > 0
                         ? "border-primary"
                         : error
@@ -226,9 +237,9 @@ const DropdownList: React.FC<SelectProps> = ({
                         onClick={handleToggleOpen}
                         onChange={handleInputChange}
                         readOnly={!isOpen}
-                        placeholder={`${!isOpen ? "Enter Label Name" : selectedOption.length > 0 ? selectedOption : "Search"}`}
+                        placeholder={`${!isOpen ? placeholder : selectedOption.length > 0 ? selectedOption : "Search"}`}
                         value={isOpen ? searchValue : selectedOption}
-                        className={`w-full flex-grow bg-white outline-none text-[14px] font-normal
+                        className={`w-full flex-grow bg-white outline-none text-sm placeholder:text-sm font-normal
                         ${isOpen ? "placeholder-primary" : error ? "placeholder-defaultRed" : "placeholder-slatyGrey"}
                         `}
                         style={{ background: "transparent" }}
@@ -242,7 +253,7 @@ const DropdownList: React.FC<SelectProps> = ({
                 </div>
 
                 <ul
-                    className={`absolute  w-full bg-pureWhite mt-[1px] overflow-y-auto shadow-md transition-transform ${isOpen
+                    className={`absolute  z-10 w-full bg-pureWhite mt-[1px] overflow-y-auto shadow-md transition-transform ${isOpen
                         ? "max-h-60 translate-y-0 transition-opacity opacity-100 duration-500 ease-out"
                         : "max-h-0 translate-y-20 transition-opacity opacity-0 duration-500"
                         } `}
@@ -302,18 +313,24 @@ const DropdownList: React.FC<SelectProps> = ({
                         </span>
                     )}
                     <li
-                        className={`bottom-0 w-full  sticky shadow-inner bg-pureWhite gap-2 outline-none focus:bg-whiteSmoke 
-                    text-[14px] p-2.5 font-normal cursor-pointer flex items-center `}
+                        className={`w-full flex sticky bottom-0 shadow-inner bg-pureWhite gap-2 focus:bg-whiteSmoke 
+                    text-sm p-2.5 font-normal cursor-pointer`}
                     >
-                        <div className='flex-grow bg-yellowColor'>
+                        <div className='grow'>
                             <input
                                 id="newOptionInput"
-                                placeholder="Add new list"
-                                className={`w-full px-[7px] border-b h-[38px] border-lightSilver  outline-none text-darkCharcoal text-[14px] font-normal placeholder-darkCharcoal placeholder:opacity-50`}
+                                maxLength={maxLength}
+                                minLength={minLength}
+                                placeholder={listPlaceholder}
+                                className={`w-full px-[7px]  border-b h-[38px] border-lightSilver  outline-none text-darkCharcoal text-sm placeholder:text-sm font-normal placeholder-darkCharcoal placeholder:opacity-50`}
                             />
                         </div>
                         <div className=''>
-                            <Button className="rounded-md outline-none" variant="btn-primary" onClick={handleAddNewOption}>
+                            <Button className="rounded-md outline-none" variant="btn-primary" onClick={() => {
+                                handleAddNewOption(),
+                                    onFunctionCall && onFunctionCall()
+                            }
+                            }>
                                 {btnLabel}
                             </Button>
                         </div>
@@ -322,7 +339,7 @@ const DropdownList: React.FC<SelectProps> = ({
                 </ul >
             </div>
             {error && (
-                <span className="text-defaultRed text-[12px] sm:text-[14px]">
+                <span className="text-defaultRed text-[12px] sm:text-sm">
                     {errorMsg}
                 </span>
             )}

@@ -224,10 +224,10 @@ const DatepickerYear: React.FC<DatepickerProps> = ({
             )}
             <div className={`relative flex -mt-1`} ref={inputRef}>
                 <input
-                    type={toggleOpen ? "month" : "text"}
+                    type="text"
                     placeholder="mm/yyyy"
                     readOnly
-                    className={`!p-0 block w-full border-b bg-transparent px-3 py-[0.32rem] ${disabled
+                    className={`!p-0 block opacity-80 text-sm w-full border-b bg-transparent px-3 py-[0.32rem] ${disabled
                         ? "border-lightSilver"
                         : toggleOpen
                             ? "border-primary"
@@ -258,13 +258,13 @@ const DatepickerYear: React.FC<DatepickerProps> = ({
                                         className={`flex flex-row  ${!showYearList && animate}`}>
                                         {showMonthList === true ? (
                                             <h1
-                                                className={`proxima text-[14px] font-semibold ml-1 cursor-pointer text-slatyBlue`}
+                                                className={`font-proxima text-[14px] font-semibold ml-1 cursor-pointer text-slatyBlue`}
                                                 onClick={toggleYearList}
                                             >
                                                 {currentYear}
                                             </h1>
                                         ) : showYearList === true ? (
-                                            <h1 className="proxima text-[14px] font-semibold ml-1 text-slatyBlue">
+                                            <h1 className="font-proxima text-[14px] font-semibold ml-1 text-slatyBlue">
                                                 {displayedYears[0] + " - " + displayedYears[displayedYears.length - 1]}
                                             </h1>
                                         ) : ""}
@@ -309,15 +309,15 @@ const DatepickerYear: React.FC<DatepickerProps> = ({
                                 {showMonthList === true ? (
                                     <div className="overflow-hidden">
                                         <div className={`${style.topAnimation}  w-full h-full`}>
-                                            <div className="grid grid-cols-4 gap-1 place-content-center overflow-hidden proxima">
+                                            <div className="grid grid-cols-4 place-content-center overflow-hidden font-proxima">
                                                 {months.map((month, index) => (
                                                     <div
                                                         key={index}
-                                                        className={`py-5 px-[5.4px] w-full h-full grid place-content-center text-sm text-textColor proxima relative cursor-pointer `}
-                                                        onClick={() => selectMonth(index + 1)}
+                                                        className={`py-[19.4px] w-[70px]  grid place-content-center text-sm text-textColor font-proxima relative cursor-pointer `}
+                                                        onClick={() => selectMonth(index+1)}
                                                     >
                                                         <div
-                                                            className={`w-14 h-12 hover:bg-lightGreen hover:text-primary transition-all duration-200 flex items-center justify-center rounded-md ${index === selectedMonth
+                                                            className={`py-[20px]  px-5 text-sm hover:bg-lightGreen hover:text-primary transition-all duration-200 flex items-center justify-center rounded-md ${index === selectedMonth
                                                                 ? "bg-lightGreen text-primary"
                                                                 : ""
                                                                 }`}
@@ -331,23 +331,24 @@ const DatepickerYear: React.FC<DatepickerProps> = ({
                                     </div>
                                 ) : showYearList === true && (
                                     <div className="overflow-hidden">
-                                        <div className={`${style.topAnimation}`}>
-                                            <div className={`${animate}  w-full`}>
-                                                <div className="grid grid-cols-4 grid-rows-4 gap-1 place-content-center overflow-hidden proxima">
-                                                    {displayedYears.map((year) => (
+                                        <div className={`${animate} ${style.topAnimation}  w-full`}>
+                                            <div className="grid grid-cols-4 grid-rows-4 place-content-center overflow-hidden font-proxima">
+                                                {displayedYears.map((year) => (
+                                                    <div
+                                                        key={year}
+                                                        className={`py-[9px] w-[70px] grid place-content-center text-sm text-textColor font-proxima relative cursor-pointer`}
+                                                        onClick={() => selectYear(year)}
+                                                    >
                                                         <div
-                                                            key={year}
-                                                            className={`py-2 w-[67px] h-full grid place-content-center text-sm text-textColor proxima relative cursor-pointer`}
-                                                            onClick={() => selectYear(year)}>
-                                                            <div className={`py-4 px-3 w-full h-full hover:bg-lightGreen hover:text-primary transition-all duration-200 flex items-center justify-center rounded-md ${year === selectedYear
+                                                            className={`py-[18px] px-5 text-sm hover:bg-lightGreen hover:text-primary transition-all duration-200 flex items-center justify-center rounded-md ${year === selectedYear
                                                                 ? "bg-lightGreen text-primary"
                                                                 : ""
-                                                                }`}>
-                                                                {year}
-                                                            </div>
+                                                                }`}
+                                                        >
+                                                            {year}
                                                         </div>
-                                                    ))}
-                                                </div>
+                                                    </div>
+                                                ))}
                                             </div>
                                         </div>
                                     </div>

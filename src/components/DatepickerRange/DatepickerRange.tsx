@@ -15,7 +15,7 @@ interface DatepickerDate {
 interface DatepickerProps {
     startYear: number;
     endYear: number;
-    value: string;
+    value?: string;
     id: string;
     label?: string,
     className?: string,
@@ -28,9 +28,9 @@ interface DatepickerProps {
 }
 
 const DatepickerRange: React.FC<DatepickerProps> = ({
-    value,
     startYear,
     endYear,
+    value,
     label,
     validate,
     disabled,
@@ -46,24 +46,28 @@ const DatepickerRange: React.FC<DatepickerProps> = ({
     const [today, setToday] = useState<Date>(currentDate);
     const [showMonthList, setShowMonthList] = useState<boolean>(false);
     const [showYearList, setShowYearList] = useState<boolean>(false);
-    const [selectedDate, setSelectedDate] = useState<Date>(
-        currentDate
-    );
-    const [fullDate, setFullDate] = useState<string>("");
+    const [selectedDate, setSelectedDate] = useState<Date>(currentDate);
+    // const [fullDate, setFullDate] = useState<string>("");
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [toggleOpen, setToggleOpen] = useState<boolean>(false);
     const [animate, setAnimate] = useState<string>("");
+    const [err, setErr] = useState<boolean>(false);
+    const [focus, setFocus] = useState<boolean>(false);
+    const [errorMsg, setErrorMsg] = useState<string>("");
 
-    let dateParts = value.split(" to ");
-    let startDateString = dateParts[0];
-    let endDateString = dateParts[1];
+    let splitDate = value && value.split(" to ");
+    let startDateString = splitDate && splitDate[0];
+    let endDateString = splitDate && splitDate[1];
+    let updatedStartDate = new Date(startDateString);
+    updatedStartDate.setHours(0, 0, 0, 0);
+    let updatedEndDate = new Date(endDateString);
+    updatedEndDate.setHours(0, 0, 0, 0);
 
-    const [startDate, setStartDate] = useState<Date | null>(new Date(startDateString));
-    const [endDate, setEndDate] = useState<Date | null>(new Date(endDateString));
+    const [startDate, setStartDate] = useState<Date | null>(updatedStartDate);
+    const [endDate, setEndDate] = useState<Date | null>(new Date(updatedEndDate));
     const [rangeDates, setRangeDates] = useState<Date[]>([]);
-    const [startDates, setStartDates] = useState<string>(startDateString);
-    const [endDates, setEndDates] = useState<string>(endDateString);
-
+    const [inputStartDate, setInputStartDate] = useState<string>(startDateString || "");
+    const [inputEndDate, setInputEndDate] = useState<string>(endDateString || "");
 
     const currentMonth = today.getMonth();
     const [selectedMonth, setSelectedMonth] = useState<number>(currentMonth);
@@ -130,13 +134,13 @@ const DatepickerRange: React.FC<DatepickerProps> = ({
     //         newDate.setDate(date.getDate() + 1);
     //         const formattedDate = newDate.toISOString().slice(0, 10).split("-");
     //         const updatedDate = `${formattedDate[0]}-${formattedDate[1]}-${formattedDate[2]}`;
-    //         setStartDates(updatedDate);
+    //         setInputStartDates(updatedDate);
     //     } else if (endDate == null) {
     //         newDate.setDate(date.getDate() + 1);
     //         const formattedDate = newDate.toISOString().slice(0, 10).split("-");
     //         const updatedDate = `${formattedDate[0]}-${formattedDate[1]}-${formattedDate[2]}`;
     //         // setToggleOpen(false);
-    //         setEndDates(updatedDate);
+    //         setInputEndDate(updatedDate);
     //         if (date > startDate) {
     //             setEndDate(date);
     //         } else {
@@ -149,7 +153,7 @@ const DatepickerRange: React.FC<DatepickerProps> = ({
     //         newDate.setDate(date.getDate() + 1);
     //         const formattedDate = newDate.toISOString().slice(0, 10).split("-");
     //         const updatedDate = `${formattedDate[0]}-${formattedDate[1]}-${formattedDate[2]}`;
-    //         setStartDates(updatedDate);
+    //         setInputStartDates(updatedDate);
     //     }
 
     //     if (date.getMonth() < selectedMonth) {
@@ -173,7 +177,7 @@ const DatepickerRange: React.FC<DatepickerProps> = ({
             newDate.setDate(date.getDate() + 1);
             const formattedDate = newDate.toISOString().slice(0, 10).split("-");
             const updatedDate = `${formattedDate[0]}-${formattedDate[1]}-${formattedDate[2]}`;
-            setStartDates(updatedDate);
+            setInputStartDate(updatedDate);
         }
         else if (endDate == null) {
             newDate.setDate(date.getDate() + 1);
@@ -181,11 +185,11 @@ const DatepickerRange: React.FC<DatepickerProps> = ({
             const updatedDate = `${formattedDate[0]}-${formattedDate[1]}-${formattedDate[2]}`;
 
             if (date > startDate) {
-                setEndDates(updatedDate);
+                setInputEndDate(updatedDate);
                 setEndDate(date);
             } else {
                 setStartDate(date);
-                setStartDates(updatedDate);
+                setInputStartDate(updatedDate);
             }
             setToggleOpen(false);
         } else {
@@ -195,7 +199,8 @@ const DatepickerRange: React.FC<DatepickerProps> = ({
             newDate.setDate(date.getDate() + 1);
             const formattedDate = newDate.toISOString().slice(0, 10).split("-");
             const updatedDate = `${formattedDate[0]}-${formattedDate[1]}-${formattedDate[2]}`;
-            setStartDates(updatedDate);
+            setInputStartDate(updatedDate);
+            setInputEndDate("");
         }
 
         if (date.getMonth() < selectedMonth) {
@@ -206,6 +211,37 @@ const DatepickerRange: React.FC<DatepickerProps> = ({
         }
         setAnimate("");
         setRangeDates([]);
+        if (validate) {
+            if (!newDate) {
+                setErr(true);
+                setErrorMsg("Please select a date.");
+                getError(false);
+            } else {
+                setErr(false);
+                setErrorMsg("");
+                getError(true);
+            }
+        }
+    };
+
+    useEffect(() => {
+        if (validate) {
+            setFocus(hasError);
+            setErrorMsg(errorMessage);
+            setErr(hasError);
+            hasError && getError(false);
+        } else {
+            getError(true);
+            setFocus(hasError);
+        }
+    }, [validate, errorMessage, hasError]);
+
+    const handleInputBlur = () => {
+        if (!inputStartDate && !inputEndDate && validate) {
+            setErr(true);
+            setErrorMsg("Please select a date.");
+            getError(true);
+        }
     };
 
     const handleDateHover = (date: Date) => {
@@ -288,63 +324,84 @@ const DatepickerRange: React.FC<DatepickerProps> = ({
             !isNaN(inputDate.getTime()) &&
             inputDate.getFullYear().toString().length == 4
         ) {
-            const formattedDate = inputDate.toISOString().slice(0, 10);
             setToggleOpen(true);
             setToday(inputDate);
             setSelectedDate(inputDate);
             setSelectedMonth(inputDate.getMonth());
             setSelectedYear(inputDate.getFullYear());
-            setFullDate(formattedDate);
         } else {
             setToggleOpen(false);
         }
     };
 
     useEffect(() => {
-        getValue(startDates + " to " + endDates);
-    }, [startDates, endDates]);
+        if (inputStartDate != "" && inputEndDate != "") {
+            getValue(inputStartDate + " to " + inputEndDate);
+        }
+    }, [inputStartDate, inputEndDate]);
+
 
     return (
         <>
+            {label && (
+                <span className="flex">
+                    <Typography
+                        type="h6"
+                        className={`${err
+                            ? "text-defaultRed"
+                            : focus
+                                ? "text-primary"
+                                : "text-slatyGrey"
+                            }`}
+                    >
+                        {label}
+                    </Typography>
+                    {validate && (
+                        <span
+                            className={`${disabled ? "text-slatyGrey" : "text-defaultRed"}`}
+                        >
+                            &nbsp;*
+                        </span>
+                    )}
+                </span>
+            )}
             <div
-                className={`flex w-full before:absolute before:bottom-0 before:left-0 before:block before:w-0 before:h-px before:bg-primary before:transition-width before:duration-[800ms] before:ease-in hover:before:w-full`}
+                className={`flex w-full -mt-1 before:absolute before:bottom-0 before:left-0 before:block before:w-0 before:h-px before:bg-primary before:transition-width before:duration-[800ms] before:ease-in hover:before:w-full`}
                 ref={inputRef}
             >
                 <div className="flex w-full relative">
+                    {/* defaultValue={(inputStartDate && inputEndDate) ? inputStartDate + " to " + inputEndDate : inputStartDate ? inputStartDate + " to " : inputEndDate} */}
+
                     <input
-                        type="date"
-                        className={`peer block min-h-[auto] pl-1 w-full border-b bg-transparent px-3 py-[0.32rem] border-lightSilver outline-none`}
+                        type="text"
+                        placeholder="dd/mm/yyyy"
+                        className={`w-full border-b placeholder:text-sm text-sm bg-transparent ${disabled
+                            ? "border-lightSilver"
+                            : toggleOpen
+                                ? "border-primary"
+                                : err
+                                    ? "border-defaultRed "
+                                    : "border-lightSilver hover:border-primary  transition-colors duration-300 ease-in-out"
+                            } ${err ? "text-defaultRed placeholder:text-defaultRed" : "text-darkCharcoal placeholder:text-darkCharcoal placeholder:opacity-80"
+                            } outline-none`}
                         onClick={calendarShow}
-                        defaultValue={startDates}
+                        readOnly
+                        defaultValue={inputStartDate ? inputStartDate + " to " + inputEndDate : inputEndDate}
                         onChange={(e: any) => updateFromInput(e.target.value)}
+                        onBlur={handleInputBlur}
                     />
                     <span
-                        className="absolute right-2 top-2.5 cursor-pointer"
+                        className="absolute right-2 top-0.5 cursor-pointer"
                         onClick={calendarShow}
                     >
-                        <CalendarIcon />
-                    </span>
-                </div>
-                <div className="flex w-full relative">
-                    <input
-                        type="date"
-                        className={`peer block min-h-[auto] pl-1 w-full border-b bg-transparent px-3 py-[0.32rem] border-lightSilver outline-none`}
-                        onClick={calendarShow}
-                        defaultValue={endDates}
-                        onChange={(e: any) => updateFromInput(e.target.value)}
-                    />
-                    <span
-                        className="absolute right-2 top-2.5 cursor-pointer"
-                        onClick={calendarShow}
-                    >
-                        <CalendarIcon />
+                        <CalendarIcon bgColor={err ? "#DC3545" : "#333333"} />
                     </span>
                 </div>
             </div>
             {toggleOpen && (
                 <div className="relative">
                     <div
-                        className={`bottomAnimation absolute z-20  bg-white ${toggleOpen ? style.bottomAnimation : ""
+                        className={`bottomAnimation absolute z-10  bg-white ${toggleOpen ? style.bottomAnimation : ""
                             }`}
                     >
                         <div className="flex mx-auto items-center">
@@ -359,21 +416,21 @@ const DatepickerRange: React.FC<DatepickerProps> = ({
                                             ""
                                         ) : (
                                             <h1
-                                                className="proxima text-[14px] font-semibold cursor-pointer text-slatyBlue"
+                                                className="font-proxima text-[15px] font-semibold cursor-pointer text-slatyBlue"
                                                 onClick={toggleMonthList}
                                             >
                                                 {months[currentMonth]}
                                             </h1>
                                         )}
                                         {showYearList === true && showMonthList === false ? (
-                                            <h1 className="proxima text-[14px] font-semibold ml-1 text-slatyBlue">
+                                            <h1 className="font-proxima text-[15px] font-semibold ml-1 text-slatyBlue">
                                                 {displayedYears[0] +
                                                     " - " +
                                                     displayedYears[displayedYears.length - 1]}
                                             </h1>
                                         ) : (
                                             <h1
-                                                className={`proxima text-[14px] font-semibold ml-1 cursor-pointer text-slatyBlue`}
+                                                className={`font-proxima  text-[15px] font-semibold ml-1 cursor-pointer text-slatyBlue`}
                                                 onClick={toggleYearList}
                                             >
                                                 {currentYear}
@@ -439,15 +496,15 @@ const DatepickerRange: React.FC<DatepickerProps> = ({
                                 {showMonthList === true ? (
                                     <div className="overflow-hidden">
                                         <div className={`${style.topAnimation}  w-full h-full`}>
-                                            <div className="grid grid-cols-4 gap-1 place-content-center overflow-hidden proxima">
+                                            <div className="grid grid-cols-4 place-content-center overflow-hidden font-proxima">
                                                 {months.map((month, index) => (
                                                     <div
                                                         key={index}
-                                                        className={`py-5 px-[5.5px] w-full h-full grid place-content-center text-sm text-textColor proxima relative cursor-pointer `}
+                                                        className={`py-[20px] w-[73.5px]  grid place-content-center text-sm text-textColor font-proxima relative cursor-pointer `}
                                                         onClick={() => selectMonth(index)}
                                                     >
                                                         <div
-                                                            className={`w-14 h-12 hover:bg-lightGreen hover:text-primary transition-all duration-200 flex items-center justify-center rounded-md ${index === selectedMonth
+                                                            className={`py-[20px]  px-5 text-sm hover:bg-lightGreen hover:text-primary transition-all duration-200 flex items-center justify-center rounded-md ${index === selectedMonth
                                                                 ? "bg-lightGreen text-primary"
                                                                 : ""
                                                                 }`}
@@ -461,46 +518,44 @@ const DatepickerRange: React.FC<DatepickerProps> = ({
                                     </div>
                                 ) : showYearList === true ? (
                                     <div className="overflow-hidden">
-                                        <div className={`${style.topAnimation}`}>
-                                            <div className={`${animate}  w-full`}>
-                                                <div className="grid grid-cols-4 grid-rows-4 gap-1 place-content-center overflow-hidden proxima">
-                                                    {displayedYears.map((year) => (
+                                        <div className={`${animate} ${style.topAnimation}  w-full`}>
+                                            <div className="grid grid-cols-4 grid-rows-4 place-content-center overflow-hidden font-proxima">
+                                                {displayedYears.map((year) => (
+                                                    <div
+                                                        key={year}
+                                                        className={`py-[9.5px] w-[73.5px] grid place-content-center text-sm text-textColor font-proxima relative cursor-pointer`}
+                                                        onClick={() => selectYear(year)}
+                                                    >
                                                         <div
-                                                            key={year}
-                                                            className={`py-2 w-[67px] h-full grid place-content-center text-sm text-textColor proxima relative cursor-pointer`}
-                                                            onClick={() => selectYear(year)}
+                                                            className={`py-[18px] px-5 text-sm hover:bg-lightGreen hover:text-primary transition-all duration-200 flex items-center justify-center rounded-md ${year === selectedYear
+                                                                ? "bg-lightGreen text-primary"
+                                                                : ""
+                                                                }`}
                                                         >
-                                                            <div
-                                                                className={`py-4 px-3 w-full h-full hover:bg-lightGreen hover:text-primary transition-all duration-200 flex items-center justify-center rounded-md ${year === selectedYear
-                                                                    ? "bg-lightGreen text-primary"
-                                                                    : ""
-                                                                    }`}
-                                                            >
-                                                                {year}
-                                                            </div>
+                                                            {year}
                                                         </div>
-                                                    ))}
-                                                </div>
+                                                    </div>
+                                                ))}
                                             </div>
                                         </div>
                                     </div>
                                 ) : (
                                     <>
                                         <div
-                                            className={`w-full grid grid-cols-7 proxima  ${animate}`}
+                                            className={`w-full grid grid-cols-7 font-proxima  ${animate}`}
                                         >
                                             {days.map((day, index) => (
                                                 <Typography
                                                     type="h6"
                                                     key={index}
-                                                    className="h-14 grid place-content-center"
+                                                    className="h-12 grid place-content-center"
                                                 >
                                                     {day}
                                                 </Typography>
                                             ))}
                                         </div>
                                         <div
-                                            className={`w-full h-full grid grid-cols-7 ${animate}`}
+                                            className={`w-full grid grid-cols-7 ${animate}`}
                                         >
                                             {generateDate(today.getMonth(), today.getFullYear()).map(
                                                 (
@@ -527,27 +582,26 @@ const DatepickerRange: React.FC<DatepickerProps> = ({
                                                     return (
                                                         <div
                                                             key={index}
-                                                            className="h-full  w-full grid place-content-center text-sm text-textColor proxima relative "
+                                                            className="w-full grid place-content-center text-sm text-textColor font-proxima relative "
                                                             onClick={() => handleDateClick(currentDate)}
                                                             onMouseEnter={() => handleDateHover(currentDate)}
                                                             onMouseLeave={handleMouseOut}
                                                         ><Typography
-                                                            type="h5"
-                                                            className={`h-[40px] w-[40px] m-[2px] grid place-content-center rounded-full cursor-pointer z-10 
+                                                            type="h6"
+                                                            className={`h-[38px] w-[38px] m-0.5 grid place-content-center rounded-full cursor-pointer z-10 
                                                                 ${currentMonth ? "" : "text-[#cbd5e0]"}
                                                                 ${(isSelected && !isStartDate && !isEndDate) && "bg-[#caf1ff] transition-color duration-[700ms] font-semibold"} 
                                                                 ${isInRange && "border-dashed border border-primary"}
-                                                                ${(isSameDay || isStartDate || isEndDate)
+                                                                ${(value && value !== "" ? (isStartDate || isEndDate) : (isSameDay || isStartDate || isEndDate))
                                                                     ? " bg-primary font-semibold text-white border-none"
                                                                     : (isSelected && !isStartDate && !isEndDate) ? "" : "hover:bg-whiteSmoke"}
                                                                 `}
                                                         >
                                                                 {currentDate.getDate()}
                                                             </Typography>
-                                                            {(isSameDay || isStartDate || isEndDate) && (
+                                                            {(value && value !== "" ? (isStartDate || isEndDate) : (isSameDay || isStartDate || isEndDate)) && (
                                                                 <>
-                                                                    <span
-                                                                        className={`${style.rippleAnimation} absolute rounded-full bg-primary opacity-50`}
+                                                                    <span className={`${style.rippleAnimation} absolute rounded-full w-6 h-6 top-[10px] left-[9px] bg-primary opacity-50`}
                                                                     ></span>
                                                                 </>
                                                             )}
@@ -562,6 +616,11 @@ const DatepickerRange: React.FC<DatepickerProps> = ({
                         </div>
                     </div>
                 </div>
+            )}
+            {err && (
+                <span className="text-defaultRed text-[12px] sm:text-sm">
+                    {errorMsg}
+                </span>
             )}
         </>
     );

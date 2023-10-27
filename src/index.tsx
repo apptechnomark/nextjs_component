@@ -20,8 +20,8 @@ import { CountrySelect } from "./components/Coutry_select_dropdown/CountrySelect
 import DataTable from "./components/Datatable/Datatable";
 import { Datepicker } from "./components/Datepicker/datepicker";
 import { DatepickerYear } from "./components/Datepicker/datepickerYear";
-import { DatepickerRange } from "./components/CalendarRange/DatepickerRange";
-import { DatepickerRangeExpanded } from "./components/CalendarRange/DatepickerRangeExpanded";
+import { DatepickerRange } from "./components/DatepickerRange/DatepickerRange";
+import { DatepickerRangeExpanded } from "./components/DatepickerRange/DatepickerRangeExpanded";
 import { DropdownList } from "./components/DropdownList/DropdownList";
 import { Email } from "./components/Textfield/Email";
 
