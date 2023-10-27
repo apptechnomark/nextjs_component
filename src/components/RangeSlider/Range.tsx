@@ -1,6 +1,4 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Tooltip } from "../Tooltip/Tooltip";
-import "../Tooltip/Tooltip.module.scss";
 import styles from "./Range.module.scss";
 
 interface RangeSelectorProps {
@@ -12,7 +10,6 @@ interface RangeSelectorProps {
   value?: number;
   valueBetween?: boolean;
   variant?: "default" | "dot" | "line";
-  types?: string;
 }
 
 const Range: React.FC<RangeSelectorProps> = ({
@@ -24,18 +21,36 @@ const Range: React.FC<RangeSelectorProps> = ({
   value,
   valueBetween,
   variant,
-  types,
 }) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const parentDivRef = useRef<HTMLDivElement>(null);
   const [selectedValue, setSelectedValue] = useState(value || min);
   const [step, setStep] = useState(1);
   const [values, setValues] = useState<number[]>([]);
-  const [width, setWidth] = useState<number | null>(null);
+  const [tooltipVisible, setTooltipVisible] = useState(false);
+  const [tooltipValue, setTooltipValue] = useState(selectedValue);
+  const [width, setWidth] = useState<number | null>(null); // Add this line
+
+  const handleThumbClick = () => {
+    // Show/hide the tooltip when clicking on the thumb
+    setTooltipVisible(!tooltipVisible);
+  };
+
+  const handleThumbHover = () => {
+    // Show the tooltip on hover
+    setTooltipVisible(true);
+  };
+
+  const handleThumbLeave = () => {
+    // Hide the tooltip when the cursor leaves the thumb
+    setTooltipVisible(false);
+  };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    // Update the selected value and tooltip value
     const newValue = parseInt(event.target.value);
     setSelectedValue(newValue);
+    setTooltipValue(newValue);
     onChange(newValue);
   };
 
@@ -83,11 +98,11 @@ const Range: React.FC<RangeSelectorProps> = ({
 
       return (
         <div className="relative  mt-[1.2px]">
-          <>
+          <div>
             {dots.map((dot, index) => (
               <div
                 key={index}
-                className="absolute h-[3px] w-[3px] flex bg-[#6E6D7A] items-start justify-center rounded-full z-10"
+                className="absolute h-[3px] -mt-[3px] w-[3px] flex bg-[#6E6D7A] items-start justify-center rounded-full z-10"
                 style={{ left: `${(dot / (max - min)) * 100}%` }}
               >
                 {numbers && (
@@ -97,7 +112,7 @@ const Range: React.FC<RangeSelectorProps> = ({
                 )}
               </div>
             ))}
-          </>
+          </div>
         </div>
       );
     } else if (variant === "line" && gap) {
@@ -141,32 +156,33 @@ const Range: React.FC<RangeSelectorProps> = ({
           {renderDotsOrLines()}
         </span>
       </div>
-      <div className="w-full relative">
+      {tooltipVisible && (
         <div
-          className="bg-transparent w-[10px] h-[10px] group-hover:visible rounded-full"
+          className={`${styles.tooltip} ${styles.top}`}
           style={{
-            position: "absolute",
-            left: left,
-            bottom: "15px",
+            left: left + 5,
           }}
         >
-          <Tooltip position="top" content={selectedValue}></Tooltip>
+          <span className={`${styles.tooltiptext}`}>{tooltipValue}</span>
         </div>
-
-        <input
-          ref={inputRef}
-          type="range"
-          id="range_input_thumb"
-          min={min}
-          max={max}
-          value={selectedValue}
-          onChange={handleChange}
-          step={step}
-          style={{ ...fillStyle }}
-          className={`w-full cursor-pointer`}
-        />
-      </div>
+      )}
+      <input
+        ref={inputRef}
+        type="range"
+        id="range_input_thumb"
+        min={min}
+        max={max}
+        value={selectedValue}
+        onChange={handleChange}
+        step={step}
+        style={{ ...fillStyle }}
+        className={`w-full cursor-pointer`}
+        onClick={handleThumbClick}
+        onMouseOver={handleThumbHover}
+        onMouseOut={handleThumbLeave}
+      />
     </div>
+    // </div>
   );
 };
 

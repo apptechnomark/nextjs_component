@@ -1,6 +1,5 @@
-import React, { useState, ChangeEvent, MouseEvent, useRef, useEffect } from "react";
+import React, { useEffect, useRef, useState, ChangeEvent, MouseEvent } from "react";
 import styles from "./MinMaxRange.module.scss";
-import { Tooltip } from "../Tooltip/Tooltip";
 
 interface MinMaxRangeProps {
   variant?: string;
@@ -26,11 +25,14 @@ const MinMaxRange: React.FC<MinMaxRangeProps> = ({
   noRangeBetween = false,
 }) => {
   const gapValue = (maxRange - minRange) / gap;
-  const parentDivRef = useRef<HTMLDivElement>(null);
-  const [width, setWidth] = useState<number | null>(null);
 
+  const parentDivRef = useRef<HTMLDivElement>(null);
   const [minValueRange, setMinValueRange] = useState<number>(minRange);
   const [maxValueRange, setMaxValueRange] = useState<number>(maxRange);
+  const [tooltipVisibleMin, setTooltipVisibleMin] = useState(false);
+  const [tooltipVisibleMax, setTooltipVisibleMax] = useState(false);
+  const [width, setWidth] = useState<number | null>(null); // Add this line
+
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -104,7 +106,7 @@ const MinMaxRange: React.FC<MinMaxRangeProps> = ({
   });
 
   return (
-      <div ref={parentDivRef} id="parentDiv" className={`relative ${styles.container}`}>
+    <div id="parentDiv" className={`relative ${styles.container}`} ref={parentDivRef}>
       <div className={`${styles.range_slider}`} onClick={handleLineClick}>
         <div
           className={`flex items-center px-[7.5px] justify-between w-full absolute ${variant === "dot" && "top-[1.5px]"
@@ -125,52 +127,50 @@ const MinMaxRange: React.FC<MinMaxRangeProps> = ({
           ))}
         </div>
         <div className={styles.progress} style={minProgressStyle}></div>
-        <div className="w-full">
+        {tooltipVisibleMin && (
           <div
-            className="bg-transparent w-[12px] h-[12px] group-hover:visible rounded-full z-10"
+            className={`${styles.tooltip} ${styles.top}`}
             style={{
-              position: "absolute",
-              left: left,
-              bottom: "7px",
+              left: left + 5,
             }}
           >
-            <Tooltip
-              position="top"
-              content={Math.round(minValueRange)}
-            ></Tooltip>
+            <span className={`${styles.tooltiptext}`}>
+              {Math.round(minValueRange)}
+            </span>
           </div>
-          <input
-            type="range"
-            name="min"
-            min={minValue}
-            max={maxValue}
-            value={minValueRange}
-            onChange={handleInputChange}
-          />
-        </div>
-        <div className="w-full">
+        )}
+        <input
+          type="range"
+          name="min"
+          min={minValue}
+          max={maxValue}
+          value={minValueRange}
+          onChange={handleInputChange}
+          onMouseOver={() => setTooltipVisibleMin(true)}
+          onMouseOut={() => setTooltipVisibleMin(false)}
+        />
+        {tooltipVisibleMax && (
           <div
-            className="bg-transparent w-[12px] h-[12px] group-hover:visible rounded-full z-10"
+            className={`${styles.tooltip} ${styles.top}`}
             style={{
-              position: "absolute",
-              left: right,
-              bottom: "7px",
+              left: right + 5,
             }}
           >
-            <Tooltip
-              position="top"
-              content={Math.round(maxValueRange)}
-            ></Tooltip>
+            <span className={`${styles.tooltiptext}`}>
+              {Math.round(maxValueRange)}
+            </span>
           </div>
-          <input
-            type="range"
-            name="max"
-            min={minValue}
-            max={maxValue}
-            value={maxValueRange}
-            onChange={handleInputChange}
-          />
-        </div>
+        )}
+        <input
+          type="range"
+          name="max"
+          min={minValue}
+          max={maxValue}
+          value={maxValueRange}
+          onChange={handleInputChange}
+          onMouseOver={() => setTooltipVisibleMax(true)}
+          onMouseOut={() => setTooltipVisibleMax(false)}
+        />
       </div>
     </div>
   );

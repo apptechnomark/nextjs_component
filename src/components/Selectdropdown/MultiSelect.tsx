@@ -229,14 +229,14 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
                 ? `${inputValue.substring(0, 20)}...`
                 : inputValue
             }
-            className={`w-full  flex-grow bg-white outline-none text-darkCharcoal text-[14px] font-normal ${isOpen ? "text-primary" : ""
-              } ${!isOpen ? "cursor-pointer" : "cursor-default"} ${!isOpen ? "placeholder-darkCharcoal" : "placeholder-primary"
+            className={`${error&&"placeholder:text-defaultRed text-defaultRed"} w-full  flex-grow bg-white outline-none text-darkCharcoal text-[14px] font-normal ${isOpen ? "text-primary" : ""
+              } ${!isOpen ? "placeholder-darkCharcoal cursor-pointer" : "placeholder-primary cursor-default"
               }`} style={{ background: "transparent" }}
             onKeyDown={(e) => handleKeyDown(e)}
           />
           <div
             onClick={handleToggleOpen}
-            className={`text-[1.5rem] transition-transform text-darkCharcoal cursor-pointer  ${isOpen ? "rotate-180 text-primary duration-400" : "duration-200"}
+            className={`${error&&" text-defaultRed"} text-[1.5rem] transition-transform text-darkCharcoal cursor-pointer  ${isOpen ? "rotate-180 text-primary duration-400" : "duration-200"}
               }`}>
             <ChevronDown />
           </div>

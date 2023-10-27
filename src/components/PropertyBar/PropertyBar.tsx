@@ -221,8 +221,8 @@ const PropertyBar: React.FC<NavigationBarProps> = ({
                     </div>
                 </div>
             ) : (
-                <div className="flex justify-between bg-whiteSmoke h-[76px]">
-                    <div className="flex items-center  ">
+                <div className="flex justify-between">
+                    <div className="flex relative items-center ">
                         {visibleTabs.map((tab: any, index: number) => (
                             <div onClick={() => handleTabClick(tab.id, index)} key={tab.id + index}>
                                 <label
@@ -237,14 +237,14 @@ const PropertyBar: React.FC<NavigationBarProps> = ({
                             </div>
                         ))}
                         {visibleTab < tabs?.length && (
-                            <div ref={selectRef} className="cursor-pointer">
+                            <div ref={selectRef} className="cursor-pointer ">
                                 <div onClick={handleToggleOpen} className="px-4 opacity-75">
                                     <MenuIcon size="small" direction="meatball" classname="w-full" />
                                 </div>
                                 <div>
                                     <ul
                                         className={`absolute w-[215px] py-2 z-[1] bg-pureWhite overflow-y-auto transition-transform drop-shadow-lg ${isOpen
-                                            ? "max-h-full translate-y-0 transition-opacity opacity-100 duration-500 ease-out"
+                                            ? "max-h-60 translate-y-0 transition-opacity opacity-100 duration-500 ease-out"
                                             : "max-h-0 translate-y-20 transition-opacity opacity-0 duration-500"
                                             }`}
                                     >

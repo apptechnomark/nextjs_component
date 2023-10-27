@@ -43,7 +43,7 @@ import {
   MdPassword,
   MdOutlineStarRate,
   MdMenu,
-  MdClose
+  MdClose,
 } from "react-icons/md";
 import { LiaIdBadgeSolid, LiaCommentDotsSolid } from "react-icons/lia";
 import Link from "next/link";
@@ -92,11 +92,6 @@ const sidebarItems = [
     icon: RxButton,
   },
   {
-    name: "Calendar Range",
-    href: "/CalendarRange",
-    icon: BsCalendarRange,
-  },
-  {
     name: "Card",
     href: "/Card",
     icon: BsCardHeading,
@@ -141,6 +136,11 @@ const sidebarItems = [
     name: "Date Picker",
     href: "/Datepicker",
     icon: BsCalendarDate,
+  },
+  {
+    name: "Datepicker Range",
+    href: "/DatepickerRange",
+    icon: BsCalendarRange,
   },
   {
     name: "Dropdown List",
@@ -336,12 +336,18 @@ const Sidebar = () => {
       {isSmallScreen ? (
         <>
           <button
-            className={`btn absolute m-4 ${isCollapsed ? "left-0 top-0 m-3" : "left-[230px] top-3"}`}
+            className={`btn absolute m-4 ${
+              isCollapsed ? "left-0 top-0" : "left-[230px] top-3"
+            }`}
             onClick={toggleSidebarCollapse}
           >
             {isCollapsed ? <MdMenu /> : <MdClose />}
           </button>
-          <aside className={`sidebar ${isCollapsed && isSmallScreen ? "hidden" : "block"}`}>
+          <aside
+            className={`sidebar ${
+              isCollapsed && isSmallScreen ? "hidden" : "block"
+            }`}
+          >
             <div className="sidebar__top">
               <Image
                 width={80}
@@ -357,7 +363,9 @@ const Sidebar = () => {
                 return (
                   <li className="sidebar__item" key={name}>
                     <Link
-                      className={`sidebar__link ${pathname === href ? "sidebar__link--active" : ""}`}
+                      className={`sidebar__link ${
+                        pathname === href ? "sidebar__link--active" : ""
+                      }`}
                       href={href}
                     >
                       <span className="sidebar__icon">
@@ -392,7 +400,9 @@ const Sidebar = () => {
                 return (
                   <li className="sidebar__item" key={name}>
                     <Link
-                      className={`sidebar__link ${pathname === href ? "sidebar__link--active" : ""}`}
+                      className={`sidebar__link ${
+                        pathname === href ? "sidebar__link--active" : ""
+                      }`}
                       href={href}
                     >
                       <span className="sidebar__icon">
@@ -407,10 +417,8 @@ const Sidebar = () => {
           </aside>
         </>
       )}
-
     </div>
   );
 };
-
 
 export default Sidebar;

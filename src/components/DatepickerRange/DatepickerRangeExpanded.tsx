@@ -10,46 +10,71 @@ interface DatepickerDate {
     date: Date;
     currentMonth: boolean;
     today: boolean;
-    startYear: Number;
-    endYear: Number;
-    value: string;
 }
 
-const DatepickerRangeExpanded = (props: any): JSX.Element => {
+interface DatepickerProps {
+    startYear: number;
+    endYear: number;
+    value?: string;
+    id: string;
+    label?: string,
+    className?: string,
+    hasError?: boolean,
+    errorMessage?: string;
+    getValue: (value: any) => void;
+    getError: (arg1: boolean) => void;
+    validate?: boolean;
+    disabled?: boolean;
+}
+
+const DatepickerRangeExpanded: React.FC<DatepickerProps> = ({
+    startYear,
+    endYear,
+    value,
+    label,
+    validate,
+    disabled,
+    hasError,
+    errorMessage = "This is required field!",
+    getValue,
+    getError,
+    ...props }) => {
     const days: string[] = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
     const currentDate: Date = new Date();
-    const { value, startYear, endYear } = props;
     const inputRef = useRef(null);
-    const valueDate = new Date(value);
+    const valueDate = new Date();
 
-    const [today, setToday] = useState<Date>(value ? valueDate : currentDate);
+    const [today, setToday] = useState<Date>(currentDate);
     const [showMonthList, setShowMonthList] = useState<boolean>(false);
     const [showYearList, setShowYearList] = useState<boolean>(false);
-    const [selectedDate, setSelectedDate] = useState<Date>(
-        value ? valueDate : currentDate
-    );
-    const [fullDate, setFullDate] = useState<string>(value ? value : "");
+    const [selectedDate, setSelectedDate] = useState<Date>(currentDate);
+
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [toggleOpen, setToggleOpen] = useState<boolean>(false);
     const [animate, setAnimate] = useState<string>("");
+    const [err, setErr] = useState<boolean>(false);
+    const [focus, setFocus] = useState<boolean>(false);
+    const [errorMsg, setErrorMsg] = useState<string>("");
 
+    let splitDate = value && value.split(" to ");
+    let startDateString = splitDate && splitDate[0];
+    let endDateString = splitDate && splitDate[1];
+    let updatedStartDate = new Date(startDateString);
+    updatedStartDate.setHours(0, 0, 0, 0);
+    let updatedEndDate = new Date(endDateString);
+    updatedEndDate.setHours(0, 0, 0, 0);
 
-    const [startDate, setStartDate] = useState<Date | null>();
-    const [endDate, setEndDate] = useState<Date | null>();
+    const [startDate, setStartDate] = useState<Date | null>(updatedStartDate);
+    const [endDate, setEndDate] = useState<Date | null>(new Date(updatedEndDate));
     const [rangeDates, setRangeDates] = useState<Date[]>([]);
-    const [startDates, setStartDates] = useState<string>(value ? value : "");
-    const [endDates, setEndDates] = useState<string>(value ? value : "");
-
+    const [inputStartDate, setInputStartDate] = useState<string>(startDateString || "");
+    const [inputEndDate, setInputEndDate] = useState<string>(endDateString || "");
 
     const currentMonth = today.getMonth();
-    const [selectedMonth, setSelectedMonth] = useState<number>(
-        value ? valueDate.getMonth() : currentMonth
-    );
+    const [selectedMonth, setSelectedMonth] = useState<number>(currentMonth);
 
     const currentYear = today.getFullYear();
-    const [selectedYear, setSelectedYear] = useState<number>(
-        value ? valueDate.getFullYear() : currentYear
-    );
+    const [selectedYear, setSelectedYear] = useState<number>(currentYear);
 
     const yearsPerPage: number = 16;
     const totalPages: number = Math.ceil(
@@ -63,6 +88,26 @@ const DatepickerRangeExpanded = (props: any): JSX.Element => {
             return year <= endYear ? year : null;
         }
     ).filter((year) => year !== null);
+
+    useEffect(() => {
+        if (validate) {
+            setFocus(hasError);
+            setErrorMsg(errorMessage);
+            setErr(hasError);
+            hasError && getError(false);
+        } else {
+            getError(true);
+            setFocus(hasError);
+        }
+    }, [validate, errorMessage, hasError]);
+
+    const handleInputBlur = () => {
+        if (!inputStartDate && !inputEndDate && validate) {
+            setErr(true);
+            setErrorMsg("Please select a date.");
+            getError(true);
+        }
+    };
 
     const toggleMonthList = () => {
         setAnimate("");
@@ -110,13 +155,13 @@ const DatepickerRangeExpanded = (props: any): JSX.Element => {
     //         newDate.setDate(date.getDate() + 1);
     //         const formattedDate = newDate.toISOString().slice(0, 10).split("-");
     //         const updatedDate = `${formattedDate[0]}-${formattedDate[1]}-${formattedDate[2]}`;
-    //         setStartDates(updatedDate);
+    //         setInputStartDate(updatedDate);
     //     } else if (endDate == null) {
     //         newDate.setDate(date.getDate() + 1);
     //         const formattedDate = newDate.toISOString().slice(0, 10).split("-");
     //         const updatedDate = `${formattedDate[0]}-${formattedDate[1]}-${formattedDate[2]}`;
     //         // setToggleOpen(false);
-    //         setEndDates(updatedDate);
+    //         setInputEndDate(updatedDate);
     //         if (date > startDate) {
     //             setEndDate(date);
     //         } else {
@@ -129,7 +174,7 @@ const DatepickerRangeExpanded = (props: any): JSX.Element => {
     //         newDate.setDate(date.getDate() + 1);
     //         const formattedDate = newDate.toISOString().slice(0, 10).split("-");
     //         const updatedDate = `${formattedDate[0]}-${formattedDate[1]}-${formattedDate[2]}`;
-    //         setStartDates(updatedDate);
+    //         setInputStartDate(updatedDate);
     //     }
 
     //     if (date.getMonth() < selectedMonth) {
@@ -152,18 +197,18 @@ const DatepickerRangeExpanded = (props: any): JSX.Element => {
             newDate.setDate(date.getDate() + 1);
             const formattedDate = newDate.toISOString().slice(0, 10).split("-");
             const updatedDate = `${formattedDate[0]}-${formattedDate[1]}-${formattedDate[2]}`;
-            setStartDates(updatedDate);
+            setInputStartDate(updatedDate);
         } else if (endDate == null) {
             newDate.setDate(date.getDate() + 1);
             const formattedDate = newDate.toISOString().slice(0, 10).split("-");
             const updatedDate = `${formattedDate[0]}-${formattedDate[1]}-${formattedDate[2]}`;
 
             if (date > startDate) {
-                setEndDates(updatedDate);
+                setInputEndDate(updatedDate);
                 setEndDate(date);
             } else {
                 setStartDate(date);
-                setStartDates(updatedDate);
+                setInputStartDate(updatedDate);
             }
             setToggleOpen(false);
         } else {
@@ -172,11 +217,23 @@ const DatepickerRangeExpanded = (props: any): JSX.Element => {
             newDate.setDate(date.getDate() + 1);
             const formattedDate = newDate.toISOString().slice(0, 10).split("-");
             const updatedDate = `${formattedDate[0]}-${formattedDate[1]}-${formattedDate[2]}`;
-            setStartDates(updatedDate);
+            setInputStartDate(updatedDate);
+            setInputEndDate("");
         }
 
         setAnimate("");
         setRangeDates([]);
+        if (validate) {
+            if (!newDate) {
+                setErr(true);
+                setErrorMsg("Please select a date.");
+                getError(false);
+            } else {
+                setErr(false);
+                setErrorMsg("");
+                getError(true);
+            }
+        }
     };
 
     const handleDateHover = (date: Date) => {
@@ -265,56 +322,75 @@ const DatepickerRangeExpanded = (props: any): JSX.Element => {
             setSelectedDate(inputDate);
             setSelectedMonth(inputDate.getMonth());
             setSelectedYear(inputDate.getFullYear());
-            setFullDate(formattedDate);
         } else {
             setToggleOpen(false);
         }
     };
 
     useEffect(() => {
-        props.getValue(startDates + " to " + endDates);
-    }, [startDates, endDates]);
+        if (inputStartDate != "" && inputEndDate != "") {
+        getValue(inputStartDate + " to " + inputEndDate);
+        }
+    }, [inputStartDate, inputEndDate]);
 
     return (
         <>
+            {label && (
+                <span className="flex">
+                    <Typography
+                        type="h6"
+                        className={`${err
+                            ? "text-defaultRed"
+                            : focus
+                                ? "text-primary"
+                                : "text-slatyGrey"
+                            }`}
+                    >
+                        {label}
+                    </Typography>
+                    {validate && (
+                        <span
+                            className={`${disabled ? "text-slatyGrey" : "text-defaultRed"}`}
+                        >
+                            &nbsp;*
+                        </span>
+                    )}
+                </span>
+            )}
             <div
-                className={`flex w-full before:absolute before:bottom-0 before:left-0 before:block before:w-0 before:h-px before:bg-primary before:transition-width before:duration-[800ms] before:ease-in hover:before:w-full`}
+                className={`flex w-full -mt-1 before:absolute before:bottom-0 before:left-0 before:block before:w-0 before:h-px before:bg-primary before:transition-width before:duration-[800ms] before:ease-in hover:before:w-full`}
                 ref={inputRef}
             >
                 <div className="flex w-full relative">
                     <input
-                        type="date"
-                        className={`peer block min-h-[auto] pl-1 w-full border-b bg-transparent px-3 py-[0.32rem] border-lightSilver outline-none`}
+                        type="text"
+                        placeholder="dd/mm/yyyy"
+                        className={`w-full border-b placeholder:text-sm text-sm bg-transparent ${disabled
+                            ? "border-lightSilver"
+                            : toggleOpen
+                                ? "border-primary"
+                                : err
+                                    ? "border-defaultRed "
+                                    : "border-lightSilver hover:border-primary  transition-colors duration-300 ease-in-out"
+                            } ${err ? "text-defaultRed placeholder:text-defaultRed" : "text-darkCharcoal placeholder:text-darkCharcoal placeholder:opacity-80"
+                            } outline-none`}
                         onClick={calendarShow}
-                        defaultValue={startDates}
+                        readOnly
+                        defaultValue={(inputStartDate && inputEndDate) ? inputStartDate + " to " + inputEndDate : inputStartDate && inputStartDate + " to "}
                         onChange={(e: any) => updateFromInput(e.target.value)}
+                        onBlur={handleInputBlur}
                     />
                     <span
-                        className="absolute right-2 top-2.5 cursor-pointer"
+                        className="absolute right-2 top-0.5 cursor-pointer"
                         onClick={calendarShow}
                     >
-                        <CalendarIcon />
-                    </span>
-                </div>
-                <div className="flex w-full relative">
-                    <input
-                        type="date"
-                        className={`peer block min-h-[auto] pl-1 w-full border-b bg-transparent px-3 py-[0.32rem] border-lightSilver outline-none`}
-                        onClick={calendarShow}
-                        defaultValue={endDates}
-                        onChange={(e: any) => updateFromInput(e.target.value)}
-                    />
-                    <span
-                        className="absolute right-2 top-2.5 cursor-pointer"
-                        onClick={calendarShow}
-                    >
-                        <CalendarIcon />
+                        <CalendarIcon bgColor={err ? "#DC3545" : "#333333"} />
                     </span>
                 </div>
             </div>
             {toggleOpen && (
                 <div className="relative ">
-                    <div className={`bottomAnimation absolute z-20  bg-white ${toggleOpen ? style.bottomAnimation : ""}`}>
+                    <div className={`bottomAnimation absolute z-10  bg-white ${toggleOpen ? style.bottomAnimation : ""}`}>
                         <div className="flex mx-auto items-center">
                             <div className="shadow-md overflow-hidden">
                                 <div className="flex justify-between border-b-2 border-lightSilver ">
@@ -332,7 +408,7 @@ const DatepickerRangeExpanded = (props: any): JSX.Element => {
                                                     {showMonthList === true ? ("")
                                                         : showYearList ? ("") :
                                                             <h1
-                                                                className="proxima text-[14px] font-semibold  text-slatyBlue"
+                                                                className="font-proxima text-sm font-semibold  text-slatyBlue"
                                                             // onClick={toggleMonthList}
                                                             >
                                                                 {months[currentMonth]}
@@ -340,7 +416,7 @@ const DatepickerRangeExpanded = (props: any): JSX.Element => {
                                                     }
                                                     {showYearList && !showMonthList ? ("") : (
                                                         <h1
-                                                            className={`proxima text-[14px] font-semibold ml-1  text-slatyBlue`}
+                                                            className={`font-proxima text-sm font-semibold ml-1  text-slatyBlue`}
                                                         // onClick={toggleYearList}
                                                         >
                                                             {currentYear}
@@ -354,7 +430,7 @@ const DatepickerRangeExpanded = (props: any): JSX.Element => {
                                                             {showMonthList === true ? ("")
                                                                 : showYearList ? ("") :
                                                                     <h1
-                                                                        className="proxima text-[14px] font-semibold  text-slatyBlue"
+                                                                        className="font-proxima text-sm font-semibold  text-slatyBlue"
                                                                     // onClick={toggleMonthList}
                                                                     >
                                                                         {months[currentMonth !== 11 ? currentMonth + 1 : 0]}
@@ -362,7 +438,7 @@ const DatepickerRangeExpanded = (props: any): JSX.Element => {
                                                             }
                                                             {showYearList && !showMonthList ? ("") : (
                                                                 <h1
-                                                                    className={`proxima text-[14px] font-semibold ml-1  text-slatyBlue`}
+                                                                    className={`font-proxima text-sm font-semibold ml-1  text-slatyBlue`}
                                                                 // onClick={toggleYearList}
                                                                 >
                                                                     {currentMonth !== 11 ? currentYear : currentYear + 1}
@@ -401,21 +477,21 @@ const DatepickerRangeExpanded = (props: any): JSX.Element => {
                                                             {showMonthList === true ? ("")
                                                                 : showYearList ? ("") :
                                                                     <h1
-                                                                        className="proxima text-[14px] font-semibold cursor-pointer text-slatyBlue"
+                                                                        className="font-proxima text-sm font-semibold cursor-pointer text-slatyBlue"
                                                                     // onClick={toggleMonthList}
                                                                     >
                                                                         {months[currentMonth]}
                                                                     </h1>
                                                             }
                                                             {showYearList && showMonthList === false ? (
-                                                                <h1 className="proxima text-[14px] font-semibold ml-1 text-slatyBlue">
+                                                                <h1 className="font-proxima text-sm font-semibold ml-1 text-slatyBlue">
                                                                     {displayedYears[0] +
                                                                         " - " +
                                                                         displayedYears[displayedYears.length - 1]}
                                                                 </h1>
                                                             ) : (
                                                                 <h1
-                                                                    className={`proxima text-[14px] font-semibold ml-1 cursor-pointer text-slatyBlue`}
+                                                                    className={`font-proxima text-sm font-semibold ml-1 cursor-pointer text-slatyBlue`}
                                                                 // onClick={toggleYearList}
                                                                 >
                                                                     {currentYear}
@@ -445,11 +521,11 @@ const DatepickerRangeExpanded = (props: any): JSX.Element => {
                                 {showMonthList === true ? (
                                     <div className="overflow-hidden">
                                         <div className={`${style.topAnimation} w-full h-full`}>
-                                            <div className="grid grid-cols-4 gap-1 place-content-center overflow-hidden proxima">
+                                            <div className="grid grid-cols-4 gap-1 place-content-center overflow-hidden font-proxima">
                                                 {months.map((month, index) => (
                                                     <div
                                                         key={index}
-                                                        className={`py-[24px] px-[27.5px] w-full h-full grid place-content-center text-sm text-textColor  proxima relative cursor-pointer `}
+                                                        className={`py-[24px] px-[27.5px] w-full h-full grid place-content-center text-sm text-textColor  font-proxima relative cursor-pointer `}
                                                         onClick={() => selectMonth(index)}
                                                     >
                                                         <div
@@ -469,11 +545,11 @@ const DatepickerRangeExpanded = (props: any): JSX.Element => {
                                     <div className="overflow-hidden">
                                         <div className={`${style.topAnimation}`}>
                                             <div className={`${animate}  w-full`}>
-                                                <div className="grid grid-cols-4 grid-rows-4 gap-1 place-content-center overflow-hidden proxima">
+                                                <div className="grid grid-cols-4 grid-rows-4 gap-1 place-content-center overflow-hidden font-proxima">
                                                     {displayedYears.map((year) => (
                                                         <div
                                                             key={year}
-                                                            className={`py-[10.5px] px-[27.5px]  w-full h-full grid place-content-center text-sm text-textColor proxima relative cursor-pointer`}
+                                                            className={`py-[10.5px] px-[27.5px]  w-full h-full grid place-content-center text-sm text-textColor font-proxima relative cursor-pointer`}
                                                             onClick={() => selectYear(year)}
                                                         >
                                                             <div
@@ -493,7 +569,7 @@ const DatepickerRangeExpanded = (props: any): JSX.Element => {
                                 ) : (
                                     <div className="flex w-full">
                                         <div className="w-full">
-                                            <div className={`w-full grid grid-cols-7 proxima  ${animate}`}>
+                                            <div className={`w-full grid grid-cols-7 font-proxima  ${animate}`}>
                                                 {days.map((day, index) => (
                                                     <Typography
                                                         type="h6"
@@ -530,27 +606,27 @@ const DatepickerRangeExpanded = (props: any): JSX.Element => {
                                                         return (
                                                             <div
                                                                 key={index}
-                                                                className={`h-full ${currentMonth ? "" : " invisible pointer-events-none"}    w-full grid place-content-center text-sm text-textColor  proxima relative `}
+                                                                className={`h-full ${currentMonth ? "" : " invisible pointer-events-none"}    w-full grid place-content-center text-sm text-textColor  font-proxima relative `}
                                                                 onClick={() => handleDateClick(currentDate)}
                                                                 onMouseEnter={() => handleDateHover(currentDate)}
                                                                 onMouseLeave={handleMouseOut}
                                                             >
                                                                 <Typography
-                                                                    type="h5"
-                                                                    className={`h-[40px] w-[40px] m-[2px] grid place-content-center rounded-full cursor-pointer z-10 
+                                                                    type="h6"
+                                                                    className={`h-[38px] w-[38px] m-[2px] grid place-content-center rounded-full cursor-pointer z-10 
                                                                 ${currentMonth ? "" : "text-[#cbd5e0]   pointer-events-none "}
                                                                 ${(isSelected && !isStartDate && !isEndDate) && `bg-secondaryPrimary ${currentMonth && "transition-color duration-[700ms]"} font-semibold`} 
                                                                 ${isInRange && "border-dashed border border-primary"}
-                                                                ${(isSameDay || isStartDate || isEndDate)
+                                                                ${(value && value !== "" ? (isStartDate || isEndDate) : (isSameDay || isStartDate || isEndDate))
                                                                             ? " bg-primary font-semibold text-white border-none"
                                                                             : (isSelected && !isStartDate && !isEndDate) ? "" : "hover:bg-whiteSmoke"}
                                                                 `}
                                                                 >
                                                                     {currentDate.getDate()}
                                                                 </Typography>
-                                                                {(isSameDay || isStartDate || isEndDate) && (
+                                                                {(value && value !== "" ? (isStartDate || isEndDate) : (isSameDay || isStartDate || isEndDate)) && (
                                                                     <>
-                                                                        <span className={`${style.rippleAnimation} absolute rounded-full w-6 h-6 top-[15px] left-2.5 bg-primary opacity-50`}
+                                                                        <span className={`${style.rippleAnimation} absolute rounded-full w-5 h-5 top-[16px] left-[11px] bg-primary opacity-50`}
                                                                         ></span>
                                                                     </>
                                                                 )}
@@ -561,7 +637,7 @@ const DatepickerRangeExpanded = (props: any): JSX.Element => {
                                             </div>
                                         </div>
                                         <div className=" w-full border-l border-lightSilver">
-                                            <div className={`w-full grid grid-cols-7 proxima  ${animate}`}>
+                                            <div className={`w-full grid grid-cols-7 font-proxima  ${animate}`}>
                                                 {days.map((day, index) => (
                                                     <Typography
                                                         type="h6"
@@ -598,28 +674,28 @@ const DatepickerRangeExpanded = (props: any): JSX.Element => {
                                                         return (
                                                             <div
                                                                 key={index}
-                                                                className={`h-full ${currentMonth ? "" : " invisible pointer-events-none"}    w-full grid place-content-center text-sm text-textColor  proxima relative `}
+                                                                className={`h-full ${currentMonth ? "" : " invisible pointer-events-none"}    w-full grid place-content-center text-sm text-textColor  font-proxima relative `}
                                                                 onClick={() => handleDateClick(currentDate)}
                                                                 onMouseEnter={() => handleDateHover(currentDate)}
                                                                 onMouseLeave={handleMouseOut}
                                                             >
                                                                 <Typography
-                                                                    type="h5"
-                                                                    className={`h-[40px] w-[40px] m-[2px] grid place-content-center rounded-full cursor-pointer z-10 
+                                                                    type="h6"
+                                                                    className={`h-[38px] w-[38px] m-[2px] grid place-content-center rounded-full cursor-pointer z-10 
                                                                 ${currentMonth ? "" : "text-[#cbd5e0] invisible pointer-events-none "}
                                                                 ${(isSelected && !isStartDate && !isEndDate) && `bg-secondaryPrimary ${currentMonth && "transition-color duration-[700ms]"} font-semibold`} 
                                                                 ${isInRange && "border-dashed border border-primary"}
-                                                                ${(isSameDay || isStartDate || isEndDate)
+                                                                ${(value && value !== "" ? (isStartDate || isEndDate) : (isSameDay || isStartDate || isEndDate))
                                                                             ? " bg-primary font-semibold text-white border-none"
                                                                             : (isSelected && !isStartDate && !isEndDate) ? "" : "hover:bg-whiteSmoke"}
                                                                 `}
                                                                 >
                                                                     {currentDate.getDate()}
                                                                 </Typography>
-                                                                {(isSameDay || isStartDate || isEndDate) && (
+                                                                {(value && value !== "" ? (isStartDate || isEndDate) : (isSameDay || isStartDate || isEndDate)) && (
                                                                     <>
                                                                         <span
-                                                                            className={`${style.rippleAnimation} absolute rounded-full w-6 h-6 top-[15px] left-2.5 bg-primary opacity-50`}
+                                                                            className={`${style.rippleAnimation} absolute rounded-full w-5 h-5 top-[16px] left-[11px] bg-primary opacity-50`}
                                                                         ></span>
                                                                     </>
                                                                 )}
@@ -636,6 +712,11 @@ const DatepickerRangeExpanded = (props: any): JSX.Element => {
                         </div>
                     </div>
                 </div>
+            )}
+            {err && (
+                <span className="text-defaultRed text-[12px] sm:text-sm">
+                    {errorMsg}
+                </span>
             )}
         </>
     );

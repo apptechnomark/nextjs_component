@@ -199,7 +199,7 @@ const CountrySelect: React.FC<CountryCodeProps> = ({
     }, [focusedIndex]);
 
     return (
-        <div className="flex flex-col w-full text-[14px] relative">
+        <div className={`flex flex-col w-full text-[14px] relative ${className}`}>
             {label && (
                 <span className="flex">
                     <Typography type="h6"
@@ -222,7 +222,7 @@ const CountrySelect: React.FC<CountryCodeProps> = ({
                 </span>
             )}
             <div
-                className={`flex ${!err
+                className={`flex mt-1 ${!err
                     ? "w-full relative before:absolute before:bottom-0 before:left-0 before:block before:w-0 before:h-px before:bg-primary before:transition-width before:duration-[800ms] before:ease-in hover:before:w-full"
                     : "w-full"
                     }`}
@@ -265,7 +265,7 @@ const CountrySelect: React.FC<CountryCodeProps> = ({
                                             : isOpen
                                                 ? "text-primary placeholder-primary"
                                                 : "text-darkCharcoal"
-                                            } text-[14px] font-normal w-full`}
+                                            } text-[14px] font-normal w-full ${err && "text-defaultRed"}`}
                                         onKeyDown={(e) => {
                                             if (e.key === "ArrowUp" && focusedIndex > 0) {
                                                 e.preventDefault();
@@ -278,10 +278,10 @@ const CountrySelect: React.FC<CountryCodeProps> = ({
                                     />
                                 </div>
                                 <div
-                                    className={`text-[1.5rem] mb-0.5 transition-transform ${disabled
+                                    className={`${err && "text-defaultRed"} text-[1.5rem] mb-0.5 transition-transform ${disabled
                                         ? "text-slatyGrey cursor-default"
                                         : "text-darkCharcoal cursor-pointer"
-                                        } ${isOpen ? "rotate-180 text-primary duration-400" : "duration-200"}`}
+                                        }  ${isOpen ? "rotate-180 text-primary duration-400" : "duration-200"}`}
                                     onClick={handleToggleOpen}
                                     style={{ background: "transparent" }}
                                 >
@@ -290,8 +290,8 @@ const CountrySelect: React.FC<CountryCodeProps> = ({
                             </div>
                             <span className="border-l-[1.5px] border-l-lightSilver pl-1 py-1 mb-1"></span>
                             <input
-                                className={`${className}  placeholder-[#ADB5BD] placeholder-opacity-100 pt-0.5 pb-1 outline-none w-full h-full text-darkCharcoal ${err && "text-defaultRed"
-                                    } `}
+                                className={`${className}
+                                 ${err && "text-defaultRed opacity-90 placeholder:text-defaultRed"} placeholder-[#ADB5BD] pt-0.5 pb-1 outline-none w-full h-full text-darkCharcoal`}
                                 type="tel"
                                 id={id}
                                 name={name}
@@ -313,7 +313,7 @@ const CountrySelect: React.FC<CountryCodeProps> = ({
                             />
                         </div>
                         <ul
-                            className={`absolute w-full bg-pureWhite mt-[1px] overflow-y-auto shadow-md transition-transform ${isOpen
+                            className={`z-[1] absolute w-full bg-pureWhite mt-[1px] overflow-y-auto shadow-md transition-transform ${isOpen
                                 ? "max-h-60 translate-y-0 transition-opacity opacity-100 duration-500 ease-out"
                                 : "max-h-0 translate-y-20 transition-opacity opacity-0 duration-500"
                                 } `}

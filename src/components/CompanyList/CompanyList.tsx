@@ -22,8 +22,9 @@ interface CompanyListProps {
     noborder?: boolean;
     showAvatar?: number;
     disabled?: boolean;
+    type?:"avatar"|"text";
     checkbox?: boolean;
-    variant?: string;
+    variant?: "user"|"company";
     values?: any;
 }
 const CompanyList: React.FC<CompanyListProps> = ({
@@ -44,6 +45,7 @@ const CompanyList: React.FC<CompanyListProps> = ({
     showAvatar = 3,
     disabled,
     variant = "company",
+    type="avatar",
     checkbox = true,
     ...props
 }) => {
@@ -211,23 +213,29 @@ const CompanyList: React.FC<CompanyListProps> = ({
                 )}
                 <div
                     className={`flex items-center transition-height duration-200 ease-out cursor-pointer ${disabled && "pointer-events-none"
-                        } ${selectedValues.length > 0 ? "h-[42px]" : "h-[25px]"}`}
+                        } ${selectedValues.length > 0 &&type=="avatar" ? "h-[42px]" : "h-[25px]"}`}
                     onClick={handleToggleOpen}
                 >
                     {selectedValues.length > 0 ? (
-                        <AvatarGroup variant="small" show={showAvatar}>{updatedAvatars}</AvatarGroup>
+                        <>
+                        {type=="avatar"&&<AvatarGroup variant="small" show={showAvatar}>
+                            {updatedAvatars}
+                        </AvatarGroup>}
+                        {type=="text"&&<Typography type="h6">  {selectedValues.length > 0
+                        && `${selectedValues.length} selected.`} </Typography>}
+                        </>
                     ) : (
                         <Typography
                             type="h6"
                             className={`!font-normal dark:text-pureWhite ${err && "text-defaultRed"} ${disabled && "text-slatyGrey dark:text-pureWhite"
                                 } select-none`}
                         >
-                            {isOpen ? "" : "Please Select"}
+                            {isOpen ? "" :defaultValue?defaultValue: "Please Select"}
                         </Typography>
                     )}
                     <div
                         onClick={handleToggleOpen}
-                        className={`ml-1 text-[1.5rem]  transition-transform ${err
+                        className={`ml-1 text-[1.5rem]  absolute right-0 transition-transform ${err
                             ? "text-defaultRed"
                             : disabled
                                 ? "text-slatyGrey"
@@ -246,7 +254,7 @@ const CompanyList: React.FC<CompanyListProps> = ({
                             } ${isOpen ? "ease-out" : ""}`}
                     >
                         <li
-                            className={`relative outline-none focus:bg-whiteSmoke p-[10px] text-[14px] font-normal cursor-pointer flex items-center`}
+                            className={`relative outline-none focus:bg-whiteSmoke p-[10px] text-sm font-normal cursor-pointer flex items-center`}
                         >
                             <div className={`flex absolute  ${variant === "user" ? "left-3" : "left-2"}`}>
                                 <Search />
@@ -260,7 +268,7 @@ const CompanyList: React.FC<CompanyListProps> = ({
                                         ? `${inputValue.substring(0, 20)}...`
                                         : inputValue
                                 }
-                                className={`dark:placeholder:text-pureWhite w-full pl-6 py-1 ${variant === "user" ? "border rounded" : "border-b"} border-lightSilver  flex-grow outline-none text-darkCharcoal text-[14px] font-normal ${isOpen ? "text-primary" : ""
+                                className={`dark:placeholder:text-pureWhite text-sm placeholder:text-sm  w-full pl-6 py-1 ${variant === "user" ? "border rounded" : "border-b"} border-lightSilver flex-grow outline-none font-normal ${isOpen ? "text-primary" : ""
                                     } ${!isOpen ? "cursor-pointer" : "cursor-default"} ${!isOpen ? "placeholder-darkCharcoal" : "placeholder-primary"
                                     }`}
                                 style={{ background: "transparent" }}
@@ -273,7 +281,7 @@ const CompanyList: React.FC<CompanyListProps> = ({
                             options.map((option, index) => (
                                 <li
                                     key={option.value + index}
-                                    className={`outline-none focus:bg-whiteSmoke dark:focus:bg-secondaryGray dark:hover:bg-secondaryGray p-[10px] text-[14px] hover:bg-whiteSmoke font-normal cursor-pointer flex items-center ${selectedValues.includes(option.value)
+                                    className={`outline-none focus:bg-whiteSmoke dark:focus:bg-secondaryGray dark:hover:bg-secondaryGray p-[10px] text-sm hover:bg-whiteSmoke font-normal cursor-pointer flex items-center ${selectedValues.includes(option.value)
                                         && ""}
                                         ${!option.label.toLowerCase().startsWith(inputValue)
                                             ? "hidden"
@@ -309,7 +317,7 @@ const CompanyList: React.FC<CompanyListProps> = ({
                                             imageUrl={option.imageUrl}
                                         />
                                     </div>
-                                    <Typography type="h5" className="dark:text-pureWhite">{option.label}</Typography>
+                                    <Typography type="h6" className="dark:text-pureWhite">{option.label}</Typography>
                                 </li>
                             ))
                         ) : (
@@ -321,7 +329,7 @@ const CompanyList: React.FC<CompanyListProps> = ({
                 </div>
             </div>
             {err && (
-                <span className="text-defaultRed text-[12px] sm:text-[14px]">
+                <span className="text-defaultRed text-[12px] sm:text-sm">
                     {errorMsg}
                 </span>
             )}

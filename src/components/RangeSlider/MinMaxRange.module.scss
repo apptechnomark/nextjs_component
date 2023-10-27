@@ -25,7 +25,7 @@
       width: 20px;
       height: 20px;
       border: 2px solid #fff;
-      background: #0592C6;
+      background: #0592c6;
       border-radius: 50%;
       cursor: pointer;
     }
@@ -36,7 +36,7 @@
       width: 20px;
       height: 20px;
       border: 2px solid #fff;
-      background: #0592C6;
+      background: #0592c6;
       border-radius: 50%;
       cursor: pointer;
     }
@@ -46,19 +46,19 @@
       -webkit-box-shadow: 0px 0px 0px 4px #aeddee;
       -moz-box-shadow: 0px 0px 0px 4px #aeddee;
     }
-  
+
     input[type="range"]:hover::-moz-range-thumb {
       box-shadow: 4px #aeddee;
       -webkit-box-shadow: 0px 0px 0px 4px #aeddee;
       -moz-box-shadow: 0px 0px 0px 4px #aeddee;
     }
-  
-    input[type="range"]:active::-webkit-slider-thumb{
+
+    input[type="range"]:active::-webkit-slider-thumb {
       box-shadow: 8px #aeddee;
       -webkit-box-shadow: 0px 0px 0px 8px #aeddee;
       -moz-box-shadow: 0px 0px 0px 8px #aeddee;
     }
-  
+
     input[type="range"]:active::-moz-range-thumb {
       box-shadow: 8px #aeddee;
       -webkit-box-shadow: 0px 0px 0px 8px #aeddee;
@@ -85,8 +85,59 @@
     left: 25%;
     right: 25%;
     height: 100%;
-    background: #0592C6;
+    background: #0592c6;
     border-radius: 50px;
     position: absolute;
+  }
+
+  .tooltip {
+    position: absolute;
+    background-color: #84c9e3;
+    color: #000;
+    border-radius: 4px;
+    padding: 4px 8px;
+    top: -45px;
+  }
+
+  .tooltip.tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: #84c9e3;
+    color: #000;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    left: 50%;
+  }
+
+  .tooltip .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-color: #84c9e3 transparent transparent transparent;
+  }
+
+  .tooltip:hover .tooltiptext {
+    visibility: visible;
+  }
+
+  .tooltip.top {
+    opacity: 1;
+    animation: slideDown 0.6s ease-out both;
+  }
+
+  @keyframes slideDown {
+    0% {
+      transform: translate(-50%, -50%);
+      opacity: 0;
+    }
+    100% {
+      transform: translate(-50%, 0);
+      opacity: 1;
+    }
   }
 }
