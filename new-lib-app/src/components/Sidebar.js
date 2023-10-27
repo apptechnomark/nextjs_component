@@ -42,10 +42,12 @@ import {
   MdTextFields,
   MdPassword,
   MdOutlineStarRate,
+  MdMenu,
+  MdClose
 } from "react-icons/md";
 import { LiaIdBadgeSolid, LiaCommentDotsSolid } from "react-icons/lia";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 
 const sidebarItems = [
@@ -299,7 +301,31 @@ const sidebarItems = [
 
 const Sidebar = () => {
   const [isCollapsed, setCollapse] = useState(false);
+  const [isSmallScreen, setIsSmallScreen] = useState(false);
   const pathname = usePathname();
+
+  const toggleSidebarCollapse = () => {
+    setCollapse((prevState) => !prevState);
+  };
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 450) {
+        setIsSmallScreen(true);
+        setCollapse(true); // Auto-collapse on small screens
+      } else {
+        setIsSmallScreen(false);
+        setCollapse(false);
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+    handleResize();
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   const toggleSidebarcollapse = () => {
     setCollapse((prevState) => !prevState);
@@ -307,42 +333,84 @@ const Sidebar = () => {
 
   return (
     <div className="sidebar__wrapper">
-      <button className="btn" onClick={toggleSidebarcollapse}>
-        {isCollapsed ? <MdKeyboardArrowRight /> : <MdKeyboardArrowLeft />}
-      </button>
-      <aside className="sidebar" data-collapse={isCollapsed}>
-        <div className="sidebar__top">
-          <Image
-            width={80}
-            height={80}
-            className="sidebar__logo"
-            src="/logo.jpeg"
-            alt="logo"
-          />
-          <p className="sidebar__logo-name">Tms Libraries</p>
-        </div>
-        <ul className="sidebar__list">
-          {sidebarItems.map(({ name, href, icon: Icon }) => {
-            return (
-              <li className="sidebar__item" key={name}>
-                <Link
-                  className={`sidebar__link ${
-                    pathname === href ? "sidebar__link--active" : ""
-                  }`}
-                  href={href}
-                >
-                  <span className="sidebar__icon">
-                    <Icon />
-                  </span>
-                  <span className="sidebar__name">{name}</span>
-                </Link>
-              </li>
-            );
-          })}
-        </ul>
-      </aside>
+      {isSmallScreen ? (
+        <>
+          <button
+            className={`btn absolute m-4 ${isCollapsed ? "left-0 top-0 m-3" : "left-[230px] top-3"}`}
+            onClick={toggleSidebarCollapse}
+          >
+            {isCollapsed ? <MdMenu /> : <MdClose />}
+          </button>
+          <aside className={`sidebar ${isCollapsed && isSmallScreen ? "hidden" : "block"}`}>
+            <div className="sidebar__top">
+              <Image
+                width={80}
+                height={80}
+                className="sidebar__logo"
+                src="/logo.jpeg"
+                alt="logo"
+              />
+              <p className="sidebar__logo-name">Tms Libraries</p>
+            </div>
+            <ul className="sidebar__list">
+              {sidebarItems.map(({ name, href, icon: Icon }) => {
+                return (
+                  <li className="sidebar__item" key={name}>
+                    <Link
+                      className={`sidebar__link ${pathname === href ? "sidebar__link--active" : ""}`}
+                      href={href}
+                    >
+                      <span className="sidebar__icon">
+                        <Icon />
+                      </span>
+                      <span className="sidebar__name">{name}</span>
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+          </aside>
+        </>
+      ) : (
+        <>
+          <button className="btn" onClick={toggleSidebarcollapse}>
+            {isCollapsed ? <MdKeyboardArrowRight /> : <MdKeyboardArrowLeft />}
+          </button>
+          <aside className="sidebar" data-collapse={isCollapsed}>
+            <div className="sidebar__top">
+              <Image
+                width={80}
+                height={80}
+                className="sidebar__logo"
+                src="/logo.jpeg"
+                alt="logo"
+              />
+              <p className="sidebar__logo-name">Tms Libraries</p>
+            </div>
+            <ul className="sidebar__list">
+              {sidebarItems.map(({ name, href, icon: Icon }) => {
+                return (
+                  <li className="sidebar__item" key={name}>
+                    <Link
+                      className={`sidebar__link ${pathname === href ? "sidebar__link--active" : ""}`}
+                      href={href}
+                    >
+                      <span className="sidebar__icon">
+                        <Icon />
+                      </span>
+                      <span className="sidebar__name">{name}</span>
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+          </aside>
+        </>
+      )}
+
     </div>
   );
 };
+
 
 export default Sidebar;
