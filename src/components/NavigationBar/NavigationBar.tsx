@@ -30,19 +30,19 @@ const NavigationBar: React.FC<NavigationBarProps> = ({
 
     useEffect(() => {
         const handleResize = () => {
-            if (window.innerWidth <= 321 || document.documentElement.clientWidth <= 321) {
+            if (window.visualViewport.width<=321|| window.innerWidth <= 321 || document.documentElement.clientWidth <= 321) {
                 setVisibleTabs(tabs.slice(0, 1));
                 setDropdownTabs(tabs.slice(1));
             }
-            else if ((window.innerWidth >= 322 || document.documentElement.clientWidth >= 322) && (window.innerWidth <= 425 || document.documentElement.clientWidth <= 425)) {
+            else if ((window.visualViewport.width >= 322 || window.innerWidth >= 322 || document.documentElement.clientWidth >= 322) && (window.visualViewport.width <= 425 || window.innerWidth <= 425 || document.documentElement.clientWidth <= 425)) {
                 setVisibleTabs(tabs.slice(0, 2));
                 setDropdownTabs(tabs.slice(2));
             }
-            else if ((window.innerWidth >= 426 || document.documentElement.clientWidth >= 426) && (window.innerWidth <= 576 || document.documentElement.clientWidth <= 576)) {
+            else if ((window.visualViewport.width >= 426 || window.innerWidth >= 426 || document.documentElement.clientWidth >= 426) && (window.visualViewport.width <= 576 || window.innerWidth <= 576 || document.documentElement.clientWidth <= 576)) {
                 setVisibleTabs(tabs.slice(0, 3));
                 setDropdownTabs(tabs.slice(3));
             }
-            else if ((window.innerWidth >= 426 || document.documentElement.clientWidth >= 577) && (window.innerWidth <= 577 || document.documentElement.clientWidth <= 762)) {
+            else if ((window.visualViewport.width >=577 || window.innerWidth >= 577 || document.documentElement.clientWidth >= 577) && (window.visualViewport.width <= 762 || window.innerWidth <= 762 || document.documentElement.clientWidth <= 762)) {
                 setVisibleTabs(tabs.slice(0, 4));
                 setDropdownTabs(tabs.slice(4));
             }
