@@ -63,7 +63,6 @@ const CompanyList: React.FC<CompanyListProps> = ({
             setFocus(hasError);
             setErrorMsg(errorMessage);
             setErr(hasError);
-            hasError && getError(false);
         } else {
             getError(true);
             setFocus(hasError);

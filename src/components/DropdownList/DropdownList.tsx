@@ -22,9 +22,9 @@ interface SelectProps extends React.InputHTMLAttributes<HTMLInputElement> {
     btnLabel: string;
     value?: any;
     placeholder?: string;
-    listPlaceholder?: string;
-    maxLength?: number;
-    minLength?: number;
+    listPlaceholder?:string;
+    maxLength?:number;
+    minLength?:number;
 }
 
 const DropdownList: React.FC<SelectProps> = ({
@@ -40,8 +40,8 @@ const DropdownList: React.FC<SelectProps> = ({
     noborder,
     btnLabel,
     value,
-    placeholder = "Enter Label Name",
-    listPlaceholder = "Add new list",
+    placeholder="Enter Label Name",
+    listPlaceholder="Add new list",
     maxLength,
     minLength,
     ...props

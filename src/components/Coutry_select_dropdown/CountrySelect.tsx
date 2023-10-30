@@ -49,22 +49,17 @@ const CountrySelect: React.FC<CountryCodeProps> = ({
     const [errMsg, setErrMsg] = useState<string>("");
     const [inputValue, setInputValue] = useState<string>("");
     const [focusedIndex, setFocusedIndex] = useState<number>(-1);
-    {
-        validate &&
-            useEffect(() => {
-                setFocus(hasError);
-                setErrorMsg(errorMessage);
-                setErr(hasError);
-                hasError && getError(false);
-            }, [errorMessage, hasError]);
-    }
-    {
-        !validate &&
-            useEffect(() => {
-                getError(true);
-                setFocus(hasError);
-            }, [hasError]);
-    }
+
+    useEffect(() => {
+        if (validate) {
+            setFocus(hasError);
+            setErrorMsg(errorMessage);
+            setErr(hasError);
+        } else {
+            getError(true);
+            setFocus(hasError);
+        }
+    }, [validate, errorMessage, hasError]);
 
     useEffect(() => {
         const selectedCountryJsxElement = country.find(
