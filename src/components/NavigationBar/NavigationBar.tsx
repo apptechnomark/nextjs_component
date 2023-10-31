@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useMediaQuery } from 'react-responsive';
 import { MenuIcon } from "../MenuIcon/MenuIcon";
 import Typography from "../Typography/Typography";
 
@@ -21,13 +22,48 @@ const NavigationBar: React.FC<NavigationBarProps> = ({
     ...props
 }) => {
     const selectRef = useRef<HTMLDivElement>(null);
+    const parentDivRef = useRef<HTMLDivElement>(null);
     const [selectedTabIndex, setSelectedTabIndex] = useState<number>(0);
     const [tab, setTab] = useState<string>(tabs[0].id);
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [visibleTabs, setVisibleTabs] = useState<any>(tabs.slice(0, visibleTab));
     const [dropdownTabs, setDropdownTabs] = useState<any>(tabs.slice(visibleTab));
+    const [width, setWidth] = useState<number | null>(null);
 
-   
+    const isMobile = useMediaQuery({ query: '(max-width: 321px)' })
+    const isTablet = useMediaQuery({ query: '(min-width:322px) and (max-width: 425px)' })
+    const isRetina = useMediaQuery({ query: '(min-width:426px) and (max-width: 576px)' })
+    const isPortrait = useMediaQuery({ query: '(min-width:577px) and (max-width:762px)' })
+
+    const handleResize = () => {
+        parentDivRef.current && setWidth(parentDivRef.current.offsetWidth)
+        if (isMobile && width <= 263) {
+            setVisibleTabs(tabs.slice(0, 1));
+            setDropdownTabs(tabs.slice(1));
+        }
+        else if (isTablet && (width >= 264 && width <= 367)) {
+            setVisibleTabs(tabs.slice(0, 2));
+            setDropdownTabs(tabs.slice(2));
+        }
+        else if (isRetina && (width >= 368 && width <= 518)) {
+            setVisibleTabs(tabs.slice(0, 3));
+            setDropdownTabs(tabs.slice(3));
+        }
+        else if (isPortrait && (width >= 519 && width <= 704)) {
+            setVisibleTabs(tabs.slice(0, 4));
+            setDropdownTabs(tabs.slice(4));
+        }
+        else {
+            setVisibleTabs(tabs.slice(0, visibleTab));
+            setDropdownTabs(tabs.slice(visibleTab));
+        }
+    };
+
+    useEffect(() => {
+        window.addEventListener('resize', handleResize);
+        handleResize();
+        return () => window.removeEventListener('resize', handleResize);
+    }, [tabs, width]);
 
     const handleTabClick = (tabId: string, index: number) => {
         const clickedTab = dropdownTabs[index];
@@ -105,7 +141,7 @@ const NavigationBar: React.FC<NavigationBarProps> = ({
 
     return (
         <>
-            <div className="flex items-center py-[10px] relative ">
+            <div className="flex items-center py-[10px] relative" ref={parentDivRef}>
                 {visibleTabs.map((tab: any, index: number) => (
                     <div className=" " onClick={() => handleTabClick(tab.id, index)} key={tab.id + index}>
                         {variant === "modal"
