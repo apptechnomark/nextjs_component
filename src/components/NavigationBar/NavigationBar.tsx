@@ -30,10 +30,10 @@ const NavigationBar: React.FC<NavigationBarProps> = ({
     const [dropdownTabs, setDropdownTabs] = useState<any>(tabs.slice(visibleTab));
     const [width, setWidth] = useState<number | null>(null);
 
-    const isMobile = useMediaQuery({ query: '(max-width: 321px)' })
-    const isTablet = useMediaQuery({ query: '(min-width:322px) and (max-width: 425px)' })
-    const isRetina = useMediaQuery({ query: '(min-width:426px) and (max-width: 576px)' })
-    const isPortrait = useMediaQuery({ query: '(min-width:577px) and (max-width:762px)' })
+    const isMobile = useMediaQuery({ query: '(max-width: 321px)' });
+    const isTablet = useMediaQuery({ query: '(min-width:322px) and (max-width: 425px)' });
+    const isRetina = useMediaQuery({ query: '(min-width:426px) and (max-width: 576px)' });
+    const isPortrait = useMediaQuery({ query: '(min-width:577px) and (max-width:762px)' });
 
     const handleResize = () => {
         parentDivRef.current && setWidth(parentDivRef.current.offsetWidth)

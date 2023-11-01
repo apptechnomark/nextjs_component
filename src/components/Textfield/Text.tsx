@@ -156,7 +156,7 @@ const Text: React.FC<InputProps> = ({
       >
         <input
           type="text"
-          className={`${className} ${err&&"text-defaultRed placeholder:text-defaultRed "} py-1 ${noborder ? '' : 'border-b'} outline-none transition duration-600 w-full h-full ${
+          className={`${className} placeholder:text-[14px] text-[14px] ${err&&"text-defaultRed placeholder:text-defaultRed "} py-1 ${noborder ? '' : 'border-b'} outline-none transition duration-600 w-full h-full ${
             disabled ? "text-slatyGrey" : "text-darkCharcoal"
           } ${
             err
