@@ -481,7 +481,7 @@ const page = () => {
                     <h2 className="m-7 text-xl tracking-tight text-gray-900 dark:text-white">
                         Basic (Sticky Header)
                     </h2>
-                    <div className="h-auto ml-7 overflow-x-auto">
+                    <div className="h-[100px] ml-7 overflow-x-auto">
                         <DataTable
                             columns={columns}
                             data={dataList.length > 0 ? classListData : []}

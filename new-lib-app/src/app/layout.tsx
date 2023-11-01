@@ -15,9 +15,6 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className='scroll-smooth'>
-      <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-        </head>
       <body className={inter.className} suppressHydrationWarning={true}>{children}</body>
     </html>
   )

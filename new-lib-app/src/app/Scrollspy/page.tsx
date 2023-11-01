@@ -3,7 +3,8 @@
 import { Close, Button, NavigationBar, Scrollspy, ScrollspyPopup } from "next-ts-lib";
 import "next-ts-lib/dist/index.css";
 import Sidebar from "@/components/Sidebar";
-import React, { useState } from "react";
+import { useMediaQuery } from 'react-responsive';
+import React, { useEffect, useState } from "react";
 import BaseLayout from "../../components/BaseLayout";
 import Icon from "./CustomIcon";
 
@@ -15,7 +16,6 @@ const page: React.FC = () => {
     const targetIds4 = ["page-16", "page-17", "page-18", "page-19", "page-20"];
     const targetIds5 = ["page-21", "page-22", "page-23", "page-24", "page-25"];
     const icons = [<Icon />, <Icon />, <Icon />, <Icon />, <Icon />];
-
     const tabs = [
         { id: "page-21", label: "CLASS" },
         { id: "page-22", label: "LOCATION" },
@@ -26,8 +26,17 @@ const page: React.FC = () => {
         { id: "page-27", label: "ELECTRICAL" },
     ];
 
+    const isMobile = useMediaQuery({ query: '(max-width: 426px)' });
+
     const [lgOpen, setLgOpen] = useState(false);
     const [value, setValue] = useState("");
+    const [visibleTab, setVisibleTab] = useState(7);
+
+    useEffect(() => {
+        if (isMobile) {
+            setVisibleTab(2);
+        }
+    }, [isMobile])
 
     const lgOpenModal = () => {
         setLgOpen(true);
@@ -371,7 +380,7 @@ const page: React.FC = () => {
                             <div className="flex justify-between w-full sticky top-0 bg-[#F4F4F4]">
                                 <NavigationBar
                                     tabs={tabs}
-                                    visibleTab={7}
+                                    visibleTab={visibleTab}
                                     getValue={(e: any) => {
                                         setValue(e);
                                     }}

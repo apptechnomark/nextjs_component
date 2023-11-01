@@ -138,7 +138,7 @@ const DataTable = ({
       <table className="w-full">
         <thead className={`${sticky && styles.customDataTable} `}>
           <tr
-            className={`w-full top-0 z-[5]  ${sticky ? "sticky bg-pureWhite " : "static border-y border-pureBlack"
+            className={`w-full z-[5] top-0 ${sticky ? "sticky bg-pureWhite " : "static border-y border-pureBlack"
               } ${noHeader ? "hidden " : ""}`}
           >
             {expandable && (
@@ -185,7 +185,7 @@ const DataTable = ({
                 {expandable &&
                   (row.details ? (
                     <td
-                      className={`${expandableStyle?.rows} h-12 ${expandedRows.has(rowIndex) ? "border-none" : "border-b"}  border-[#ccc] cursor-pointer`}
+                      className={`${expandableStyle?.rows} text-[14px] font-proxima h-12 ${expandedRows.has(rowIndex) ? "border-none" : "border-b"}  border-[#ccc] cursor-pointer`}
                       onClick={() => handleRowToggle(rowIndex)}
                     >
                       <div className={`flex justify-center items-center transition-transform ${expandedRows.has(rowIndex) || isExpanded ? "rotate-90 duration-300" : "duration-200"}`}>
@@ -194,16 +194,16 @@ const DataTable = ({
                     </td>
                   ) : (
                     <td
-                      className={`w-8 ${expandableStyle?.rows} h-12 pl-2 font-proxima ${expandedRows.has(rowIndex) ? "border-none" : "border-b"} ${noHeader && "border-t"} border-[#ccc] cursor-pointer`}
+                      className={`w-8 ${expandableStyle?.rows} h-12 text-[14px] pl-2 font-proxima ${expandedRows.has(rowIndex) ? "border-none" : "border-b"} ${noHeader && "border-t"} border-[#ccc] cursor-pointer`}
                     ></td>
                   ))}
                 {columns?.map((column, colIndex) => (
                   <td
                     key={colIndex}
-                    className={` ${row?.style} ${noHeader && column.colStyle} ${column.rowStyle} h-12 text-xs py-2 px-1 ${expandedRows.has(rowIndex) ? "border-none" : "border-b"} border-[#ccc] break-all ${noHeader && "border-t"}`}
+                    className={` ${row?.style} ${noHeader && column.colStyle} ${column.rowStyle} h-12 text-[14px] font-proxima py-2 px-1 ${expandedRows.has(rowIndex) ? "border-none" : "border-b"} border-[#ccc] break-all ${noHeader && "border-t"}`}
                   >
                     <span
-                      className={`flex py-2 px-1 font-proxima items-center justify-${getAlignment(
+                      className={`flex py-2 px-1 text-[14px] font-proxima items-center justify-${getAlignment(
                         column.colalign
                       )}`}
                     >
@@ -214,11 +214,11 @@ const DataTable = ({
               </tr>
               {(expandedRows.has(rowIndex) || isExpanded) && (
                 <tr>
-                  <td className="font-proxima" colSpan={columns.length + 1}>
+                  <td className="text-[14px] font-proxima" colSpan={columns.length + 1}>
                     {row.details ? (
                       row.details
                     ) : (
-                      <div className={`m-3 font-proxima ${expandableStyle?.rows}`}>
+                      <div className={`m-3 text-[14px] font-proxima ${expandableStyle?.rows}`}>
                         No data to display
                       </div>
                     )}
