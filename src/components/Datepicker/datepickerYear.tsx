@@ -6,19 +6,10 @@ import ChevronLeftIcon from "./icons/ChevronLeft.js";
 import CalendarIcon from "./icons/CalendarIcon.js";
 import Typography from "../Typography/Typography";
 
-interface DatepickerDate {
-    date: Date;
-    currentMonth: boolean;
-    today: boolean;
-    startYear: Number;
-    endYear: Number;
-    value: string;
-}
-
 interface DatepickerProps {
     startYear: number;
     endYear: number;
-    value: string;
+    value?: string;
     id: string;
     label?: string,
     className?: string,
@@ -43,12 +34,12 @@ const DatepickerYear: React.FC<DatepickerProps> = ({
     ...props }) => {
     const currentDate: Date = new Date();
     const inputRef = useRef(null);
-    const valueDate = new Date(value);
+    const valueDate = new Date(value ? value : "");
 
     const [today, setToday] = useState<Date>(value ? valueDate : currentDate);
     const [showMonthList, setShowMonthList] = useState<boolean>(false);
     const [showYearList, setShowYearList] = useState<boolean>(false);
-    const [fullDate, setFullDate] = useState<String>(value ? value : "");
+    const [fullDate, setFullDate] = useState<string>(value ? value : "");
     const [currentPage, setCurrentPage] = useState<number>(1);
     const [toggleOpen, setToggleOpen] = useState<boolean>(false);
     const [animate, setAnimate] = useState<String>("");
@@ -197,6 +188,9 @@ const DatepickerYear: React.FC<DatepickerProps> = ({
         }
     };
 
+    const handleFocus = () => {
+        setFocus(true);
+    };
 
     return (
         <>
@@ -222,31 +216,33 @@ const DatepickerYear: React.FC<DatepickerProps> = ({
                     )}
                 </span>
             )}
-            <div className={`relative flex -mt-1`} ref={inputRef}>
+            <div className={`relative flex`} ref={inputRef}>
+
                 <input
                     type="text"
                     placeholder="mm/yyyy"
-                    readOnly
-                    className={`!p-0 block opacity-80 text-sm w-full border-b bg-transparent px-3 py-[0.32rem] ${disabled
+                    className={`text-[14px] py-[0.5px] w-full tracking-wider placeholder:tracking-wider font-proxima border-b placeholder:text-[14px] bg-transparent ${disabled
                         ? "border-lightSilver"
-                        : toggleOpen
-                            ? "border-primary"
+                        : (toggleOpen && !err)
+                            ? "border-primary placeholder:text-primary"
                             : fullDate
                                 ? "border-primary"
                                 : err
-                                    ? "border-defaultRed "
-                                    : "border-lightSilver hover:border-primary  transition-colors duration-300 ease-in-out"
-                        } ${err ? "text-defaultRed placeholder:text-defaultRed" : "text-darkCharcoal placeholder:text-darkCharcoal"
+                                    ? "border-defaultRed text-defaultRed placeholder:text-defaultRed"
+                                    : "text-darkCharcoal border-lightSilver hover:border-primary  transition-colors duration-300 ease-in-out"
                         } outline-none`}
                     onClick={calendarShow}
-                    defaultValue={fullDate.toString()}
+                    readOnly
+                    defaultValue={fullDate}
                     onChange={(e: any) => updateFromInput(e.target.value)}
                     onBlur={handleInputBlur}
+                    onFocus={handleFocus}
                 />
                 <span className={`absolute right-1 bottom-1 cursor-pointer`} onClick={calendarShow}>
-                    <CalendarIcon bgColor={err ? "#DC3545" : "#333333"} />
+                    <CalendarIcon bgColor={err ? "#DC3545" : focus ? "#0592C6" : "#333333"} />
                 </span>
             </div>
+
             {toggleOpen && (
                 <div className="relative">
                     <div
@@ -314,7 +310,7 @@ const DatepickerYear: React.FC<DatepickerProps> = ({
                                                     <div
                                                         key={index}
                                                         className={`py-[19.4px] w-[70px]  grid place-content-center text-sm text-textColor font-proxima relative cursor-pointer `}
-                                                        onClick={() => selectMonth(index+1)}
+                                                        onClick={() => selectMonth(index + 1)}
                                                     >
                                                         <div
                                                             className={`py-[20px]  px-5 text-sm hover:bg-lightGreen hover:text-primary transition-all duration-200 flex items-center justify-center rounded-md ${index === selectedMonth

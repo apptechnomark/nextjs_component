@@ -123,9 +123,9 @@ const Tel: React.FC<TelInputProps> = ({
   return (
     <div className="flex flex-col w-full text-[14px] relative">
       {label && (
-        <span className="flex">
+        <span className="flex py-1">
           <label
-            className={`${err
+            className={` ${err
               ? "text-defaultRed"
               : focus
                 ? "text-primary"
@@ -181,7 +181,7 @@ const Tel: React.FC<TelInputProps> = ({
             </div>
           )}
           <input
-            className={`${className} outline-none w-full h-full text-darkCharcoal ${err&&"text-defaultRed"} `}
+            className={`${className} outline-none w-full h-full text-darkCharcoal ${err && "text-defaultRed"} `}
             ref={inputRef}
             type="tel"
             id={id}

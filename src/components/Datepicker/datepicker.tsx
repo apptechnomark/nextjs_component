@@ -14,7 +14,7 @@ interface DatepickerDate {
 interface DatepickerProps {
     startYear: number;
     endYear: number;
-    value: string;
+    value?: string;
     id: string;
     label?: string,
     className?: string,
@@ -24,6 +24,7 @@ interface DatepickerProps {
     getError: (arg1: boolean) => void;
     validate?: boolean;
     disabled?: boolean;
+    format?: "dd/mm/yyyy" | "mm/dd/yyyy";
 }
 
 const Datepicker: React.FC<DatepickerProps> = ({
@@ -35,13 +36,14 @@ const Datepicker: React.FC<DatepickerProps> = ({
     disabled,
     hasError,
     errorMessage = "This is required field!",
+    format = "dd/mm/yyyy",
     getValue,
     getError,
     ...props }) => {
     const days: string[] = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
     const currentDate: Date = new Date();
     const inputRef = useRef(null);
-    const valueDate = new Date(value);
+    const valueDate = new Date(value ? value : "");
 
     const [today, setToday] = useState<Date>(value ? valueDate : currentDate);
     const [showMonthList, setShowMonthList] = useState<boolean>(false);
@@ -115,7 +117,9 @@ const Datepicker: React.FC<DatepickerProps> = ({
         setSelectedDate(date);
         newDate.setDate(date.getDate() + 1);
         const formattedDate = newDate.toISOString().slice(0, 10).split("-");
-        const updatedDate = `${formattedDate[0]}-${formattedDate[1]}-${formattedDate[2]}`;
+        const updatedDate = format === "mm/dd/yyyy"
+            ? `${formattedDate[1]}/${formattedDate[2]}/${formattedDate[0]}`
+            : `${formattedDate[2]}/${formattedDate[1]}/${formattedDate[0]}`;
         setFullDate(updatedDate);
         setToggleOpen(false);
         if (date.getMonth() < selectedMonth) {
@@ -175,8 +179,7 @@ const Datepicker: React.FC<DatepickerProps> = ({
     useEffect(() => {
         const handleOutsideClick = (event: any) => {
             const target = event.target;
-            const isInputClick =
-                inputRef.current && inputRef.current.contains(target);
+            const isInputClick = inputRef.current && inputRef.current.contains(target);
             const isCalendarClick = target.closest(".bottomAnimation");
             if (!isInputClick && !isCalendarClick) {
                 setToggleOpen(false);
@@ -213,7 +216,7 @@ const Datepicker: React.FC<DatepickerProps> = ({
             setFocus(hasError);
             setErrorMsg(errorMessage);
             setErr(hasError);
-            hasError && getError(false);
+            getError(false);
         } else {
             getError(true);
             setFocus(hasError);
@@ -225,11 +228,14 @@ const Datepicker: React.FC<DatepickerProps> = ({
     }, [fullDate]);
 
     const handleInputBlur = () => {
-        if (!fullDate && validate) {
+        if (validate && fullDate === "") {
             setErr(true);
             setErrorMsg("Please select a date.");
             getError(true);
         }
+    };
+    const handleFocus = () => {
+        setFocus(true);
     };
 
     return (
@@ -238,7 +244,7 @@ const Datepicker: React.FC<DatepickerProps> = ({
                 <span className="flex">
                     <Typography
                         type="h6"
-                        className={`${err
+                        className={` ${err
                             ? "text-defaultRed"
                             : focus
                                 ? "text-primary"
@@ -249,42 +255,41 @@ const Datepicker: React.FC<DatepickerProps> = ({
                     </Typography>
                     {validate && (
                         <span
-                            className={`${disabled ? "text-slatyGrey" : "text-defaultRed"}`}
+                            className={` w-3 h-4 ${disabled ? "text-slatyGrey" : "text-defaultRed"}`}
                         >
                             &nbsp;*
                         </span>
                     )}
                 </span>
             )}
-            <div className={`relative flex -mt-1`} ref={inputRef}>
+            <div className={`relative`} ref={inputRef}>
                 <input
-                    type="date"
-                    className={`text-sm opacity-80 w-full border-b placeholder:text-sm bg-transparent ${disabled
+                    type="text"
+                    placeholder={format}
+                    className={`text-[14px] py-[1px] w-full tracking-wider placeholder:tracking-wider font-proxima border-b placeholder:text-[14px] bg-transparent ${disabled
                         ? "border-lightSilver"
-                        : toggleOpen
-                            ? "border-primary"
+                        : (toggleOpen && !err)
+                            ? "border-primary placeholder:text-primary"
                             : fullDate
                                 ? "border-primary"
                                 : err
-                                    ? "border-defaultRed "
-                                    : "border-lightSilver hover:border-primary  transition-colors duration-300 ease-in-out"
-                        } ${err ? "text-defaultRed" : "text-darkCharcoal"
+                                    ? "border-defaultRed text-defaultRed placeholder:text-defaultRed"
+                                    : "text-darkCharcoal border-lightSilver hover:border-primary  transition-colors duration-300 ease-in-out"
                         } outline-none`}
                     onClick={calendarShow}
                     readOnly
                     defaultValue={fullDate}
                     onChange={(e: any) => updateFromInput(e.target.value)}
                     onBlur={handleInputBlur}
+                    onFocus={handleFocus}
                 />
                 <span className={`absolute right-1 bottom-1 cursor-pointer`} onClick={calendarShow}>
-                    <CalendarIcon bgColor={err ? "#DC3545" : "#333333"} />
+                    <CalendarIcon bgColor={err ? "#DC3545" : focus ? "#0592C6" : "#333333"} />
                 </span>
             </div>
-
             {toggleOpen && (
                 <div className="relative">
-                    <div
-                        className={`bottomAnimation absolute z-10  bg-white ${toggleOpen ? style.bottomAnimation : ""}`}
+                    <div className={`bottomAnimation absolute z-10  bg-pureWhite ${toggleOpen ? style.bottomAnimation : ""}`}
                     >
                         <div className="flex mx-auto  items-center">
                             <div className="shadow-md overflow-hidden">
