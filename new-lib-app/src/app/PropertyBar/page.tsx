@@ -22,7 +22,7 @@ const page: React.FC = () => {
     const [selectedRowCount, setSelectedRowCount] = useState(0);
     const [headerCheckboxChecked, setHeaderCheckboxChecked] = useState(false);
     const [rowCheckboxChecked, setRowCheckboxChecked] = useState(false);
-    const [isMobileView, setIsMobileView] = useState(false);
+    const [isMobileView, setIsMobileView] = useState(false)
 
     const [isOpen, setIsOpen] = useState(true);
 
@@ -34,6 +34,8 @@ const page: React.FC = () => {
     const closeDrawer = () => {
         setIsOpen(false);
     };
+
+    // const dynamicHeightClass = selectedRowCount > 0 ? 'bottom-[600px]' : 'bottom-0';
 
     const itemList = ["Item 1", "Item 2", "Item 3", "Item 4", "Item 5", "Item 6", "Item 7"];
 
@@ -102,8 +104,6 @@ const page: React.FC = () => {
             }
         }
     };
-
-
 
     const columns: any = [
         {
@@ -260,10 +260,6 @@ const page: React.FC = () => {
             name: "Chat",
         },
         {
-            icon: <Rate key={3} />,
-            name: "Rate",
-        },
-        {
             icon: <Check key={4} />,
             name: "Check",
         },
@@ -288,9 +284,9 @@ const page: React.FC = () => {
             name: "Export",
         },
         {
-            icon: <Button className="rounded-md btn-sm" variant="btn-primary">
+            icon: <Button className="rounded-md btn-sm mt-[-3px]" variant="btn-primary">
                 <span className="flex items-center">
-                    <span className="mr-2 mt-1">
+                    <span className="mr-2 mt-0">
                         <PlusIcon />
                     </span>
                     Primary
@@ -318,95 +314,57 @@ const page: React.FC = () => {
     ];
 
 
-    useEffect(() => {
-        const handleResize = () => {
-
-            if (window.innerWidth <= 450) {
-                setIsMobileView(true);
-            }
-            else {
-                setIsMobileView(false);
-            }
-        };
-        window.addEventListener('resize', handleResize);
-        return () => {
-            window.removeEventListener('resize', handleResize);
-        };
-
-
-    }, []);
-
-
-
-
 
 
     return (
         <>
-             <BaseLayout>
+            <BaseLayout>
 
-            <h5 className="m-5 pt-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Property Bar</h5>
+                <h5 className="m-5 pt-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Property Bar</h5>
 
-            <div className="p-4 m-3 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 ">
+                <div className="p-4 m-3 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 ">
 
-                <h2 className="m-5 text-xl  tracking-tight text-gray-900 dark:text-white">Basic</h2>
-               
+                    <h2 className="m-5 text-xl tracking-tight text-gray-900 dark:text-white">Basic</h2>
+
                     <PropertyBar
                         tabs={tabs}
                         visibleTab={2}
-                        getValue={(e) => { setValue(e) }}
-                        icons={iconsInfo}
-                    />
-                
-            </div>
+                        getValue={(e) => { setValue(e); }}
+                        icons={iconsInfo} items={[]} />
 
-            <div className="p-4 m-3 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-
-                <h2 className="m-5 text-xl   tracking-tight text-gray-900 dark:text-white">Row select</h2>
-                <div className="overflow-x-auto ">
-
-                    <PropertyBar variant="selectedRows" count={10} getValue={values} tableBarIcons={iconsArray} message="shift+click to select, esc to deselect all" />
                 </div>
-            </div>
 
-            <div className="p-4 m-3 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+                <div className="p-4 m-3 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
 
-                <h2 className="m-5 text-xl   tracking-tight text-gray-900 dark:text-white"></h2>
-                <div className="overflow-x-auto ">
+                    <h2 className="m-5 text-xl   tracking-tight text-gray-900 dark:text-white">Row select</h2>
+                    <div className="overflow-x-auto ">
 
-                    <DataTable
-                        columns={columns}
-                        data={dataList.length > 0 ? classListData : []}
-                        hoverEffect={true}
-                    />
-                    <div className={`fixed bottom-5 w-full bg-white transition-transform duration-300 transform ${selectedRowCount > 0 ? 'translate-y-0' : 'translate-y-20'}`}>
-                        {selectedRowCount > 0 && isMobileView ? (
-                            <>
-                                <PropertyDrawer
-                                    isOpen={isOpen}
-                                    counts={selectedRowCount}
-                                    onClose={closeDrawer}
-                                    items={itemList}
-                                    icons={iconList}
-                                />
-                            </>
-                        ) : (
-
-
-                            selectedRowCount > 0 && (
-                                <PropertyBar
-                                    variant="selectedRows"
-                                    count={selectedRowCount}
-                                    getValue={values}
-                                    tableBarIcons={iconsArray}
-                                    message="shift+click to select, esc to deselect all"
-                                />
-                            )
-
-                        )}
+                        <PropertyBar variant="selectedRows" count={10} getValue={values} tableBarIcons={iconsArray} message="shift+click to select, esc to deselect all" items={[]} />
                     </div>
                 </div>
-            </div>
+
+                <div className="p-4 m-3 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+
+                    <h2 className="m-5 text-xl   tracking-tight text-gray-900 dark:text-white"></h2>
+                    <div className="overflow-x-auto ">
+
+                        <DataTable
+                            columns={columns}
+                            data={dataList.length > 0 ? classListData : []}
+                            hoverEffect={true}
+                        />
+                        <div className="fixed bottom-[73%]  transform transition-transform duration-300 ease-in-out" style={{ transform: `translateY(${selectedRowCount > 0 ? '0' : '1000px'})` }} >
+                            <PropertyBar
+                                variant="selectedRows"
+                                count={selectedRowCount}
+                                getValue={values}
+                                tableBarIcons={iconsArray}
+                                message="shift+click to select, esc to deselect all"
+                                onClose={closeDrawer}
+                                items={isMobileView ? [] : itemList} />
+                        </div>
+                    </div>
+                </div>
 
             </BaseLayout>
         </>
