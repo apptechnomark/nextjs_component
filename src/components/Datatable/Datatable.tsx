@@ -27,6 +27,7 @@ interface Column {
 
 interface DataTableProps {
   columns: Column[];
+  stickyPostion?: string;
   data: any[];
   align?: "left" | "center" | "right";
   expandable?: boolean;
@@ -41,6 +42,7 @@ const DataTable = ({
   columns,
   data,
   align = "left",
+  stickyPostion,
   expandable,
   isExpanded = false,
   expandableStyle,
@@ -138,7 +140,7 @@ const DataTable = ({
       <table className="w-full">
         <thead className={`${sticky && styles.customDataTable} `}>
           <tr
-            className={`w-full z-[5] top-0 ${sticky ? "sticky bg-pureWhite " : "static border-y border-pureBlack"
+            className={`w-full z-[5] top-0 ${sticky ? `${stickyPostion} sticky bg-pureWhite ` : "static border-y border-pureBlack"
               } ${noHeader ? "hidden " : ""}`}
           >
             {expandable && (
