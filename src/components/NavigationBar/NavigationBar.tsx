@@ -10,6 +10,7 @@ interface NavigationBarProps extends React.InputHTMLAttributes<HTMLInputElement>
     getValue: (arg: string) => void;
     visibleTab: number;
     variant?: string;
+    direction?: "row" | "row-reverse";
 }
 
 const NavigationBar: React.FC<NavigationBarProps> = ({
@@ -19,6 +20,7 @@ const NavigationBar: React.FC<NavigationBarProps> = ({
     tabs,
     visibleTab,
     variant,
+    direction = "row",
     ...props
 }) => {
     const selectRef = useRef<HTMLDivElement>(null);
@@ -130,7 +132,7 @@ const NavigationBar: React.FC<NavigationBarProps> = ({
     }, []);
 
     const tabLabel = (index: number, label: any) => {
-        return <Typography className={`whitespace-nowrap border-r ${index > (tabs.length - 2) ? `border-none` : `border-r-lightSilver`} px-5 cursor-pointer ${selectedTabIndex === index
+        return <Typography className={`whitespace-nowrap border-r ${index > (tabs.length - (direction === "row-reverse" ? 5 : 2)) ? `border-none` : `border-r-lightSilver`} px-5 cursor-pointer ${selectedTabIndex === index
             ? "text-primary text-base font-semibold"
             : "text-slatyGrey dark:text-pureWhite font-medium text-sm"
             }`} type="h5">
@@ -142,6 +144,42 @@ const NavigationBar: React.FC<NavigationBarProps> = ({
     return (
         <>
             <div className="flex items-center py-[10px] relative" ref={parentDivRef}>
+
+                {direction == "row-reverse" && visibleTab <= tabs.length && dropdownTabs.length > 0 &&
+                    <div ref={selectRef} className="cursor-pointer border-r border-lightSilver">
+                        <div onClick={handleToggleOpen} className="px-4 opacity-75" >
+                            <MenuIcon size="small" direction="meatball" classname="w-full" />
+                        </div>
+                        <div>
+                            <ul
+                                className={`absolute z-[1] max-[694px]:right-0 max-[694px]:w-full min-[695px]:w-[215px] bg-pureWhite overflow-y-auto shadow-md transition-transform ${isOpen
+                                    ? "max-h-60 translate-y-0 transition-opacity opacity-100 duration-500 ease-out"
+                                    : "max-h-0 translate-y-20 transition-opacity opacity-0 duration-500"
+                                    }`}
+                            >
+                                {dropdownTabs.map((tab: any, index: number) => (
+                                    <li
+                                        key={tab.id}
+                                        onClick={() =>
+                                            handleTabClick(
+                                                tab.id,
+                                                // visibleTabs.length +
+                                                index
+                                            )
+                                        }
+                                        className="p-2 hover:bg-whiteSmoke font-normal text-base cursor-pointer flex"
+                                    >
+                                        {variant === "modal"
+                                            ? <a href={`#${tab.id}`}>
+                                                <Typography type="h6" className="cursor-pointer whitespace-nowrap dark:text-pureWhite">{tab.label}</Typography>
+                                            </a>
+                                            : <Typography type="h6" className="cursor-pointer whitespace-nowrap dark:text-pureWhite">{tab.label}</Typography>}
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    </div>
+                }
                 {visibleTabs.map((tab: any, index: number) => (
                     <div className=" " onClick={() => handleTabClick(tab.id, index)} key={tab.id + index}>
                         {variant === "modal"
@@ -152,7 +190,7 @@ const NavigationBar: React.FC<NavigationBarProps> = ({
                         }
                     </div>
                 ))}
-                {visibleTab <= tabs.length && dropdownTabs.length > 0 &&
+                {direction == "row" && visibleTab <= tabs.length && dropdownTabs.length > 0 &&
                     <div ref={selectRef} className="cursor-pointer ">
                         <div onClick={handleToggleOpen} className="px-4 opacity-75" >
                             <MenuIcon size="small" direction="meatball" classname="w-full" />
@@ -185,7 +223,8 @@ const NavigationBar: React.FC<NavigationBarProps> = ({
                                 ))}
                             </ul>
                         </div>
-                    </div>}
+                    </div>
+                }
             </div>
         </>
     );
