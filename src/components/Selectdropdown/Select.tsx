@@ -436,7 +436,7 @@ const Select: React.FC<SelectProps> = ({
               <div className="bg-gray-100 flex flex-row items-center justify-between ">
                 <div className="m-2 w-full">
                   <Text
-                    noSpecialChar
+                    // noSpecialChar
                     validate
                     label={addDynamicForm_Label}
                     placeholder={addDynamicForm_Placeholder}
