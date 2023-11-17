@@ -253,7 +253,7 @@ const CompanyList: React.FC<CompanyListProps> = ({
                             } ${isOpen ? "ease-out" : ""}`}
                     >
                         <li
-                            className={`relative outline-none focus:bg-whiteSmoke p-[10px] text-sm font-normal cursor-pointer flex items-center`}
+                            className={`sticky top-0 z-[3] bg-pureWhite outline-none focus:bg-whiteSmoke p-[10px] text-sm font-normal cursor-pointer flex items-center`}
                         >
                             <div className={`flex absolute  ${variant === "user" ? "left-3" : "left-2"}`}>
                                 <Search />
