@@ -18,13 +18,18 @@ interface SelectProps extends React.InputHTMLAttributes<HTMLInputElement> {
     onFunctionCall?: any;
     getError: (arg1: boolean) => void;
     disabled?: boolean;
-    noborder?: boolean;
     btnLabel: string;
     value?: any;
     placeholder?: string;
-    listPlaceholder?:string;
-    maxLength?:number;
-    minLength?:number;
+    listPlaceholder?: string;
+    maxLength?: number;
+    minLength?: number;
+    noNumeric?: boolean;
+    noborder?: boolean;
+    noSpecialChar?: boolean;
+    noText?: boolean;
+    regexPattern?: any;
+    regexMessage?: string;
 }
 
 const DropdownList: React.FC<SelectProps> = ({
@@ -37,13 +42,18 @@ const DropdownList: React.FC<SelectProps> = ({
     getError,
     onFunctionCall,
     disabled,
-    noborder,
     btnLabel,
     value,
-    placeholder="Enter Label Name",
-    listPlaceholder="Add new list",
+    placeholder = "Enter Label Name",
+    listPlaceholder = "Add new list",
     maxLength,
     minLength,
+    noText,
+    noNumeric,
+    noborder,
+    noSpecialChar,
+    regexPattern,
+    regexMessage,
     ...props
 }) => {
     const selectRef = useRef<HTMLDivElement>(null);
@@ -57,6 +67,10 @@ const DropdownList: React.FC<SelectProps> = ({
     const [activeIndex, setActiveIndex] = useState<number>(-1);
     const [selectedOption, setSelectedOption] = useState<any>(value ? value : "");
     const [option, setOptions] = useState<any>([]);
+
+    const [inputError, setInputError] = useState<boolean>(false);
+    const [inputErrorMsg, setInputErrorMsg] = useState<string>("");
+
 
     useEffect(() => {
         if (options && options.length > 0) {
@@ -111,10 +125,42 @@ const DropdownList: React.FC<SelectProps> = ({
     const handleAddNewOption = () => {
         const inputValue = document.getElementById("newOptionInput") as HTMLInputElement;
         const newValue = inputValue.value;
-        if (newValue.trim() !== "") {
+        if (newValue.trim() === "") {
+            setInputError(true);
+            setInputErrorMsg("This is a required field!")
+        } else {
+            setInputError(false);
             const newOption = { label: newValue, value: newValue };
             setOptions(prevOptions => [...prevOptions, newOption]);
             inputValue.value = "";
+        }
+    };
+
+    const handleInnerInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const newValue = e.target.value.trim();
+        
+        const checkRestriction = (regex: RegExp, errorMsg: string) => {
+            if (regex.test(newValue)) {
+                setInputError(true);
+                setInputErrorMsg(errorMsg);
+            } else {
+                setInputValue(newValue);
+                setInputError(false);
+            }
+        };
+    
+        if (noNumeric) {
+            checkRestriction(/\d/, `Numeric characters not allowed.`);
+        } else if (noText) {
+            checkRestriction(/[a-zA-Z]/, `Alphabets not allowed.`);
+        } else if (noSpecialChar) {
+            checkRestriction(/[^a-zA-Z0-9\s]/, `Special characters not allowed.`);
+        } else if (regexPattern) {
+            checkRestriction(regexPattern, regexMessage);
+        } else {
+            setInputError(false);
+            setInputValue(newValue);
+            setInputErrorMsg("");
         }
     };
 
@@ -270,7 +316,6 @@ const DropdownList: React.FC<SelectProps> = ({
                                     : ""
                                     } ${option.value === selectedOption && "bg-whiteSmoke"
                                     }`}
-
                                 onKeyDown={(e) => {
                                     handleListItemKeyDown(e, option.value, index)
                                 }}
@@ -280,7 +325,6 @@ const DropdownList: React.FC<SelectProps> = ({
                                         el?.focus();
                                     }
                                 }}
-
                             >
                                 <div className='w-full py-1'>
                                     {editList && index === activeIndex
@@ -293,7 +337,7 @@ const DropdownList: React.FC<SelectProps> = ({
                                             style={{ background: "transparent" }}
                                         />
                                         : <div onClick={() => { !editList && handleSelect(option.value) }}>
-                                            <Typography type='h5' className='p-2 font-normal' >{option.value}</Typography></div>
+                                            <Typography type='h5' className='p-2 font-normal' >{option.label}</Typography></div>
                                     }
                                 </div>
                                 {editList && index === activeIndex ?
@@ -316,14 +360,21 @@ const DropdownList: React.FC<SelectProps> = ({
                         className={`w-full flex sticky bottom-0 shadow-inner bg-pureWhite gap-2 focus:bg-whiteSmoke 
                     text-sm p-2.5 font-normal cursor-pointer`}
                     >
-                        <div className='grow'>
+                        <div className='grow '>
                             <input
                                 id="newOptionInput"
                                 maxLength={maxLength}
                                 minLength={minLength}
                                 placeholder={listPlaceholder}
-                                className={`w-full px-[7px]  border-b h-[38px] border-lightSilver  outline-none text-darkCharcoal text-sm placeholder:text-sm font-normal placeholder-darkCharcoal placeholder:opacity-50`}
+                                onChange={handleInnerInputChange}
+                                value={inputValue}
+                                className={`w-full  border-b h-[38px]  outline-none text-sm placeholder:text-sm font-normal  ${inputError ? "text-defaultRed placeholder-defaultRed border-defaultRed" : "text-darkCharcoal placeholder-darkCharcoal border-lightSilver  placeholder:opacity-50"}`}
                             />
+                            {inputError && (
+                                <span className="text-defaultRed text-[12px] sm:text-sm">
+                                    {inputErrorMsg}
+                                </span>
+                            )}
                         </div>
                         <div className=''>
                             <Button className="rounded-md outline-none" variant="btn-primary" onClick={() => {
@@ -335,7 +386,6 @@ const DropdownList: React.FC<SelectProps> = ({
                             </Button>
                         </div>
                     </li>
-
                 </ul >
             </div>
             {error && (

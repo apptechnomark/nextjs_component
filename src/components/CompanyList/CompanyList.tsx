@@ -122,12 +122,15 @@ const CompanyList: React.FC<CompanyListProps> = ({
     };
 
     const updatedAvatars = selectedValues.map((value, index) => {
-        return <Avatar
-            key={index}
-            name={value}
-            variant="small"
-            imageUrl={options.find((item) => item.value == value)?.imageUrl}
-        />
+        const option = options.find((item) => item.value == value);
+        return (
+            <Avatar
+                key={index}
+                name={option ? option.label : ''}
+                variant="small"
+                imageUrl={option ? option.imageUrl : undefined}
+            />
+        );
     });
 
     useEffect(() => {

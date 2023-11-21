@@ -249,9 +249,9 @@ const Password: React.FC<PasswordProps> = ({
         }`}
       >
         <input
-          className={`${className} ${err&&"text-defaultRed"} py-1 border-b outline-none w-full pr-10 ${
+          className={`${className} py-1 border-b outline-none w-full pr-10 ${
             err
-              ? "border-defaultRed"
+              ? "border-defaultRed text-defaultRed placeholder-defaultRed"
               : focus
               ? "border-primary"
               : "border-lightSilver"
