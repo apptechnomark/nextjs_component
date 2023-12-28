@@ -198,9 +198,9 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
         {label && (
           <label
             className={`text-[14px] font-normal ${isOpen
-              ? "text-primary"
+              ? "text-[#0592C6]"
               : selectedValues.length > 0
-                ? "text-primary"
+                ? "text-[#0592C6]"
                 : error
                   ? "text-defaultRed"
                   : "text-slatyGrey"

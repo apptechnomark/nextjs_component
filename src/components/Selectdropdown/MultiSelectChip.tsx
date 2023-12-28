@@ -234,9 +234,9 @@ const MultiSelectChip: React.FC<MultiSelectChipProps> = ({
           <label
             onClick={handleToggleOpen}
             className={`text-[14px] font-normal ${isOpen
-              ? "text-primary"
+              ? "text-[#0592C6]"
               : selected.length > 0
-                ? "text-primary"
+                ? "text-[#0592C6]"
                 : error
                   ? "text-defaultRed"
                   : "text-slatyGrey"

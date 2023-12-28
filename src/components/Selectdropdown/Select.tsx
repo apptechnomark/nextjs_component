@@ -270,9 +270,9 @@ const Select: React.FC<SelectProps> = ({
         {label && (
           <label
             className={`text-[14px] font-normal w-full ${isOpen
-              ? "text-primary"
+              ? "text-[#0592C6]"
               : inputValue
-                ? "text-primary"
+                ? "text-[#0592C6]"
                 : error
                   ? "text-defaultRed"
                   : "text-slatyGrey"

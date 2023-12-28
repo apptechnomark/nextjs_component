@@ -129,7 +129,7 @@ const Text: React.FC<InputProps> = ({
               err
                 ? "text-defaultRed"
                 : focus
-                ? "text-primary"
+                ? "text-[#0592C6]"
                 : "text-slatyGrey"
             }`}
           >
