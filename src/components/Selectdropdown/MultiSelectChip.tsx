@@ -252,15 +252,15 @@ const MultiSelectChip: React.FC<MultiSelectChipProps> = ({
             onBlur={handleBlur}
             onClick={handleToggleOpen}
             className={`shrink-0 w-fit bg-white border-b max-h-[26px] text-[14px] font-normal  ${isOpen
-              ? "text-primary cursor-default"
+              ? "text-[#0592C6] cursor-default"
               : selected.length === 0
                 ? "text-darkCharcoal cursor-pointer"
                 : ""
               } ${selected.length > 0
-                ? "border-primary"
+                ? "border-[#0592C6]"
                 : error
                   ? "border-defaultRed hover:border-defaultRed"
-                  : "border-lightSilver transition-colors duration-300 hover:border-primary"
+                  : "border-lightSilver transition-colors duration-300 hover:border-[#0592C6]"
               } ${className} @layer base {
                 @screen firefox {
                   margin-top: 1rem;
@@ -282,14 +282,14 @@ const MultiSelectChip: React.FC<MultiSelectChipProps> = ({
               value={searchInput}
               getError={() => { }}
               getValue={() => { }}
-              className={` ${error && "placeholder:text-defaultRed text-defaultRed !border-defaultRed"} bg-pureWhite outline-none  text-[14px] font-normal ${!isOpen ? "text-darkCharcoal placeholder-darkCharcoal cursor-pointer" : "placeholder-primary cursor-default text-primary"}`}
+              className={` ${error ? "placeholder:text-defaultRed text-defaultRed !border-defaultRed" : "placeholder-[#0592C6]"} bg-pureWhite outline-none  text-[14px] font-normal ${!isOpen ? "text-darkCharcoal placeholder-darkCharcoal cursor-pointer" : "placeholder-[#0592C6] cursor-default text-[#0592C6]"}`}
               onKeyDown={(e) => handleKeyDown(e)}
             />
           </div>
 
           <div
             onClick={handleToggleOpen}
-            className={`${error && " text-defaultRed"} absolute right-0 text-[1.5rem] transition-transform text-darkCharcoal cursor-pointer ${isOpen ? "rotate-180 text-primary duration-400" : " duration-200"
+            className={`${error && " text-defaultRed"} absolute right-0 text-[1.5rem] transition-transform text-darkCharcoal cursor-pointer ${isOpen ? "rotate-180 text-[#0592C6] duration-400" : " duration-200"
               }`}
           >
             <ChevronDown />
@@ -306,7 +306,7 @@ const MultiSelectChip: React.FC<MultiSelectChipProps> = ({
         >
           {filteredOptions.length == 0 ? ""
             : <label
-              className={`pt-3 pb-1 pl-3 text-[14px] font-normal text-primary cursor-pointer flex`}
+              className={`pt-3 pb-1 pl-3 text-[14px] font-normal text-[#0592C6] cursor-pointer flex`}
               onClick={handleClearAll}
             >
               Clear All

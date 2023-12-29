@@ -188,10 +188,10 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
     <>
       <div
         className={`relative font-medium w-full ${noborder ? '' : 'border-b'} ${selectedValues.length > 0
-          ? "border-primary"
+          ? "border-[#0592C6]"
           : error
             ? "border-defaultRed"
-            : "border-lightSilver hover:border-primary transition-colors duration-300"
+            : "border-lightSilver hover:border-[#0592C6] transition-colors duration-300"
           } ${className}`}
         ref={selectRef}
       >
@@ -229,14 +229,14 @@ const MultiSelect: React.FC<MultiSelectProps> = ({
                 ? `${inputValue.substring(0, 20)}...`
                 : inputValue
             }
-            className={`${error&&"placeholder:text-defaultRed text-defaultRed"} w-full  flex-grow bg-white outline-none text-darkCharcoal text-[14px] font-normal ${isOpen ? "text-primary" : ""
-              } ${!isOpen ? "placeholder-darkCharcoal cursor-pointer" : "placeholder-primary cursor-default"
+            className={`${error?"placeholder:text-defaultRed text-defaultRed":"placeholder-[#0592C6]"} w-full  flex-grow bg-white outline-none text-darkCharcoal text-[14px] font-normal ${isOpen ? "text-[#0592C6]" : ""
+              } ${!isOpen ? "placeholder-darkCharcoal cursor-pointer" : "placeholder-[#0592C6] cursor-default"
               }`} style={{ background: "transparent" }}
             onKeyDown={(e) => handleKeyDown(e)}
           />
           <div
             onClick={handleToggleOpen}
-            className={`${error&&" text-defaultRed"} text-[1.5rem] transition-transform text-darkCharcoal cursor-pointer  ${isOpen ? "rotate-180 text-primary duration-400" : "duration-200"}
+            className={`${error&&" text-defaultRed"} text-[1.5rem] transition-transform text-darkCharcoal cursor-pointer  ${isOpen ? "rotate-180 text-[#0592C6] duration-400" : "duration-200"}
               }`}>
             <ChevronDown />
           </div>

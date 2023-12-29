@@ -128,7 +128,7 @@ const Tel: React.FC<TelInputProps> = ({
             className={` ${err
               ? "text-defaultRed"
               : focus
-                ? "text-primary"
+                ? "text-[#0592C6]"
                 : "text-slatyGrey"
               }`}
           >

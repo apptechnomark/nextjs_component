@@ -14,13 +14,13 @@ const Spinner: React.FC<SpinnerProps> = ({ size }) => {
     return (
         <div className="flex flex-col relative m-2">
             <div
-                className={`${Style.upper_half} text-primary indent-[-9999em] overflow-hidden w-[1em] h-[1em] rounded-full transform translate-z-0`}
+                className={`${Style.upper_half} text-[#0592C6] indent-[-9999em] overflow-hidden w-[1em] h-[1em] rounded-full transform translate-z-0`}
                 style={loaderStyle}
             >
                 Loading...
             </div>
             <div
-                className={`${Style.lower_half} absolute text-primary indent-[-9999em] overflow-hidden w-[1em] h-[1em] rounded-full transform translate-z-0`}
+                className={`${Style.lower_half} absolute text-[#0592C6] indent-[-9999em] overflow-hidden w-[1em] h-[1em] rounded-full transform translate-z-0`}
                 style={loaderStyle}
             >
                 Loading...

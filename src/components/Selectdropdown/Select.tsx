@@ -258,12 +258,12 @@ const Select: React.FC<SelectProps> = ({
         className={`relative font-medium w-full flex-row  ${noborder ? '' : 'border-b'} ${disabled
           ? "border-lightSilver"
           : isOpen
-            ? "border-primary"
+            ? "border-[#0592C6]"
             : inputValue
-              ? "border-primary"
+              ? "border-[#0592C6]"
               : error
                 ? "border-defaultRed"
-                : "border-lightSilver hover:border-primary transition-colors duration-300"
+                : "border-lightSilver hover:border-[#0592C6] transition-colors duration-300"
           } ${className}`}
         ref={selectRef}
       >
@@ -316,10 +316,10 @@ const Select: React.FC<SelectProps> = ({
                         : inputValue
             }
             autoComplete="off"
-            className={`${error&&"placeholder:text-defaultRed text-defaultRed"} flex-grow outline-none bg-white ${disabled
+            className={`${error?"placeholder:text-defaultRed text-defaultRed":"placeholder-[#0592C6]"} flex-grow outline-none bg-white ${disabled
               ? "text-slatyGrey"
               : isOpen
-                ? "text-primary"
+                ? "text-[#0592C6]"
                 : "text-darkCharcoal"
               } text-[14px] font-normal w-full
 
@@ -328,7 +328,7 @@ const Select: React.FC<SelectProps> = ({
                 ? "placeholder-darkCharcoal"
                 : disabled
                   ? "text-slatyGrey"
-                  : "placeholder-primary"
+                  : "placeholder-[#0592C6]"
               }`}
             style={{ background: "transparent" }}
             onKeyDown={(e) => handleKeyDown(e)}
@@ -339,7 +339,7 @@ const Select: React.FC<SelectProps> = ({
             className={`text-[1.5rem] transition-transform ${disabled
               ? "text-slatyGrey cursor-default"
               : "text-darkCharcoal cursor-pointer"
-              } ${error&&" text-defaultRed"} ${isOpen ? "rotate-180 text-primary duration-400" : "duration-200"}`}
+              } ${error&&" text-defaultRed"} ${isOpen ? "rotate-180 text-[#0592C6] duration-400" : "duration-200"}`}
           >
             <ChevronDown />
           </div>
